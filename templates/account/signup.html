@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load material_form %}
+
+
+{% block title %} Cadastro {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col s12 m4 offset-m4">
+            <h2>Cadastro</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form }}
+                <button class="btn btn-success" type="submit">Cadastrar</button>
+            </form>
+
+
+        </div>
+    </div>
+
+{% endblock %}

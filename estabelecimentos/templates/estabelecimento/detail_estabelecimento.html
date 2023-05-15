@@ -1,0 +1,83 @@
+{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+
+<div class="descricaoiner-fluid">
+    <br />
+
+    <div class="row m-2">
+        <div class=" col-md-6">
+            <h4 class=" text-primary"><b>{{title}}</b> </h4>
+
+        </div>
+        <div class="col-md-6">
+            <div class="text-right">
+                <a href="{% url 'estabelecimentos:edit-estabelecimento' estabelecimento.id %}"
+                    class="btn btn-primary"><b>Editar Estabelecimento</b>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 px-4">
+        <fieldset>
+            <legend>{{form_title}}</legend>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="id_estabelecimento" class="form-label">Nome do Estabelecimento:</label>
+                    <h6 class="text-muted">{{estabelecimento.nome}}</h6>
+
+                </div>
+                <div class="col-md-6">
+                    <label for="id_cnes" class="form-label">CNES:
+                        <h6 class="text-muted">{{estabelecimento.cnes}}</h6>
+                </div>
+
+                <fieldset>
+                    <br>
+                    <legend>Profissionais</legend>
+                    <div class="row">
+                        <div class="card-body">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Profissional</th>
+                                        <th class="text-center">Cargo</th>
+                                        <th class="text-center">Micro Área</th>
+                                        <th class="text-center">Opção</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for p in estabelecimento.profissional_estabelecimento.all%}
+                                    <div class="table-responsive-md">
+
+                                        <tr>
+                                            <td>{{p.nome_completo}}</td>
+
+                                            <td class="text-center">{{p.get_cargo_display}}</td>
+
+
+                                            <td class="text-center">
+                                                {%if p.microarea %}
+                                                {{p.microarea}}
+                                                {%else%}
+                                                -
+                                                {%endif%}
+
+                                            </td>
+                                            <td class='text-center'>
+                                                <a href="{% url 'profissionais:detail-profissional' p.id %}"
+                                                    class="pr-2"><i class="fas fa-solid fa-eye"></i></a>
+                                            </td>
+                                        </tr>
+
+
+                                        {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+        </fieldset>
+
+    </div>
+    {% endblock content %}

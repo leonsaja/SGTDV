@@ -1,0 +1,175 @@
+{% extends 'base.html' %} {% load widget_tweaks %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container-fluid">
+  <br />
+
+
+  <div class="col-md-12 px-4">
+    <fieldset>
+      <legend>
+        <h4 class=" text-primary"><b>Detalhe da Diária</b> </h4>
+      </legend>
+      <hr>
+      <div class="row">
+        <div class="col-md-3">
+          <label for="id_profissional" class="form-label">Nome do Profissional:</label>
+          <h6 class="text-muted">{{diaria.profissional.nome_completo|upper}}</h6>
+        </div>
+
+        <div class="col-md-2">
+          <label for="id_cpf" class="form-label">CPF:</label>
+          <h6 class="text-muted">{{diaria.profissional.formt_cpf}}</h6>
+        </div>
+        <div class="col-md-2">
+          <label for="id_sus" class="form-label">Cartão do SUS:</label>
+          <h6 class="text-muted">{{diaria.profissional.cns}}</h6>
+        </div>
+        <div class="col-md-2">
+          <label for="id_telefone" class="form-label">Telefone:</label>
+          <h6 class="text-muted">{{diaria.profissional.telefone}}</h6>
+        </div>
+        <div class="col-md-2">
+          <label for="id_reembolso" class="form-label">Reembolso:</label>
+          <h6 class="text-muted">{{diaria.get_reembolso_display}}</h6>
+        </div>
+      </div>
+
+      <br />
+      <div class="row">
+        <div class="col-md-2">
+          <label for="id_conta" class="form-label">Conta:</label>
+          <h6 class="text-muted">{{diaria.conta}}</h6>
+        </div>
+        <div class="col-md-2">
+          <label for="id_fonte" class="form-label">Fonte:</label>
+          <h6 class="text-muted">{{diaria.fonte}}</h6>
+        </div>
+        <div class="col-md-2">
+          <label for="id_tipo_diaria" class="form-label">Tipo Diária:</label>
+          <h6 class="text-muted">{{diaria.get_tipo_diaria_display}}</h6>
+        </div>
+        <div class="col-md-2">
+          <label for="id_qta_diaria" class="form-label">Quantidade:</label>
+          <h6 class="text-muted">{{diaria.qta_diaria}}</h6>
+        </div>
+        
+
+        <div class="col-md-2">
+          <label for="id_valor" class="form-label">Valor:</label>
+          <h6 class="text-muted">{{diaria.valor}}</h6>
+        </div>
+        <div class="col-md-2">
+          <label for="id_total" class="form-label">Subtotal:</label>
+          <h6 class="text-muted">{{diaria.total}}</h6>
+        </div>
+
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-6">
+          <label for="id_descricao" class="form-label">Descrição:</label>
+          <h6 class="text-muted">{{diaria.descricao|upper}}</h6>
+        </div>
+        <div class="col-md-6">
+          <label for="id_obs" class="form-label">Observação:</label>
+          <h6 class="text-muted"> {{diaria.obs|upper}}</h6>
+        </div>
+
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-6">
+          <label for="id_viagem_orig" class="form-label">Origem da Viagem:</label>
+          <h6 class="text-muted">{{diaria.viagem_orig|upper}}</h6>
+        </div>
+        <div class="col-md-6">
+          <label for="id_viagem_dest" class="form-label">Destino da Viagem:</label>
+          <h6 class="text-muted"> {{diaria.viagem_dest|upper}}</h6>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  <br>
+
+  <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 px-4 needs-validation" novalidate>
+    {% csrf_token %}
+
+    {{formset.management_form}}
+    {{ formset.non_form_errors.as_ul }}
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class=" text-primary">Reembolso</h25>
+          </div>
+          <!-- /.card-header -->
+          <div class="table-responsive-md">
+            <div class="card-body">
+              <table class="form table table-bordered">
+                {% for forms in formset %}
+                {% if forloop.first %}
+                <thead>
+                  <tr>
+                    {% for field in forms.visible_fields %}
+                    <th>{{ field.label|capfirst }}</th>
+                    {% endfor %}
+                  </tr>
+                </thead>
+                {% endif %}
+                <tbody>
+                  <tr class="{% cycle 'row1' 'row2' %}">
+                    {% for field in forms.visible_fields %}
+                    <td>
+                      {% if forloop.first %}
+                      {% for hidden in forms.hidden_fields %}
+                      {{ hidden }}
+                      {% endfor %}
+                      {% endif %}
+                      {{ field.errors.as_ul }}
+                      {{ field }}
+                    </td>
+                    {% endfor %}
+                  </tr>
+                </tbody>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 mb-5">
+        <div class="text-right">
+          <a href="{% url 'despesas:list-reembolso'%}" class="btn btn-outline-danger mr-2">Cancelar</a>
+          <button id="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+
+{% endblock %}
+
+
+{%block scripts %}
+<script src='/static/utils/jquery.formset.min.js'></script>
+
+<script>
+ 
+                                                                                                                                                                                        
+  $('table.form tr').formset({
+    prefix: '{{ formset.prefix }}',
+    addText: "<div><i class='fas fa-plus'></i></div>",
+    deleteText: 'Remover'
+   });
+
+
+</script>
+{% endblock scripts %}

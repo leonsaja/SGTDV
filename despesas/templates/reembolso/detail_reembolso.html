@@ -1,0 +1,107 @@
+{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+
+<div class="descricaoiner-fluid">
+    <br />
+
+    <div class="row m-2">
+        <div class=" col-md-6">
+            <h4 class=" text-primary"><b>{{title}}</b> </h4>
+
+        </div>
+        <div class="col-md-6">
+            <div class="text-right">
+                <a href="{% url 'despesas:edit-reembolso' reembolso.id %}" class="btn btn-primary"><b>Editar Diária</b>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 px-4">
+        <fieldset>
+            <legend>{{form_title}}</legend>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="id_profissional" class="form-label">Nome Completo do Profissional:</label>
+                    <h6 class="text-muted">{{reembolso.profissional.nome_completo}}</h6>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="id_cpf" class="form-label">CPF:</label>
+                    <h6 class="text-muted">{{reembolso.profissional.formt_cpf}}</h6>
+                </div>
+                <div class="col-md-3">
+                    <label for="id_sus" class="form-label">Cartão do SUS:</label>
+                    <h6 class="text-muted">{{reembolso.profissional.cns}}</h6>
+                </div>
+                <div class="col-md-3">
+                    <label for="id_telefone" class="form-label">Telefone:</label>
+                    <h6 class="text-muted">{{reembolso.profissional.telefone}}</h6>
+                </div>
+            </div>
+
+            <br />
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="id_descricao" class="form-label">Descricao:</label>
+                    <h6 id="descricao" class="text-muted">{{reembolso.get_descricao_display}}</h6>
+                </div>
+                
+                <div class="col-md-2">
+                    <label for="id_valor_desp" class="form-label">Valor da Despesas:</label>
+                    <h6 id='valor_desp'class="text-muted">{{reembolso.valor_desp}}</h6>
+                </div>
+                <div class="col-md-2">
+                    <label for="id_data" class="form-label">Data:</label>
+                    <h6 class="text-muted">{{reembolso.data_reembolso}}</h6>
+                </div>
+                <div class="col-md-2">
+                    <label for="id_movimentacao" class="form-label">Movimentação:</label>
+                    <h6 id="movimentacao" class="text-muted">{{reembolso.get_movimentacao_display}}</h6>
+                </div>
+
+                <div class="col-md-2">
+                    <label for="id_valor_mov" class="form-label">Valor da Movimentação: </label>
+                    <h6 id="valor_mov" class="text-muted">{{reembolso.valor_mov}}</h6>
+                </div>
+
+
+            </div>
+            <br>
+
+            <br>
+
+        </fieldset>
+    </div>
+    <br />
+
+
+</div>
+
+{% endblock %}
+{%block scripts %}
+
+<script>
+
+
+    $(document).ready(function () {
+        var movimentacao = document.getElementById('movimentacao')
+        if (movimentacao.innerHTML == 'None') {
+            movimentacao.innerHTML = '-';
+        }
+        var valor_mov = document.getElementById('valor_mov')
+        if (valor_mov.innerHTML == 'None') {
+            valor_mov.innerHTML = '-';
+        }
+        var descricao = document.getElementById('descricao')
+        if (descricao.innerHTML == 'None') {
+            descricao.innerHTML = '-';
+        }
+        var valor_desp = document.getElementById('valor_desp')
+        if (valor_desp.innerHTML == 'None') {
+            valor_desp.innerHTML = '-';
+        }
+
+    });
+</script>
+{% endblock scripts%}

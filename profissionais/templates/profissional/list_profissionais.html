@@ -1,0 +1,71 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container-fluid">
+  <br /><br />
+  <!-- Modal -->
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="logo">Lista de Profissionals</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="table-responsive-md">
+          <div class="card-body">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th style="width: 10px">#</th>
+                  <th>Nome Completo</th>
+                  <th>CPF</th>
+                  <th>CNS</th>
+                  <th>Opção</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%for profissional in profissionais %}
+                <tr>
+                  <td id="profissional_id">{{profissional.id}}</td>
+                  <td id="profissional_nome">{{profissional.nome_completo}}</td>
+                  <td>{{profissional.formt_cpf}}</td>
+
+                  <td>{{profissional.cns}}</td>
+                  <td>
+                    <a
+                      href="{% url 'profissionais:detail-profissional' profissional.id %}"
+                      class="pr-2"
+                      ><i class="fas fa-solid fa-eye"></i
+                    ></a>
+                    <a
+                      href="{% url 'profissionais:edit-profissional' profissional.id %}"
+                      class="pr-1 text-warning"
+                      ><i class="fas fa-edit"></i
+                    ></a>
+                    <a
+                      type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modal--{{profissional.id}}"
+                      class="pr-2 text-danger"
+                    >
+                      <i class="fas fa-solid fa-trash-can"></i>
+                    </a>
+                  </td>
+                </tr>
+                {% include 'profissional/modal_delete_profissional.html'%}
+                {%endfor%}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Button trigger modal -->
+{% endblock content %} {% block scripts %}
+
+<script>
+  
+</script>
+{% endblock scripts %}

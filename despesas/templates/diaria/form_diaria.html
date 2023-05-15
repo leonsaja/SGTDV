@@ -1,0 +1,105 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container-fluid">
+  <br />
+
+  <div class="col-12 m-2 pl-3">
+    <h4 class=" text-primary"><b>Diária</b> </h4>
+  </div>
+
+  <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 px-4 needs-validation" novalidate>
+    <br>
+    <fieldset>
+      {% csrf_token %}
+      <legend class="text-primary"> <b> Dados da Diária </b></legend>
+      <hr>
+      <div class="row mt-2">
+        <div class="col-md-6">{{form.profissional|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.fonte|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.conta|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.data_diaria|as_crispy_field }}</div>
+      </div>
+      <div class="row">
+
+        <div class="col-md-3">{{form.tipo_diaria|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.qta_diaria|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.valor|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.total|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.reembolso|as_crispy_field }}</div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-12">{{form.descricao|as_crispy_field|safe }}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">{{form.obs|as_crispy_field }}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">{{ form.viagem_orig|as_crispy_field }}</div>
+        <div class="col-md-6">{{ form.viagem_dest|as_crispy_field }}</div>
+      </div>
+
+
+    </fieldset>
+    <br>
+   
+
+    <div class="row justify-content-center">
+      <div class="col-md-12 mb-5">
+        <div class="text-right">
+          <a href="{% url 'despesas:list-diaria'%}" class="btn btn-outline-danger mr-2">Cancelar</a>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <br /><br /><br />
+</div>
+</div>
+
+
+{% endblock %}
+
+{%block scripts %}
+<script src='/static/utils/jquery.formset.js'></script>
+
+<script>
+
+  $(document).ready(function () {
+
+    var tipo = document.getElementById("id_tipo_diaria")
+    var valor = document.getElementById("id_valor")
+    var quantidade = document.getElementById("id_qta_diaria")
+    var subtotal = document.getElementById("id_total")
+
+    tipo.addEventListener('change', calcular)
+    quantidade.addEventListener('change', calcular)
+    valor.addEventListener('blur', calcular)
+
+    function calcular() {
+
+      if (tipo.value == 1 && valor.value && quantidade.value) {
+        var num1 = parseFloat(valor.value);
+        var num2 = quantidade.value;
+        subtotal.value = parseFloat(num2 * num1);
+      }
+
+      else if (tipo.value == 2 && valor.value && quantidade.value) {
+        var num1 = parseFloat(valor.value);
+        var num2 = quantidade.value;
+        var resul = num1 / 2
+        subtotal.value = parseFloat(num2 * resul);
+      }
+
+    }
+    // Configuração para campos de Real.
+    $("#id_valor").maskMoney({ showSymbol: true, symbol: "R$", decimal: ",", thousands: "." });
+    $("#id_total").maskMoney({ showSymbol: true, symbol: "R$", decimal: ",", thousands: "." });
+
+
+  });
+  
+</script>
+
+{% endblock scripts %}

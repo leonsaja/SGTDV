@@ -1,0 +1,92 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %}
+ {% block content %}
+
+<div class="container-fluid">
+  <br />
+  <div class="col-12 m-2 pl-3">
+    <h4 class=" text-primary" ><b>Cadastro de Profissional</b>  </h4>
+  </div>
+{% comment %}   
+ 
+    
+     <div class="col-12 pl-3">
+      {% bootstrap_form_errors form %}
+     </div> {% endcomment %}
+   
+    <br>
+    <form
+      method="POST"
+      enctype="multipart/form-data"
+      autocomplete="off"
+      class="col-12 px-4 needs-validation" novalidate>
+      <fieldset>
+        {% csrf_token %}
+        <legend class="text-primary"><b>Dados Pessoais</b> </legend>
+        <hr>
+
+        <div class="row">
+          <div class="col-md-6">{{form.nome_completo|as_crispy_field }}
+          </div>
+          <div class="col-md-6">{{form.email|as_crispy_field }}</div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">{{form.cpf |as_crispy_field }}</div>
+          <div class="col-md-3">{{form.cns |as_crispy_field }}</div>
+          <div class="col-md-3">{{form.sexo|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.cargo|as_crispy_field }}</div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">{{ form.dt_nascimento|as_crispy_field }} </div>
+          <div class="col-md-3">{{ form.telefone|as_crispy_field }}       </div>
+          <div class="col-md-4">{{ form.estabelecimento|as_crispy_field }}</div>
+          <div class="col-md-2">{{ form.microarea|as_crispy_field }}    </div>
+        </div>
+
+        <legend class="text-primary"><b>Endereço</b> </legend>
+        <hr>
+        <div class="row">
+          <div class="col-md-4">
+            {{ form_endereco.logradouro|as_crispy_field }}
+          </div>
+          <div class="col-md-2">{{ form_endereco.numero|as_crispy_field }}</div>
+
+          <div class="col-md-3">{{ form_endereco.bairro|as_crispy_field }}</div>
+          <div class="col-md-3">
+            {{form_endereco.complemento|as_crispy_field }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">{{form_endereco.cep   |as_crispy_field }}</div>
+          <div class="col-md-6">{{form_endereco.cidade|as_crispy_field }}</div>
+          <div class="col-md-3">{{form_endereco.estado|as_crispy_field }}</div>
+        </div>
+      </fieldset>
+      <br />
+      <div class="row">
+        <div class="col-md-12 mb-5">
+          <div class="text-right">
+          <a href="{% url 'profissionais:list-profissional'%}" class="btn btn-outline-danger mr-2">Cancelar</a>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <br />
+ 
+</div>
+
+{% endblock %} {%block scripts %}
+<script src="/static/utils/buscacep.js"></script>
+<script>
+
+  var cpf = document.getElementById("id_cpf");
+  cpf.setAttribute("readonly", "readonly");
+
+  if (cpf.value == '') {
+    cpf.removeAttribute("readonly");
+  }
+  if (cpf.classList.contains('is-invalid')) {
+    cpf.removeAttribute("readonly");
+  }
+</script>
+{% endblock scripts %}

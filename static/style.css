@@ -1,0 +1,287 @@
+:root {
+  --color-primary: #269fe6;
+  --color-primary-hover: #2086c2;
+  --color-primary-dark: #13141f;
+  --color-primary-dark-hover: #212336;
+  --color-primary-light: #d4ecfa;
+  --color-primary-light-hover: #bdd8e7;
+
+  --color-white: #fff;
+  --color-black: #000;
+
+  --color-dark-text: #444;
+  --color-info-light: #cce5ff;
+  --color-debug-light: #cce5ff;
+  --color-success-light: #d4edda;
+  --color-alert-light: #fff3cd;
+  --color-warning-light: #fff3cd;
+  --color-error-light: #f8d7da;
+
+  --color-info-dark: #4d86c4;
+  --color-debug-dark: #4d86c4;
+  --color-success-dark: #4a9c5d;
+  --color-alert-dark: #927f40;
+  --color-warning-dark: #927f40;
+  --color-error-dark: #da525d;
+
+  --color-gray-0: #f9f9f9;
+  --color-gray-1: #e0e0e0;
+  --color-gray-2: #c7c7c7;
+  --color-gray-3: #aeaeae;
+  --color-gray-4: #959595;
+  --color-gray-5: #7d7d7d;
+  --color-gray-6: #646464;
+  --color-gray-7: #4b4b4b;
+  --color-gray-8: #323232;
+  --color-gray-9: #191919;
+
+  --font-primary: sans-serif;
+  --font-headings: 'Roboto Slab', serif;
+
+  --spacing-gutter-medium: 3rem;
+  --spacing-gutter-large: 4rem;
+}
+
+.logo{
+  font-weight: bold;
+  font-size: 1rem;
+
+}
+
+body {
+ background:var(--color-gray-0) !important;
+ margin: 0;
+ color: #1C1C1C	 !important;
+ font-family: Roboto,sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+ font-weight: 400;
+ line-height: 1.5;
+ font-size: 0.8125rem;
+
+}
+.sidebar-divider {
+  margin: 0 3rem 4rem;
+  background-color: #000;
+  
+  
+}
+.elevation-45 {
+  box-shadow: 0 14px 28px rgba(255, 255, 255, 0.788), 0 10px 10px rgba(0, 0, 0, 0.22) !important;
+}
+
+
+.sidebar-menu{
+
+  position: fixed;
+  background:white!important;
+  border-right: 2px solid rgb(211, 212, 221);
+  color:#6c757d !important;
+  z-index: 3000 !important;
+ 
+    
+}
+/* .sidebar-menu .dropdown-divider {
+  height: 0;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  border-top: 1px solid black
+}  */
+
+.link-houver:hover{
+     background: var( --color-gray-2) !important  ;
+}
+
+
+.select2.select2-container {
+  width: 100% !important;
+}
+
+.select2.select2-container .select2-selection {
+  border: 1px solid #ccc;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 3px;
+  border-radius: 10px;
+  height: 34px;
+  margin-bottom: 15px;
+  outline: none !important;
+  transition: all .15s ease-in-out;
+}
+
+.select2.select2-container .select2-selection .select2-selection__rendered {
+  color: #333;
+  line-height: 32px;
+  padding-right: 33px;
+}
+
+.select2.select2-container .select2-selection .select2-selection__arrow {
+  background: #f8f8f8;
+  border-left: 1px solid #ccc;
+  -webkit-border-radius: 0 15px 15px 0;
+  -moz-border-radius: 0 15px 15px 0;
+  border-radius: 0 15px 15px 0;
+  height: 32px;
+  width: 33px;
+}
+.form-select{
+  border-radius: 6px;
+}
+
+.select2.select2-container.select2-container--open .select2-selection.select2-selection--single {
+  background: #f8f8f8;
+}
+
+.select2.select2-container.select2-container--open .select2-selection.select2-selection--single .select2-selection__arrow {
+  -webkit-border-radius: 0 3px 0 0;
+  -moz-border-radius: 0 3px 0 0;
+  border-radius: 0 3px 0 0;
+}
+
+.select2.select2-container.select2-container--open .select2-selection.select2-selection--multiple {
+  border: 1px solid #34495e;
+}
+
+.select2.select2-container .select2-selection--multiple {
+  height: auto;
+  min-height: 34px;
+}
+
+.select2.select2-container .select2-selection--multiple .select2-search--inline .select2-search__field {
+  margin-top: 0;
+  height: 32px;
+ 
+}
+
+.select2.select2-container .select2-selection--multiple .select2-selection__rendered {
+  display: block;
+  padding: 0 4px;
+  line-height: 29px;
+}
+
+.select2.select2-container .select2-selection--multiple .select2-selection__choice {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin: 4px 4px 0 0;
+  padding: 0 6px 0 22px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 12px;
+  position: relative;
+}
+
+.select2.select2-container .select2-selection--multiple .select2-selection__choice .select2-selection__choice__remove {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  margin: 0;
+  text-align: center;
+  color: #e74c3c;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.select2-container .select2-dropdown {
+  background: transparent;
+  border: none;
+  margin-top: -5px;
+}
+
+.select2-container .select2-dropdown .select2-search {
+  padding: 0;
+}
+
+.select2-container .select2-dropdown .select2-search input {
+  outline: none !important;
+  border: 1px solid #34495e !important;
+  border-bottom: none !important;
+  padding: 4px 6px !important;
+}
+
+
+.select2-container .select2-dropdown .select2-results ul {
+  background: #fff;
+  border: 1px solid #34495e;
+}
+
+.select2-container .select2-dropdown .select2-results ul .select2-results__option--highlighted[aria-selected] {
+  background-color: #3498db;
+}
+
+.select2-selection__clear{
+  font-size: 30px;
+  padding-right: 10px;
+}
+.form-select4 {
+  color: black !;
+}
+
+.form-select2:hover {
+  color: blue !important;
+}
+
+.img-logo {
+  border-radius: 30%;
+  width: 80px;
+  padding: 10px;
+}
+.form-control{
+  border-radius: 10px !important;
+}
+.errorlist{
+  
+  width: 100% !important;
+  margin-top: 0.25rem !important;
+  font-size: .875em !important;
+  color:#dc3545 !important;
+}
+
+.delete-row{
+  margin-bottom :20px !important;
+  color: red  !important;
+}
+legend{
+  font-size: 18px;
+}
+
+
+.nav-fundo{
+  background-color: #0051a2;
+  color: white;
+}
+.btn{
+  border-radius: 15px !important;
+}
+
+
+.form-content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  gap: calc(var(--spacing-gutter-medium) / 2) var(--spacing-gutter-medium);
+}
+
+
+
+/* <div class="invalid-feedback">Informe uma data válida.</div> */
+
+
+.cp-errors{
+
+width: 100%;
+margin-top: 0;
+font-size: .875em;
+color: #dc3545;
+padding-top: 0px;
+background-color: blue;
+
+}
+.requiredField:after {
+  content:"*"; 
+  color: red;
+  
+}
+.asteriskField {
+  display: none;
+}

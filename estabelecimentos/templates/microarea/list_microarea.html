@@ -1,0 +1,74 @@
+{% extends 'base.html' %} {% block title %}{{title}}{%endblock title %}
+{% block content %}
+<div class="container-fluid">
+  <br /><br />
+  <div class="row mb-3">
+            
+    <div class="col-md-12">
+      <div class="text-right">
+          <a href="{% url 'estabelecimentos:add-microarea' %}" class="btn btn-primary"><b>Cadastrar Microárea</b>
+          </a>
+      </div>
+    </div>
+    
+  </div>
+  <div class="row">
+                                                                                                                                                                                                                                                                                                                       <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="logo">Microáreas</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="table-responsive-md">
+          <div class="card-body">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>Profissional</th>
+                  <th>Microárea</th>
+                  <th>CNES</th>
+                  <th>Estabelecimento</th>
+                  <th>Opção</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                {%for microarea in microareas %}
+                    {%for p in microarea.profissional_microarea.all %}
+                    <td>
+                      {{p.nome_completo}}
+                    </td>
+                  
+               
+                  <td>{{microarea.microarea}}</td> 
+                <td>{{microarea.estabelecimento.cnes}}</td>
+                  <td>{{microarea.estabelecimento}}</td>
+                  <td>
+                    <a href="{% url 'estabelecimentos:detail-microarea' microarea.id%}" class="pr-2"><i
+                        class="fas fa-solid fa-eye"></i></a>
+                    <a href="{% url 'estabelecimentos:edit-microarea' microarea.id%}" class="pr-1 text-warning"><i
+                        class="fas fa-edit"></i></a>
+                        <a
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modal--{{microarea.id}}"
+                        class="pr-2 text-danger"
+                      >
+                        <i class="fas fa-solid fa-trash-can"></i>
+                      </a>
+                  </td>
+                </tr>
+                {% include 'microarea/modal_delete_microarea.html'%}
+
+                {%endfor%}
+                {%endfor%}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

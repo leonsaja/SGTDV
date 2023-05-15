@@ -1,0 +1,82 @@
+{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+
+<div class="container-fluid">
+    <br />
+    {% include 'profissional/abas_profissional.html'%}
+
+
+    <div class="row m-2">
+        <div class=" col-md-6">
+            <h4 class=" text-primary"><b>Diárias do  Profissional</b> </h4>
+
+        </div>
+        
+    </div>
+
+    <div class="col-md-12 px-4">
+        <fieldset>
+            <legend>{{form_title}}</legend>
+
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class=" text-primary"><b>Código SIA/SUS</b> </h4>
+                            </div>
+                            <div class="table-responsive-md">
+                                <div class="card-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+
+                                                <th class="text-center">Profissional</th>
+                                                <th class="text-center">descricao</th>
+                                               {% comment %}  <th class="text-center">Quantidade</th>
+                                                <th class="text-center">Valor Total</th> {% endcomment %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for diaria in diarias%}
+                                            <div class="table-responsive-md">
+
+                                                <tr>
+                                                    <td>{{diaria.profissional}}</td>
+
+                                                    <td class="text-center">{{diaria.descricao}}</td>
+
+
+
+
+                                                </tr>
+
+
+
+                                                {%endfor%}
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td colspan="1" class="text-end"><b>
+                                                        <h6>Total:</h6>
+                                                    </b> </td>
+                                                <td class="text-center"><b>
+                                                        {% comment %} <h6>R$ {{ recibo.total_pag}}</h6> {% endcomment %}
+                                                    </b> </td>
+                                            </tr>
+
+
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </fieldset>
+
+    </div>
+    {% endblock content %}

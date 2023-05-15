@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load material_form %}
+
+{% block title %}Sair{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col s12 m4 offset-m4">
+            <h2>Sair</h2>
+            <p>Você tem certeza que deseja sair?</p>
+            <form method="post" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                <button class="btn btn-danger" type="submit">Sair</button>
+            </form>
+
+        </div>
+    </div>
+
+{% endblock %}

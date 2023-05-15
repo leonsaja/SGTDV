@@ -1,0 +1,134 @@
+{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+
+<div class="container-fluid">
+  <br />
+  {% include 'profissional/abas_profissional.html'%}
+
+  <div class="row m-2">
+    <div class=" col-md-6">
+      <h4 class=" text-primary"><b>{{title}}</b> </h4>
+    </div>
+    <div class="col-md-6">
+      <div class="text-right">
+        <a href="{% url 'profissionais:edit-profissional' profissional.id %}" class="btn btn-primary"><b>Editar
+            Cadastro</b> </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12 px-4">
+    <fieldset>
+      <legend class="text-primary"><b>Dados Pessoais</b> </legend>
+
+      <hr>
+      <div class="row">
+        <div class="col-md-6">
+          <label for="id_profissional" class="form-label">Nome Completo:</label>
+          <h6 class="text-muted">{{profissional.nome_completo}}</h6>
+        </div>
+        <div class="col-md-6">
+          <label for="id_email" class="form-label">E-mail:</label>
+          <h6 id='email' class="text-muted">{{profissional.email}}</h6>
+        </div>
+      </div>
+
+      <br />
+
+      <div class="row">
+        <div class="col-md-3">
+          <label for="id_cpf" class="form-label">CPF:</label>
+          <h6 class="text-muted">{{profissional.formt_cpf}}</h6>
+        </div>
+        <div class="col-md-3">
+          <label for="id_sus" class="form-label">Cartão do SUS:</label>
+          <h6 class="text-muted">{{profissional.cns}}</h6>
+        </div>
+        <div class="col-md-3">
+          <label for="id_sexo" class="form-label">Sexo:</label>
+          <h6 class="text-muted">{{profissional.get_sexo_display}}</h6>
+        </div>
+        <div class="col-md-2">
+          <label for="id_microarea" class="form-label">Micro-Área:</label>
+          <h6 id='microarea' class="text-muted">{{profissional.microarea}}</h6>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-md-3">
+          <label for="id_dt_nascimento" class="form-label">Data de Nascimento:</label>
+          <h6 class="text-muted">{{profissional.dt_nascimento}}</h6>
+        </div>
+        <div class="col-md-3">
+          <label for="id_telefone" class="form-label">Telefone:</label>
+          <h6 class="text-muted"> {{profissional.telefone}}</h6>
+        </div>
+        <div class="col-md-3">
+          <label for="id_status" class="form-label">Status:</label>
+          <h6 class="text-muted"> {{profissional.status}}</h6>
+        </div>
+
+
+      </div>
+      <br />
+      <legend class="text-primary"><b>Endereço</b> </legend>
+      <hr>
+      <div class="row">
+        <div class="col-md-4">
+          <label for="id_logradouro" class="form-label">Logradouro:</label>
+          <h6 class="text-muted"> {{profissional.endereco.logradouro}}</h6>
+        </div>
+
+        <div class="col-md-2">
+          <label for="id_numero" class="form-label">Numero:</label>
+          <h6 class="text-muted"> {{profissional.endereco.numero}}</h6>
+        </div>
+
+        <div class="col-md-3">
+          <label for="id_bairro" class="form-label">Bairro:</label>
+          <h6 class="text-muted">{{profissional.endereco.bairro}}</h6>
+        </div>
+
+        <div class="col-md-3">
+          <label for="id_complemento" class="form-label">Complemento:</label>
+          <h6 class="text-muted">{{profissional.endereco.complemento}}</h6>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-3">
+          <label for="id_cep" class="form-label">CEP:</label>
+          <h6 class="text-muted">{{profissional.endereco.cep}}</h6>
+        </div>
+        <div class="col-md-6">
+          <label for="id_cidade" class="form-label">Cidade:</label>
+          <h6 class="text-muted">{{profissional.endereco.cidade}}</h6>
+        </div>
+        <div class="col-md-3">
+          <label for="id_estado" class="form-label">Estado:</label>
+          <h6 class="text-muted"> {{profissional.endereco.estado}}</h6>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  <br /><br /><br />
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+  $(document).ready(function () {
+    var email = document.getElementById('email')
+    if (email.innerHTML == 'None') {
+      email.innerHTML = '-';
+    }
+    var microarea = document.getElementById('microarea')
+    if (microarea.innerHTML == 'None') {
+      microarea.innerHTML = '-';
+    }
+
+
+  });
+</script>
+{%endblock scripts%}

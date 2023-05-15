@@ -1,0 +1,39 @@
+{% extends 'baseP.html' %} {% load static %} {% load bootstrap4 %}{% block title %} Login {% endblock %} {% block content %}
+<br>
+
+<div class="container ">
+    <div class="row justify-content-center">
+
+        <div class="col-md-4">
+               {% if messages %}
+            <br>
+                {% for message in messages %}
+                    <div class="alert {{ message.tags}} " role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% endif %}
+            <div class="card">
+                <div class="card-header" style="background-color:white;">
+                        <img src="/static/img/img.png"  width="100%" alt="Fuzzy Cardigan">
+                </div>
+                    <form class="col-md-12"  method="POST">
+                        <br>
+                        {% csrf_token %}  {% bootstrap_form form %}
+                        <br>
+                        <div class="form-group">
+                            <button class="btn btn-lg btn-success btn-block" type="submit">Entrar</button>
+                        </div>
+                    </form>
+                        <div class="text-center">
+                            <a class="text-dark mb-1 nav-link" href="{% url 'accounts:register'%}"><b>  Ainda não é inscrito ? </b><b class="text-success">Cadastra-se</b></a>
+
+                        </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
