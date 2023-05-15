@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'profissionais',
     'tfds',
     'estabelecimentos',
+    'especialidades',
     
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
