@@ -1,209 +1,235 @@
- <aside class="main-sidebar  sidebar-menu elevation-6">
+<aside class="main-sidebar  sidebar-menu elevation-6">
 
-    <!-- Brand Logo -->
-   
+  <!-- Brand Logo -->
 
-    
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <img src="/static/img/logo.jpg" alt="Logo" width="60" height="60" class="d-inline-block ">
-        <span class="brand-text  logo pl-3 " > <b> SGDTV</b>
-      </a>
-    </div>
-   
-      
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-     
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <hr>
-        <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        
-          
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="  nav-icon fas fa-copy text-primary "></i>
-              <p class="text-md text-muted">
-                Despesas
-                <i class="right fas fa-angle-right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview " >
-              <li class="nav-item">
-                <a href="{% url 'despesas:list-diaria'%}" class="nav-link link-houver">
-                 
-                  <p class="text-sm text-muted">Diárias  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'despesas:list-reembolso'%}" class="nav-link link-houver">
-                 
-                  <p class="text-sm text-muted">Reembolsos</p>
-                </a>
-              </li>
-             
-            </ul>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="/static/img/logo.jpg" alt="Logo" width="60" height="60" class="d-inline-block ">
+      <span class="brand-text  logo pl-3 "> <b> SGDTV</b>
+    </a>
+  </div>
+
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <hr>
+      <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu"
+        data-accordion="false">
+
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="  nav-icon fas fa-copy text-primary "></i>
+            <p class="text-md text-muted">
+              Despesas
+              <i class="right fas fa-angle-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview ">
             <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class=" text-primary  nav-icon fas fa-solid fa-hospital"></i>
-                <p class="text-md text-muted">
-                  Estabelecimentos
-                  <i class="right fas fa-angle-right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview " >
-                <li class="nav-item">
-                  <a href="{% url 'estabelecimentos:list-estabelecimento'%}" class="nav-link link-houver">
-                    
-                    <p class="text-sm text-muted">  Estabelecimentos</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="{% url 'estabelecimentos:list-microarea'%}" class="nav-link link-houver">
-                   
-                    <p class=" text-sm text-muted">Microáreas </p>
-                  </a>
-                </li>
-               
-              </ul>
-             </li>
-             <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class=" text-primary  nav-icon fas fa-solid fa-user"></i>
-                <p class="text-md text-muted">
-                  Pacientes
-                  <i class="right fas fa-angle-right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview " >
-                <li class="nav-item">
-                  <a href="{% url 'cidadao:add-cidadao'%}" class="nav-link link-houver">
-                    
-                    <p class=" text-sm text-muted">  Cadastrar Paciente</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="{% url 'cidadao:list-cidadao'%}" class="nav-link link-houver">
-                  
-                    <p class="text-sm text-muted">Listar  Pacientes  </p>
-                  </a>
-                </li>
-              
-              </ul>
-          </li>
-           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class=" text-primary nav-icon fas fa-solid fa-user-tie"></i>
-              <p class="text-md text-muted">
-                Profissionais
-                <i class="right fas fa-angle-right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview " >
-              <li class="nav-item">
-                <a href="{% url 'profissionais:add-profissional'%}" class="nav-link link-houver">
-                  
-                  <p class="text-sm text-muted">  Cadastrar Profissional</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'profissionais:list-profissional'%}" class="nav-link link-houver">
-                 
-                  <p class=" text-sm text-muted">Listar  Profissionais  </p>
-                </a>
-              </li>
-             
-            </ul>
-           </li>
+              <a href="{% url 'despesas:list-diaria'%}" class="nav-link link-houver">
 
-          </li>
+                <p class="text-sm text-muted">Diárias </p>
+              </a>
+            </li>
             <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class=" text-primary nav-icon fas fa-copy"></i>
-              <p class="text-md text-muted">
-                TFDs
-                <i class="right fas fa-angle-right"></i>
-              </p>
-            </a>
-            <ul class="nav  nav-treeview">
-              <li class="nav-item">
-                <a href="{% url 'tfd:add-tfd'%}" class="nav-link link-houver">
-                  
-                  <p class="text-sm nav-child-indent text-muted">  Cadastrar TFD</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'tfd:list-tfd'%}" class="nav-link link-houver">
-                 
-                  <p class="text-sm text-muted">Listar  TFDs  </p>
-                </a>
-              </li>
-             
-            </ul>
-          </li>
-        
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class=" text-primary nav-icon fas fa-thin fa-users"></i>
-              
-              <p class="text-md text-muted">
-                Usuários
-                <i class="right fas fa-angle-right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview " >
-              <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link link-houver">
-                  
-                  <p class="text-sm text-muted">  Cadastrar Usuário</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link link-houver">
-                 
-                  <p class="text-sm text-muted">Listar  Usuários  </p>
-                </a>
-              </li>
-             
-            </ul>
-          </li>
-           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class=" text-primary nav-icon fas a-sharp fa-solid fa-car"></i>
-              <p class="text-md  text-muted ">
-                Viagens
-                <i class="right fas fa-angle-right"></i>
-              </p>
-            </a>
-             <ul class="nav nav-treeview " >
-              <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link link-houver">
-                  
-                  <p class="text-sm text-muted">  Cadastrar Viagem</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link link-houver">
-                 
-                  <p class="text-sm text-muted">Listar  Viagens </p>
-                </a>
-              </li>
-             
-            </ul> 
-          </li>
-          
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
+              <a href="{% url 'despesas:list-reembolso'%}" class="nav-link link-houver">
+
+                <p class="text-sm text-muted">Reembolsos</p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link ">
+            <i class=" text-primary nav-icon fas fa-solid fa-user-tie"></i>
+            <p class="text-md text-muted">
+              Especialidades
+              <i class="right fas fa-angle-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview ">
+            <li class="nav-item">
+              <a href="{% url 'especialidades:add-tipoespecialidades'%}" class="nav-link link-houver">
+
+                <p class="text-sm text-muted"> Cadastrar Especialidade</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="% url 'estabelecimentos:list-microarea'%}" class="nav-link link-houver">
+
+                <p class=" text-sm text-muted">Listar Especialidades</p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class=" text-primary  nav-icon fa-solid fa-hospital"></i>
+            <p class="text-md text-muted">
+              Estabelecimentos
+              <i class="right fas fa-angle-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview ">
+            <li class="nav-item">
+              <a href="{% url 'estabelecimentos:list-estabelecimento'%}" class="nav-link link-houver">
+
+                <p class="text-sm text-muted"> Estabelecimentos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'estabelecimentos:list-microarea'%}" class="nav-link link-houver">
+
+                <p class=" text-sm text-muted">Microáreas </p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class=" text-primary  nav-icon fas fa-solid fa-user"></i>
+            <p class="text-md text-muted">
+              Pacientes
+              <i class="right fas fa-angle-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview ">
+            <li class="nav-item">
+              <a href="{% url 'cidadao:add-cidadao'%}" class="nav-link link-houver">
+
+                <p class=" text-sm text-muted"> Cadastrar Paciente</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'cidadao:list-cidadao'%}" class="nav-link link-houver">
+
+                <p class="text-sm text-muted">Listar Pacientes </p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class=" text-primary nav-icon fas fa-solid fa-user-tie"></i>
+            <p class="text-md text-muted">
+              Profissionais
+              <i class="right fas fa-angle-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview ">
+            <li class="nav-item">
+              <a href="{% url 'profissionais:add-profissional'%}" class="nav-link link-houver">
+
+                <p class="text-sm text-muted"> Cadastrar Profissional</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'profissionais:list-profissional'%}" class="nav-link link-houver">
+
+                <p class=" text-sm text-muted">Listar Profissionais </p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class=" text-primary nav-icon fas fa-copy"></i>
+            <p class="text-md text-muted">
+              TFDs
+              <i class="right fas fa-angle-right"></i>
+            </p>
+          </a>
+          <ul class="nav  nav-treeview">
+            <li class="nav-item">
+              <a href="{% url 'tfd:add-tfd'%}" class="nav-link link-houver">
+
+                <p class="text-sm nav-child-indent text-muted"> Cadastrar TFD</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'tfd:list-tfd'%}" class="nav-link link-houver">
+
+                <p class="text-sm text-muted">Listar TFDs </p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class=" text-primary nav-icon fas fa-thin fa-users"></i>
+
+            <p class="text-md text-muted">
+              Usuários
+              <i class="right fas fa-angle-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview ">
+            <li class="nav-item">
+              <a href="pages/charts/chartjs.html" class="nav-link link-houver">
+
+                <p class="text-sm text-muted"> Cadastrar Usuário</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/charts/flot.html" class="nav-link link-houver">
+
+                <p class="text-sm text-muted">Listar Usuários </p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class=" text-primary nav-icon fas a-sharp fa-solid fa-car"></i>
+            <p class="text-md  text-muted ">
+              Viagens
+              <i class="right fas fa-angle-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview ">
+            <li class="nav-item">
+              <a href="pages/charts/chartjs.html" class="nav-link link-houver">
+
+                <p class="text-sm text-muted"> Cadastrar Viagem</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/charts/flot.html" class="nav-link link-houver">
+
+                <p class="text-sm text-muted">Listar Viagens </p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  {% comment %}
+  <div class="row mt-1">
+
+    <div class="col-12 p-3">
+      <p class=" brand-text text-center text-sm"><b>Sistema de gerenciamento Diaria,TFD e Viagem-SGDTV </b></p>
     </div>
-    {% comment %}
-    <div class="row mt-1">
-      
-       <div class="col-12 p-3" >
-        <p class=" brand-text text-center text-sm"><b>Sistema de gerenciamento Diaria,TFD e Viagem-SGDTV </b></p>
-      </div>
-      </div> {% endcomment %}
-    <!-- /.sidebar -->
-  </aside>
+  </div> {% endcomment %}
+  <!-- /.sidebar -->
+</aside>

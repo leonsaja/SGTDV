@@ -4,7 +4,8 @@ from profissionais.models import Profissional
 
 
 class TipoEspecialidade(models.Model):
-    nome=models.CharField(max_length=255, verbose_name='Especialidade')
+    nome=models.CharField(max_length=255, verbose_name='Nome da Especialidade')
+
 
 class Especialidade (models.Model):
 
@@ -12,7 +13,7 @@ class Especialidade (models.Model):
         ('1','NORMAL'),
         ('2','URGÊNCIA'),
     )
-    TIPO_CONSULTA=(
+    TIPO_ATENDIMENTO=(
         ('1','CONSULTA'),
         ('2','RETORNO'),
     )
@@ -21,7 +22,7 @@ class Especialidade (models.Model):
     data_pedido=models.DateField(verbose_name='Data do Pedido')
     profissional=models.ForeignKey(Profissional,verbose_name='Profissional',on_delete=models.SET_NULL, null=True)
     classficacao=models.CharField(max_length=1, verbose_name='Classificação',help_text='TIPO DE URGENCIA')
-    tipo_consulta=models.CharField(max_length=1, verbose_name='Tipo de Consulta', )
+    tipo_atendimento=models.CharField(max_length=1, verbose_name='Tipo de Atendimento' )
     observacao=models.TextField(verbose_name='Observação',null=True, blank=True)
 
 

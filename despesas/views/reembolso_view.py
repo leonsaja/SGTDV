@@ -11,7 +11,6 @@ from despesas.models import Diaria, Reembolso
 def reembolsoCreate(request,id):
     diaria=Diaria.objects.get(id=id)
 
-    
     if not diaria:
         return Http404()
     
@@ -25,19 +24,6 @@ def reembolsoCreate(request,id):
     
     return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset})
 
-class ReembolsoListView(ListView):
-   
-   model=Diaria
-   template_name='reembolso/list_reembolso.html'
-
-   def get_context_data(self,*args, **kwargs):
-      context= super().get_context_data(*args, **kwargs)
-      context={
-         'title':'Reembolsos',
-         'diarias':Diaria.objects.filter(reembolso=1),
-      }
-      return context
-   
 def reembolsoUpdate(request, id):
    diaria=Diaria.objects.get(id=id)
     
@@ -55,6 +41,19 @@ def reembolsoUpdate(request, id):
     
    return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset})
 
+class ReembolsoListView(ListView):
+   
+   model=Diaria
+   template_name='reembolso/list_reembolso.html'
+
+   def get_context_data(self,*args, **kwargs):
+      context= super().get_context_data(*args, **kwargs)
+      context={
+         'title':'Reembolsos',
+         'diarias':Diaria.objects.filter(reembolso=1),
+      }
+      return context
+
 class ReembolsoDetailView(DetailView):
     model=Reembolso
     template_name='reembolso/detail_reembolso.html'
@@ -66,7 +65,6 @@ class ReembolsoDetailView(DetailView):
             'reembolso':Reembolso.objects.get(id=self.kwargs['pk']),
         }
         return context
-
 
 class ReembolsoDeleteView(DeleteView):
    model=Reembolso
