@@ -13,3 +13,57 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 {%endcomment %}
+
+
+  <div class="row">
+        <div class=" col-md-12">
+            <h4 class=" text-primary text-center"><strong>{{especialidade.nome}}</strong></h4>
+        </div>
+
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-right">
+                <a href="% url 'especialidades:edit-tipoespecialidade' especialidade.id %}"
+                    class="btn btn-primary"><b>Adicionar Paciente</b>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive-md">
+                <div class="card-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Paciente</th>
+                                <th>ACS</th>
+                                <th>PSF</th>
+                                <th>Tipo de Atendimento</th>
+                                <th>Classficação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <thead>
+                            <tr>
+                                <th>Paciente</th>
+                                <th>ACS</th>
+                                <th>PSF</th>
+                                <th>Tipo de Atendimento</th>
+                                <th>Classficação</th>
+                            </tr>
+                        </thead>

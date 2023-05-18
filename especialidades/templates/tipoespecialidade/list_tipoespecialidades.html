@@ -1,22 +1,25 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+
+{% block content %}
 <div class="container-fluid">
   <br /><br />
-  <!-- Modal -->
   <div class="row mb-3">
             
     <div class="col-md-12">
       <div class="text-right">
-          <a href="{% url 'cidadao:add-cidadao' %}" class="btn btn-primary"><b>Adicionar Cidadão</b>
+          <a href="{% url 'especialidades:add-tipoespecialidade' %}" class="btn btn-primary"><b>Cadastrar Especialidade</b>
           </a>
       </div>
     </div>
     
   </div>
+
   <div class="row">
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h3 class="logo">Pacientes</h3>
+          <h3 class="logo">Especialidades</h3>
+         
         </div>
         <!-- /.card-header -->
         <div class="table-responsive-md">
@@ -24,45 +27,46 @@
             <table class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th style="width: 10px">#</th>
-                  <th>Nome Completo</th>
-                  <th>CPF</th>
-                  <th>CNS</th>
+                  <th style="width: 10px">id</th>
+                  <th>Nome da Especialidade</th>
                   <th>Opção</th>
                 </tr>
               </thead>
               <tbody>
-                {%for paciente in pacientes %}
+                {%for especialidade in tipoespecialidades %}
                 <tr>
-                  <td id="paciente_id">{{paciente.id}}</td>
-                  <td id="paciente_nome">{{paciente.nome_completo}}</td>
+                  <td>{{especialidade.id}}</td>
+                  <td>{{especialidade.nome}}</td>
                   
-                  <td>{{paciente.formt_cpf}}</td>
-
-                  <td>{{paciente.cns}}</td>
                   <td>
+                   
                     <a
-                      href="{% url 'cidadao:detail-cidadao' paciente.id%}"
-                      class="pr-2"
+                      href="{% url 'especialidades:detail-tipoespecialidade' especialidade.id%}"
+                      class="pr-1"
                       ><i class="fas fa-solid fa-eye"></i
                     ></a>
+                   
                     <a
-                      href="{% url 'cidadao:edit-cidadao' paciente.id%}"
+                      href="{% url 'especialidades:edit-tipoespecialidade' especialidade.id%}"
                       class="pr-1 text-warning"
                       ><i class="fas fa-edit"></i
                     ></a>
-                    <a
-                      type="button"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modal--{{paciente.id}}"
+
+                    <a href="#modal--{{especialidade.id}}"
+                     
+                     
+                      data-bs-toggle="modal" 
+                      data-bs-target="#modal--{{especialidade.id}}"
                       class="pr-2 text-danger"
+                        
                     >
+                   
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>
                   </td>
                 </tr>
-                {% include 'cidadao/modal_delete_cidadao.html'%}
                 {%endfor%}
+               
               </tbody>
             </table>
           </div>
@@ -71,7 +75,7 @@
     </div>
   </div>
 </div>
-
+{% include 'includes/modal_delete.html'%}
 <!-- Button trigger modal -->
 {% endblock content %} {% block scripts %}
 
