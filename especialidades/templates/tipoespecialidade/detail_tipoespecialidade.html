@@ -65,7 +65,7 @@
                                     {%endif%}
                                     <td>
 
-                                        <a href="% url 'especialidades:detail-tipoespecialidade' especialidade.id%}"
+                                        <a href="{% url 'especialidades:detail-paciente-especialidade' especialidade.id%}"
                                             class="pr-1"><i class="fas fa-solid fa-eye"></i></a>
 
                                         <a href="{% url 'especialidades:edit-paciente-especialidade' especialidade.id%}"

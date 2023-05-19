@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django.http import Http404
 from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
@@ -33,8 +34,6 @@ def especialidadeCreate(request,id):
     } 
     return render(request,'especialidade/form_especialidade.html',context)
 
-
-
 def especialidadeUpdate(request,id):
     especialidade=Especialidade.objects.get(id=id)
     tipoespecialidade=TipoEspecialidade.objects.get(nome=especialidade.especialidade.nome)
@@ -65,8 +64,24 @@ def especialidadeUpdate(request,id):
 
 
 class EspecialidadeListView(ListView):
+    
     model=Especialidade
     template_name='tipoespecialidade/detail_tipoespecialidade.html'
     context_object_name='especialidades'
+
+class EspecialidadeDetailView(DetailView):
+
+    model=Especialidade
+    template_name='especialidade/detail_especialidade.html'
+    context_object_name='especialidade'
+    
+    def get_context_data(self, *args, **kwargs):
+        context= super().get_context_data(*args, **kwargs)
+        especialidade=Especialidade.objects.get(id=self.kwargs['pk'])
+        context['tipoespecialidade']=TipoEspecialidade.objects.get(nome=especialidade.especialidade.nome)
+        context['especialidade']=especialidade
+       
+        return context
+        
 
 

@@ -17,6 +17,7 @@ urlpatterns = [
     #Especialidade
     path('create/<int:id>/paciente_especialidade/', view_especialidade.especialidadeCreate, name='add-paciente-especialidade' ),  
     path('update/<int:id>/paciente_especialidade/', view_especialidade.especialidadeUpdate, name='edit-paciente-especialidade' ),  
-    path('list/<int:pk>/pacientes_especialidades/', view_especialidade.EspecialidadeListView.as_view(), name='list-paciente-especialidade' ),  
+    path('list/<int:pk>/pacientes_especialidades/', view_especialidade.EspecialidadeListView.as_view(), name='list-paciente-especialidade' ),
+    path('detail/<int:pk>/paciente_especialidade/', view_especialidade.EspecialidadeDetailView.as_view(), name='detail-paciente-especialidade' ),  
 
 ]   
