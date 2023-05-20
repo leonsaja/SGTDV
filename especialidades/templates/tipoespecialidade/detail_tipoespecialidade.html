@@ -36,7 +36,7 @@
                             <thead>
                                 <tr>
                                     <th>Paciente</th>
-                                    <th>CPF</th>
+                                    <th>CNS/CPF</th>
                                     <th>ACS</th>
                                     <th>PSF</th>
                                     <th>Tipo de Atendimento</th>
@@ -48,7 +48,17 @@
                                 {%for especialidade in tipoespecialidade.tipoespecialidade_especialidade.all %}
                                 <tr>
                                     <td>{{especialidade.paciente.nome_completo}}</td>
-                                    <td>{{especialidade.paciente.formt_cpf}}</td>
+                                  
+                                        {% if especialidade.paciente.cpf %}
+                                        <td>
+                                            {{especialidade.paciente.formt_cpf}}
+                                        </td>
+                                        {%else%}
+                                           <td>
+                                            {{especialidade.paciente.cns}}  
+                                           </td>
+                                        {%endif%}
+                                    
                                     <td>{{especialidade.profissional}}</td>
                                     <td>{{especialidade.profissional.estabelecimento}} </td>
                                     <td>{{especialidade.get_tipo_atendimento_display }}</td>

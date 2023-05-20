@@ -1,12 +1,13 @@
 from typing import Any, Dict
+
 from django.http import Http404
-from django.shortcuts import render,redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
 
-from django.views.generic import DeleteView, DetailView, ListView,CreateView,UpdateView
-from especialidades.models import Especialidade,TipoEspecialidade
 from especialidades.forms.form_especialidade import EspecialidadeForm
-
+from especialidades.models import Especialidade, TipoEspecialidade
 
 
 def especialidadeCreate(request,id):
@@ -22,7 +23,7 @@ def especialidadeCreate(request,id):
             form=form.save(commit=False)
             form.especialidade=especialidade
             form.save()
-            return redirect('especialidades:list-tipoespecialidade')
+            return redirect('especialidades:detail-tipoespecialidade', especialidade.id)
 
     
     form=EspecialidadeForm(request.POST or None)

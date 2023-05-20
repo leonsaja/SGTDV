@@ -30,8 +30,8 @@
                     <h6 class="text-muted">{{diaria.profissional.formt_cpf}}</h6>
                 </div>
                 <div class="col-md-2">
-                    <label for="id_sus" class="form-label">Cartão do SUS:</label>
-                    <h6 class="text-muted">{{diaria.profissional.cns}}</h6>
+                    <label for="id_data_diaria" class="form-label">Data da Diaria:</label>
+                    <h6 class="text-muted">{{diaria.data_diaria|date:'m/d/Y'}}</h6>
                 </div>
                 <div class="col-md-2">
                     <label for="id_telefone" class="form-label">Telefone:</label>
@@ -41,9 +41,12 @@
                     <label for="id_reembolso" class="form-label">Reembolso:</label>
                     <h6 class="text-muted">{{diaria.get_reembolso_display}}</h6>
                 </div>
+              
             </div>
 
             <br />
+            <br/>
+        
             <div class="row">
                 <div class="col-md-2">
                     <label for="id_conta" class="form-label">Conta:</label>
@@ -72,8 +75,10 @@
                 </div>
 
             </div>
-            <br>
+            <br/>
+            <br/>
             <div class="row">
+                
                 <div class="col-md-6">
                     <label for="id_descricao" class="form-label">Descrição:</label>
                     <h6 class="text-muted">{{diaria.descricao|upper}}</h6>
