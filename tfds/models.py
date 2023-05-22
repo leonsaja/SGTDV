@@ -5,8 +5,8 @@ from cidadao.models import Cidadao
 
 class ReciboTFD(models.Model):
    
-   paciente=models.ForeignKey(Cidadao,on_delete=models.CASCADE,related_name='paciente')
-   acompanhante=models.ForeignKey(Cidadao,null=True,blank=True, on_delete=models.CASCADE,related_name='acompanhante')
+   paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='paciente')
+   acompanhante=models.ForeignKey(Cidadao,null=True,blank=True, on_delete=models.PROTECT,related_name='acompanhante')
    municipio_origem=models.CharField(verbose_name='Municipio Origem', max_length=120,null=False,blank=False,default='Santo Antônio do Jacinto-MG')
    municipio_destino=models.CharField(verbose_name='Municipio Destino', max_length=120,null=False,blank=False)
    data_criada = models.DateField(auto_now_add=True, help_text="Data de Criação")
@@ -15,10 +15,12 @@ class ReciboTFD(models.Model):
    grs=models.CharField(verbose_name='GRS',max_length=50,null=False,blank=False,default='Pedra Azul-MG')
    especialidade=models.CharField(verbose_name='Especialidade', max_length=100, null=False, blank=False)
    
+   created_at = models.DateTimeField(auto_now_add=True)
+   updated_at = models.DateTimeField(auto_now=True)
+
    def __str__(self):
       return self.paciente.nome_completo
    
-
    def total_pag(self):
       items=CodigoSIA.objects.filter(recibo_tfd=self)
       total=0
@@ -28,9 +30,6 @@ class ReciboTFD(models.Model):
 
       return total
    
-   
-
-
 class CodigoSIA(models.Model):
 
    codigo=models.PositiveIntegerField(verbose_name='Código SIA',null=False,blank=False)
@@ -41,7 +40,6 @@ class CodigoSIA(models.Model):
 
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
-
 
    def __str__(self):
       return str(self.codigo)

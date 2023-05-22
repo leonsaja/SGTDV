@@ -1,8 +1,10 @@
 
 from django.urls import reverse_lazy
-from django.views.generic import DeleteView, DetailView, ListView,CreateView,UpdateView
-from especialidades.models import TipoEspecialidade
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
+
 from especialidades.forms.form_tipoespecialidades import TipoEspeciedadesForm
+from especialidades.models import TipoEspecialidade
 
 
 class TipoEspecialidadeCreateView(CreateView):
@@ -31,5 +33,10 @@ class TipoEspecialidadeDetailView(DetailView):
     context_object_name='tipoespecialidade'
     
 
-
+class TipoEspecialidadeDeleteView(DeleteView):
+    model=TipoEspecialidade
+    success_url=reverse_lazy('especialidades:list-tipoespecialidade')
+        
+    def get(self, request,*args, **kwargs):
+         return self.post(request, *args, **kwargs)
        

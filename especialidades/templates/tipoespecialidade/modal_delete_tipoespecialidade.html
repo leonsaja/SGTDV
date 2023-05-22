@@ -1,6 +1,6 @@
 <div
   class="modal fade"
-  id="modal--{{paciente.id}}"
+  id="modal--{{especialidade.id}}"
   aria-labelledby="exampleModalLabel" 
   aria-hidden="true"
   tabindex="-1"
@@ -9,7 +9,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h6 class="modal-title" id="staticBackdropLabel">
-          Você tem certeza que deseja excluir  o Cidadão  ?           
+          Você tem certeza que deseja excluir  o Especialidade  ?           
         </h6>
         <button
           type="button"
@@ -20,14 +20,14 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <p ><strong>{{paciente.nome_completo}}</strong> </p>
-          <p class='text-danger'>As informações relacionada a esse Cidadão será apagada também
-            (Cadastro em especialidade, TFDs...)
+          <p ><strong>{{especialidade.nome}}</strong> </p>
+          <p class='text-danger'>As informações relacionada a essa especialidade será apagada também
+            (Lista de paciente)
           </p>
         </div>
       </div>
       <div class="modal-footer">
-        <form method="POST" action="{% url 'cidadao:del-cidadao' paciente.id %}" id="id_form">
+        <form method="POST" action="{% url 'especialidades:del-tipoespecialidade' especialidade.id %}" id="id_form">
           <button
             type="button"
             class="btn btn-outline-danger"

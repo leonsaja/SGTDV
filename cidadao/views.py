@@ -1,15 +1,15 @@
+from django.contrib import messages
+from django.db.models import ProtectedError
 from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect, render, resolve_url
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import DetailView, ListView
 
 from cidadao.forms.cidadao_form import CidadaoForm, EnderecoForm
 from cidadao.models import Cidadao
 
 
 def cadastrarCidadao(request):
- 
     if request.method == 'POST':
         form=CidadaoForm(request.POST or None)
         form_endereco=EnderecoForm(request.POST or None)
@@ -21,20 +21,10 @@ def cadastrarCidadao(request):
             forms.endereco=form_end
             forms.save()
             return redirect('cidadao:list-cidadao')
-    else:
-        form=CidadaoForm(request.POST or None)
-        form_endereco=EnderecoForm(request.POST or None)
     
-    context={
-            'title':'Cadastro de Cidadão',
-            'form_title':'Dados Pessoais',
-            'endereco_title':'Endereco',
-            'form':form,
-            'endereco':form_endereco,
-    }  
-            
-    return render(request,'cidadao/form_cidadao.html',context)
-
+    form=CidadaoForm(request.POST or None)
+    form_endereco=EnderecoForm(request.POST or None)      
+    return render(request,'cidadao/form_cidadao.html',{'form':form,'endereco':form_endereco})
 
 def editarCidadao(request,id):
     cidadao=Cidadao.objects.get(id=id)
@@ -52,18 +42,11 @@ def editarCidadao(request,id):
             cidadao_form.endereco=endereco_form
             cidadao_form.save()
             return redirect('cidadao:list-cidadao')
-    
+        
     form=CidadaoForm(request.POST or None,instance=cidadao)
     form_endereco=EnderecoForm(request.POST or None, instance=cidadao.endereco)
 
-    context={
-            'title':'Cadastro de Cidadão',
-            'form_title':'Dados Pessoais',
-            'endereco_title':'Endereco',
-            'form':form,
-            'endereco':form_endereco,
-    }  
-    return render(request,'cidadao/form_cidadao.html',context)
+    return render(request,'cidadao/form_cidadao.html',{'form':form,'endereco':form_endereco})
 
 class CidadaoListView(ListView):
     model=Cidadao
@@ -86,16 +69,29 @@ class CidadaoDetailView(DetailView):
         }
         return context
 
-           
-class CidadaoDeleteView(DeleteView):
+def cidadaoDelete(request,id):
+
+    cidadao=Cidadao.objects.get(id=id)
+    
+    if not cidadao:
+        raise Http404()
+    try:
+        cidadao.delete()
+    except ProtectedError:
+        messages.error(request, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
+    finally:
+        return redirect('cidadao:list-cidadao')
+
+
+""" 
+    class CidadaoDeleteView(DeleteView):
     model=Cidadao
     success_url=reverse_lazy('cidadao:list-cidadao')
         
     def get(self, request,*args, **kwargs):
          return self.post(request, *args, **kwargs)
-    
-    
-     
+    """
+
 
 """ 
 

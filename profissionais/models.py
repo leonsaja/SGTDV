@@ -27,7 +27,8 @@ class Profissional(models.Model):
         ('7','MOTORISTA'),
         ('8','RECEPCIONISTA'),
         ('9','TEC.ENFERMAGEM'),
-        ('10','Outros'),
+        ('10','DENTISTA'),
+        ('11','Outros'),
     
     )
     nome_completo = models.CharField(verbose_name='Nome Completo',max_length=120, null=False, blank=False)
@@ -42,7 +43,12 @@ class Profissional(models.Model):
     endereco=models.ForeignKey("Endereco",on_delete=models.CASCADE)
     estabelecimento=models.ForeignKey(Estabelecimento, verbose_name=('Estabelecimento'), on_delete=models.SET_NULL,null=True, related_name='profissional_estabelecimento')
     microarea=models.ForeignKey(MicroArea,on_delete=models.SET_NULL, null=True, blank=True,verbose_name='Micro área',help_text='Campo somente para ACS',related_name='profissional_microarea')
-   
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+
     def __str__(self):
         return f'{self.nome_completo}, CPF: {self.cpf}'
     
@@ -63,6 +69,9 @@ class Endereco(models.Model):
    cidade = models.CharField(max_length=100, null=False, blank=False)
    estado = models.CharField(max_length=2, null=False, blank=False)
    
+   created_at = models.DateTimeField(auto_now_add=True)
+   updated_at = models.DateTimeField(auto_now=True)
+
     
    def __str__(self):
        return f'{self.logradouro}, Nº:{self.numero}, Bairro:{self.bairro}'   

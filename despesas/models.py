@@ -14,7 +14,7 @@ class Diaria(models.Model):
        ('2','NÃO'),
     )
 
-    profissional=models.ForeignKey(Profissional,on_delete=models.SET_NULL,null=True,blank=False, related_name='profissionais')
+    profissional=models.ForeignKey(Profissional,on_delete=models.PROTECT,null=False, blank=False, related_name='profissionais')
     descricao=models.TextField(verbose_name='Descrição',null=False,blank=False)
     data_diaria=models.DateField(verbose_name='Data',null=False,blank=False)
     reembolso=models.CharField('Reembolso', max_length=1, choices=STATUS_REEMBOLSO)
@@ -70,7 +70,7 @@ class Reembolso(models.Model):
     )
 
     descricao=models.CharField(verbose_name='Descrição',choices=TIPOS_DESPESAS,null=True,blank=True, max_length=1)
-    diaria=models.ForeignKey(Diaria,on_delete=models.CASCADE,related_name='reembolsos',null=True,blank=True)
+    diaria=models.ForeignKey(Diaria,on_delete=models.PROTECT,related_name='reembolsos',null=False,blank=False)
     movimentacao=models.CharField(verbose_name='Movimentação', choices=MOVIMENTACAO_FINANCEIRO, null=True,blank=True, max_length=1)
     valor_mov=models.DecimalField(max_digits=8,decimal_places=2, verbose_name='Valor',null=True, blank=True)
     valor_desp=models.DecimalField(max_digits=8,decimal_places=2,verbose_name= 'Valor',null=True,blank=True)

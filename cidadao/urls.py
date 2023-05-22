@@ -9,6 +9,6 @@ urlpatterns = [
     path('update/<int:id>/cidadao/', view_cidadao.editarCidadao , name='edit-cidadao' ),
     path('list/cidadao/', view_cidadao.CidadaoListView.as_view(), name='list-cidadao' ),
     path('detail/<int:pk>/cidadao/', view_cidadao.CidadaoDetailView.as_view(), name='detail-cidadao' ),
-    path('delete/<int:pk>/cidadao/', view_cidadao.CidadaoDeleteView.as_view() , name='del-cidadao' )
+    path('delete/<int:id>/cidadao/', view_cidadao.cidadaoDelete , name='del-cidadao' )
     
 ]

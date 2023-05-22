@@ -67,3 +67,32 @@ adad
                                 <th>Classficação</th>
                             </tr>
                         </thead>
+
+
+class SolicitacaoServicoCreate(CreateView):
+model = Solicitacao
+template_name = 'Servico_create.html'
+fields = ['setor_nome', 'solicitante', 'motivacao', 'dt_entrega', 'local_entrega', 'autorizacao', 'usuarios']
+success_url = reverse_lazy ('home')
+
+def get_context_data(self, **kwargs):
+    data = super(SolicitacaoServicoCreate, self).get_context_data(**kwargs)
+    if self.request.POST:
+        data['servico'] = ServicoFormSet(self.request.POST)
+    else:
+        data['servico'] = ServicoFormSet()
+    return data 
+
+def form_valid(self, form):
+    context = self.get_context_data()
+    servico = context['servico']
+    form.instance.servico = self.request.user
+    
+    with transaction.atomic():
+        if form.is_valid():
+            form.usuarios = self.request.user     
+            self.object = form.save()
+        if servico.is_valid():
+            servico.instance = self.object
+            servico.save()
+    return super(SolicitacaoServicoCreate, self).form_valid(form)

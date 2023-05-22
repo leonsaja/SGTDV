@@ -44,7 +44,6 @@ class DiariaDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context={
-            'title':'Detalhe da Diária',
             'diaria':Diaria.objects.get(id=self.kwargs['pk']),
         }
         return context

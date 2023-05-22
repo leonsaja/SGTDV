@@ -55,8 +55,7 @@ class DetailReciboTFDView(DetailView):
 
         context['title']='Recibo de Pagamento de TFD'
         context['recibo']=ReciboTFD.objects.get(id=self.kwargs['pk'])
-        print('recibo',context['recibo'])
-        print('teste')
+        
         return context
 
 

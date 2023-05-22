@@ -199,3 +199,4 @@ MESSAGE_TAGS = {
     constants.INFO: 'alert-info',
 }
 
+AUTH_USER_MODEL = "usuarios.Usuario"

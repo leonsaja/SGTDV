@@ -7,9 +7,8 @@ from estabelecimentos.models import MicroArea
 class Cidadao(models.Model):
     
     SEXO=(
-        ('','----------'),
         ('F','Feminino'),
-        ('M','Masculino')
+        ('M','Masculino'),
     )
     nome_completo = models.CharField(verbose_name='Nome Completo',max_length=150, null=False, blank=False)
     email=models.EmailField(verbose_name='E-mail', unique=True,null=True,blank=True)
@@ -22,17 +21,18 @@ class Cidadao(models.Model):
     nome_pai=models.CharField(verbose_name='Nome do  Pai', max_length=150, null=True,blank=True)
     telefone=models.CharField(verbose_name='Telefone', max_length=15, null=True,blank=True)
     telefone1=models.CharField(verbose_name='Celular ', max_length=15,unique=True,null=False,blank=False)
-    endereco=models.ForeignKey("Endereco",on_delete=models.CASCADE)
+    endereco=models.ForeignKey("Endereco",on_delete=models.SET_NULL, null=True, blank=False)
     microarea=models.ForeignKey(MicroArea,null=True,blank=False,on_delete=models.SET_NULL, related_name='microarea_cidadao',verbose_name='Micro Área')
     
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         if self.cpf:
              return f'{self.nome_completo}, CPF:   {self.formt_cpf()}'  
         
         return f'{self.nome_completo}' 
        
-    
-    
     def formt_cpf(self):
         
         cpf=self.cpf
@@ -44,7 +44,7 @@ class Cidadao(models.Model):
         
     
 class Endereco(models.Model):
-    
+
    logradouro = models.CharField(max_length=60, null=False, blank=False)
    numero = models.CharField(max_length=10, null=False, blank=False)
    bairro = models.CharField(max_length=30, null=False, blank=False)
@@ -53,6 +53,9 @@ class Endereco(models.Model):
    cidade = models.CharField(max_length=30, null=False, blank=False)
    estado = models.CharField(max_length=2, null=False, blank=False)
    
+   created_at = models.DateTimeField(auto_now_add=True)
+   updated_at = models.DateTimeField(auto_now=True)
+
     
    def __str__(self):
        return f'{self.logradouro}, Nº:{self.numero}, Bairro:{self.bairro}'   

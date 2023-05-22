@@ -1,0 +1,5 @@
+# comando excluir as informações no banco de dados 
+python manage.py flush
+
+#Comando para criar um  copia do Banco de dados
+python3 manage.py dumpdata --indent 2 > 'nome do arquivo'.json
