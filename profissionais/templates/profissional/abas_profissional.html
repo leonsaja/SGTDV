@@ -6,14 +6,24 @@
 
             <li class="nav-item" role="presentation">
                 <a href="{% url 'profissionais:detail-profissional' profissional.id %}"
-                    class="nav-link active">Informações</a>
+                {% if request.resolver_match.url_name == 'detail-profissional' %}
+                class="nav-link active">
+               {%else%}
+                class="nav-link">
+               {%endif%}    
+                  Informações</a>
             </li>
             <li class="nav-item" role="presentation">
                 <a href="{% url 'profissionais:list-diarias-profissional' profissional.id %}" aria-selected="true"
-                    class="nav-link">Diárias</a>
+                {% if request.resolver_match.url_name == 'list-diarias-profissional' %}
+                 class="nav-link active">
+                {%else%}
+                 class="nav-link">
+                {%endif%}    
+                    Diárias</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
+                <a   class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
                     role="tab">Reembolsos </a>
             </li>
 
@@ -23,3 +33,23 @@
 
 
 </div>
+{% comment %} 
+
+<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+
+    <li class="nav-item" role="presentation">
+        <a href="{% url 'profissionais:detail-profissional' profissional.id %}"
+            class="nav-link active">
+            
+            Informações</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a href="{% url 'profissionais:list-diarias-profissional' profissional.id %}" aria-selected="true"
+            class="nav-link">Diárias</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
+            role="tab">Reembolsos </a>
+    </li>
+
+</ul> {% endcomment %}
