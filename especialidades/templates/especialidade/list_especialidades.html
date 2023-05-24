@@ -3,11 +3,13 @@
 {% block content %}
 <div class="container-fluid">
   <br /><br />
+  {% include 'includes/mensagens.html'%}
   <div class="row mb-3">
-            
+    
+
     <div class="col-md-12">
       <div class="text-right">
-          <a href="{% url 'especialidades:add-tipoespecialidade' %}" class="btn btn-primary"><b>Cadastrar Especialidade</b>
+          <a href="{% url 'especialidades:add-especialidade' %}" class="btn btn-primary"><b>Cadastrar Especialidade</b>
           </a>
       </div>
     </div>
@@ -33,7 +35,7 @@
                 </tr>
               </thead>
               <tbody>
-                {%for especialidade in tipoespecialidades %}
+                {%for especialidade in especialidades %}
                 <tr>
                   <td>{{especialidade.id}}</td>
                   <td>{{especialidade.nome}}</td>
@@ -41,13 +43,13 @@
                   <td>
                    
                     <a
-                      href="{% url 'especialidades:detail-tipoespecialidade' especialidade.id%}"
+                      href="{% url 'especialidades:detail-especialidade' especialidade.id%}"
                       class="pr-1"
                       ><i class="fas fa-solid fa-eye"></i
                     ></a>
                    
                     <a
-                      href="{% url 'especialidades:edit-tipoespecialidade' especialidade.id%}"
+                      href="{% url 'especialidades:edit-especialidade' especialidade.id%}"
                       class="pr-1 text-warning"
                       ><i class="fas fa-edit"></i
                     ></a>
@@ -65,7 +67,7 @@
                     </a>
                   </td>
                 </tr>
-                {% include 'tipoespecialidade/modal_delete_tipoespecialidade.html'%}
+                {% include 'especialidade/modal_delete_especialidade.html'%}
                 {%endfor%}
                
               </tbody>

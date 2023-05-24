@@ -1,0 +1,76 @@
+{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+
+<div class="container-fluid">
+    <br />
+
+    <div class="row m-2"">
+    <div class=" col-md-6">
+        <h4 class=" text-primary"><strong>{{tipoespecialidade}} </strong></h4>
+    </div>
+    <div class="col-md-6">
+        <div class="text-right">
+            <a href="{% url 'especialidades:edit-paciente-especialidade' especialidade.id %}"
+                class="btn btn-primary"><b>Editar Informação </b> </a>
+        </div>
+    </div>
+</div>
+
+<br />
+<div class="col-md-12 px-4">
+    <fieldset>
+        <legend>Dados do Paciente</legend>
+        <hr>
+
+        <div class="row">
+            <div class="col-md-6">
+                <label for="id_paciente" class="form-label">Nome Completo: </label>
+                <h6 class="text-muted">{{especialidade.paciente.nome_completo}}</h6>
+            </div>
+            <div class="col-md-6">
+                <label for="id_email" class="form-label">ACS:</label>
+                <h6 id='email' class="text-muted">{{especialidade.profissional.nome_completo}}</h6>
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="col-md-3">
+                <label for="id_rg" class="form-label">Data Pedido:</label>
+                <h6 id='rg' class="text-muted">{{especialidade.data_pedido}}</h6>
+            </div>
+            <div class="col-md-3">
+                <label for="id_cpf" class="form-label">Classificação:</label>
+                <h6 id='cpf' class="text-muted">{{especialidade.get_classificacao_display}}</h6>
+            </div>
+            <div class="col-md-3">
+                <label for="id_sus" class="form-label">Tipo de Atendimento:</label>
+                <h6 class="text-muted">{{especialidade.get_tipo_atendimento_display}}</h6>
+            </div>
+            <div class="col-md-3">
+                <label for="id_sexo" class="form-label">Status:</label>
+                <h6 class="text-muted">{{especialidade.get_status_display}}</h6>
+            </div>
+
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col-md-6">
+                <label for="id_nome_mae" class="form-label">Observação:</label>
+                <h6 class="text-muted"> {{especialidade.observacao}}</h6>
+            </div>
+
+        </div>
+        <br />
+
+    </fieldset>
+</div>
+<br />
+</div>
+
+{% endblock %}
+
+{%block scripts %}
+
+{%endblock scripts%}

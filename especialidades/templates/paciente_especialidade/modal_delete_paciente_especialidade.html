@@ -1,6 +1,6 @@
 <div
   class="modal fade"
-  id="modal--{{profissional.id}}"
+  id="modal--{{especialidade.id}}"
   aria-labelledby="exampleModalLabel" 
   aria-hidden="true"
   tabindex="-1"
@@ -9,7 +9,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h6 class="modal-title" id="staticBackdropLabel">
-          Você tem certeza que deseja excluir  o Profissional  ?           
+          Você tem certeza que deseja excluir  o Paciente na Especialidade  ?           
         </h6>
         <button
           type="button"
@@ -20,12 +20,12 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <p class="logo m-3">{{profissional.nome_completo}}</p>
+          <p ><strong>{{especialidade.paciente.nome_completo|upper}}</strong> </p>
          
         </div>
       </div>
       <div class="modal-footer">
-        <form method="POST" action="{% url 'profissionais:del-profissional' profissional.id %}" id="id_form">
+        <form method="POST" action="{% url 'especialidades:del-paciente-especialidade' especialidade.id %}" id="id_form">
           <button
             type="button"
             class="btn btn-outline-danger"

@@ -20,14 +20,12 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <p ><strong>{{especialidade.nome}}</strong> </p>
-          <p class='text-danger'>As informações relacionada a essa especialidade será apagada também
-            (Lista de paciente)
-          </p>
+          <p ><strong>{{especialidade.nome|upper}}</strong> </p>
+         
         </div>
       </div>
       <div class="modal-footer">
-        <form method="POST" action="{% url 'especialidades:del-tipoespecialidade' especialidade.id %}" id="id_form">
+        <form method="POST" action="{% url 'especialidades:del-especialidade' especialidade.id %}" id="id_form">
           <button
             type="button"
             class="btn btn-outline-danger"

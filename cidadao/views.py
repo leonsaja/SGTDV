@@ -9,7 +9,7 @@ from cidadao.forms.cidadao_form import CidadaoForm, EnderecoForm
 from cidadao.models import Cidadao
 
 
-def cadastrarCidadao(request):
+def cidadaoCreate(request):
     if request.method == 'POST':
         form=CidadaoForm(request.POST or None)
         form_endereco=EnderecoForm(request.POST or None)
@@ -26,7 +26,7 @@ def cadastrarCidadao(request):
     form_endereco=EnderecoForm(request.POST or None)      
     return render(request,'cidadao/form_cidadao.html',{'form':form,'endereco':form_endereco})
 
-def editarCidadao(request,id):
+def cidadaoUpdate(request,id):
     cidadao=Cidadao.objects.get(id=id)
     
     if not cidadao:
@@ -48,11 +48,19 @@ def editarCidadao(request,id):
 
     return render(request,'cidadao/form_cidadao.html',{'form':form,'endereco':form_endereco})
 
-class CidadaoListView(ListView):
-    model=Cidadao
-    template_name='cidadao/list_cidadao.html'
-    context_object_name='pacientes'
+def cidadaoDelete(request,id):
+
+    cidadao=Cidadao.objects.get(id=id)
     
+    if not cidadao:
+        raise Http404()
+    try:
+        cidadao.delete()
+    except ProtectedError:
+        messages.error(request, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
+    finally:
+        return redirect('cidadao:list-cidadao')
+
 class CidadaoDetailView(DetailView):
     model=Cidadao
     template_name='cidadao/detail_cidadao.html'
@@ -69,18 +77,12 @@ class CidadaoDetailView(DetailView):
         }
         return context
 
-def cidadaoDelete(request,id):
-
-    cidadao=Cidadao.objects.get(id=id)
+class CidadaoListView(ListView):
+    model=Cidadao
+    template_name='cidadao/list_cidadao.html'
+    context_object_name='pacientes'
     
-    if not cidadao:
-        raise Http404()
-    try:
-        cidadao.delete()
-    except ProtectedError:
-        messages.error(request, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
-    finally:
-        return redirect('cidadao:list-cidadao')
+
 
 
 """ 

@@ -4,7 +4,7 @@ from cidadao.models import Cidadao
 from profissionais.models import Profissional
 
 
-class TipoEspecialidade(models.Model):
+class Especialidade(models.Model):
     nome=models.CharField(max_length=255, verbose_name='Nome da Especialidade', unique=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -14,7 +14,7 @@ class TipoEspecialidade(models.Model):
        return f'{self.nome}'
 
 
-class Especialidade(models.Model):
+class PacienteEspecialidade(models.Model):
 
     TIPO_CLASSIFICACAO=(
         ('1','NORMAL'),
@@ -31,7 +31,7 @@ class Especialidade(models.Model):
     )
     
     paciente=models.ForeignKey(Cidadao,verbose_name='Paciente', on_delete=models.PROTECT)
-    especialidade=models.ForeignKey(TipoEspecialidade, on_delete=models.PROTECT, related_name='tipoespecialidade_especialidade')
+    especialidade=models.ForeignKey(Especialidade, on_delete=models.PROTECT, related_name='especialidades')
     data_pedido=models.DateField(verbose_name='Data do Pedido')
     profissional=models.ForeignKey(Profissional,verbose_name='Profissional',on_delete=models.PROTECT, null=True)
     classificacao=models.CharField(max_length=1, verbose_name='Classificação',choices=TIPO_CLASSIFICACAO, help_text='TIPO DE URGENCIA')

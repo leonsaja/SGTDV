@@ -51,26 +51,6 @@ def profissionalUpdate(request,id):
     form_endereco=EnderecoForm(request.POST or None, instance=profissional.endereco)
     return render(request,'profissional/form_profissional.html',{'form':form,'endereco':form_endereco})
 
-class ProfissionalListView(ListView):
-    model=Profissional
-    template_name='profissional/list_profissionais.html'
-    
-    def get_context_data(self, *args, **kwargs):
-        context=super().get_context_data(*args, **kwargs)
-        context['profissionais']=Profissional.objects.all().order_by('-id')
-        return context
-    
-    
-class ProfissionalDetailView(DetailView):
-    model=Profissional
-    template_name='profissional/detail_profissional.html'
-    
-    def get_context_data(self, *args, **kwargs):
-        context=super().get_context_data(*args, **kwargs)
-        context['profissional']= Profissional.objects.get(pk=self.kwargs['pk'])
-        
-        return context
-    
 def profissionalDelete(request, id):
     profissional=Profissional.objects.get(id=id)
 
@@ -83,6 +63,28 @@ def profissionalDelete(request, id):
     finally:
         return redirect('profissionais:list-profissional')
 
+class ProfissionalDetailView(DetailView):
+
+    model=Profissional
+    template_name='profissional/detail_profissional.html'
+    
+    def get_context_data(self, *args, **kwargs):
+        context=super().get_context_data(*args, **kwargs)
+        context['profissional']= Profissional.objects.get(pk=self.kwargs['pk'])
+        
+        return context
+
+class ProfissionalListView(ListView):
+    model=Profissional
+    template_name='profissional/list_profissionais.html'
+    
+    def get_context_data(self, *args, **kwargs):
+        context=super().get_context_data(*args, **kwargs)
+        context['profissionais']=Profissional.objects.all().order_by('-id')
+        return context
+    
+
+#Profissional Diaria 
 class ProfissionalDiariaListView(ListView):
     model=Profissional
     template_name='profissional/diarias_profissional.html'
