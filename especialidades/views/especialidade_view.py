@@ -8,7 +8,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 
 from especialidades.forms.form_especialidade import EspecialidadeForm
-from especialidades.models import Especialidade
+from especialidades.models import Especialidade, PacienteEspecialidade
 
 
 class EspecialidadeCreateView(CreateView):
@@ -34,7 +34,13 @@ class EspecialidadeListView(ListView):
 class EspecialidadeDetailView(DetailView):
     model=Especialidade
     template_name='especialidade/detail_especialidade.html'
-    context_object_name='especialidade'
+   
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        especialidade=Especialidade.objects.get(id=self.kwargs['pk'])
+        context['especialidade']=especialidade
+        return context
     
 
 def especialidadeDelete(request, id):

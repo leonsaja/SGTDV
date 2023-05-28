@@ -4,6 +4,8 @@ from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 
+from profissionais.models import Profissional
+
 from ..forms.form_estabelecimento import EstabelecimentoForm
 from ..models import Estabelecimento
 
@@ -15,11 +17,7 @@ class EstabelecimentoCreateView(CreateView):
     template_name='estabelecimento/form_estabelecimento.html'
     success_url=reverse_lazy('estabelecimentos:list-estabelecimento')
     
-    def get_context_data(self, *args, **kwargs):
-        conext= super().get_context_data(*args, **kwargs)
-        conext['title']='Cadasto de Estabelecimento'
-        return conext
-
+    
 class EstabelecimentoUpdateView(UpdateView):
    
     model=Estabelecimento
@@ -28,22 +26,11 @@ class EstabelecimentoUpdateView(UpdateView):
     context_object_name='form'
     success_url=reverse_lazy('estabelecimentos:list-estabelecimento')
     
-    def get_context_data(self, *args, **kwargs):
-        conext= super().get_context_data(*args, **kwargs)
-        conext['title']='Edição de Estabelecimentos'
-        return conext
     
 class EstabelecimentoDetailView(DetailView):
     model=Estabelecimento
     template_name='estabelecimento/detail_estabelecimento.html'
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context={
-            'title':'Estabelecimento',
-            'estabelecimento':Estabelecimento.objects.get(id=self.kwargs['pk']),
-        }
-        return context
+    context_object_name='estabelecimento'
 
     
 class EstabelecimentoListView(ListView):
@@ -51,11 +38,6 @@ class EstabelecimentoListView(ListView):
     template_name='estabelecimento/list_estabelecimento.html'
     context_object_name='estabelecimentos'
     
-    
-    def get_context_data(self, *args, **kwargs):
-        conext= super().get_context_data(*args, **kwargs)
-        conext['title']='Estabelecimentos'
-        return conext
 
                                                                                                                                                                                                                                                                          
 class EstabelecimentoDeleteView(DeleteView):

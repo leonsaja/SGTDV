@@ -648,6 +648,42 @@
   }
 },
 {
+  "model": "auth.permission",
+  "pk": 73,
+  "fields": {
+    "name": "Can add paciente especialidade",
+    "content_type": 19,
+    "codename": "add_pacienteespecialidade"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 74,
+  "fields": {
+    "name": "Can change paciente especialidade",
+    "content_type": 19,
+    "codename": "change_pacienteespecialidade"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 75,
+  "fields": {
+    "name": "Can delete paciente especialidade",
+    "content_type": 19,
+    "codename": "delete_pacienteespecialidade"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 76,
+  "fields": {
+    "name": "Can view paciente especialidade",
+    "content_type": 19,
+    "codename": "view_pacienteespecialidade"
+  }
+},
+{
   "model": "contenttypes.contenttype",
   "pk": 1,
   "fields": {
@@ -789,6 +825,22 @@
   "fields": {
     "app_label": "especialidades",
     "model": "especialidade"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 19,
+  "fields": {
+    "app_label": "especialidades",
+    "model": "pacienteespecialidade"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "tjb6oa6lfqpublsdw8he3npmsucguifj",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAUBf-FtSFAKQ-X7v0Gwn0gVUOT0q6M_65NutDtmZnzEilva01b5yVNJM5Ci9PvBhkf3HZA99xus8S5rcsEclfkQbu8zsTPy-H-HdTc67cGF5G9craQHo3PSKi8VsG70VjiQswxWg9DMQw6MkEJYJzLFqMdghXvD_KWOEg:1q3FP2:3ysZDPbZ8FiLnfMl3ho5S6DQOf_6CnjhOCA9I_VjGXg",
+    "expire_date": "2023-06-11T12:21:40.357Z"
   }
 },
 {
@@ -936,6 +988,24 @@
   }
 },
 {
+  "model": "usuarios.usuario",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$TzRUh1CR3PCqrLWJzV0hrt$+SltG6yZ7zvPDgwjwmAJ3hc1kOHggREYOKJFdxZv5Eg=",
+    "last_login": "2023-05-28T12:21:40.343Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@admin.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-05-28T12:21:24.340Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
   "model": "despesas.diaria",
   "pk": 1,
   "fields": {
@@ -954,6 +1024,126 @@
     "total": "30,00",
     "created_at": "2023-05-21T23:10:08.372Z",
     "updated_at": "2023-05-21T23:10:08.372Z"
+  }
+},
+{
+  "model": "despesas.diaria",
+  "pk": 2,
+  "fields": {
+    "profissional": 2,
+    "descricao": "mkj",
+    "data_diaria": "2023-05-15",
+    "reembolso": "1",
+    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
+    "viagem_dest": "xfdsgd",
+    "conta": 132785,
+    "fonte": 122,
+    "obs": "",
+    "tipo_diaria": "1",
+    "qta_diaria": 3,
+    "valor": "100,00",
+    "total": "300,00",
+    "created_at": "2023-05-28T11:15:45.596Z",
+    "updated_at": "2023-05-28T11:15:45.596Z"
+  }
+},
+{
+  "model": "despesas.diaria",
+  "pk": 4,
+  "fields": {
+    "profissional": 1,
+    "descricao": "adad",
+    "data_diaria": "2022-12-13",
+    "reembolso": "2",
+    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
+    "viagem_dest": "adda",
+    "conta": 257,
+    "fonte": 114,
+    "obs": "",
+    "tipo_diaria": "1",
+    "qta_diaria": 1,
+    "valor": "150,00",
+    "total": "150,00",
+    "created_at": "2023-05-28T11:39:39.170Z",
+    "updated_at": "2023-05-28T11:39:39.170Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 1,
+  "fields": {
+    "descricao": "2",
+    "diaria": 1,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "200.00",
+    "created_at": "2023-05-27T17:00:36.729Z",
+    "updated_at": "2023-05-27T17:00:36.729Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 2,
+  "fields": {
+    "descricao": "8",
+    "diaria": 1,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "300.00",
+    "created_at": "2023-05-27T17:00:36.740Z",
+    "updated_at": "2023-05-27T17:00:36.740Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 3,
+  "fields": {
+    "descricao": "1",
+    "diaria": 1,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "100.00",
+    "created_at": "2023-05-27T17:00:36.758Z",
+    "updated_at": "2023-05-27T17:00:36.759Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 4,
+  "fields": {
+    "descricao": "2",
+    "diaria": 2,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "100.00",
+    "created_at": "2023-05-28T13:23:30.480Z",
+    "updated_at": "2023-05-28T13:23:30.481Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 5,
+  "fields": {
+    "descricao": "3",
+    "diaria": 2,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "300.00",
+    "created_at": "2023-05-28T13:23:30.530Z",
+    "updated_at": "2023-05-28T13:23:30.530Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 6,
+  "fields": {
+    "descricao": "8",
+    "diaria": 2,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "400.00",
+    "created_at": "2023-05-28T13:23:30.545Z",
+    "updated_at": "2023-05-28T13:23:30.545Z"
   }
 },
 {
@@ -1070,25 +1260,107 @@
     "municipio_origem": "Santo Antônio do Jacinto-MG",
     "municipio_destino": "ALMENARA",
     "data_criada": "2023-05-21",
-    "data_editada": "2023-05-21",
+    "data_editada": "2023-05-28",
     "data": "2023-01-12",
     "grs": "Pedra Azul-MG",
     "especialidade": "CARDIOLOGISTA",
     "created_at": "2023-05-21T23:05:35.525Z",
-    "updated_at": "2023-05-21T23:05:35.525Z"
+    "updated_at": "2023-05-28T21:41:53.043Z"
+  }
+},
+{
+  "model": "tfds.recibotfd",
+  "pk": 2,
+  "fields": {
+    "paciente": 4,
+    "acompanhante": 2,
+    "municipio_origem": "Santo Antônio do Jacinto-MG",
+    "municipio_destino": "Belo Horizonte",
+    "data_criada": "2023-05-28",
+    "data_editada": "2023-05-28",
+    "data": "2023-05-25",
+    "grs": "Pedra Azul-MG",
+    "especialidade": "CARDIOLOGISTA",
+    "created_at": "2023-05-28T21:42:45.872Z",
+    "updated_at": "2023-05-28T21:47:07.622Z"
   }
 },
 {
   "model": "tfds.codigosia",
   "pk": 1,
   "fields": {
-    "codigo": 1324545425,
+    "codigo": "1324545424",
     "valor_unitario": "250.00",
     "qtd_procedimento": 3,
     "valor_total": "750.00",
     "recibo_tfd": 1,
     "created_at": "2023-05-21T23:05:35.533Z",
-    "updated_at": "2023-05-21T23:05:35.533Z"
+    "updated_at": "2023-05-27T17:08:12.969Z"
+  }
+},
+{
+  "model": "tfds.codigosia",
+  "pk": 2,
+  "fields": {
+    "codigo": "1325745232",
+    "valor_unitario": "150.00",
+    "qtd_procedimento": 2,
+    "valor_total": "300.00",
+    "recibo_tfd": 1,
+    "created_at": "2023-05-27T17:08:12.977Z",
+    "updated_at": "2023-05-27T17:08:12.977Z"
+  }
+},
+{
+  "model": "tfds.codigosia",
+  "pk": 3,
+  "fields": {
+    "codigo": "0985587477",
+    "valor_unitario": "100.00",
+    "qtd_procedimento": 2,
+    "valor_total": "200.00",
+    "recibo_tfd": 1,
+    "created_at": "2023-05-27T18:08:35.115Z",
+    "updated_at": "2023-05-27T18:29:02.110Z"
+  }
+},
+{
+  "model": "tfds.codigosia",
+  "pk": 4,
+  "fields": {
+    "codigo": "0701070129",
+    "valor_unitario": "200.00",
+    "qtd_procedimento": 2,
+    "valor_total": "400.00",
+    "recibo_tfd": 1,
+    "created_at": "2023-05-27T18:29:38.985Z",
+    "updated_at": "2023-05-27T18:29:38.985Z"
+  }
+},
+{
+  "model": "tfds.codigosia",
+  "pk": 5,
+  "fields": {
+    "codigo": "0701070129",
+    "valor_unitario": "120.00",
+    "qtd_procedimento": 3,
+    "valor_total": "360.00",
+    "recibo_tfd": 2,
+    "created_at": "2023-05-28T21:42:45.886Z",
+    "updated_at": "2023-05-28T21:42:45.886Z"
+  }
+},
+{
+  "model": "tfds.codigosia",
+  "pk": 6,
+  "fields": {
+    "codigo": "0701070139",
+    "valor_unitario": "100.00",
+    "qtd_procedimento": 3,
+    "valor_total": "300.00",
+    "recibo_tfd": 2,
+    "created_at": "2023-05-28T21:47:07.635Z",
+    "updated_at": "2023-05-28T21:47:07.635Z"
   }
 },
 {
@@ -1472,12 +1744,64 @@
   }
 },
 {
-  "model": "especialidades.tipoespecialidade",
-  "pk": 1,
+  "model": "estabelecimentos.microarea",
+  "pk": 29,
+  "fields": {
+    "microarea": 25,
+    "estabelecimento": 7,
+    "created_at": "2023-05-28T20:32:18.288Z",
+    "updated_at": "2023-05-28T20:32:18.288Z"
+  }
+},
+{
+  "model": "estabelecimentos.microarea",
+  "pk": 30,
+  "fields": {
+    "microarea": 26,
+    "estabelecimento": 7,
+    "created_at": "2023-05-28T20:32:25.414Z",
+    "updated_at": "2023-05-28T20:32:25.414Z"
+  }
+},
+{
+  "model": "especialidades.especialidade",
+  "pk": 2,
   "fields": {
     "nome": "CARDIOLOGISTA",
-    "created_at": "2023-05-21T22:15:35.787Z",
-    "updated_at": "2023-05-21T22:15:35.787Z"
+    "created_at": "2023-05-23T22:02:51.074Z",
+    "updated_at": "2023-05-23T22:38:28.798Z"
+  }
+},
+{
+  "model": "especialidades.pacienteespecialidade",
+  "pk": 5,
+  "fields": {
+    "paciente": 1,
+    "especialidade": 2,
+    "data_pedido": "2023-05-22",
+    "profissional": 1,
+    "classificacao": "2",
+    "tipo_atendimento": "2",
+    "observacao": "",
+    "status": "1",
+    "created_at": "2023-05-24T00:10:34.502Z",
+    "updated_at": "2023-05-24T00:10:34.502Z"
+  }
+},
+{
+  "model": "especialidades.pacienteespecialidade",
+  "pk": 6,
+  "fields": {
+    "paciente": 2,
+    "especialidade": 2,
+    "data_pedido": "2023-12-12",
+    "profissional": 1,
+    "classificacao": "2",
+    "tipo_atendimento": "1",
+    "observacao": "jkljlj",
+    "status": "1",
+    "created_at": "2023-05-28T18:15:32.562Z",
+    "updated_at": "2023-05-28T18:15:32.562Z"
   }
 }
 ]

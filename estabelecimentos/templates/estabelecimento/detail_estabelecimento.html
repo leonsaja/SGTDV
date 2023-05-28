@@ -1,48 +1,59 @@
 {% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
 
-<div class="descricaoiner-fluid">
+<div class="container-fluid">
     <br />
 
     <div class="row m-2">
-        <div class=" col-md-6">
-            <h4 class=" text-primary"><b>{{title}}</b> </h4>
-
-        </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="text-right">
                 <a href="{% url 'estabelecimentos:edit-estabelecimento' estabelecimento.id %}"
                     class="btn btn-primary"><b>Editar Estabelecimento</b>
                 </a>
             </div>
+            <br>
         </div>
+
     </div>
 
+
+
     <div class="col-md-12 px-4">
-        <fieldset>
-            <legend>{{form_title}}</legend>
+        <div class="row">
+            <div class=" col-md-6">
+                <h4 class=" text-primary"><strong>Detail do Estabelecimento</strong> </h4>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="id_estabelecimento" class="form-label">Nome do Estabelecimento:</label>
-                    <h6 class="text-muted">{{estabelecimento.nome}}</h6>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <label for="id_estabelecimento" class="form-label">Nome do Estabelecimento:</label>
+                <h6 class="text-muted">{{estabelecimento.nome}}</h6>
 
-                </div>
-                <div class="col-md-6">
-                    <label for="id_cnes" class="form-label">CNES:
-                        <h6 class="text-muted">{{estabelecimento.cnes}}</h6>
-                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="id_cnes" class="form-label">CNES:
+                    <h6 class="text-muted">{{estabelecimento.cnes}}</h6>
+            </div>
 
-                <fieldset>
-                    <br>
-                    <legend>Profissionais</legend>
-                    <div class="row">
+        </div>
+        <div class="row">
+
+            <div class="col-md-12">
+                <br>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="logo"><strong>Profissionais</strong></h3>
+                    </div>
+                    <div class="table-responsive-md">
                         <div class="card-body">
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>Profissional</th>
+                                        <th>CPF/CNS</th>
                                         <th class="text-center">Cargo</th>
-                                        <th class="text-center">Micro Área</th>
+                                        {% comment %} <th class="text-center">Micro Área</th> {% endcomment %}
                                         <th class="text-center">Opção</th>
                                     </tr>
                                 </thead>
@@ -52,32 +63,36 @@
 
                                         <tr>
                                             <td>{{p.nome_completo}}</td>
-
+                                            <td>{{p.formt_cpf}}</td>
                                             <td class="text-center">{{p.get_cargo_display}}</td>
 
-
-                                            <td class="text-center">
+                                            
+                                           {% comment %}  <td class="text-center">
                                                 {%if p.microarea %}
                                                 {{p.microarea}}
                                                 {%else%}
                                                 -
                                                 {%endif%}
 
-                                            </td>
+                                            </td> {% endcomment %}
                                             <td class='text-center'>
                                                 <a href="{% url 'profissionais:detail-profissional' p.id %}"
                                                     class="pr-2"><i class="fas fa-solid fa-eye"></i></a>
                                             </td>
                                         </tr>
 
-
-                                        {%endfor%}
+                                    </div>
+                                    {%endfor%}
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                </div>
             </div>
-        </fieldset>
-
+        </div>
     </div>
-    {% endblock content %}
+</div>
+
+</div>
+
+{% endblock content %}

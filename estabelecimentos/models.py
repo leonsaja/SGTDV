@@ -8,11 +8,9 @@ class Estabelecimento(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        ordering = ["nome"]
     
     def __str__(self):
-        return self.nome
+        return f'{self.nome}'
     
 
 class MicroArea(models.Model):

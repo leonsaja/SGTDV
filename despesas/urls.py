@@ -10,7 +10,7 @@ urlpatterns = [
     #Diária
     path('create/diaria/',diaria_view.DiariaCreateView.as_view(),name='add-diaria'),
     path('update/<int:pk>/diaria/',diaria_view.DiariaUpdateView.as_view(), name='edit-diaria'),
-    path('delete/<int:pk>/diaria/',diaria_view.DiariaDeleteView.as_view(),name='del-diaria'),
+    path('delete/<int:id>/diaria/',diaria_view.diariaDelete,name='del-diaria'),
     path('detail/<int:pk>/diaria/',diaria_view.DiariaDetailView.as_view(),name='detail-diaria'),
     path('list/diarias/',diaria_view.DiariaListView.as_view(),name='list-diaria'),
 

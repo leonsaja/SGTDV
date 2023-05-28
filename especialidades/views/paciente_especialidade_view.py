@@ -84,8 +84,17 @@ def pacienteEspecialidadeDelete(request,id):
 class PacienteEspecialidadeListView(ListView):
     
     model=PacienteEspecialidade
-    template_name='especialidade/detail_especialidade.html'
+    template_name='paciente_especialidade/list_pacientes_especialidade.html'
     context_object_name='especialidades'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        especialidade=Especialidade.objects.get(id=self.kwargs['pk'])
+        context['especialidade']=especialidade
+        context['pacientes_especialidade']=PacienteEspecialidade.objects.select_related('paciente',\
+                                             'especialidade','profissional').filter(especialidade__id=especialidade.id)
+
+        return context
 
 class PacienteEspecialidadeDetailView(DetailView):
 
@@ -95,9 +104,8 @@ class PacienteEspecialidadeDetailView(DetailView):
     
     def get_context_data(self, *args, **kwargs):
         context= super().get_context_data(*args, **kwargs)
-        paciente_especialidade=PacienteEspecialidade.objects.get(id=self.kwargs['pk'])
-        context['tipoespecialidade']=Especialidade.objects.get(nome=paciente_especialidade.especialidade.nome)
-        context['especialidade']=paciente_especialidade
+        paciente_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').get(id=self.kwargs['pk'])
+        context['paciente_especialidade']=paciente_especialidade
        
         return context
         

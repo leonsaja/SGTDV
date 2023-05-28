@@ -29,10 +29,12 @@ class CodigoSIAForm(forms.ModelForm):
 
     def clean_codigo(self):
         data = self.cleaned_data["codigo"]
-        codigo=str(data)
-        if len(codigo)!=10:
+        if data.isdigit():
+             if len(data)==10:
+                  return data
              raise ValidationError('Por favor, digite 10 digitos')
-        return data
+        raise ValidationError('Por favor, digite números')
+        
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

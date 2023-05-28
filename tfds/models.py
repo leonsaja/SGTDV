@@ -19,7 +19,7 @@ class ReciboTFD(models.Model):
    updated_at = models.DateTimeField(auto_now=True)
 
    def __str__(self):
-      return self.paciente.nome_completo
+      return f'{self.paciente.nome_completo}'
    
    def total_pag(self):
       items=CodigoSIA.objects.filter(recibo_tfd=self)
@@ -32,7 +32,7 @@ class ReciboTFD(models.Model):
    
 class CodigoSIA(models.Model):
 
-   codigo=models.PositiveIntegerField(verbose_name='Código SIA',null=False,blank=False)
+   codigo=models.CharField(max_length=10, verbose_name='Código SIA',null=False,blank=False)
    valor_unitario=models.DecimalField(verbose_name='Valor Unitário', null=False,blank=False,max_digits=6,decimal_places=2)
    qtd_procedimento=models.PositiveBigIntegerField(verbose_name='Quantidade',null=False,blank=False)
    valor_total=models.DecimalField(verbose_name='Total',null=False,blank=False,max_digits=8,decimal_places=2 )

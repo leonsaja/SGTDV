@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     
     #pacote
     "localflavor",
+    "debug_toolbar",
     
    
     #app
@@ -81,6 +82,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -200,3 +202,9 @@ MESSAGE_TAGS = {
 }
 
 AUTH_USER_MODEL = "usuarios.Usuario"
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]

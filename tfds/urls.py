@@ -1,16 +1,13 @@
 from django.urls import include, path
 
-from tfds.views import DetailReciboTFDView, editartfd, listatfd, tfdcadastro
+from tfds import views as view_r
 
-app_name='tfd'
+app_name='tfds'
 urlpatterns = [
    
-     path("create/tfd/",tfdcadastro,name='add-tfd'),
-     path("list/tfd/",listatfd,name='list-tfd'),
-     path("update/<int:id>/tfd/",editartfd,name='edit-tfd'),
-     path("detail/<int:pk>/tfd/",DetailReciboTFDView.as_view(),name='detail-tfd'),
-
-
-     
-    
+     path("create/tfd/",view_r.reciboTFDCreate,name='add-recibo_tfd'),
+     path("update/<int:id>/tfd/",view_r.reciboTFDUpdate,name='edit-recibo_tfd'),
+     path("list/recibos_tfds/",view_r.ReciboTFDListView.as_view(),name='list-recibo_tfd'),
+     path("detail/<int:pk>/tfd/",view_r.ReciboTFDDetailView.as_view(),name='detail-recibo_tfd'),
+         
 ]

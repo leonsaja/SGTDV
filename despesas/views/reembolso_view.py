@@ -49,8 +49,7 @@ class ReembolsoListView(ListView):
    def get_context_data(self,*args, **kwargs):
       context= super().get_context_data(*args, **kwargs)
       context={
-         'title':'Reembolsos',
-         'diarias':Diaria.objects.filter(reembolso=1),
+         'diarias':Diaria.objects.select_related('profissional').filter(reembolso=1),
       }
       return context
 

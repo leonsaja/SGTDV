@@ -2,9 +2,9 @@ from django.contrib import messages
 from django.db.models import ProtectedError
 from django.http import Http404
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
-from django.views.generic import DeleteView, DetailView, ListView
+from django.views.generic import DetailView, ListView
 
+from despesas.models import Diaria
 from profissionais.forms.form_profissional import (EnderecoForm,
                                                    ProfissionalForm)
 
@@ -12,6 +12,7 @@ from .models import Profissional
 
 
 def profissionalCreate(request):
+
     if request.method == 'POST':
         form=ProfissionalForm(request.POST or None)
         form_endereco=EnderecoForm(request.POST or None)
@@ -49,7 +50,7 @@ def profissionalUpdate(request,id):
         
     form=ProfissionalForm(request.POST or None, instance=profissional)
     form_endereco=EnderecoForm(request.POST or None, instance=profissional.endereco)
-    return render(request,'profissional/form_profissional.html',{'form':form,'endereco':form_endereco})
+    return render(request,'profissional/form_profissional.html',{'form':form,'form_endereco':form_endereco})
 
 def profissionalDelete(request, id):
     profissional=Profissional.objects.get(id=id)
@@ -70,19 +71,20 @@ class ProfissionalDetailView(DetailView):
     
     def get_context_data(self, *args, **kwargs):
         context=super().get_context_data(*args, **kwargs)
-        context['profissional']= Profissional.objects.get(pk=self.kwargs['pk'])
+        context['profissional']= Profissional.objects.select_related('endereco','microarea','estabelecimento').get(id=self.kwargs['pk'])
         
         return context
 
 class ProfissionalListView(ListView):
     model=Profissional
     template_name='profissional/list_profissionais.html'
-    
-    def get_context_data(self, *args, **kwargs):
-        context=super().get_context_data(*args, **kwargs)
-        context['profissionais']=Profissional.objects.all().order_by('-id')
-        return context
-    
+    context_object_name='profissionais'
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+       
+        qs = qs.select_related('endereco','estabelecimento','microarea').order_by('-id')
+        return qs
+
 
 #Profissional Diaria 
 class ProfissionalDiariaListView(ListView):
@@ -91,8 +93,8 @@ class ProfissionalDiariaListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profissional=Profissional.objects.get(pk=self.kwargs['pk'])
-        context["diarias"] = profissional.profissionais.all()
+        profissional=Profissional.objects.select_related('endereco','microarea','estabelecimento').get(id=self.kwargs['pk'])
+        context["diarias"] = Diaria.objects.select_related('profissional').filter(profissional__id=profissional.id)
         context['profissional']=profissional
         print(context['diarias'])
         return context

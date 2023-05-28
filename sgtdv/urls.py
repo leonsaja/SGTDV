@@ -15,6 +15,7 @@ urlpatterns = [
     path('tfds/',include('tfds.urls')),
     path('despesas/',include('despesas.urls')),
     path('especialidades/',include('especialidades.urls')),
+    path('__debug__/', include('debug_toolbar.urls')),
    
         
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

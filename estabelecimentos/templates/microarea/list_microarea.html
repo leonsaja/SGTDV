@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block title %}{{title}}{%endblock title %}
+{% extends 'base.html' %}
 {% block content %}
 <div class="container-fluid">
   <br /><br />
@@ -24,7 +24,6 @@
             <table class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th>Profissional</th>
                   <th>Microárea</th>
                   <th>CNES</th>
                   <th>Estabelecimento</th>
@@ -34,12 +33,6 @@
               <tbody>
                 <tr>
                 {%for microarea in microareas %}
-                    {%for p in microarea.profissional_microarea.all %}
-                    <td>
-                      {{p.nome_completo}}
-                    </td>
-                  
-               
                   <td>{{microarea.microarea}}</td> 
                 <td>{{microarea.estabelecimento.cnes}}</td>
                   <td>{{microarea.estabelecimento}}</td>
@@ -60,7 +53,7 @@
                 </tr>
                 {% include 'microarea/modal_delete_microarea.html'%}
 
-                {%endfor%}
+               
                 {%endfor%}
               </tbody>
             </table>

@@ -32,6 +32,7 @@
                   <th>Nome Completo</th>
                   <th>CPF</th>
                   <th>CNS</th>
+                  
                   <th>Opção</th>
                 </tr>
               </thead>
@@ -43,6 +44,7 @@
                   <td>{{profissional.formt_cpf}}</td>
 
                   <td>{{profissional.cns}}</td>
+                
                   <td>
                     <a
                       href="{% url 'profissionais:detail-profissional' profissional.id %}"

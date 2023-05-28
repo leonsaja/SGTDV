@@ -27,6 +27,12 @@ class MicroAreaListView(ListView):
     context_object_name='microareas'
     template_name='microarea/list_microarea.html'
    
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+       
+        qs = qs.select_related('estabelecimento').order_by('id')
+        return qs
+   
 class MicroAreaDetailView(DetailView):
     model=MicroArea
     context_object_name='microarea'

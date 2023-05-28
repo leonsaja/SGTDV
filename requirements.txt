@@ -1,5 +1,6 @@
 asgiref==3.6.0
 async-timeout==4.0.2
+backports.zoneinfo==0.2.1
 beautifulsoup4==4.12.2
 crispy-bootstrap5==0.7
 Django==4.2.1
@@ -7,9 +8,12 @@ django-adminlte-3==0.1.6
 django-appconf==1.0.5
 django-bootstrap-v5==1.0.11
 django-crispy-forms==2.0
+django-debug-toolbar==4.1.0
 django-localflavor==4.0
+django-redis==5.2.0
 django-select2==8.1.1
 django-widget-tweaks==1.4.12
+mysqlclient==2.1.1
 python-stdnum==1.18
 redis==4.5.5
 soupsieve==2.4.1

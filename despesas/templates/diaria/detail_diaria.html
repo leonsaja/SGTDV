@@ -7,7 +7,7 @@
 
         <div class="col-md-12">
             <div class="text-right">
-                <a href="{% url 'despesas:edit-diaria' diaria.id %}" class="btn btn-primary"><b>Editar Diária</b>
+                <a href="{% url 'despesas:edit-diaria' diaria.id %}" class="btn btn-primary"><strong>Editar Diária</strong>
                 </a>
             </div>
         </div>
@@ -111,7 +111,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class=" text-primary"> <strong>Detalhe do Reembolso</strong>    </h4>
+                        <h4 class="text-primary"> <strong>Detalhe do Reembolso</strong>    </h4>
                     </div>
                     <div class="table-responsive-md">
                         <div class="card-body">
@@ -126,7 +126,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for r in diaria.reembolsos.all%}
+                                    {% for r in reembolsos%}
                                     <div class="table-responsive-md">
 
                                         <tr>
