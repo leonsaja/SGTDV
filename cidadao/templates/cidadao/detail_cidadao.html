@@ -22,11 +22,11 @@
     <div class="row">
       <div class="col-md-6">
         <label for="id_paciente" class="form-label">Nome Completo:</label>
-        <h6 class="text-muted">{{paciente.nome_completo}}</h6>
+        <h6 class="text-muted">{{paciente.nome_completo|upper}}</h6>
       </div>
       <div class="col-md-6">
         <label for="id_email" class="form-label">E-mail:</label>
-        <h6 id='email' class="text-muted">{{paciente.email}}</h6>
+        <h6 id='email' class="text-muted">{{paciente.email|upper}}</h6>
       </div>
     </div>
 
@@ -35,7 +35,7 @@
     <div class="row">
       <div class="col-md-3">
         <label for="id_rg" class="form-label">RG:</label>
-        <h6 id='rg' class="text-muted">{{paciente.rg}}</h6>
+        <h6 id='rg' class="text-muted">{{paciente.rg|upper}}</h6>
       </div>
       <div class="col-md-3">
         <label for="id_cpf" class="form-label">CPF:</label>
@@ -78,12 +78,12 @@
     <div class="row">
       <div class="col-md-6">
         <label for="id_nome_mae" class="form-label">Nome da Mãe:</label>
-        <h6 class="text-muted"> {{paciente.nome_mae}}</h6>
+        <h6 class="text-muted"> {{paciente.nome_mae|upper}}</h6>
       </div>
       <div class="col-md-6">
         <label for="id_nome_pai" class="form-label">Nome da Pai:</label>
         {% if paciente.nome_pai %}
-        <h6 id="pai" class="text-muted"> {{paciente.nome_pai}}</h6>
+        <h6 id="pai" class="text-muted"> {{paciente.nome_pai|upper}}</h6>
         {%else %}
         <h6 id="pai" class="text-muted">-</h6>
         {%endif %}
@@ -95,7 +95,7 @@
     <div class="row">
       <div class="col-md-4">
         <label for="id_logradouro" class="form-label">Logradouro:</label>
-        <h6 class="text-muted"> {{paciente.endereco.logradouro}}</h6>
+        <h6 class="text-muted"> {{paciente.endereco.logradouro|upper}}</h6>
       </div>
 
       <div class="col-md-2">
@@ -105,12 +105,12 @@
 
       <div class="col-md-3">
         <label for="id_bairro" class="form-label">Bairro:</label>
-        <h6 class="text-muted">{{paciente.endereco.bairro}}</h6>
+        <h6 class="text-muted">{{paciente.endereco.bairro|upper}}</h6>
       </div>
 
       <div class="col-md-3">
         <label for="id_complemento" class="form-label">Complemento:</label>
-        <h6 class="text-muted">{{paciente.endereco.complemento}}</h6>
+        <h6 class="text-muted">{{paciente.endereco.complemento|upper}}</h6>
       </div>
     </div>
     <br>
@@ -121,11 +121,11 @@
       </div>
       <div class="col-md-6">
         <label for="id_cidade" class="form-label">Cidade:</label>
-        <h6 class="text-muted">{{paciente.endereco.cidade}}</h6>
+        <h6 class="text-muted">{{paciente.endereco.cidade|upper}}</h6>
       </div>
       <div class="col-md-3">
         <label for="id_estado" class="form-label">Estado:</label>
-        <h6 class="text-muted"> {{paciente.endereco.estado}}</h6>
+        <h6 class="text-muted"> {{paciente.endereco.estado|upper}}</h6>
       </div>
     </div>
   </fieldset>

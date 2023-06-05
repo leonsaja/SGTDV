@@ -1,9 +1,8 @@
 from django import forms
-from django.forms import (NumberInput, Textarea, TextInput, ValidationError,
-                          inlineformset_factory)
+from django.forms import ValidationError, inlineformset_factory
 from django_select2 import forms as s2forms
 
-from tfds.models import CodigoSIA, ReciboTFD
+from tfds.models import CodigoSIA, ReciboPassagemTFD, ReciboTFD
 
 
 class TFDForm(forms.ModelForm):
@@ -19,7 +18,7 @@ class TFDForm(forms.ModelForm):
    def __init__(self, *args, **kwargs):
              super().__init__(*args, **kwargs)
              self.fields['data'].widget.attrs.update({'class':'mask-data'})
-        
+
 class CodigoSIAForm(forms.ModelForm):
     
     class Meta:
@@ -43,9 +42,12 @@ class CodigoSIAForm(forms.ModelForm):
         self.fields['qtd_procedimento'].widget.attrs.update({'class':'form-control'})
         self.fields['valor_total'].widget.attrs.update({'class':'form-control'})
     
+class ReciboPassagemTFDForm(forms.ModelForm):
+    model=ReciboPassagemTFD
+    fields='__all__'
+
 
     
-       
 CodigoSIASet=inlineformset_factory(ReciboTFD,CodigoSIA,form=CodigoSIAForm,extra=1, min_num=1,validate_min=True)
 
 """ widgets={

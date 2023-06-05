@@ -27,6 +27,7 @@ var SPMaskBehavior = function (val) {
 $(function(){
    
     $('.mask-cpf').mask('000.000.000-00', {reverse: true});
+    $('.mask-hora').mask('00:00:00');
     $('.mask-data').mask('00/00/0000');
     $('.mask-cep').mask('00000-000');
     $('.mask-telefone').mask(SPMaskBehavior, spOptions);

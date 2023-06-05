@@ -59,12 +59,13 @@ INSTALLED_APPS = [
     'cidadao',
     'usuarios',
     'despesas',
-    'viagens',
+    'transportes',
     'core',
     'profissionais',
     'tfds',
     'estabelecimentos',
     'especialidades',
+    
     
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

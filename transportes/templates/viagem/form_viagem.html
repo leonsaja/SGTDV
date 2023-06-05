@@ -1,0 +1,124 @@
+{% extends 'base.html' %} {% load widget_tweaks %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+  <br />
+  <div class="col-12 m-2 pl-3">
+    <h4 class=" text-primary"><b>Cadastro de Viagem</b> </h4>
+  </div>
+  <br>
+  <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 px-4 needs-validation" novalidate>
+    {% csrf_token %}
+    <fieldset>
+      <legend class="text-primary"><b>Dados da Viagem</b> </legend>
+      <hr>
+      <br>
+      <div class="row mt-2">
+        <div class="col-md-5">{{form.destino_viagem|as_crispy_field }}
+        </div>
+        <div class="col-md-5">{{form.data_viagem|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.horario_saida|as_crispy_field }}
+
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-4">{{form.carro|as_crispy_field }}
+          </div>
+          <div class="col-md-3">{{form.status|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.motorista|as_crispy_field }}</div>
+
+        </div>
+    </fieldset>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <br>
+
+        {{formset.management_form}}
+
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class=" text-primary"><strong>Passageiro</strong></h4>
+              </div>
+              <!-- /.card-header -->
+              <div class="table-responsive-md">
+                <div class="card-body">
+                  <table class="form table table-bordered">
+                    {% for forms in formset %}
+                    {% if forloop.first %}
+                    <thead>
+                      <tr>
+                        {% for field in forms.visible_fields %}
+                        <th>{{ field.label|capfirst }}</th>
+                        {% endfor %}
+                      </tr>
+                    </thead>
+                    {% endif %}
+                    <tbody>
+                      <tr class="{% cycle 'row1' 'row2' %}">
+                        {% for field in forms.visible_fields %}
+                        <td>
+                          {% if forloop.first %}
+                          {% for hidden in forms.hidden_fields %}
+                          {{ hidden }}
+                          {% endfor %}
+                          {% endif %}
+                          {{ field }}
+                          {{ field.errors.as_ul }}
+                        </td>
+                        {% endfor %}
+                      </tr>
+                    </tbody>
+                    {% endfor %}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12 mb-5">
+          <div class="text-right">
+            <a href="{% url 'transportes:list-viagem'%}" class="btn btn-outline-danger mr-2">Cancelar</a>
+            <button id="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </div>
+      </div>
+
+  </form>
+</div>
+
+{% endblock content%}
+
+{%block scripts %}
+
+<script src='/static/utils/jquery.formset.min.js'></script>
+<script>
+{% comment %} 
+  $(document).ready(function () {
+    let horario = document.getElementById('id_viagem-horario_saida')
+    let data_viagem = document.getElementById('id_viagem-data_viagem')
+    data_viagem.setAttribute('type', 'date')
+    horario.setAttribute('type', 'time')
+
+  });
+
+ {% endcomment %}
+  $('table.form tr').formset({
+    prefix: '{{ formset.prefix }}',
+    addText: "<div><i class='fas fa-plus'></i></div>",
+    deleteText: 'Remover'
+  });
+</script>
+{% endblock scripts %}

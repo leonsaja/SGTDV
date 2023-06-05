@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <br /><br />
+    <div class="row">
+        <div class="container-fluid">
+            <br />
+            
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-right">
+                        <a href="{% url 'transportes:add-viagem' %}"
+                            class="btn btn-primary"><b>Cadastrar Viagem</b>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="logo"><strong>Viagens</strong></h3>
+        
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="table-responsive-md">
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Carro</th>
+                                            <th>Destino</th>
+                                            <th>Motorista</th>
+                                            <th>Data Viagem</th>
+                                            <th>Opção</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {%for viagem in viagens %}
+                                        <tr>
+                                            <td>{{viagem.carro.nome}}</td>
+                                            <td>{{viagem.destino_viagem}}</td>
+                                            <td>{{viagem.motorista.nome_completo}}</td>
+                                            <td>{{viagem.data_viagem }}</td>
+                                           
+        
+                                            
+                                            <td>
+        
+                                                <a href="{% url 'transportes:detail-viagem' viagem.id%}"
+                                                    class="pr-1"><i class="fas fa-solid fa-eye"></i></a>
+        
+                                                <a href="{% url 'transportes:edit-viagem' viagem.id%}"
+                                                    class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
+        
+                                                <a href="#modal--{{viagem.id}}" data-bs-toggle="modal"
+                                                    data-bs-target="#modal--{{viagem.id}}" class="pr-2 text-danger">
+        
+                                                    <i class="fas fa-solid fa-trash-can"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                       {% comment %}  % include 'paciente_viagem/modal_delete_paciente_viagem.html'%} {% endcomment %}
+                                        {%endfor%}
+        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %} {% block scripts %}
+
+{% endblock scripts %}

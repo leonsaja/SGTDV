@@ -1,0 +1,76 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container-fluid">
+  <br />
+
+  <div class="col-12 m-2 pl-3">
+    <h4 class=" text-primary"><b>Cadastro de Usuário </b> </h4>
+  </div>
+
+
+  <br>
+  <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 px-4 needs-validation" novalidate>
+    <fieldset>
+      {% csrf_token %}
+      <legend class="text-primary"> <b> Dados Pessoal</b> </legend>
+      <hr>
+      <br>
+      <div class="row mt-2">
+        <div class="col-md-6">{{form.nome_completo|as_crispy_field }}
+        </div>
+        <div class="col-md-6">{{form.email|as_crispy_field }}</div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-3">{{form.cpf |as_crispy_field }}</div>
+        <div class="col-md-3">{{form.dt_nascimento|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.tipo_usuario|as_crispy_field }}</div>
+      </div>
+      <div class="row">
+       
+      
+        <div class="col-md-6">{{form.password1|as_crispy_field }}</div>
+        <div class="col-md-6">{{form.password2|as_crispy_field }}</div>
+      </div>
+
+    </fieldset>
+    <br />
+    <div class="row">
+      <div class="col-md-12 mb-5">
+        <div class="text-right">
+          <a href="{% url 'usuarios:list-usuario'%}" class="btn btn-outline-danger mr-2">Cancelar</a>
+          <button class="btn btn-primary">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <br /><br /><br />
+</div>
+</div>
+
+
+{% endblock %}
+
+{%block scripts %}
+<script src="/static/utils/buscacep.js"></script>
+
+<script>
+ 
+  
+
+  var verificarCPF = function () {
+    var cpf = document.getElementById("id_cpf");
+    cpf.setAttribute("readonly", "readonly");
+
+    if (cpf.value == '') {
+      cpf.removeAttribute("readonly");
+    }
+    if (cpf.classList.contains('is-invalid')) {
+      cpf.removeAttribute("readonly");
+    }
+  };
+  verificarCPF();
+</script>
+
+{% endblock scripts %}

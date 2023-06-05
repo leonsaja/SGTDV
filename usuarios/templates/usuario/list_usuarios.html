@@ -1,0 +1,71 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container-fluid">
+  <br /><br />
+  <!-- Modal -->
+  <div class="row mb-3">
+            
+    <div class="col-md-12">
+      <div class="text-right">
+          <a href="{% url 'usuarios:add-usuario'%}" class="btn btn-primary"><b>Adicionar Usuário</b>
+          </a>
+      </div>
+    </div>
+    
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="logo"><strong>Usuários</strong></h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="table-responsive-md">
+          <div class="card-body">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th style="width: 10px">#</th>
+                  <th>Nome Completo</th>
+                  <th>CPF</th>
+                  <th>Perfil</th>
+                  <th>Opção</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%for usuario in usuarios %}
+                <tr>
+                  <td >{{usuario.id}}</td>
+                  <td >{{usuario.nome_completo}}</td>
+                  
+                  <td>{{usuario.formt_cpf}}</td>
+
+                  <td>{{usuario.get_tipo_usuario_display}}</td>
+                  <td>
+                    <a
+                      href="{% url 'usuarios:detail-usuario' usuario.id%}"
+                      class="pr-2"
+                      ><i class="fas fa-solid fa-eye"></i
+                    ></a>
+                    <a
+                      href="{% url 'usuarios:edit-usuario' usuario.id%}"
+                      class="pr-1 text-warning"
+                      ><i class="fas fa-edit"></i
+                    ></a>
+                   
+                  </td>
+                </tr>
+               
+                {%endfor%}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Button trigger modal -->
+{% endblock content %} {% block scripts %}
+
+{% endblock scripts %}

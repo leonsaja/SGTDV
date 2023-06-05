@@ -6,7 +6,7 @@ from cidadao.models import Cidadao
 class ReciboTFD(models.Model):
    
    paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='paciente')
-   acompanhante=models.ForeignKey(Cidadao,null=True,blank=True, on_delete=models.PROTECT,related_name='acompanhante')
+   acompanhante=models.ForeignKey(Cidadao,null=True,blank=True, on_delete=models.PROTECT,related_name='recibo_acompanhante')
    municipio_origem=models.CharField(verbose_name='Municipio Origem', max_length=120,null=False,blank=False,default='Santo Antônio do Jacinto-MG')
    municipio_destino=models.CharField(verbose_name='Municipio Destino', max_length=120,null=False,blank=False)
    data_criada = models.DateField(auto_now_add=True, help_text="Data de Criação")
@@ -44,5 +44,18 @@ class CodigoSIA(models.Model):
    def __str__(self):
       return str(self.codigo)
    
-  
 
+class ReciboPassagemTFD(models.Model):
+
+   paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='recibo_passagem_paciente')
+   acompanhante=models.ForeignKey(Cidadao,null=True,blank=True, on_delete=models.PROTECT,related_name='recibo_passagem_acompanhante')
+   meio_transporte=models.CharField(max_length=1,null=False, blank=False,verbose_name='Meio de Transporte', )
+   qta_passagem=models.PositiveIntegerField(verbose_name='Quantidade de Passagem',null=False, blank=False, )
+   trecho =models.CharField(verbose_name='Trecho', null=False, blank=False, max_length=200 )
+   codigosia=models.ForeignKey(CodigoSIA,verbose_name='Código SIA', null=False, blank=False, on_delete=models.PROTECT )
+  
+   created_at = models.DateTimeField(auto_now_add=True)
+   updated_at = models.DateTimeField(auto_now=True)
+
+   def __str__(self):
+      return f'{self.paciente.nome_completo}'

@@ -154,16 +154,22 @@
             </p>
           </a>
           <ul class="nav  nav-treeview">
-            <li class="nav-item">
+           {% comment %}  <li class="nav-item">
               <a href="{% url 'tfds:add-recibo_tfd'%}" class="nav-link link-houver">
 
                 <p class="text-sm nav-child-indent text-muted"> Cadastrar Recibo de TFD</p>
               </a>
-            </li>
+            </li> {% endcomment %}
             <li class="nav-item">
               <a href="{% url 'tfds:list-recibo_tfd'%}" class="nav-link link-houver">
 
-                <p class="text-sm text-muted">Listar Recibos de TFDs </p>
+                <p class="text-sm text-muted"> Recibos de TFDs </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="% url 'tfds:list-recibo_tfd'%}" class="nav-link link-houver">
+
+                <p class="text-sm text-muted"> Recibos de Passagens</p>
               </a>
             </li>
 
@@ -181,13 +187,13 @@
           </a>
           <ul class="nav nav-treeview ">
             <li class="nav-item">
-              <a href="pages/charts/chartjs.html" class="nav-link link-houver">
+              <a href="{% url 'usuarios:add-usuario'%}" class="nav-link link-houver">
 
                 <p class="text-sm text-muted"> Cadastrar Usuário</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="pages/charts/flot.html" class="nav-link link-houver">
+              <a href="{% url 'usuarios:list-usuario'%}" class="nav-link link-houver">
 
                 <p class="text-sm text-muted">Listar Usuários </p>
               </a>
@@ -199,21 +205,21 @@
           <a href="#" class="nav-link">
             <i class=" text-primary nav-icon fas a-sharp fa-solid fa-car"></i>
             <p class="text-md  text-muted ">
-              Viagens
+              Transportes
               <i class="right fas fa-angle-right"></i>
             </p>
           </a>
           <ul class="nav nav-treeview ">
             <li class="nav-item">
-              <a href="pages/charts/chartjs.html" class="nav-link link-houver">
+              <a href="{% url 'transportes:list-viagem'%}" class="nav-link link-houver">
 
-                <p class="text-sm text-muted"> Cadastrar Viagem</p>
+                <p class="text-sm text-muted"> Viagens</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="pages/charts/flot.html" class="nav-link link-houver">
 
-                <p class="text-sm text-muted">Listar Viagens </p>
+                <p class="text-sm text-muted">Carros </p>
               </a>
             </li>
 
