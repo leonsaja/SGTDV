@@ -23,3 +23,9 @@ class ListCarroView(ListView):
     model=Carro
     template_name='carro/list_carros.html'
     context_object_name='carros'
+
+
+class DetailCarraView(DetailView):
+    model=Carro
+    template_name='carro/detail_carro.html'
+    context_object_name='carro'

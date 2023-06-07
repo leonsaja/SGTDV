@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <br /><br />
+    <div class="row">
+        <div class="container-fluid">
+            <br />
+            
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-right">
+                        <a href="{% url 'transportes:add-carro' %}"
+                            class="btn btn-primary"><b>Cadastrar carro</b>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="logo"><strong>Carros</strong></h3>
+        
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="table-responsive-md">
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Carro</th>
+                                            <th>Placa</th>
+                                           
+                                            <th>Opção</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {%for carro in carros %}
+                                        <tr>
+                                            <td>{{carro.id}}</td>
+                                            <td>{{carro.nome}}</td>
+                                            <td>{{carro.placa}}</td>
+                                           
+                                           
+        
+                                            
+                                            <td>
+        
+                                                <a href="% url 'transportes:detail-carro' carro.id%}"
+                                                    class="pr-1"><i class="fas fa-solid fa-eye"></i></a>
+        
+                                                <a href="{% url 'transportes:edit-carro' carro.id%}"
+                                                    class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
+        
+                                                <a href="#modal--{{carro.id}}" data-bs-toggle="modal"
+                                                    data-bs-target="#modal--{{carro.id}}" class="pr-2 text-danger">
+        
+                                                    <i class="fas fa-solid fa-trash-can"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                       {% comment %}  % include 'paciente_carro/modal_delete_paciente_carro.html'%} {% endcomment %}
+                                        {%endfor%}
+        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %} {% block scripts %}
+
+{% endblock scripts %}
