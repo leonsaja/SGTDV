@@ -10,7 +10,7 @@
 
     <div class="col-md-12">
       <div class="text-right">
-        <a href="% url 'profissionais:add-profissional' %}" class="btn btn-primary"><b>Cadastrar Recibo de Passagem</b>
+        <a href="{% url 'tfds:add-recibo_passagem' %}" class="btn btn-primary"><b>Cadastrar Recibo de Passagem</b>
         </a>
       </div>
     </div>
@@ -52,7 +52,7 @@
                       ><i class="fas fa-solid fa-eye"></i
                     ></a>
                     <a
-                      href="% url 'profissionais:edit-profissional' profissional.id %}"
+                      href="{% url 'tfds:edit-recibo_passagem' r.id %}"
                       class="pr-1 text-warning"
                       ><i class="fas fa-edit"></i
                     ></a>
@@ -66,7 +66,7 @@
                     </a>
                   </td>
                 </tr>
-                {% include 'profissional/modal_delete_profissional.html'%}
+               
                 {%endfor%}
               </tbody>
             </table>

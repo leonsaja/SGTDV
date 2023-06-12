@@ -58,5 +58,19 @@
 
 {%block scripts %}
 
+<script src='/static/utils/jquery.formset.js'></script>
 
+<script>
+
+  $(document).ready(function () {
+
+   
+    // Configuração para campos de Real.
+    $("#id_valor_acompanhante_sia").maskMoney({ showSymbol: true, symbol: "R$", decimal: ",", thousands: "." });
+    $("#id_valor_paciente_sia").maskMoney({ showSymbol: true, symbol: "R$", decimal: ",", thousands: "." });
+
+
+  });
+  
+</script>
 {% endblock scripts %}

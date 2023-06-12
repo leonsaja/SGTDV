@@ -61,8 +61,8 @@ class  ReciboPassagemTFD(models.Model):
    codigo_sia_paciente=models.CharField(verbose_name='Código SIA Paciente',max_length=10, null=True, blank=False)
    codigo_sia_acompanhante=models.CharField(verbose_name='Código SIA', max_length=10, null=True, blank=True)
 
-   valor_paciente_sia=models.DecimalField(verbose_name='Valor Unitário', null=True,blank=False,max_digits=6,decimal_places=2)
-   valor_acompanhante_sia=models.DecimalField(verbose_name='Valor Unitário', null=True,blank=False,max_digits=6,decimal_places=2)
+   valor_paciente_sia=models.CharField(verbose_name='Valor', null=True,blank=False,max_length=30)
+   valor_acompanhante_sia=models.CharField(verbose_name='Valor', null=True,blank=False,max_length=30)
 
    data_recibo=models.DateField(verbose_name='Data',null=True,blank=False)
    created_at = models.DateTimeField(auto_now_add=True)

@@ -2,7 +2,7 @@
 python manage.py flush
 
 #Comando para criar um  copia do Banco de dados
-python3 manage.py dumpdata --indent 2 > 'nome do arquivo'.json
+python3 manage.py dumpdata --indent 2 --exclude auth.permission --exclude contenttypes > db.json
 
 #Comando inserir as informações salva no Backup 
 python3 manage.py loaddata 'nomeArquivo'.json
