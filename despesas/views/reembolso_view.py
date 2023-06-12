@@ -49,26 +49,22 @@ class ReembolsoListView(ListView):
    def get_context_data(self,*args, **kwargs):
       context= super().get_context_data(*args, **kwargs)
       context={
-         'diarias':Diaria.objects.select_related('profissional').filter(reembolso=1),
+         'Diarias':Diaria.objects.select_related('profissional').filter(reembolso=1),
       }
       return context
 
 class ReembolsoDetailView(DetailView):
-    model=Reembolso
+    model=Diaria
     template_name='reembolso/detail_reembolso.html'
    
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+       
         context={
-            'title':'Reembolso',
-            'reembolso':Reembolso.objects.get(id=self.kwargs['pk']),
+            'diaria':Diaria.objects.select_related('profissional').get(id=self.kwargs['pk']),
         }
         return context
 
+
 class ReembolsoDeleteView(DeleteView):
-   model=Reembolso
-   success_url=reverse_lazy('despesas:list-reembolso')   
-   
-   def get(self, request,*args, **kwargs):
-         return self.post(request, *args, **kwargs)
-    
+   pass

@@ -8,6 +8,20 @@ from utils.django_form import validarCNS, validarCpf
 
 class ProfissionalForm(forms.ModelForm):
     
+    dt_nascimento = forms.DateField(
+        label='Data de Nascimento',
+        widget=forms.DateInput(
+            format='%Y-%m-%d',
+            attrs={
+                'type': 'date',
+            }),
+        input_formats=('%Y-%m-%d',),
+    )
+    telefone = forms.CharField(
+        label='Telefone',widget=forms.TextInput(attrs={'placeholder':"(xx) xxxxx-xxxx"}))
+    telefone1 = forms.CharField(
+        label='Celular',widget=forms.TextInput(attrs={'placeholder':"(xx) xxxxx-xxxx"})) 
+    
     class Meta:
         model=Profissional
         exclude=('endereco','status',)
@@ -38,6 +52,9 @@ class ProfissionalForm(forms.ModelForm):
 
 class EnderecoForm(forms.ModelForm):
 
+    cep = forms.CharField(
+        label='CEP',widget=forms.TextInput(attrs={'placeholder':"00000-000"}))
+    
     class Meta:
         model=Endereco
         fields='__all__'

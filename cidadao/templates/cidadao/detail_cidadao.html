@@ -35,7 +35,12 @@
     <div class="row">
       <div class="col-md-3">
         <label for="id_rg" class="form-label">RG:</label>
+        {% if paciente.rg %}
         <h6 id='rg' class="text-muted">{{paciente.rg|upper}}</h6>
+        {%else%}
+        <h6 id='id_tel' class="text-muted">-</h6>
+        {%endif%}
+      
       </div>
       <div class="col-md-3">
         <label for="id_cpf" class="form-label">CPF:</label>
@@ -55,7 +60,7 @@
     <div class="row ">
       <div class="col-md-3">
         <label for="id_dt_nascimento" class="form-label">Data de Nascimento:</label>
-        <h6 class="text-muted">{{paciente.dt_nascimento}}</h6>
+        <h6 class="text-muted">{{paciente.dt_nascimento|date:"d/m/Y"|default:'---'}}</h6>
       </div>
       <div class="col-md-3">
         <label for="id_telefone" class="form-label">Telefone:</label>

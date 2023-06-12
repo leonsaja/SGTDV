@@ -7,7 +7,7 @@
 
     <div class="col-md-12">
       <div class="text-right">
-        <a href="{% url 'despesas:add-diaria' %}" class="btn btn-primary"><b>Criar Diaria</b>
+        <a href="{% url 'despesas:add-diaria' %}" class="btn btn-primary"><b>Criar Diária</b>
         </a>
       </div>
     </div>
@@ -35,7 +35,7 @@
                 </tr>
               </thead>
               <tbody>
-                {%for diaria in diarias %}
+                {%for diaria in Diarias %}
 
 
                 <tr>
@@ -54,13 +54,13 @@
                     <a href="{% url 'despesas:detail-diaria' diaria.id%}" class="pr-2"><i
                         class="fas fa-solid fa-eye"></i></a>
 
-                    <a href="{% url 'despesas:edit-reembolso' diaria.id%}" class="pr-1 text-warning"><i
-                        class="fas fa-edit"></i></a>
+                   
 
                    
                   </td>
                 </tr>
                
+
                 {%endfor%}
 
               </tbody>

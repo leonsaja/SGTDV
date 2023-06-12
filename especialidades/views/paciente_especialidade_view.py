@@ -26,7 +26,7 @@ def pacienteEspecialidadeCreate(request,id):
             form=form.save(commit=False)
             form.especialidade=especialidade
             form.save()
-            return redirect('especialidades:list-especialidade')
+            return redirect('especialidades:list-paciente-especialidade',especialidade.id)
 
     
     form=PacienteEspecialidadeForm(request.POST or None)
@@ -52,7 +52,7 @@ def pacienteEspecialidadeUpdate(request,id):
             form=form.save(commit=False)
             form.especialidade=especialidade
             form.save()
-            return redirect('especialidades:detail-especialidade',especialidade.id)
+            return redirect('especialidades:list-paciente-especialidade',especialidade.id)
 
     else:
         form=PacienteEspecialidadeForm(instance=paciente_especialidade)
@@ -80,12 +80,11 @@ def pacienteEspecialidadeDelete(request,id):
     finally:
         return redirect('especialidades:detail-especialidade', especialidade.id)    
 
-    
 class PacienteEspecialidadeListView(ListView):
     
     model=PacienteEspecialidade
     template_name='paciente_especialidade/list_pacientes_especialidade.html'
-    context_object_name='especialidades'
+
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)

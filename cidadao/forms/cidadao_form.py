@@ -8,6 +8,20 @@ from ..models import Cidadao, Endereco
 
 
 class CidadaoForm(forms.ModelForm):
+    dt_nascimento = forms.DateField(
+        label='Data de Nascimento',
+        widget=forms.DateInput(
+            format='%Y-%m-%d',
+            attrs={
+                'type': 'date',
+            }),
+        input_formats=('%Y-%m-%d',),
+    )
+    telefone = forms.CharField(
+        label='Telefone',widget=forms.TextInput(attrs={'placeholder':"(xx) xxxxx-xxxx"}))
+    telefone1 = forms.CharField(
+        label='Celular',widget=forms.TextInput(attrs={'placeholder':"(xx) xxxxx-xxxx"}))
+   
     
     class Meta:
         model=Cidadao
@@ -34,12 +48,14 @@ class CidadaoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['cpf'].widget.attrs.update({'class':'mask-cpf'})
-        self.fields['dt_nascimento'].widget.attrs.update({'class':'mask-data'})
+        """ self.fields['dt_nascimento'].widget.attrs.update({'class':'mask-data'}) """
         self.fields['telefone'].widget.attrs.update({'class':'mask-telefone'})
         self.fields['telefone1'].widget.attrs.update({'class':'mask-celular'})
                
 class EnderecoForm(forms.ModelForm):
-    
+    cep = forms.CharField(
+        label='CEP',widget=forms.TextInput(attrs={'placeholder':"00000-000"}))
+        
     class Meta:
         model=Endereco
         fields='__all__'

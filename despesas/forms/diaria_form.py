@@ -7,8 +7,22 @@ from ..models import Diaria
 
 class DiariaForm(forms.ModelForm):
 
-    descricao=forms.CharField(label='Descrição', widget=forms.Textarea( attrs={'placeholder':'Digite a descrição da viagem','rows':3,'cols':10}))
+    descricao=forms.CharField(label='Descrição', widget=forms.Textarea( attrs={'placeholder':'Digite a descrição da viagem...','rows':3,'cols':10}))
     obs=forms.CharField(label='Observação', required=False, widget=forms.Textarea( attrs={'rows':3,'cols':10}))
+    data_diaria = forms.DateField(
+        label='Data',
+        widget=forms.DateInput(
+            format='%Y-%m-%d',
+            attrs={
+                'type': 'date',
+            }),
+        input_formats=('%Y-%m-%d',),
+    )
+    valor = forms.CharField(
+        label='Valor',widget=forms.TextInput(attrs={'placeholder':"R$ 0,00"}))
+
+    total = forms.CharField(
+        label='Subtotal',widget=forms.TextInput(attrs={'placeholder':"R$ 0,00"}))
 
     class Meta:
         model=Diaria
@@ -36,7 +50,7 @@ class DiariaForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['data_diaria'].widget.attrs.update({'class':'mask-data'})
+        """  self.fields['data_diaria'].widget.attrs.update({'class':'mask-data'}) """
         self.fields['valor'].widget.attrs.update({'class':'mask-money'})
 
 

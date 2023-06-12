@@ -42,19 +42,5 @@ class CodigoSIAForm(forms.ModelForm):
         self.fields['qtd_procedimento'].widget.attrs.update({'class':'form-control'})
         self.fields['valor_total'].widget.attrs.update({'class':'form-control'})
     
-class ReciboPassagemTFDForm(forms.ModelForm):
-    model=ReciboPassagemTFD
-    fields='__all__'
-
-
-    
 CodigoSIASet=inlineformset_factory(ReciboTFD,CodigoSIA,form=CodigoSIAForm,extra=1, min_num=1,validate_min=True)
 
-""" widgets={
-    'codigo':NumberInput(attrs={'class':'form-control'}),
-    'valor_unitario':NumberInput(attrs={'class':'form-control'}),
-    'qtd_procedimento':NumberInput(attrs={'class':'form-control'}),
-    'valor_total':NumberInput(attrs={'class':'form-control'}),
-
-
-} """

@@ -20,7 +20,7 @@
             </legend>
             <hr>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2 ">
                     <label for="id_profissional" class="form-label">Nome do Profissional:</label>
                     <h6 class="text-muted">{{diaria.profissional.nome_completo|upper}}</h6>
                 </div>
@@ -40,6 +40,10 @@
                 <div class="col-md-2">
                     <label for="id_reembolso" class="form-label">Reembolso:</label>
                     <h6 class="text-muted">{{diaria.get_reembolso_display}}</h6>
+                </div>
+                <div class="col-md-2">
+                    <label for="id_data" class="form-label">Data:</label>
+                    <h6 class="text-muted">{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</h6>
                 </div>
             </div>
 
@@ -64,11 +68,11 @@
 
                 <div class="col-md-2">
                     <label for="id_valor" class="form-label">Valor:</label>
-                    <h6 class="text-muted">{{diaria.valor}}</h6>
+                    <h6 class="text-muted">R$ {{diaria.valor}}</h6>
                 </div>
                 <div class="col-md-2">
                     <label for="id_total" class="form-label">Subtotal:</label>
-                    <h6 class="text-muted">{{diaria.total}}</h6>
+                    <h6 class="text-muted">R$ {{diaria.total}}</h6>
                 </div>
 
             </div>

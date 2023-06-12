@@ -17,14 +17,34 @@ class DiariaCreateView(CreateView):
    model=Diaria
    form_class=DiariaForm 
    template_name='diaria/form_diaria.html'
-   success_url=reverse_lazy('despesas:list-diaria')
+   """ success_url=reverse_lazy('despesas:list-diaria') """
+
+
+   def form_valid(self,form ):
+       self.object = form.save()
+
+       if self.object.reembolso == '1':
+           return redirect ('despesas:add-reembolso', self.object.id)
+       else:
+           return redirect('despesas:list-diaria')
+   
 
 class DiariaUpdateView(UpdateView):
 
-    model=Diaria
+    model=Diaria             
     form_class=DiariaForm
     template_name='diaria/form_diaria.html'
-    success_url=reverse_lazy('despesas:list-diaria')
+ 
+
+    def form_valid(self,form ):
+       self.object = form.save()
+      
+       if self.object.reembolso == '1':
+           return redirect ('despesas:add-reembolso', self.object.id)
+       else:
+            return redirect('despesas:list-diaria')
+
+
 
 class DiariaListView(ListView):
     model=Diaria

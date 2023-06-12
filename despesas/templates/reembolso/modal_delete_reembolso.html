@@ -1,6 +1,6 @@
 <div
   class="modal fade"
-  id="modal--{{reembolso.id}}"
+  id="modal--{{diaria.id}}"
   aria-labelledby="exampleModalLabel" 
   aria-hidden="true"
   tabindex="-1"
@@ -20,11 +20,11 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <p class="logo m-3">{{reembolso.profissional.nome_completo}}</p>
+          <p class="logo m-3">{{diaria.profissional.nome_completo}}</p>
         </div>
       </div>
       <div class="modal-footer">
-        <form method="POST" action="% url 'despesas:del-reembolso' reembolso.id%}" id="id_form">
+        <form method="POST" action="{% url 'despesas:del-reembolso' diaria.id%}" id="id_form">
           <button
             type="button"
             class="btn btn-outline-danger"

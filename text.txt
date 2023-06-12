@@ -96,3 +96,20 @@ def form_valid(self, form):
             servico.instance = self.object
             servico.save()
     return super(SolicitacaoServicoCreate, self).form_valid(form)
+
+
+
+
+
+
+
+
+
+""" widgets={
+    'codigo':NumberInput(attrs={'class':'form-control'}),
+    'valor_unitario':NumberInput(attrs={'class':'form-control'}),
+    'qtd_procedimento':NumberInput(attrs={'class':'form-control'}),
+    'valor_total':NumberInput(attrs={'class':'form-control'}),
+
+
+} """

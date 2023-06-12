@@ -45,15 +45,26 @@ class CodigoSIA(models.Model):
       return str(self.codigo)
    
 
-class ReciboPassagemTFD(models.Model):
+class  ReciboPassagemTFD(models.Model):
+
+   MEIO_TRANSPORTE=(
+      ('1','1-TERRESTRE'),
+      ('2','2-AÉREO'),
+      ('3','3-OUTROS')
+   )
 
    paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='recibo_passagem_paciente')
    acompanhante=models.ForeignKey(Cidadao,null=True,blank=True, on_delete=models.PROTECT,related_name='recibo_passagem_acompanhante')
-   meio_transporte=models.CharField(max_length=1,null=False, blank=False,verbose_name='Meio de Transporte', )
+   meio_transporte=models.CharField(max_length=1,null=False, blank=False,verbose_name='Meio de Transporte', choices=MEIO_TRANSPORTE)
    qta_passagem=models.PositiveIntegerField(verbose_name='Quantidade de Passagem',null=False, blank=False, )
    trecho =models.CharField(verbose_name='Trecho', null=False, blank=False, max_length=200 )
-   codigosia=models.ForeignKey(CodigoSIA,verbose_name='Código SIA', null=False, blank=False, on_delete=models.PROTECT )
-  
+   codigo_sia_paciente=models.CharField(verbose_name='Código SIA Paciente',max_length=10, null=True, blank=False)
+   codigo_sia_acompanhante=models.CharField(verbose_name='Código SIA', max_length=10, null=True, blank=True)
+
+   valor_paciente_sia=models.DecimalField(verbose_name='Valor Unitário', null=True,blank=False,max_digits=6,decimal_places=2)
+   valor_acompanhante_sia=models.DecimalField(verbose_name='Valor Unitário', null=True,blank=False,max_digits=6,decimal_places=2)
+
+   data_recibo=models.DateField(verbose_name='Data',null=True,blank=False)
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
 

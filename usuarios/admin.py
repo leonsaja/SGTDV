@@ -10,7 +10,7 @@ class CustomUserAdmin(UserAdmin):
     add_form = CadastroUsuarioForm
     form = EditarUsuarioForm
     model = Usuario
-    list_display = ("nome_completo", "is_staff", "is_active",)
+    list_display = ('cpf',"nome_completo", "is_staff", "is_active",)
     list_filter = ("email", "is_staff", "is_active",)
     fieldsets = (
         (None, {"fields": ("email", "password","nome_completo","cpf","dt_nascimento",)}),

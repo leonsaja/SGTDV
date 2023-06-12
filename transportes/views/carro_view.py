@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from ..forms.carro_form import CarroForm
@@ -11,6 +12,7 @@ class CarroCreateView(CreateView):
     form_class=CarroForm
     template_name='carro/form_carro.html'
     context_object_name='form'
+    success_url=reverse_lazy('transportes:list-carro')
 
 class CarroUpdateView(UpdateView):  
 
@@ -18,6 +20,7 @@ class CarroUpdateView(UpdateView):
     form_class=CarroForm
     template_name='carro/form_carro.html'
     context_object_name='form'
+    success_url=reverse_lazy('transportes:list-carro')
 
 class ListCarroView(ListView):
     model=Carro

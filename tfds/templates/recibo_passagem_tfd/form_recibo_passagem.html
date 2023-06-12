@@ -1,0 +1,62 @@
+{% extends 'base.html' %} {% load widget_tweaks %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+  <br />
+  <div class="col-12 m-2 pl-3">
+    <h4 class=" text-primary"><b>Tratamento Fora do Domicílio-TFD</b> </h4>
+  </div>
+  <br>
+  <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 px-4 needs-validation" novalidate>
+    {% csrf_token %}
+    <fieldset>
+      <legend class="text-primary"><strong>Dados do Recibo de Passagem                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </strong> </legend>
+      <hr>
+      <br>
+        <div class="row mt-2">
+            <div class="col-md-5">{{form.paciente|as_crispy_field }}</div>
+            <div class="col-md-2">{{form.codigo_sia_paciente|as_crispy_field }}</div>
+              <div class="col-md-2">{{form.valor_paciente_sia|as_crispy_field}}</div>
+              <div class="col-md-3">{{form.data_recibo|as_crispy_field }}</div>
+
+            </div>
+       
+        <div class="row mt-2">
+          <div class="col-md-5">{{form.acompanhante|as_crispy_field }}</div>
+          <div class="col-md-2">{{form.codigo_sia_acompanhante|as_crispy_field }}</div>
+          <div class="col-md-2">{{form.valor_acompanhante_sia|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.qta_passagem|as_crispy_field }}</div>
+
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-5">{{form.trecho|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.meio_transporte|as_crispy_field }}</div>
+
+        </div>
+    </fieldset>
+
+    
+
+
+    <div class="row">
+      <div class="col-md-12 mb-5">
+        <div class="text-right">
+          <a href="{% url 'tfds:list-recibo_tfd'%}" class="btn btn-outline-danger mr-2">Cancelar</a>
+          <button id="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+{% endblock content%}
+
+{%block scripts %}
+
+
+{% endblock scripts %}
