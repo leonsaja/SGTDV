@@ -1,0 +1,98 @@
+{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+
+<div class="descricaoiner-fluid">
+    <br />
+
+    <div class="row m-2">
+
+        <div class="col-md-12">
+            <div class="text-right">
+                <a href="{% url 'tfds:edit-recibo_passagem' recibo.id %}" class="btn btn-primary"><b> Editar Recibo de
+                        Passagem</b>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-12 px-4">
+        <br />
+        <div class="row">
+            <div class=" col-md-6">
+                <h4 class=" text-primary"><strong>Detalhe do Recibo de Passagem </strong> </h4>
+
+            </div>
+        </div>
+
+        <br />
+
+
+        <div class="row">
+            <div class="col-md-4">
+                <label for="id_paciente" class="form-label">Nome do Paciente:</label>
+                <h6 class="text-muted">{{recibo.paciente.nome_completo|upper}}</h6>
+
+            </div>
+            <div class="col-md-3">
+                <label for="id_codigo_sia_paciente" class="form-label">Código SIA:
+                    <h6 class="text-muted">{{recibo.codigo_sia_paciente|upper}}</h6>
+
+            </div>
+            <div class="col-md-3">
+                <label for="id_valor_paciente_sia" class="form-label">Valor :
+                    <h6 class="text-muted">{{recibo.valor_paciente_sia|upper}}</h6>
+
+            </div>
+            <div class="col-md-2">
+                <label for="id_data_recibo" class="form-label">Data :
+                    <h6 class="text-muted">{{recibo.data_recibo}}</h6>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="id_acompanhante" class="form-label">Nome do Acompanante:
+                    {% if recibo.acompanhante%}
+                    <h6 class="text-muted">{{recibo.acompanhante.nome_completo|upper}}</h6>
+                    {%else%}
+                    <h6 class="text-muted">-</h6>
+                    {%endif%}
+
+            </div>
+            <div class="col-md-3">
+                <label for="id_codigo_sia_acompanhante" class="form-label">Código SIA:
+                    <h6 class="text-muted">{{recibo.codigo_sia_acompanhante|upper}}</h6>
+
+            </div>
+            <div class="col-md-2">
+                <label for="id_valor_acompanhante_sia" class="form-label">Valor :
+                    <h6 class="text-muted">{{recibo.valor_acompanhante_sia|upper}}</h6>
+
+            </div>
+            <div class="col-md-3">
+                <label for="id_qta_passagem" class="form-label">Quantidade Passagem :
+                    <h6 class="text-muted">{{recibo.qta_passagem|upper}}</h6>
+
+            </div>
+            
+           
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="id_trecho" class="form-label">Trecho:</label>
+                <h6 class="text-muted">{{recibo.trecho|upper}}</h6>
+
+            </div>
+            <div class="col-md-3">
+                <label for="id_meio_transporte" class="form-label">Meio de Transporte:</label>
+                <h6 class="text-muted">{{recibo.get_meio_transporte_display}}</h6>
+
+            </div>
+            
+        </div>
+        <br>
+       
+    </div>
+</div>
+{% endblock content %}

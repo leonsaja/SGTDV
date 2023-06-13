@@ -8,10 +8,22 @@ from utils.django_form import validarCpf
 
 class CadastroUsuarioForm(UserCreationForm):
     
+    dt_nascimento = forms.DateField(
+        label='Data de Nascimento',
+        widget=forms.DateInput(
+            format='%Y-%m-%d',
+            attrs={
+                'type': 'date',
+            }),
+        input_formats=('%Y-%m-%d',),
+    )
     class Meta:
         model = get_user_model()
         fields = ['nome_completo', 'email','cpf','password1', 'password2','dt_nascimento','tipo_usuario',]
-
+        """ widget={
+            'dt_nascimento':forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date', }),
+        }  """   
+    
     def clean_cpf(self):
       
         data_cpf=self.cleaned_data.get('cpf')
@@ -27,7 +39,6 @@ class CadastroUsuarioForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['cpf'].widget.attrs.update({'class':'mask-cpf'})
-        self.fields['dt_nascimento'].widget.attrs.update({'class':'mask-data'})
 
 class EditarUsuarioForm(UserChangeForm):
   

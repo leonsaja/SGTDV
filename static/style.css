@@ -74,6 +74,25 @@ body {
   box-shadow: 0 14px 28px rgba(255, 255, 255, 0.788), 0 10px 10px rgba(0, 0, 0, 0.22) !important;
 }
 
+.text-search {
+  width:100%;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 14px;
+  font-size: 16px;
+  background-color: white;
+  /* background-image: url('/static/img/search-icon.png'); */
+  background-position: 10px 10px; 
+  background-repeat: no-repeat;
+  padding: 3px;
+  transition: width 0.4s ease-in-out;
+
+
+}
+
+.text-search:focus {
+  width: 100%;
+}
 
 .sidebar-menu{
 

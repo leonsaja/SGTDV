@@ -1,13 +1,13 @@
 from django import forms
-from django_select2 import forms as s2forms
 from django.core.exceptions import ValidationError
+from django_select2 import forms as s2forms
 
 from ..models import ReciboPassagemTFD
 
 
 class ReciboPassagemTFDForm(forms.ModelForm):
 
-    codigo_sia_paciente=forms.CharField(label='Código Sia', widget=forms.TextInput())
+    
 
     data_recibo = forms.DateField(
         label='Data',
@@ -22,7 +22,7 @@ class ReciboPassagemTFDForm(forms.ModelForm):
         label='Valor',widget=forms.TextInput(attrs={'placeholder':"R$ 0,00"}))
 
     valor_acompanhante_sia = forms.CharField(
-        label='Subtotal',widget=forms.TextInput(attrs={'placeholder':"R$ 0,00"}))
+        label='Valor',widget=forms.TextInput(attrs={'placeholder':"R$ 0,00"}), required=False)
 
     class Meta:
         model=ReciboPassagemTFD

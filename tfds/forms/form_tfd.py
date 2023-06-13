@@ -5,9 +5,20 @@ from django_select2 import forms as s2forms
 from tfds.models import CodigoSIA, ReciboPassagemTFD, ReciboTFD
 
 
-class TFDForm(forms.ModelForm):
+class RecibcoTFDForm(forms.ModelForm):
    
-   class Meta:
+    data = forms.DateField(
+        label='Data',
+        widget=forms.DateInput(
+            format='%Y-%m-%d',
+            attrs={
+                'type': 'date',
+            }),
+        input_formats=('%Y-%m-%d',),
+    )
+
+
+    class Meta:
         model=ReciboTFD
         fields='__all__'
         widgets = {
@@ -15,9 +26,8 @@ class TFDForm(forms.ModelForm):
             'acompanhante':s2forms.Select2Widget(),
                 
         }
-   def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
              super().__init__(*args, **kwargs)
-             self.fields['data'].widget.attrs.update({'class':'mask-data'})
 
 class CodigoSIAForm(forms.ModelForm):
     

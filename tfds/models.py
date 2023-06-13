@@ -58,11 +58,12 @@ class  ReciboPassagemTFD(models.Model):
    meio_transporte=models.CharField(max_length=1,null=False, blank=False,verbose_name='Meio de Transporte', choices=MEIO_TRANSPORTE)
    qta_passagem=models.PositiveIntegerField(verbose_name='Quantidade de Passagem',null=False, blank=False, )
    trecho =models.CharField(verbose_name='Trecho', null=False, blank=False, max_length=200 )
-   codigo_sia_paciente=models.CharField(verbose_name='Código SIA Paciente',max_length=10, null=True, blank=False)
+  
+   codigo_sia_paciente=models.CharField(verbose_name='Código SIA',max_length=10, null=True, blank=False)
    codigo_sia_acompanhante=models.CharField(verbose_name='Código SIA', max_length=10, null=True, blank=True)
 
    valor_paciente_sia=models.CharField(verbose_name='Valor', null=True,blank=False,max_length=30)
-   valor_acompanhante_sia=models.CharField(verbose_name='Valor', null=True,blank=False,max_length=30)
+   valor_acompanhante_sia=models.CharField(verbose_name='Valor', null=True,blank=True,max_length=30)
 
    data_recibo=models.DateField(verbose_name='Data',null=True,blank=False)
    created_at = models.DateTimeField(auto_now_add=True)

@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView
 
-from tfds.forms.form_tfd import CodigoSIASet, TFDForm
+from tfds.forms.form_tfd import CodigoSIASet, RecibcoTFDForm
 from tfds.models import CodigoSIA, ReciboTFD
 
 
@@ -9,14 +9,14 @@ def reciboTFDCreate(request):
     tfd=ReciboTFD()
     if request.method == 'POST':
 
-        form = TFDForm(request.POST,instance=tfd,prefix='recibo' )
+        form = RecibcoTFDForm(request.POST,instance=tfd,prefix='recibo' )
         formset=CodigoSIASet(request.POST,instance=tfd,prefix='codigo')
         if form.is_valid() and formset.is_valid():
             form.save()
             formset.save()
             return redirect('tfds:list-recibo_tfd')
 
-    form = TFDForm(request.POST or None,instance=tfd,prefix='recibo')
+    form = RecibcoTFDForm(request.POST or None,instance=tfd,prefix='recibo')
     formset=CodigoSIASet(request.POST or None,instance=tfd,prefix='codigo')
     
     return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset})
@@ -25,14 +25,14 @@ def reciboTFDUpdate(request,id):
     recibo_tfd=get_object_or_404(ReciboTFD, pk=id)
 
     if request.method =='POST':
-        form=TFDForm(request.POST, instance=recibo_tfd,prefix='recibo')
+        form=RecibcoTFDForm(request.POST, instance=recibo_tfd,prefix='recibo')
         formset=CodigoSIASet(request.POST, instance=recibo_tfd,prefix='codigo')
         if form.is_valid() and formset.is_valid():
            form.save()
            formset.save()
            return redirect('tfds:list-recibo_tfd')
 
-    form=TFDForm(request.POST or None, instance=recibo_tfd,prefix='recibo')
+    form=RecibcoTFDForm(request.POST or None, instance=recibo_tfd,prefix='recibo')
     formset=CodigoSIASet(request.POST or None, instance=recibo_tfd,prefix='codigo')
     return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset})
 

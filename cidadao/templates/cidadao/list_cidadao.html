@@ -1,22 +1,58 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container-fluid">
-  <br /><br />
+  <br />
   <!-- Modal -->
   <div class="row mb-3">
-            
     <div class="col-md-12">
       <div class="text-right">
-          <a href="{% url 'cidadao:add-cidadao' %}" class="btn btn-primary"><b>Adicionar Cidadão</b>
-          </a>
+        <a href="{% url 'cidadao:add-cidadao' %}" class="btn btn-primary"><b>Adicionar Cidadão</b>
+        </a>
       </div>
     </div>
-    
+    <div class="container">
+      <div class="row ">
+        <div>
+          <form class="col-md-10  offset-md-2">
+            <div class="row">
+              <div class="col-md-10">
+                <label for="text-search"><strong> Buscar por Nome/CPF</strong></label>
+                <input type="search" class="form-control text-search" id="text-search">
+                {% csrf_token %}
+              </div>
+            </div>
+            <div class="row">
+
+              <div class="col-md-3 mt-2">
+                <label for="id_td_nascimento">Data de Nascimento:</label>
+                <input type="date" class="form-control" id="id_td_nascimento">
+
+              </div>
+              <div class="col-md-7 mt-2">
+                <label for="id_nome_mae">Nome da Mãe:</label>
+                <input type="text" class="form-control" id="id_nome_mae">
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-10 mt-3">
+                <div class="float-right">
+                  <button type="submit" class=" btn btn-primary">Buscar</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 mt-2">
       <div class="card">
         <div class="card-header">
-          <h3 class="logo">Pacientes</h3>
+          <h3 class="logo">Pacientes
+          </h3>
         </div>
         <!-- /.card-header -->
         <div class="table-responsive-md">
@@ -36,27 +72,17 @@
                 <tr>
                   <td id="paciente_id">{{paciente.id}}</td>
                   <td id="paciente_nome">{{paciente.nome_completo}}</td>
-                  
+
                   <td>{{paciente.formt_cpf}}</td>
 
                   <td>{{paciente.cns}}</td>
                   <td>
-                    <a
-                      href="{% url 'cidadao:detail-cidadao' paciente.id%}"
-                      class="pr-2"
-                      ><i class="fas fa-solid fa-eye"></i
-                    ></a>
-                    <a
-                      href="{% url 'cidadao:edit-cidadao' paciente.id%}"
-                      class="pr-1 text-warning"
-                      ><i class="fas fa-edit"></i
-                    ></a>
-                    <a
-                      type="button"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modal--{{paciente.id}}"
-                      class="pr-2 text-danger"
-                    >
+                    <a href="{% url 'cidadao:detail-cidadao' paciente.id%}" class="pr-2"><i
+                        class="fas fa-solid fa-eye"></i></a>
+                    <a href="{% url 'cidadao:edit-cidadao' paciente.id%}" class="pr-1 text-warning"><i
+                        class="fas fa-edit"></i></a>
+                    <a type="button" data-bs-toggle="modal" data-bs-target="#modal--{{paciente.id}}"
+                      class="pr-2 text-danger">
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>
                   </td>
