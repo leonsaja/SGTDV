@@ -1,6 +1,8 @@
 
 from django.contrib import messages
 from django.db.models import ProtectedError
+from django.db.models import Q
+
 from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -52,7 +54,21 @@ class DiariaListView(ListView):
     context_object_name='diarias'
     
     def get_queryset(self, *args, **kwargs):
-        qs = super().get_queryset(*args, **kwargs)
+        qs = super(DiariaListView,self).get_queryset(*args, **kwargs)
+        search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
+        data_inicio=self.request.GET.get('data_inicio',None)
+        print('data',data_inicio)
+        if search_nome_cpf:
+            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=search_nome_cpf)| \
+                                     Q(profissional__cpf__icontains=search_nome_cpf))
+            return queryset
+        
+        if data_inicio:
+            queryset=qs.select_related('profissional').filter(Q(data_diaria__lte=data_inicio))
+            print('queryset',queryset)
+
+            return queryset
+    
         qs = qs.select_related('profissional').all().order_by('profissional__nome_completo')
         return qs
     
