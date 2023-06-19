@@ -7,12 +7,62 @@
 
     <div class="col-md-12">
       <div class="text-right">
-        <a href="{% url 'despesas:add-diaria' %}" class="btn btn-primary"><b>Criar Diária</b>
+        <a href="{% url 'despesas:add-diaria' %}" class="btn btn-primary"><b>Cadastrar Diária</b>
         </a>
       </div>
     </div>
 
   </div>
+  <div class="container">
+    <div class="row ">
+
+      <form class="col-md-10  offset-md-2 needs-validation" action="{% url 'despesas:list-reembolso'%}" method="GET"
+        id="validar-form">
+        
+        <div class="row">
+          <div class="col-md-10">
+            <div class="alert alert-danger d-none" role="alert">
+              Insira algum filtro para realizar a busca.
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-10">
+            <label for="search_nome_cpf"><strong> Busque por Nome/CPF</strong></label>
+            <input type="search" name="search_nome_cpf" class="form-control" value="{{request.GET.search_nome_cpf}}"
+              id="search_nome_cpf">
+
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="col-md-3 mt-2">
+            <label for="id_data">Data</label>
+            <input type="date" name="data" class="form-control" id="id_data" value="{{request.GET.data}}">
+          </div>
+          <div class="col-md-7 mt-2">
+            <br>
+            <div class="float-right">
+              <a class="btn mr-2" href="{% url 'despesas:list-reembolso'%}" style="background-color:#DADADA;"> Limpar
+                Filtros</a>
+              <button type="submit" class=" btn btn-primary ">Buscar</button>
+
+            </div>
+
+          </div>
+        </div>
+        <div class="row">
+         
+
+        </div>
+
+      </form>
+
+    </div>
+    <br>
+  </div>
+</div>
 
   <div class="row">
     <div class="col-md-12">
@@ -31,11 +81,12 @@
                   <th>Nome Profissional</th>
                   <th>CPF</th>
                   <th>CNS</th>
+                  <th>Data Diária</th>
                   <th>Opção</th>
                 </tr>
               </thead>
               <tbody>
-                {%for diaria in Diarias %}
+                {%for diaria in diarias %}
 
 
                 <tr>
@@ -45,6 +96,7 @@
                   <td>{{diaria.profissional.formt_cpf}}</td>
 
                   <td>{{diaria.profissional.cns}}</td>
+                  <td>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</td>
                   <td>
 
                     <a href="{% url 'despesas:add-reembolso' diaria.id%}" class="pr-1 text-success"><i
@@ -54,17 +106,20 @@
                     <a href="{% url 'despesas:detail-diaria' diaria.id%}" class="pr-2"><i
                         class="fas fa-solid fa-eye"></i></a>
 
-                   
 
-                   
+
+
                   </td>
                 </tr>
-               
+
 
                 {%endfor%}
 
+
               </tbody>
             </table>
+            <br />
+            {% include 'includes/paginacao.html'%}
           </div>
         </div>
       </div>
@@ -73,5 +128,5 @@
 </div>
 <!-- Button trigger modal -->
 {% endblock content %} {% block scripts %}
-
+<script src="/static/utils/validar_form.js"></script>
 {% endblock scripts %}

@@ -30,6 +30,19 @@ class EspecialidadeListView(ListView):
     model=Especialidade
     template_name='especialidade/list_especialidades.html'
     context_object_name='especialidades'
+    paginate_by=5    
+
+    def get_queryset(self):
+        qs=super(EspecialidadeListView,self).get_queryset()
+        busca_nome=self.request.GET.get('busca_nome',None)
+
+        if busca_nome:
+            queryset=qs.filter(nome__icontains=busca_nome).order_by('-nome')
+            return queryset 
+
+        qs=qs.all()                                                       
+        return qs
+    
 
 class EspecialidadeDetailView(DetailView):
     model=Especialidade

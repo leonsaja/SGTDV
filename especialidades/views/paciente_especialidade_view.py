@@ -1,12 +1,11 @@
 from typing import Any, Dict
 
 from django.contrib import messages
-from django.db.models import ProtectedError
+from django.core.paginator import Paginator
+from django.db.models import ProtectedError, Q
 from django.http import Http404
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import DetailView
 
 from especialidades.forms.form_paciente_especialidade import \
     PacienteEspecialidadeForm
@@ -80,20 +79,43 @@ def pacienteEspecialidadeDelete(request,id):
     finally:
         return redirect('especialidades:detail-especialidade', especialidade.id)    
 
-class PacienteEspecialidadeListView(ListView):
-    
-    model=PacienteEspecialidade
+def  pacienteEspecialidadeList(request,id):
     template_name='paciente_especialidade/list_pacientes_especialidade.html'
+    context=[]
 
+    search_nome_cpf=request.GET.get('search_nome_cpf',None)
+    data=request.GET.get('data',None)  
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        especialidade=Especialidade.objects.get(id=self.kwargs['pk'])
-        context['especialidade']=especialidade
-        context['pacientes_especialidade']=PacienteEspecialidade.objects.select_related('paciente',\
-                                             'especialidade','profissional').filter(especialidade__id=especialidade.id)
+    especialidade=Especialidade.objects.get(id=id)
+    
+    if search_nome_cpf and data :
+            pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(\
+                                                            especialidade__id=especialidade.id).filter(Q(paciente__nome_completo__icontains=search_nome_cpf)|\
+                                                            Q(paciente__cpf__icontains=search_nome_cpf)).filter(data_pedido__gte=data).order_by('-data_pedido')
 
-        return context
+    elif search_nome_cpf:             
+            pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(\
+                                                            especialidade__id=especialidade.id).filter(Q(paciente__nome_completo__icontains=search_nome_cpf)|\
+                                                            Q(paciente__cpf__icontains=search_nome_cpf)).order_by('-data_pedido')
+    elif data:
+            pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).filter(data_pedido__gte=data).order_by('data_pedido')
+        
+    else:
+        pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).order_by('data_pedido')
+    
+    
+    paginator = Paginator(pacientes_especialidade, 10)  
+    page_number = request.GET.get("page")
+    page_obj= paginator.get_page(page_number)
+    
+    context={
+        
+        'page_obj':page_obj,
+        'especialidade':especialidade,
+    }
+    
+    
+    return render(request,template_name,context)
 
 class PacienteEspecialidadeDetailView(DetailView):
 

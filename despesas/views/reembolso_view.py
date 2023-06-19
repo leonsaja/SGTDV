@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -35,7 +36,7 @@ def reembolsoUpdate(request, id):
         if formset.is_valid():
             formset.save()
             return redirect('despesas:list-diaria')
-        print('erros',formset.non_form_errors)
+        
 
    formset=ReembolFormSet(request.POST or None,instance=diaria,prefix='reembolso')
     
@@ -45,13 +46,31 @@ class ReembolsoListView(ListView):
    
    model=Diaria
    template_name='reembolso/list_reembolso.html'
+   context_object_name='diarias'
+   paginate_by=10
 
-   def get_context_data(self,*args, **kwargs):
-      context= super().get_context_data(*args, **kwargs)
-      context={
-         'Diarias':Diaria.objects.select_related('profissional').filter(reembolso=1),
-      }
-      return context
+
+   def get_queryset(self, *args, **kwargs):
+        qs = super(ReembolsoListView,self).get_queryset(*args, **kwargs)
+        search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
+        data=self.request.GET.get('data',None)
+        
+        if search_nome_cpf and data:
+            queryset=qs.select_related('profissional').filter(reembolso=1).filter(Q(profissional__nome_completo__icontains=search_nome_cpf)| Q(profissional__cpf__icontains=search_nome_cpf)).filter(data_diaria__gte=data).order_by('-data_diaria')
+            return queryset
+        
+        elif search_nome_cpf:
+            queryset=qs.select_related('profissional').filter(reembolso=1).filter(Q(profissional__nome_completo__icontains=search_nome_cpf)| Q(profissional__cpf__icontains=search_nome_cpf)).order_by('-data_diaria')
+            return queryset
+        
+        elif data:
+            queryset=qs.select_related('profissional').filter(reembolso=1).filter(data_diaria__gte=data).order_by('-data_diaria')
+            return queryset 
+    
+        qs = qs.select_related('profissional').filter(reembolso=1).order_by('-data_diaria')
+        return qs
+   
+
 
 class ReembolsoDetailView(DetailView):
     model=Diaria

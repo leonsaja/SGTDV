@@ -4,14 +4,12 @@
 <div class="container-fluid">
   <br /><br />
   {% include 'includes/mensagens.html'%}
-  <div class="row mb-3">
-    {% comment %} <div class="col-md-6">
-      <h3 class="text-primary text-center"><strong>Diárias</strong></h3>
-    </div> {% endcomment %}
+  <div class="row ">
+ 
     <div class="col-md-12">
 
       <div class="text-right">
-        <a href="{% url 'despesas:add-diaria' %}" class="btn btn-primary"><b>Criar Diária</b>
+        <a href="{% url 'despesas:add-diaria' %}" class="btn btn-primary"><b>Cadastrar Diária</b>
         </a>
       </div>
     </div>
@@ -19,53 +17,55 @@
   </div>
   <div class="container">
     <div class="row ">
-      <div>
-        <form class="col-md-10  offset-md-2" method="GET">
-          <div class="row">
-            <div class="col-md-10">
-              <label for="text-search"><strong> Busque por Nome/CPF</strong></label>
-              <input type="search" name="search_nome_cpf" class="form-control text-search"
-                value="{{request.GET.search_nome_cpf}}" id=" text-search">
-              {% csrf_token %}
+
+      <form class="col-md-10  offset-md-2 needs-validation" method="GET" id="validar-form">
+        
+        <div class="row">
+          <div class="col-md-10">
+            <div class="alert alert-danger d-none" role="alert">
+              Insira algum filtro para realizar a busca.
             </div>
           </div>
-          <div class="row">
 
-            <div class="col-md-3 mt-2">
-              <label for="id_data_inicio">Data Inicio:</label>
-              <input type="date" name="data_inicio" class="form-control" id="id_data_inicio"
-                value="{{request.GET.data_inicio}}">
-
-            </div>
-            <div class="col-md-3 mt-2">
-              <label for="id_data_final">Data Final:</label>
-              <input type="date" class="form-control" id="id_data_final">
-
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-10 mt-3">
-              <div class="float-right">
-
-                <button type="submit" class=" btn btn-primary mb-2">Buscar</button>
-
-              </div>
-
-            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10">
+            <label for="search_nome_cpf"><strong> Busque por Nome/CPF</strong></label>
+            <input type="search" name="search_nome_cpf" class="form-control" value="{{request.GET.search_nome_cpf}}"
+              id="search_nome_cpf">
 
           </div>
-        </form>
-      </div>
+        </div>
+        <div class="row">
+
+          <div class="col-md-3 mt-2">
+            <label for="id_data">Data da Diária</label>
+            <input type="date" name="data" class="form-control" id="id_data" value="{{request.GET.data}}">
+          </div>
+          <div class="col-md-7 mt-2">
+            <br>
+            <div class="float-right">
+              <a class="btn mr-2" href="{% url 'despesas:list-diaria'%}" style="background-color:#DADADA;"> Limpar
+                Filtros</a>
+              <button type="submit" class=" btn btn-primary ">Buscar</button>
+
+            </div>
+        </div>
+      
+
+      </form>
+
     </div>
 
   </div>
 
   <div class="row">
-    <div class="col-md-12">
-      <br>
+    <div class="col-md-12 mt-3">
+      
+
       <div class="card">
         <div class="card-header">
-          <h3 class="logo"><strong>Diárias</strong>
+          <h3 class="logo pt-2"><strong>Diárias</strong>
 
           </h3>
 
@@ -80,6 +80,7 @@
                   <th>Nome Profissional</th>
                   <th>CPF</th>
                   <th>CNS</th>
+                  <th>Data da Diária</th>
                   <th>Opção</th>
                 </tr>
               </thead>
@@ -92,6 +93,7 @@
                   <td>{{diaria.profissional.formt_cpf}}</td>
 
                   <td>{{diaria.profissional.cns}}</td>
+                  <td>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</td>
                   <td>
 
                     <a href="{% url 'despesas:detail-diaria' diaria.id%}" class="pr-1"><i
@@ -112,6 +114,8 @@
 
               </tbody>
             </table>
+            <br />
+            {% include 'includes/paginacao.html'%}
           </div>
         </div>
       </div>
@@ -121,5 +125,5 @@
 {% include 'includes/modal_delete.html'%}
 <!-- Button trigger modal -->
 {% endblock content %} {% block scripts %}
-
+<script src="/static/utils/validar_form.js"></script>
 {% endblock scripts %}

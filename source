@@ -6,3 +6,10 @@ python3 manage.py dumpdata --indent 2 --exclude auth.permission --exclude conten
 
 #Comando inserir as informações salva no Backup 
 python3 manage.py loaddata 'nomeArquivo'.json
+
+
+
+
+ elif data_inicio and data_final:
+            queryset=qs.select_related('profissional').filter(data_diaria__range=(data_inicio,data_final))
+            return queryset """

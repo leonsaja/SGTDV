@@ -1,8 +1,9 @@
 
-from django.contrib import messages
-from django.db.models import ProtectedError
-from django.db.models import Q
+from typing import Any, Tuple
 
+from django.contrib import messages
+from django.core.paginator import Paginator
+from django.db.models import ProtectedError, Q
 from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -40,11 +41,11 @@ class DiariaUpdateView(UpdateView):
 
     def form_valid(self,form ):
        self.object = form.save()
-      
+       
        if self.object.reembolso == '1':
            return redirect ('despesas:add-reembolso', self.object.id)
        else:
-            return redirect('despesas:list-diaria')
+           return redirect('despesas:list-diaria')
 
 
 
@@ -52,25 +53,25 @@ class DiariaListView(ListView):
     model=Diaria
     template_name='diaria/list_diaria.html'
     context_object_name='diarias'
+    paginate_by=10
     
     def get_queryset(self, *args, **kwargs):
         qs = super(DiariaListView,self).get_queryset(*args, **kwargs)
         search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
-        data_inicio=self.request.GET.get('data_inicio',None)
-        print('data',data_inicio)
+        data=self.request.GET.get('data',None)
+       
         if search_nome_cpf:
-            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=search_nome_cpf)| \
-                                     Q(profissional__cpf__icontains=search_nome_cpf))
+            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=search_nome_cpf)| Q(profissional__cpf__icontains=search_nome_cpf)).order_by('-data_diaria')
             return queryset
         
-        if data_inicio:
-            queryset=qs.select_related('profissional').filter(Q(data_diaria__lte=data_inicio))
-            print('queryset',queryset)
-
-            return queryset
+        elif data:
+            queryset=qs.select_related('profissional').filter(data_diaria__gte=data)
+            return queryset 
     
         qs = qs.select_related('profissional').all().order_by('profissional__nome_completo')
         return qs
+    
+    
     
 class DiariaDetailView(DetailView):
     model=Diaria

@@ -41,7 +41,7 @@
         <div class="row">
             <div class="col-md-3">
                 <label for="id_rg" class="form-label">Data Pedido:</label>
-                <h6 id='rg' class="text-muted">{{especialidade.data_pedido}}</h6>
+                <h6 id='rg' class="text-muted">{{especialidade.data_pedido|date:"d/m/Y"|default:'---'}}</h6>
             </div>
             <div class="col-md-3">
                 <label for="id_cpf" class="form-label">Classificação:</label>

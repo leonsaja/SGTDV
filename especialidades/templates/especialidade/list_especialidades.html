@@ -1,27 +1,67 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block content %}
 <div class="container-fluid">
   <br /><br />
   {% include 'includes/mensagens.html'%}
-  <div class="row mb-3">
-    
-
+  <div class="row ">
     <div class="col-md-12">
       <div class="text-right">
-          <a href="{% url 'especialidades:add-especialidade' %}" class="btn btn-primary"><b>Cadastrar Especialidade</b>
-          </a>
+        <a href="{% url 'especialidades:add-especialidade' %}" class="btn btn-primary"><b>Cadastrar Especialidade</b>
+        </a>
       </div>
     </div>
-    
   </div>
+  <div class="container">
+    <div class="row ">
+
+      <form class="col-md-10  offset-md-2 needs-validation" action="{% url 'especialidades:list-especialidade'%}"
+        method="GET" id="validar-form">
+
+        <div class="row">
+          <div class="col-md-10">
+            <div class="alert alert-danger d-none" role="alert">
+              Digite alguma coisa para realizar a busca.
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-10">
+            <label for="search_nome"><strong> Busque pelo Nome:</strong></label>
+            <input type="search" name="busca_nome" class="form-control" value="{{request.GET.busca_nome}}"
+              id="search_nome">
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-10 mt-3">
+            <div class="float-right">
+              <a class="btn mr-2" href="{% url 'especialidades:list-especialidade'%}" style="background-color:#DADADA;">
+                Limpar
+                Filtros</a>
+              <button type="submit" class=" btn btn-primary ">Buscar</button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+    <br>
+  </div>
+
 
   <div class="row">
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h3 class="logo">Especialidades</h3>
-         
+          <h3 class="logo pt-2">Especialidades</h3>
+
         </div>
         <!-- /.card-header -->
         <div class="table-responsive-md">
@@ -38,40 +78,29 @@
                 {%for especialidade in especialidades %}
                 <tr>
                   <td>{{especialidade.id}}</td>
-                  <td>{{especialidade.nome}}</td>
-                  
-                  <td>
-                   
-                    <a
-                      href="{% url 'especialidades:list-paciente-especialidade' especialidade.id%}"
-                      class="pr-1"
-                      ><i class="fas fa-solid fa-eye"></i
-                    ></a>
-                   
-                    <a
-                      href="{% url 'especialidades:edit-especialidade' especialidade.id%}"
-                      class="pr-1 text-warning"
-                      ><i class="fas fa-edit"></i
-                    ></a>
+                  <td>{{especialidade.nome|upper}}</td>
 
-                    <a href="#modal--{{especialidade.id}}"
-                     
-                     
-                      data-bs-toggle="modal" 
-                      data-bs-target="#modal--{{especialidade.id}}"
-                      class="pr-2 text-danger"
-                        
-                    >
-                   
+                  <td>
+
+                    <a href="{% url 'especialidades:list-paciente-especialidade' especialidade.id%}" class="pr-1"><i
+                        class="fas fa-solid fa-eye"></i></a>
+
+                    <a href="{% url 'especialidades:edit-especialidade' especialidade.id%}" class="pr-1 text-warning"><i
+                        class="fas fa-edit"></i></a>
+
+                    <a href="#modal--{{especialidade.id}}" data-bs-toggle="modal"
+                      data-bs-target="#modal--{{especialidade.id}}" class="pr-2 text-danger">
+
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>
                   </td>
                 </tr>
                 {% include 'especialidade/modal_delete_especialidade.html'%}
                 {%endfor%}
-               
+
               </tbody>
             </table>
+            {% include 'includes/paginacao.html'%}
           </div>
         </div>
       </div>
@@ -81,5 +110,18 @@
 {% include 'includes/modal_delete.html'%}
 <!-- Button trigger modal -->
 {% endblock content %} {% block scripts %}
+<script>
+  $('#validar-form').submit(function () {
+    let nome = $('#search_nome')
+    let erro = $('.alert')
 
+    if (nome.val() == '') {
+      erro.removeClass('d-none')
+      nome.addClass('is-invalid')
+      return false
+    }
+
+    return true
+  })
+</script>
 {% endblock scripts %}

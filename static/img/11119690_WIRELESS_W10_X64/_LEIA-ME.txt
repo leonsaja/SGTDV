@@ -1,0 +1,3 @@
+Execute o arquivo _New_setup
+	A instalação do driver MBI será feita automaticamente, e será inciado o assistente de instalação do driver wireless.
+	Ao acabar a instalação, reinicie a máquina.

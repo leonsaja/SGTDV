@@ -15,7 +15,7 @@ class Cidadao(models.Model):
     rg=models.CharField(max_length=10,verbose_name='RG', null=True,blank=True)
     cpf=BRCPFField(verbose_name='CPF',unique=True, max_length=11, null=True,blank=True)
     cns=models.PositiveBigIntegerField(verbose_name='CNS', unique=True, null=False,blank=False, help_text='Digite o cartão do SUS com 15 digitos')
-    sexo=models.CharField(verbose_name='Sexo:',max_length=1,choices=SEXO, null=False, blank=False, default='')
+    sexo=models.CharField(verbose_name='Sexo:',max_length=1,choices=SEXO, null=False, blank=False)
     dt_nascimento=models.DateField(verbose_name='Data de Nascimento', null=False,blank=False)
     nome_mae=models.CharField(verbose_name='Nome da Mãe', max_length=150, null=False,blank=False)
     nome_pai=models.CharField(verbose_name='Nome do  Pai', max_length=150, null=True,blank=True)
