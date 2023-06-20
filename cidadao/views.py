@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.db.models import ProtectedError
+from django.db.models import ProtectedError, Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
@@ -75,9 +75,26 @@ class CidadaoDetailView(DetailView):
 class CidadaoListView(ListView):
     model=Cidadao
     template_name='cidadao/list_cidadao.html'
-  
-    def get_context_data(self, *args, **kwargs):
-        context=super().get_context_data(*args, **kwargs)
-        context['pacientes']=Cidadao.objects.select_related('endereco','microarea').all().order_by('nome_completo')
+    context_object_name='pacientes'
+    paginate_by=4
+
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(CidadaoListView,self).get_queryset(*args, **kwargs)
+        search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
+        data=self.request.GET.get('data',None)
+       
+        if search_nome_cpf and data:
+            queryset=qs.select_related('endereco','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf)).filter(dt_nascimento__iexact=data).order_by('-nome_completo')
+            return queryset
         
-        return context
+        elif search_nome_cpf:
+            queryset=qs.select_related('endereco','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf)).order_by('-nome_completo')
+            return queryset
+        
+        elif data:
+            queryset=qs.select_related('endereco','microarea').filter(dt_nascimento__iexact=data).order_by('-nome_completo')
+            return queryset
+    
+        qs = qs.none()
+        return qs

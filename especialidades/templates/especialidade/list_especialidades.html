@@ -2,16 +2,17 @@
 
 {% block content %}
 <div class="container-fluid">
-  <br /><br />
+  <br />
   {% include 'includes/mensagens.html'%}
+
   <div class="row ">
-    <div class="col-md-12">
-      <div class="text-right">
-        <a href="{% url 'especialidades:add-especialidade' %}" class="btn btn-primary"><b>Cadastrar Especialidade</b>
-        </a>
-      </div>
+    <div class="col-md-12  text-center">
+      <h4 class=" text-primary"><strong>ESPECIALIDADES</strong> </h4>
     </div>
+   
+   
   </div>
+ 
   <div class="container">
     <div class="row ">
 
@@ -40,7 +41,7 @@
             <div class="float-right">
               <a class="btn mr-2" href="{% url 'especialidades:list-especialidade'%}" style="background-color:#DADADA;">
                 Limpar
-                Filtros</a>
+                Filtro</a>
               <button type="submit" class=" btn btn-primary ">Buscar</button>
 
             </div>
@@ -52,10 +53,21 @@
       </form>
 
     </div>
-    <br>
+    
+  </div>
+  <br>
+  
+  <div class="row ">
+    <div class="col-md-12">
+      <div class="text-right">
+        <a href="{% url 'especialidades:add-especialidade' %}" class="btn btn-primary"><b>Cadastrar Especialidade</b>
+        </a>
+      </div>
+    </div>
   </div>
 
-
+  <br>
+  
   <div class="row">
     <div class="col-md-12">
       <div class="card">
@@ -100,6 +112,7 @@
 
               </tbody>
             </table>
+            <br>
             {% include 'includes/paginacao.html'%}
           </div>
         </div>
