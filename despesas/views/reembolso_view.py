@@ -56,7 +56,7 @@ class ReembolsoListView(ListView):
         data=self.request.GET.get('data',None)
         
         if search_nome_cpf and data:
-            queryset=qs.select_related('profissional').filter(reembolso=1).filter(Q(profissional__nome_completo__icontains=search_nome_cpf)| Q(profissional__cpf__icontains=search_nome_cpf)).filter(data_diaria__gte=data).order_by('-data_diaria')
+            queryset=qs.select_related('profissional').filter(reembolso=1).filter(Q(profissional__nome_completo__icontains=search_nome_cpf)| Q(profissional__cpf__icontains=search_nome_cpf)).filter(data_diaria__iexact=data).order_by('-data_diaria')
             return queryset
         
         elif search_nome_cpf:
@@ -64,14 +64,12 @@ class ReembolsoListView(ListView):
             return queryset
         
         elif data:
-            queryset=qs.select_related('profissional').filter(reembolso=1).filter(data_diaria__gte=data).order_by('-data_diaria')
+            queryset=qs.select_related('profissional').filter(reembolso=1).filter(data_diaria__iexact=data).order_by('-data_diaria')
             return queryset 
     
         qs = qs.select_related('profissional').filter(reembolso=1).order_by('-data_diaria')
         return qs
    
-
-
 class ReembolsoDetailView(DetailView):
     model=Diaria
     template_name='reembolso/detail_reembolso.html'

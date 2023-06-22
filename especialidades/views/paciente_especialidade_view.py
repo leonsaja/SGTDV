@@ -91,17 +91,17 @@ def  pacienteEspecialidadeList(request,id):
     if search_nome_cpf and data :
             pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(\
                                                             especialidade__id=especialidade.id).filter(Q(paciente__nome_completo__icontains=search_nome_cpf)|\
-                                                            Q(paciente__cpf__icontains=search_nome_cpf)).filter(data_pedido__gte=data).order_by('-data_pedido')
+                                                            Q(paciente__cpf__icontains=search_nome_cpf)).filter(data_pedido__iexact=data).order_by('-data_pedido')
 
     elif search_nome_cpf:             
             pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(\
                                                             especialidade__id=especialidade.id).filter(Q(paciente__nome_completo__icontains=search_nome_cpf)|\
                                                             Q(paciente__cpf__icontains=search_nome_cpf)).order_by('-data_pedido')
     elif data:
-            pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).filter(data_pedido__gte=data).order_by('data_pedido')
+            pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).filter(data_pedido__iexact=data).order_by('-data_pedido')
         
     else:
-        pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).order_by('data_pedido')
+        pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).order_by('-data_pedido')
     
     
     paginator = Paginator(pacientes_especialidade, 10)  

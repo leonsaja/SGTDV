@@ -82,19 +82,43 @@ class CidadaoListView(ListView):
     def get_queryset(self, *args, **kwargs):
         qs = super(CidadaoListView,self).get_queryset(*args, **kwargs)
         search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
-        data=self.request.GET.get('data',None)
+        search_nome_mae=self.request.GET.get('search_nome_mae',None)
+        search_dt_nascimento=self.request.GET.get('search_dt_nascimento',None)
+
        
-        if search_nome_cpf and data:
-            queryset=qs.select_related('endereco','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf)).filter(dt_nascimento__iexact=data).order_by('-nome_completo')
+        if search_nome_cpf and search_nome_mae and search_dt_nascimento:
+            queryset=qs.select_related('endereco','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))\
+                .filter(nome_mae__icontains=search_nome_mae)\
+                .filter(dt_nascimento__iexact=search_dt_nascimento)
             return queryset
+        
+        elif search_nome_cpf  and search_dt_nascimento:
+           
+            queryset=qs.select_related('endereco','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))\
+                .filter(dt_nascimento__iexact=search_dt_nascimento).order_by('-nome_completo')
+            return queryset
+        
+        elif search_nome_mae and search_dt_nascimento:
+            print('teste 10', search_nome_mae)
+            queryset=qs.select_related('endereco','microarea')\
+                .filter(nome_mae__icontains=search_nome_mae)\
+                    .filter(dt_nascimento__iexact=search_dt_nascimento)
+            return queryset              
         
         elif search_nome_cpf:
-            queryset=qs.select_related('endereco','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf)).order_by('-nome_completo')
+            queryset=qs.select_related('endereco','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))
             return queryset
         
-        elif data:
-            queryset=qs.select_related('endereco','microarea').filter(dt_nascimento__iexact=data).order_by('-nome_completo')
+        elif search_nome_mae:
+            queryset=qs.select_related('endereco','microarea').filter(nome_mae__icontains=search_nome_mae).order_by('-nome_completo')
+            return queryset
+        
+        
+        elif search_dt_nascimento:
+            print('teste',search_dt_nascimento)
+            queryset=qs.select_related('endereco','microarea').filter(dt_nascimento__iexact=search_dt_nascimento).order_by('-nome_completo')
             return queryset
     
-        qs = qs.none()
-        return qs
+        else:
+            qs = qs.none()
+            return qs

@@ -47,9 +47,8 @@ class DiariaUpdateView(UpdateView):
        else:
            return redirect('despesas:list-diaria')
 
-
-
 class DiariaListView(ListView):
+    
     model=Diaria
     template_name='diaria/list_diaria.html'
     context_object_name='diarias'
@@ -59,20 +58,26 @@ class DiariaListView(ListView):
         qs = super(DiariaListView,self).get_queryset(*args, **kwargs)
         search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
         data=self.request.GET.get('data',None)
-       
-        if search_nome_cpf:
-            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=search_nome_cpf)| Q(profissional__cpf__icontains=search_nome_cpf)).order_by('-data_diaria')
+        
+        if search_nome_cpf and data:
+            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=search_nome_cpf)| Q(profissional__cpf__icontains=search_nome_cpf)).filter(data_diaria__iexact=data).order_by('-data_diaria')
             return queryset
         
+        elif search_nome_cpf:
+            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=search_nome_cpf)| Q(profissional__cpf__icontains=search_nome_cpf)).order_by('-data_diaria')
+            return queryset
+
         elif data:
-            queryset=qs.select_related('profissional').filter(data_diaria__gte=data)
+            queryset=qs.select_related('profissional').filter(data_diaria__iexact=data)
+           
             return queryset 
     
-        qs = qs.select_related('profissional').all().order_by('profissional__nome_completo')
-        return qs
+        else:
+            qs = qs.select_related('profissional').all().order_by('profissional__nome_completo')
+            return qs
     
     
-    
+  
 class DiariaDetailView(DetailView):
     model=Diaria
     template_name='diaria/detail_diaria.html'
