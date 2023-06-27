@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.db.models import ProtectedError
+from django.db.models import ProtectedError, Q
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views.generic import DetailView, ListView
@@ -42,6 +42,7 @@ def profissionalUpdate(request,id):
         form_endereco=EnderecoForm(request.POST or None, instance=profissional.endereco)
         
         if form.is_valid() and form_endereco.is_valid():
+            print('profissionais is valido')
             forms=form.save(commit=False)
             form_end=form_endereco.save()
             forms.endereco=form_end
@@ -79,12 +80,30 @@ class ProfissionalListView(ListView):
     model=Profissional
     template_name='profissional/list_profissionais.html'
     context_object_name='profissionais'
-    def get_queryset(self, *args, **kwargs):
-        qs = super().get_queryset(*args, **kwargs)
-       
-        qs = qs.select_related('endereco','estabelecimento','microarea').order_by('-id')
-        return qs
+    paginate_by=2
 
+    def get_queryset(self, *args, **kwargs):
+        qs = super(ProfissionalListView,self).get_queryset(*args, **kwargs)
+        
+        search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
+        search_dt_nascimento=self.request.GET.get('search_dt_nascimento',None)
+        
+        if search_nome_cpf and search_dt_nascimento:
+            queryset=qs.select_related('endereco','estabelecimento','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))\
+                .filter(dt_nascimento__iexact=search_dt_nascimento)
+            return queryset
+        
+        elif search_nome_cpf:
+            queryset=qs.select_related('endereco','estabelecimento','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))
+            return queryset
+        
+        elif search_dt_nascimento:
+             queryset=qs.select_related('endereco','estabelecimento','microarea').filter(dt_nascimento__iexact=search_dt_nascimento).order_by('-nome_completo')
+             return queryset
+        
+        else:
+            qs = qs.select_related('endereco','estabelecimento','microarea').order_by('-id')[:3]
+        return qs
 
 #Profissional Diaria 
 class ProfissionalDiariaListView(ListView):

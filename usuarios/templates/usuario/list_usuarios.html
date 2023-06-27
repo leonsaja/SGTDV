@@ -1,8 +1,8 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container-fluid">
-  <br /><br />
+  <br />
   <!-- Modal -->
-  <div class="row mb-3">
+  <div class="row">
             
     <div class="col-md-12">
       <div class="text-right">
@@ -10,10 +10,60 @@
           </a>
       </div>
     </div>
-    
+  </div>
+  <div class="row justify-content-center ">
+    <div class="col-md-8 ">
+      <h4 class=" text-primary"><strong>Usuários</strong> </h4>
+    </div>
+  </div>
+  <br>
+  <div class="row ">
+    <div class="container">
+      <div class="row  justify-content-center">
+        
+        <form class="col-md-8  needs-validation" method="GET" id="validar-form">
+
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="alert alert-danger d-none" role="alert">
+                Insira algum filtro para realizar a busca.
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label for="search_nome_cpf"><strong> Busque pelo Nome/CPF</strong></label>
+              <input type="search" name="search_nome_cpf" class="form-control" value="{{request.GET.search_nome_cpf}}"
+                id="search_nome_cpf">
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 pt-2 ">
+              <label for="data">Data de Nascimento</label>
+              <input type="date" name="data" class="form-control" id="data"
+                value="{{request.GET.data}}">
+            </div>
+            <div class="col-md-8 pt-2">
+              <br>
+              <div class="float-right">
+                <a class="btn mr-2" href="{% url 'usuarios:list-usuario'%}" style="background-color:#DADADA;"> Limpar
+                  Filtros</a>
+                <button type="submit" class=" btn btn-primary ">Buscar</button>
+
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 mt-4">
+      {% if usuarios %}
       <div class="card">
         <div class="card-header">
           <h3 class="logo"><strong>Usuários</strong></h3>
@@ -28,7 +78,9 @@
                   <th style="width: 10px">#</th>
                   <th>Nome Completo</th>
                   <th>CPF</th>
+                  <th>Data de Nascimento</th>
                   <th>Perfil</th>
+                 
                   <th>Opção</th>
                 </tr>
               </thead>
@@ -40,6 +92,7 @@
                   
                   <td>{{usuario.formt_cpf}}</td>
 
+                  <td>{{usuario.dt_nascimento|date:"d/m/Y"|default:'---'}}</td>
                   <td>{{usuario.get_tipo_usuario_display}}</td>
                   <td>
                     <a
@@ -62,11 +115,28 @@
           </div>
         </div>
       </div>
+      {%else%}
+      <h5 class="text-center pt-4">Nenhum Usuário foi encontrado.
+      </h5>
+      {% endif %}
     </div>
   </div>
 </div>
 
 <!-- Button trigger modal -->
 {% endblock content %} {% block scripts %}
+<script>
+  $('#validar-form').submit(function () {
+    let nome_cpf = $('#search_nome_cpf')
+    let data = $('#data')
+    let erro = $('.alert')
 
+    if (nome_cpf.val() == '' && data.val() == '') {
+      erro.removeClass('d-none')
+      return false
+    }
+
+    return true
+  })
+</script>
 {% endblock scripts %}

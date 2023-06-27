@@ -44,7 +44,7 @@
             </div>
             <div class="col-md-3">
                 <label for="id_data" class="form-label">Data:
-                    <h6 class="text-muted">{{recibo_tfd.data}}</h6>
+                    <h6 class="text-muted">{{recibo_tfd.data|date:"d/m/Y"|default:'---'}}</h6>
 
             </div>
             <div class="col-md-3">
@@ -56,7 +56,7 @@
         <br>
         <div class="row">
             <div class="col-md-3">
-                <label for="id_especialidade" class="form-label">Municipio Origem:</label>
+                <label for="id_especialidade" class="form-label">Especialidade:</label>
                 <h6 class="text-muted">{{recibo_tfd.especialidade|upper}}</h6>
 
             </div>
@@ -76,7 +76,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class=" text-primary"><b>Código SIA/SUS</b> </h4>
+                        <h4 class=" logo"><b>Código SIA/SUS</b> </h4>
                     </div>
                     <div class="table-responsive-md">
                         <div class="card-body">

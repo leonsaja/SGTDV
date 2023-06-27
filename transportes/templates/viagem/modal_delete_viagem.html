@@ -1,0 +1,43 @@
+<div
+  class="modal fade"
+  id="modal--{{viagem.id}}"
+  aria-labelledby="exampleModalLabel" 
+  aria-hidden="true"
+  tabindex="-1"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="staticBackdropLabel">
+          Você tem certeza que deseja excluir  a Viagem  ?           
+        </h6>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <p class="logo m-3">{{viagem.destino_viagem}}</p>
+         
+        </div>
+      </div>
+      <div class="modal-footer">
+        <form method="POST" action="{% url 'transportes:del-viagem' viagem.id %}" >
+          <button
+            type="button"
+            class="btn btn-outline-danger"
+            data-bs-dismiss="modal"
+          >
+            NÃO 
+          </button>
+
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">SIM</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

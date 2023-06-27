@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.db import models
 
 from cidadao.models import Cidadao
@@ -42,11 +43,11 @@ class PassageiroViagem(models.Model):
    
 class Carro(models.Model):
    nome=models.CharField(verbose_name='nome do Carro', max_length=180, null=False, blank=False)
-   placa=models.CharField(verbose_name='Placa do Carro', max_length=7, help_text='Sem caracteres especiais(-)')
+   placa=models.CharField(verbose_name='Placa do Carro', max_length=7,unique=True, help_text='Sem caracteres especiais(-)')
 
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
 
 
    def __str__(self):
-      return f'{self.nome}'
+      return f'{self.nome}, Placa: {self.placa}'

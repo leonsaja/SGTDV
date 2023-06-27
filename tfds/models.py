@@ -9,8 +9,6 @@ class ReciboTFD(models.Model):
    acompanhante=models.ForeignKey(Cidadao,null=True,blank=True, on_delete=models.PROTECT,related_name='recibo_acompanhante')
    municipio_origem=models.CharField(verbose_name='Municipio Origem', max_length=120,null=False,blank=False,default='Santo Antônio do Jacinto-MG')
    municipio_destino=models.CharField(verbose_name='Municipio Destino', max_length=120,null=False,blank=False)
-   data_criada = models.DateField(auto_now_add=True, help_text="Data de Criação")
-   data_editada = models.DateField(auto_now=True, help_text="Data de Edição")
    data=models.DateField(verbose_name='Data')
    grs=models.CharField(verbose_name='GRS',max_length=50,null=False,blank=False,default='Pedra Azul-MG')
    especialidade=models.CharField(verbose_name='Especialidade', max_length=100, null=False, blank=False)
@@ -58,13 +56,10 @@ class  ReciboPassagemTFD(models.Model):
    meio_transporte=models.CharField(max_length=1,null=False, blank=False,verbose_name='Meio de Transporte', choices=MEIO_TRANSPORTE)
    qta_passagem=models.PositiveIntegerField(verbose_name='Quantidade de Passagem',null=False, blank=False, )
    trecho =models.CharField(verbose_name='Trecho', null=False, blank=False, max_length=200 )
-  
    codigo_sia_paciente=models.CharField(verbose_name='Código SIA',max_length=10, null=True, blank=False)
    codigo_sia_acompanhante=models.CharField(verbose_name='Código SIA', max_length=10, null=True, blank=True)
-
    valor_paciente_sia=models.CharField(verbose_name='Valor', null=True,blank=False,max_length=30)
    valor_acompanhante_sia=models.CharField(verbose_name='Valor', null=True,blank=True,max_length=30)
-
    data_recibo=models.DateField(verbose_name='Data',null=True,blank=False)
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)

@@ -1,8 +1,8 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container-fluid">
-  <br /><br />
+  <br />
 
-  <div class="row mb-3">
+  <div class="row">
 
     <div class="col-md-12">
       <div class="text-right">
@@ -12,10 +12,60 @@
     </div>
 
   </div>
+  <div class="row justify-content-center ">
+    <div class="col-md-8 ">
+      <h4 class=" text-primary"><strong>Recibos de TFD</strong> </h4>
+    </div>
+  </div>
+  <br>
+  <div class="row ">
+    <div class="container">
+      <div class="row  justify-content-center">
+        
+        <form class="col-md-8  needs-validation" method="GET" id="validar-form">
 
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="alert alert-danger d-none" role="alert">
+                Insira algum filtro para realizar a busca.
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label for="search_nome_cpf"><strong> Busque pelo Nome/CPF</strong></label>
+              <input type="search" name="search_nome_cpf" class="form-control" value="{{request.GET.search_nome_cpf}}"
+                id="search_nome_cpf">
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 pt-2 ">
+              <label for="data">Data do Recibo</label>
+              <input type="date" name="data" class="form-control" id="data"
+                value="{{request.GET.data}}">
+            </div>
+            <div class="col-md-8 pt-2">
+              <br>
+              <div class="float-right">
+                <a class="btn mr-2" href="{% url 'tfds:list-recibo_tfd'%}" style="background-color:#DADADA;"> Limpar
+                  Filtros</a>
+                <button type="submit" class=" btn btn-primary ">Buscar</button>
+
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
 
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12  mt-4">
+      {% if recibos_tfds %}
       <div class="card">
         <div class="card-header">
           <h3 class="logo">Recibos de TFDs</h3>
@@ -30,6 +80,7 @@
                   <th>Nome Completo</th>
                   <th>CPF</th>
                   <th>CNS</th>
+                  <th>Data do Recibo</th>
                   <th>Opção</th>
                 </tr>
               </thead>
@@ -42,6 +93,7 @@
                   <td>{{recibo.paciente.formt_cpf}}</td>
 
                   <td>{{recibo.paciente.cns}}</td>
+                  <td>{{recibo.data|date:"d/m/Y"|default:'---'}}</td>
                   <td>
                     <a
                       href="{% url 'tfds:detail-recibo_tfd' recibo.id%}"
@@ -63,18 +115,37 @@
                     </a>
                   </td>
                 </tr>
-{% comment %}                 % include 'cidadao/modal_delete_cidadao.html'%}
- {% endcomment %}                {%endfor%}
+            {%endfor%}
               </tbody>
             </table>
+            <br />
+            {% include 'includes/paginacao.html'%}
+          </div>
           </div>
         </div>
       </div>
+      {%else%}
+      <h5 class="text-center pt-4">Nenhum Recibo de Passagem foi  encontrado.
+      </h5>
+      {%endif%}
     </div>
   </div>
 </div>
 
 <!-- Button trigger modal -->
 {% endblock content %} {% block scripts %}
+<script>
+  $('#validar-form').submit(function () {
+    let nome_cpf = $('#search_nome_cpf')
+    let data = $('#data')
+    let erro = $('.alert')
 
+    if (nome_cpf.val() == '' && data.val() == '') {
+      erro.removeClass('d-none')
+      return false
+    }
+
+    return true
+  })
+</script>
 {% endblock scripts %}

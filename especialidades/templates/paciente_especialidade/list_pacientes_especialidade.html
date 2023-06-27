@@ -3,18 +3,28 @@
 {% block content %}
 <div class="container-fluid">
   <br />
+  {% include 'includes/mensagens.html'%}
   <div class="row">
-    <div class=" col-md-12">
-      <h4 class=" text-primary text-center"><strong>{{especialidade.nome}}</strong></h4>
+    <div class="col-md-12">
+      <div class="text-right">
+        <a href="{% url 'especialidades:add-paciente-especialidade' especialidade.id %}"
+          class="btn btn-primary"><b>Adicionar Paciente</b>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class=" col-md-8">
+      <h4 class=" text-primary "><strong>{{especialidade.nome|upper}}</strong></h4>
     </div>
 
   </div>
   <br>
- 
+     <div class="row ">
   <div class="container">
-    <div class="row ">
+    <div class="row justify-content-center ">
 
-      <form class="col-md-10  offset-md-2 needs-validation" method="GET" id="validar-form">
+      <form class="col-md-8  needs-validation" method="GET" id="validar-form">
         {% csrf_token %}
         <div class="row">
           <div class="col-md-10">
@@ -58,21 +68,12 @@
     </div>
 
   </div>
+</div>
   
-  <br>
+
+  
   <div class="row">
-    <div class="col-md-12">
-      <div class="text-right">
-        <a href="{% url 'especialidades:add-paciente-especialidade' especialidade.id %}"
-          class="btn btn-primary"><b>Adicionar Paciente</b>
-        </a>
-      </div>
-    </div>
-  </div>
- 
-  <br>
-  <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 mt-3">
       <div class="card">
         <div class="card-header ">
           <h3 class="logo">Especialidade</h3>

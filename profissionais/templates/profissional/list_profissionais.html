@@ -1,13 +1,10 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container-fluid">
-  <br /><br />
-
-
+  <br />
 
   {% include 'includes/mensagens.html'%}
 
-  <div class="row mb-3">
-
+  <div class="row">
     <div class="col-md-12">
       <div class="text-right">
         <a href="{% url 'profissionais:add-profissional' %}" class="btn btn-primary"><b>Cadastrar Profissional</b>
@@ -16,11 +13,68 @@
     </div>
 
   </div>
+  <div class="row justify-content-center ">
+    <div class="col-md-8">
+      <h4 class=" text-primary"><strong>Profissionais</strong> </h4>
+    </div>
+  </div>
+  <br>
+
+  <div class="row ">
+    <div class="container">
+      <div class="row  justify-content-center">
+
+        <form class="col-md-8  needs-validation" method="GET" id="validar-form">
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="alert alert-danger d-none" role="alert">
+                Insira algum filtro para realizar a busca.
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label for="search_nome_cpf"><strong>Nome/CPF do Profissional</strong></label>
+              <input type="search" name="search_nome_cpf" class="form-control" value="{{request.GET.search_nome_cpf}}"
+                id="search_nome_cpf">
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 pt-2">
+              <label for="search_dt_nascimento">Data de Nascimento</label>
+              <input type="date" name="search_dt_nascimento" class="form-control" id="search_dt_nascimento"
+                value="{{request.GET.search_dt_nascimento}}">
+
+            </div>
+            <div class="col-md-8 pt-2">
+              <br>
+              <div class="float-right">
+                <a class="btn mr-2" href="{% url 'profissionais:list-profissional'%}" style="background-color:#DADADA;">
+                  Limpar
+                  Filtros</a>
+                <button type="submit" class=" btn btn-primary ">Buscar</button>
+
+              </div>
+
+            </div>
+          </div>
+          <div class="row">
+
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 mt-4">
+      {% if profissionais %}
       <div class="card">
         <div class="card-header">
-          <h3 class="logo">Lista de Profissionals</h3>
+          <h3 class="logo">Profissionals</h3>
         </div>
         <!-- /.card-header -->
         <div class="table-responsive-md">
@@ -32,7 +86,7 @@
                   <th>Nome Completo</th>
                   <th>CPF</th>
                   <th>CNS</th>
-                  
+
                   <th>Opção</th>
                 </tr>
               </thead>
@@ -44,24 +98,14 @@
                   <td>{{profissional.formt_cpf}}</td>
 
                   <td>{{profissional.cns}}</td>
-                
+
                   <td>
-                    <a
-                      href="{% url 'profissionais:detail-profissional' profissional.id %}"
-                      class="pr-2"
-                      ><i class="fas fa-solid fa-eye"></i
-                    ></a>
-                    <a
-                      href="{% url 'profissionais:edit-profissional' profissional.id %}"
-                      class="pr-1 text-warning"
-                      ><i class="fas fa-edit"></i
-                    ></a>
-                    <a
-                      type="button"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modal--{{profissional.id}}"
-                      class="pr-2 text-danger"
-                    >
+                    <a href="{% url 'profissionais:detail-profissional' profissional.id %}" class="pr-2"><i
+                        class="fas fa-solid fa-eye"></i></a>
+                    <a href="{% url 'profissionais:edit-profissional' profissional.id %}" class="pr-1 text-warning"><i
+                        class="fas fa-edit"></i></a>
+                    <a type="button" data-bs-toggle="modal" data-bs-target="#modal--{{profissional.id}}"
+                      class="pr-2 text-danger">
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>
                   </td>
@@ -70,17 +114,33 @@
                 {%endfor%}
               </tbody>
             </table>
+            <br />
+            {% include 'includes/paginacao.html'%}
           </div>
         </div>
       </div>
+      {%else%}
+      <h5 class="text-center pt-4">Nenhum Profissional encontrado.
+      </h5>
+      {%endif%}
     </div>
   </div>
 </div>
 
 <!-- Button trigger modal -->
 {% endblock content %} {% block scripts %}
-
 <script>
-  
+  $('#validar-form').submit(function () {
+    let nome_cpf = $('#search_nome_cpf')
+    let data_nascimento = $('#search_dt_nascimento')
+    let erro = $('.alert')
+
+    if (nome_cpf.val() == '' && data_nascimento.val() == '') {
+      erro.removeClass('d-none')
+      return false
+    }
+
+    return true
+  })
 </script>
 {% endblock scripts %}

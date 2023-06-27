@@ -24,7 +24,6 @@ class RecibcoTFDForm(forms.ModelForm):
         widgets = {
             'paciente':s2forms.Select2Widget(),
             'acompanhante':s2forms.Select2Widget(),
-                
         }
     def __init__(self, *args, **kwargs):
              super().__init__(*args, **kwargs)

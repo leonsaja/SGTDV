@@ -1,3 +1,4 @@
+from django.db.models import ProtectedError, Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView
 
@@ -39,12 +40,34 @@ def reciboTFDUpdate(request,id):
 class ReciboTFDListView(ListView):
     model=ReciboTFD
     template_name='recibo_tfd/list_recibos_tfds.html'
-    
-    def get_context_data(self, *args, **kwargs):
-        context=super().get_context_data(*args, **kwargs)
-        context['recibos_tfds']=ReciboTFD.objects.select_related('paciente','acompanhante').all()
+    context_object_name='recibos_tfds'
+    paginate_by=1
+
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(ReciboTFDListView,self).get_queryset(*args, **kwargs)
         
-        return context
+        search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
+        data=self.request.GET.get('data',None)
+      
+
+        if search_nome_cpf and data:
+            queryset=qs.select_related('paciente','acompanhante').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))\
+                .filter(data__iexact=data)
+            return queryset
+        
+        elif search_nome_cpf:
+            queryset=qs.select_related('paciente','acompanhante').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))
+            return queryset
+        
+        elif data:
+            
+             queryset=qs.select_related('paciente','acompanhante').filter(data__iexact=data)
+             return queryset
+        
+        else:
+            qs = qs.select_related('paciente','acompanhante').order_by('-id')[:3]
+            return qs
    
 class ReciboTFDDetailView(DetailView):
 

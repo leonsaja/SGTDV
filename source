@@ -1,55 +1,59 @@
-# comando excluir as informações no banco de dados 
+# comando excluir as informações no banco de dados
 python manage.py flush
 
-#Comando para criar um  copia do Banco de dados
+#Comando para criar um copia do Banco de dados
 python3 manage.py dumpdata --indent 2 --exclude auth.permission --exclude contenttypes > db.json
 
-#Comando inserir as informações salva no Backup 
+#Comando inserir as informações salva no Backup
 python3 manage.py loaddata 'nomeArquivo'.json
 
 
 
 
- elif data_inicio and data_final:
-            queryset=qs.select_related('profissional').filter(data_diaria__range=(data_inicio,data_final))
-            return queryset """
+elif data_inicio and data_final:
+queryset=qs.select_related('profissional').filter(data_diaria__range=(data_inicio,data_final))
+return queryset """
 
 
 <div class="container">
-      <div class="row ">
-        <div>
-          <form class="col-md-10  offset-md-2">
-            <div class="row">
-              <div class="col-md-10">
-                <label for="search_nome"><strong> Buscar pelo Nome/CPF</strong></label>
-                <input type="search" class="form-control" name="search_nome_cpf" id="search_nome"
-                  value="{{request.GET.search_nome_cpf}}">
-              </div>
-            </div>
-            <div class=" row">
-
-              <div class="col-md-3 mt-2">
-                <label for="id_td_nascimento">Data de Nascimento</label>
-                <input type="date" class="form-control" id="id_td_nascimento">
-
-              </div>
-              <div class="col-md-7 mt-2">
-                <label for="id_nome_mae">Nome da Mãe</label>
-                <input type="text" class="form-control" id="id_nome_mae">
-
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-10 mt-3">
-                <div class="float-right">
-                  <a class=" btn btn-info m-2"><i class="fa-solid fa-filter"></i> Filtros</a>
-                  <button type="submit" class=" btn btn-primary">Buscar</button>
-
-                </div>
-              </div>
-            </div>
-          </form>
+  <div class="row ">
+    <div>
+      <form class="col-md-10  offset-md-2">
+        <div class="row">
+          <div class="col-md-10">
+            <label for="search_nome"><strong> Buscar pelo Nome/CPF</strong></label>
+            <input type="search" class="form-control" name="search_nome_cpf" id="search_nome"
+              value="{{request.GET.search_nome_cpf}}">
+          </div>
         </div>
-      </div>
+        <div class=" row">
 
+          <div class="col-md-3 mt-2">
+            <label for="id_td_nascimento">Data de Nascimento</label>
+            <input type="date" class="form-control" id="id_td_nascimento">
+
+          </div>
+          <div class="col-md-7 mt-2">
+            <label for="id_nome_mae">Nome da Mãe</label>
+            <input type="text" class="form-control" id="id_nome_mae">
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10 mt-3">
+            <div class="float-right">
+              <a class=" btn btn-info m-2"><i class="fa-solid fa-filter"></i> Filtros</a>
+              <button type="submit" class=" btn btn-primary">Buscar</button>
+
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
+  </div>
+
+</div>
+
+
+{% comment %} % include 'cidadao/modal_delete_cidadao.html'%}
+{% endcomment %}

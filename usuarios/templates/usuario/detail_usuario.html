@@ -26,7 +26,7 @@
             </div>
             <div class="col-md-6">
                 <label for="id_email" class="form-label">E-mail:</label>
-                <h6 id='email' class="text-muted">{{usuario.email|upper}}</h6>
+                <h6 id='email' class="text-muted">{{usuario.email}}</h6>
             </div>
         </div>
 
@@ -39,7 +39,7 @@
             </div>
             <div class="col-md-4">
                 <label for="id_dt_nascimento" class="form-label">Data Nascimento:</label>
-                <h6 id='cpf' class="text-muted">{{usuario.dt_nascimento}}</h6>
+                <h6 id='cpf' class="text-muted">{{usuario.dt_nascimento|date:"d/m/Y"|default:'---'}}</h6>
             </div>
             <div class="col-md-4">
                 <label for="id_tipo_usuario" class="form-label">Tipo de  Usuario:</label>

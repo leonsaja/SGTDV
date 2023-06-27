@@ -18,6 +18,6 @@ urlpatterns = [
      path("create/recibo-passagem/",view_r_p.ReciboPassagemTFDCreateView.as_view(),name='add-recibo_passagem'),
      path("update/<int:pk>/recibo-passagem/",view_r_p.ReciboPassagemTFDUpdateView.as_view(),name='edit-recibo_passagem'),
      path("list/recibos/passagens/",view_r_p.ListReciboPassagemTFDView.as_view(),name='list-recibo_passagem'),
-     path("detail/<int:pk>/recibo-passagem/",view_r_p.DetailReciboPassagemTFD.as_view(),name='detail-recibo_tfd'),
+     path("detail/<int:pk>/recibo-passagem/",view_r_p.DetailReciboPassagemTFD.as_view(),name='detail-recibo_passagem'),
 
 ]

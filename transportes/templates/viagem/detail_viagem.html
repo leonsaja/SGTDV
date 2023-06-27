@@ -18,7 +18,7 @@
         <br />
         <div class="row">
             <div class=" col-md-6">
-                <h4 class=" text-primary"><strong>Detail da Viagem</strong> </h4>
+                <h4 class=" text-primary"><strong>Detalhe da Viagem</strong> </h4>
 
             </div>
         </div>
@@ -62,7 +62,7 @@
             </div>
             <div class="col-md-6">
                 <label for="id_motorista" class="form-label">Motorista:</label>
-                <h6 class="text-muted">{{viagem.motorista|upper}}</h6>
+                <h6 class="text-muted">{{viagem.motorista.nome_completo|upper}}</h6>
 
             </div>
         </div>
@@ -79,9 +79,10 @@
                                 <thead>
                                     <tr>
 
-                                        <th class="text-center">Nome do Paciente</th>
-                                        <th class="text-center">Acompanhante</th>
-                                        <th class="text-center">Local do Exame</th>
+                                        <th>Nome do Paciente</th>
+                                        <th>Acompanhante</th>
+                                        <th>Local do Exame</th>
+                                        <th>Local de Espera</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -93,14 +94,15 @@
 
                                             {% if p.acompanhante %}
                                             
-                                                <td class="text-center">{{p.acompanhante}}</td>
+                                                <td >{{p.acompanhante}}</td>
                                             {% else %}
-                                                 <td class="text-center">-</td>
+                                                 <td >-</td>
                                             {%endif%}
-                                            <td class="text-center">
+                                            <td>
                                                 {{p.local_exame}}
 
                                             </td>
+                                            <td>{{p.local_espera}}</td>
                                            
 
 

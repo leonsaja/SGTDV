@@ -24,8 +24,7 @@
             </div>
         </div>
 
-        <br />
-
+<hr>
 
         <div class="row">
             <div class="col-md-4">
@@ -38,19 +37,19 @@
                     <h6 class="text-muted">{{recibo.codigo_sia_paciente|upper}}</h6>
 
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="id_valor_paciente_sia" class="form-label">Valor :
                     <h6 class="text-muted">{{recibo.valor_paciente_sia|upper}}</h6>
 
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <label for="id_data_recibo" class="form-label">Data :
-                    <h6 class="text-muted">{{recibo.data_recibo}}</h6>
+                    <h6 class="text-muted">{{recibo.data_recibo|date:"d/m/Y"|default:'---'}}</h6>
 
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 mt-2">
                 <label for="id_acompanhante" class="form-label">Nome do Acompanante:
                     {% if recibo.acompanhante%}
                     <h6 class="text-muted">{{recibo.acompanhante.nome_completo|upper}}</h6>
@@ -70,16 +69,16 @@
 
             </div>
             <div class="col-md-3">
-                <label for="id_qta_passagem" class="form-label">Quantidade Passagem :
+                <label for="id_qta_passagem" class="form-label">Quantidade de Passagem :
                     <h6 class="text-muted">{{recibo.qta_passagem|upper}}</h6>
 
             </div>
             
            
         </div>
-        <br>
+        
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mt-2">
                 <label for="id_trecho" class="form-label">Trecho:</label>
                 <h6 class="text-muted">{{recibo.trecho|upper}}</h6>
 

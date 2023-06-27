@@ -4,64 +4,6 @@
 <div class="container-fluid">
   <br />
 
-
-  <div class="row ">
-    <div class="col-md-12  text-center">
-      <h4 class=" text-primary"><strong>Reembolsos</strong> </h4>
-    </div>
-
-
-  </div>
-
-  <div class="container">
-    <div class="row ">
-
-      <form class="col-md-10  offset-md-2 needs-validation" action="{% url 'despesas:list-reembolso'%}" method="GET"
-        id="validar-form">
-
-        <div class="row">
-          <div class="col-md-10">
-            <div class="alert alert-danger d-none" role="alert">
-              Insira algum filtro para realizar a busca.
-            </div>
-          </div>
-
-        </div>
-        <div class="row">
-          <div class="col-md-10">
-            <label for="search_nome_cpf"><strong> Busque pelo Nome/CPF</strong></label>
-            <input type="search" name="search_nome_cpf" class="form-control" value="{{request.GET.search_nome_cpf}}"
-              id="search_nome_cpf">
-
-          </div>
-        </div>
-        <div class="row">
-
-          <div class="col-md-3 mt-2">
-            <label for="id_data">Data da Diária</label>
-            <input type="date" name="data" class="form-control" id="id_data" value="{{request.GET.data}}">
-          </div>
-          <div class="col-md-7 mt-2">
-            <br>
-            <div class="float-right">
-              <a class="btn mr-2" href="{% url 'despesas:list-reembolso'%}" style="background-color:#DADADA;"> Limpar
-                Filtros</a>
-              <button type="submit" class=" btn btn-primary ">Buscar</button>
-
-            </div>
-
-          </div>
-        </div>
-        <div class="row">
-
-
-        </div>
-
-      </form>
-
-    </div>
-    <br>
-  </div>
   <div class="row ">
 
     <div class="col-md-12">
@@ -72,11 +14,64 @@
     </div>
 
   </div>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h4 class=" text-primary"><strong>Reembolsos</strong> </h4>
+    </div>
+  </div>
   <br>
+<div class="row">
+  <div class="container">
+    <div class="row justify-content-center ">
+
+      <form class="col-md-8 needs-validation" action="{% url 'despesas:list-reembolso'%}" method="GET"
+        id="validar-form">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="alert alert-danger d-none" role="alert">
+              Insira algum filtro para realizar a busca.
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label for="search_nome_cpf"><strong> Busque pelo Nome/CPF</strong></label>
+            <input type="search" name="search_nome_cpf" class="form-control" value="{{request.GET.search_nome_cpf}}"
+              id="search_nome_cpf">
+
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="col-md-4 pt-2">
+            <label for="id_data">Data da Diária</label>
+            <input type="date" name="data" class="form-control" id="id_data" value="{{request.GET.data}}">
+          </div>
+          <div class="col-md-8 pt-2 ">
+            <br>
+            <div class="float-right">
+              <a class="btn mr-2" href="{% url 'despesas:list-reembolso'%}" style="background-color:#DADADA;"> Limpar
+                Filtros</a>
+              <button type="submit" class=" btn btn-primary ">Buscar</button>
+
+            </div>
+
+          </div>
+        </div>
+        
+
+      </form>
+
+    </div>
+    
+  </div>
+
 </div>
 
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-12 mt-4">
     <div class="card">
       <div class="card-header">
         <h3 class="logo"><strong>Reembolsos</strong></h3>

@@ -6,6 +6,17 @@ from ..models import PassageiroViagem, Viagem
 
 
 class ViagemForm(forms.ModelForm):
+
+    data_viagem = forms.DateField(
+        label='Data',
+        widget=forms.DateInput(
+            format='%Y-%m-%d',
+            attrs={
+                'type': 'date',
+            }),
+        input_formats=('%Y-%m-%d',),
+    )
+     
     class Meta:
         model=Viagem
         fields='__all__'
@@ -17,7 +28,6 @@ class ViagemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['horario_saida'].widget.attrs.update({'class':'mask-hora'})
-        self.fields['data_viagem'].widget.attrs.update({'class':'mask-data'})
 
     
 

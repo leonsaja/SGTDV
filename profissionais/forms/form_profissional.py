@@ -19,8 +19,7 @@ class ProfissionalForm(forms.ModelForm):
     )
     telefone = forms.CharField(
         label='Telefone',widget=forms.TextInput(attrs={'placeholder':"(xx) xxxxx-xxxx"}))
-    telefone1 = forms.CharField(
-        label='Celular',widget=forms.TextInput(attrs={'placeholder':"(xx) xxxxx-xxxx"})) 
+   
     
     class Meta:
         model=Profissional
@@ -46,7 +45,6 @@ class ProfissionalForm(forms.ModelForm):
     def __init__(self,*args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['cpf'].widget.attrs.update({'class':'mask-cpf'}),
-        self.fields['dt_nascimento'].widget.attrs.update({'class':'mask-data'}),
         self.fields['telefone'].widget.attrs.update({'class':'mask-telefone'}),
 
 
