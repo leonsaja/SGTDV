@@ -1,13 +1,15 @@
 {% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
 
 <div class="container-fluid">
-    <br />
 
-    <div class="row m-2">
+   {% include 'diaria/abas_diaria.html' %}
+    
+    <div class="row">
 
         <div class="col-md-12">
             <div class="text-right">
-                <a href="{% url 'despesas:edit-diaria' diaria.id %}" class="btn btn-primary"><strong>Editar Diária</strong>
+                <a href="{% url 'despesas:edit-diaria' diaria.id %}" class="btn btn-primary"><strong>Editar
+                        Diária</strong>
                 </a>
             </div>
         </div>
@@ -16,7 +18,7 @@
     <div class="col-md-12 px-4">
         <fieldset>
             <legend>
-                <h4 class=" text-primary"><strong>Detalhe da Diária</strong> </h4>
+                <h4 class=" text-primary"><strong>Detalhes da Diária</strong> </h4>
             </legend>
             <hr>
             <div class="row">
@@ -25,7 +27,7 @@
                     <h6 class="text-muted">{{diaria.profissional.nome_completo|upper}}</h6>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-2 ">
                     <label for="id_cpf" class="form-label">CPF:</label>
                     <h6 class="text-muted">{{diaria.profissional.formt_cpf}}</h6>
                 </div>
@@ -101,6 +103,7 @@
             </div>
         </fieldset>
         <br>
+        {% if reembolsos %}
         <div class="row mb-3">
 
             <div class="col-md-12">
@@ -111,84 +114,85 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="text-primary"> <strong>Detalhe do Reembolso</strong>    </h4>
-                    </div>
-                    <div class="table-responsive-md">
-                        <div class="card-body">
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-
-                                        <th class="text-center">Descricao</th>
-                                        <th class="text-center">Valor</th>
-                                        <th class="text-center">Movimentação</th>
-                                        <th class="text-center">Valor </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for r in reembolsos%}
-                                    <div class="table-responsive-md">
-
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="text-primary"> <strong>Detalhe do Reembolso</strong> </h4>
+                        </div>
+                        <div class="table-responsive-md">
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
                                         <tr>
-                                            <td>{{r.get_descricao_display}}</td>
 
-                                            <td class="text-center">{{r.valor_desp}}</td>
+                                            <th class="text-center">Descricao</th>
+                                            <th class="text-center">Valor</th>
+                                            <th class="text-center">Movimentação</th>
+                                            <th class="text-center">Valor </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for r in reembolsos%}
+                                        <div class="table-responsive-md">
 
-                                            {% if movimentacao %}
-                                            <td class="text-center">
-                                                {{r.get_movimento_display}}
+                                            <tr>
+                                                <td>{{r.get_descricao_display}}</td>
 
-                                            </td>
-                                            {%else %}
-                                            <td class="text-center">
-                                                -
+                                                <td class="text-center">{{r.valor_desp}}</td>
 
-                                            </td>
-                                            {%endif%}
-                                            {% if valor_mov %}
-                                            <td class="text-center">
-                                                {{r.valor_mov}}
+                                                {% if movimentacao %}
+                                                <td class="text-center">
+                                                    {{r.get_movimento_display}}
 
-                                            </td>
-                                            {%else %}
-                                            <td class="text-center">
-                                                -
-                                            </td>
-                                            {%endif%}
+                                                </td>
+                                                {%else %}
+                                                <td class="text-center">
+                                                    -
+
+                                                </td>
+                                                {%endif%}
+                                                {% if valor_mov %}
+                                                <td class="text-center">
+                                                    {{r.valor_mov}}
+
+                                                </td>
+                                                {%else %}
+                                                <td class="text-center">
+                                                    -
+                                                </td>
+                                                {%endif%}
 
 
 
+                                            </tr>
+
+
+
+                                            {%endfor%}
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td class="text-end"><b>
+                                                    <h6>Total:</h6>
+                                                </b> </td>
+
+                                            <td class="text-center"><b>
+                                                    <h6>R$ {{ diaria.total_pag}}</h6>
+                                                </b> </td>
                                         </tr>
 
 
+                                    </tfoot>
+                                </table>
 
-                                        {%endfor%}
-
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td class="text-end"><b>
-                                                <h6>Total:</h6>
-                                            </b> </td>
-
-                                        <td class="text-center"><b>
-                                                <h6>R$ {{ diaria.total_pag}}</h6>
-                                            </b> </td>
-                                    </tr>
-
-
-                                </tfoot>
-                            </table>
-
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
 
     </div>
 </div>

@@ -1,0 +1,61 @@
+<div class="row mt-2 ml-2">
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">
+                <i class="fa fa-home" aria-hidden="true"></i>
+
+            </a>
+        </li>
+        <li class="nav-item pt-2">
+            <p class="nav-link  text-muted" style="padding: 0px; "><i class="right fas fa-angle-right"></i></p>
+
+        </li>
+        <li class="nav-item">
+            {% if  request.resolver_match.url_name == 'list-diaria' %} 
+                 <p class="nav-link text-muted"> Lista de Diárias</p>
+            {%else%}
+            <a class="nav-link" href="{% url 'despesas:list-diaria'%}">Lista de Diárias</a>
+            {%endif%}
+            
+        </li>
+        {% if request.resolver_match.url_name == 'add-diaria' %}
+        <li class="nav-item pt-2">
+            <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
+
+        </li>
+        <li class="nav-item">
+            <p class="nav-link text-muted"> Cadastro de Diária</p>
+        </li>
+        
+        {% endif %}
+        
+        {% if request.resolver_match.url_name == 'edit-diaria' %}
+        <li class="nav-item pt-2">
+            <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
+
+        </li>
+        <li class="nav-item">
+            <p class="nav-link text-muted"> Edição</p>
+        </li>
+        
+        {% endif %}
+        
+        
+        {% if  request.resolver_match.url_name == 'detail-diaria' %} 
+        
+            <li class="nav-item pt-2">
+                <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
+
+            </li>
+
+            <li class="nav-item">
+                
+                    <p class="nav-link text-muted">Detalhes da Diária</p>
+            </li>
+                    
+        {%endif%}
+                
+        
+       
+    </ul>
+</div>

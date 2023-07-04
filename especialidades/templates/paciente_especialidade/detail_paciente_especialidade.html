@@ -1,7 +1,8 @@
 {% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
 
 <div class="container-fluid">
-    <br />
+    {% include 'paciente_especialidade/abas_paciente_especialidade.html' %}
+
 
     <div class="row">
         <div class="col-md-12">
@@ -46,7 +47,7 @@
 
             <div class="row mt-3">
                 <div class="col-md-3">
-                    <label for="id_rg" class="form-label">Data Pedido:</label>
+                    <label for="id_rg" class="form-label">Data Pedido2:</label>
                     <h6 id='rg' class="text-muted">{{especialidade.data_pedido|date:"d/m/Y"|default:'---'}}</h6>
                 </div>
                 <div class="col-md-3">

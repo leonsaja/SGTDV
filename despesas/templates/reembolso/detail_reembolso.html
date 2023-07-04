@@ -1,16 +1,17 @@
 {% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
 
-<div class="descricaoiner-fluid">
-    <br />
 
-    <div class="row m-2">
-        <div class=" col-md-6">
-            <h4 class=" text-primary"><b>{{title}}</b> </h4>
 
-        </div>
-        <div class="col-md-6">
+<div class="container-fluid">
+
+   {% include 'reembolso/abas_reembolso.html' %}
+    
+    <div class="row">
+
+        <div class="col-md-12">
             <div class="text-right">
-                <a href="% url 'despesas:edit-reembolso' reembolso.id %}" class="btn btn-primary"><b>Editar Diária</b>
+                <a href="{% url 'despesas:edit-diaria' diaria.id %}" class="btn btn-primary"><strong>Editar
+                        Diária</strong>
                 </a>
             </div>
         </div>
@@ -18,90 +19,185 @@
 
     <div class="col-md-12 px-4">
         <fieldset>
-            <legend>Detalhe da Diária</legend>
-
+            <legend>
+                <h4 class=" text-primary"><strong>Detalhes da Diária</strong> </h4>
+            </legend>
+            <hr>
             <div class="row">
-                <div class="col-md-3">
-                    <label for="id_profissional" class="form-label">Nome Completo do Profissional:</label>
-                    <h6 class="text-muted">{{reembolso.diaria.profissional.nome_completo}}</h6>
+                <div class="col-md-2 ">
+                    <label for="id_profissional" class="form-label">Nome do Profissional:</label>
+                    <h6 class="text-muted">{{diaria.profissional.nome_completo|upper}}</h6>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2 ">
                     <label for="id_cpf" class="form-label">CPF:</label>
-                    <h6 class="text-muted">{{reembolso.profissional.formt_cpf}}</h6>
+                    <h6 class="text-muted">{{diaria.profissional.formt_cpf}}</h6>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label for="id_sus" class="form-label">Cartão do SUS:</label>
-                    <h6 class="text-muted">{{reembolso.profissional.cns}}</h6>
+                    <h6 class="text-muted">{{diaria.profissional.cns}}</h6>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label for="id_telefone" class="form-label">Telefone:</label>
-                    <h6 class="text-muted">{{reembolso.profissional.telefone}}</h6>
+                    <h6 class="text-muted">{{diaria.profissional.telefone}}</h6>
+                </div>
+                <div class="col-md-2">
+                    <label for="id_reembolso" class="form-label">Reembolso:</label>
+                    <h6 class="text-muted">{{diaria.get_reembolso_display}}</h6>
+                </div>
+                <div class="col-md-2">
+                    <label for="id_data" class="form-label">Data:</label>
+                    <h6 class="text-muted">{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</h6>
                 </div>
             </div>
 
             <br />
             <div class="row">
-                <div class="col-md-3">
-                    <label for="id_descricao" class="form-label">Descricao:</label>
-                    <h6 id="descricao" class="text-muted">{{reembolso.get_descricao_display}}</h6>
-                </div>
-                
                 <div class="col-md-2">
-                    <label for="id_valor_desp" class="form-label">Valor da Despesas:</label>
-                    <h6 id='valor_desp'class="text-muted">{{reembolso.valor_desp}}</h6>
+                    <label for="id_conta" class="form-label">Conta:</label>
+                    <h6 class="text-muted">{{diaria.conta}}</h6>
                 </div>
                 <div class="col-md-2">
-                    <label for="id_data" class="form-label">Data:</label>
-                    <h6 class="text-muted">{{reembolso.data_reembolso}}</h6>
+                    <label for="id_fonte" class="form-label">Fonte:</label>
+                    <h6 class="text-muted">{{diaria.fonte}}</h6>
                 </div>
                 <div class="col-md-2">
-                    <label for="id_movimentacao" class="form-label">Movimentação:</label>
-                    <h6 id="movimentacao" class="text-muted">{{reembolso.get_movimentacao_display}}</h6>
+                    <label for="id_tipo_diaria" class="form-label">Tipo Diária:</label>
+                    <h6 class="text-muted">{{diaria.get_tipo_diaria_display}}</h6>
+                </div>
+                <div class="col-md-2">
+                    <label for="id_qta_diaria" class="form-label">Quantidade:</label>
+                    <h6 class="text-muted">{{diaria.qta_diaria}}</h6>
                 </div>
 
                 <div class="col-md-2">
-                    <label for="id_valor_mov" class="form-label">Valor da Movimentação: </label>
-                    <h6 id="valor_mov" class="text-muted">{{reembolso.valor_mov}}</h6>
+                    <label for="id_valor" class="form-label">Valor:</label>
+                    <h6 class="text-muted">R$ {{diaria.valor}}</h6>
                 </div>
-
+                <div class="col-md-2">
+                    <label for="id_total" class="form-label">Subtotal:</label>
+                    <h6 class="text-muted">R$ {{diaria.total}}</h6>
+                </div>
 
             </div>
             <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="id_descricao" class="form-label">Descrição:</label>
+                    <h6 class="text-muted">{{diaria.descricao|upper}}</h6>
+                </div>
+                <div class="col-md-6">
+                    <label for="id_obs" class="form-label">Observação:</label>
+                    <h6 class="text-muted"> {{diaria.obs|upper}}</h6>
+                </div>
 
+            </div>
             <br>
-
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="id_viagem_orig" class="form-label">Origem da Viagem:</label>
+                    <h6 class="text-muted">{{diaria.viagem_orig|upper}}</h6>
+                </div>
+                <div class="col-md-6">
+                    <label for="id_viagem_dest" class="form-label">Destino da Viagem:</label>
+                    <h6 class="text-muted"> {{diaria.viagem_dest|upper}}</h6>
+                </div>
+            </div>
         </fieldset>
+        <br>
+      
+        <div class="row mb-3">
+
+            <div class="col-md-12">
+                <div class="text-right">
+                    <a href="{% url 'despesas:edit-reembolso' diaria.id %}" class="btn btn-primary"><b>Editar
+                            Reembolso</b>
+                    </a>
+                </div>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="text-primary"> <strong>Detalhe do Reembolso</strong> </h4>
+                        </div>
+                        <div class="table-responsive-md">
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+
+                                            <th class="text-center">Descricao</th>
+                                            <th class="text-center">Valor</th>
+                                            <th class="text-center">Movimentação</th>
+                                            <th class="text-center">Valor </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for r in reembolsos%}
+                                        <div class="table-responsive-md">
+
+                                            <tr>
+                                                <td>{{r.get_descricao_display}}</td>
+
+                                                <td class="text-center">{{r.valor_desp}}</td>
+
+                                                {% if movimentacao %}
+                                                <td class="text-center">
+                                                    {{r.get_movimento_display}}
+
+                                                </td>
+                                                {%else %}
+                                                <td class="text-center">
+                                                    -
+
+                                                </td>
+                                                {%endif%}
+                                                {% if valor_mov %}
+                                                <td class="text-center">
+                                                    {{r.valor_mov}}
+
+                                                </td>
+                                                {%else %}
+                                                <td class="text-center">
+                                                    -
+                                                </td>
+                                                {%endif%}
+
+
+
+                                            </tr>
+
+
+
+                                            {%endfor%}
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td class="text-end"><b>
+                                                    <h6>Total:</h6>
+                                                </b> </td>
+
+                                            <td class="text-center"><b>
+                                                    <h6>R$ {{ diaria.total_pag}}</h6>
+                                                </b> </td>
+                                        </tr>
+
+
+                                    </tfoot>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+
     </div>
-    <br />
-
-
 </div>
 
+
 {% endblock %}
-{%block scripts %}
-
-<script>
-
-
-    $(document).ready(function () {
-        var movimentacao = document.getElementById('movimentacao')
-        if (movimentacao.innerHTML == 'None') {
-            movimentacao.innerHTML = '-';
-        }
-        var valor_mov = document.getElementById('valor_mov')
-        if (valor_mov.innerHTML == 'None') {
-            valor_mov.innerHTML = '-';
-        }
-        var descricao = document.getElementById('descricao')
-        if (descricao.innerHTML == 'None') {
-            descricao.innerHTML = '-';
-        }
-        var valor_desp = document.getElementById('valor_desp')
-        if (valor_desp.innerHTML == 'None') {
-            valor_desp.innerHTML = '-';
-        }
-
-    });
-</script>
-{% endblock scripts%}

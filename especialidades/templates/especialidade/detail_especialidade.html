@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+
 <div class="container-fluid">
-    <br /><br />
+    {% include 'especialidade/abas_especialidade.html' %}
+
     <div class="row">
         <div class=" col-md-12">
             <h4 class=" text-primary text-center"><strong>{{especialidade.nome}}</strong></h4>
@@ -47,7 +50,7 @@
                             <tbody>
                                 {%for especialidade in especialidade.especialidades.all %}
                                 <tr>
-                                    <td>{{especialidade.paciente.nome_completo}}</td>
+                                    <td>{{especialidade.paciente.nome_completo teste}}</td>
                                     <td>{{especialidade.paciente.formt_cpf}}</td>
                                     <td>{{especialidade.profissional.nome_completo}}</td>
                                     <td>{{especialidade.profissional.estabelecimento}} </td>

@@ -2,10 +2,11 @@
 {% block content %}
 
 <div class="container-fluid">
-  <br />
+  {% include 'paciente_especialidade/abas_paciente_especialidade.html' %}
+
 
   <div class="col-12 m-2 pl-3">
-    <h4 class=" text-primary"><strong>{{especialidade}}</strong> </h4>
+    <h4 class=" text-primary"><strong>{{especialidade|upper}}</strong> </h4>
   </div>
   {% if form.errors %}
         

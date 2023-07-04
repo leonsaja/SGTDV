@@ -2,7 +2,9 @@
 
 {% block content %}
 <div class="container-fluid">
-  <br />
+  
+  {% include 'reembolso/abas_reembolso.html' %}
+
 
   <div class="row ">
 
@@ -49,7 +51,7 @@
             <label for="id_data">Data da Diária</label>
             <input type="date" name="data" class="form-control" id="id_data" value="{{request.GET.data}}">
           </div>
-          <div class="col-md-8 pt-2 ">
+          <div class="col-md-8 mt-3   ">
             <br>
             <div class="float-right">
               <a class="btn mr-2" href="{% url 'despesas:list-reembolso'%}" style="background-color:#DADADA;"> Limpar
@@ -109,7 +111,7 @@
                       aria-hidden="true"></i></a>
 
 
-                  <a href="{% url 'despesas:detail-diaria' diaria.id%}" class="pr-2"><i
+                  <a href="{% url 'despesas:detail-reembolso' diaria.id%}" class="pr-2"><i
                       class="fas fa-solid fa-eye"></i></a>
 
 
