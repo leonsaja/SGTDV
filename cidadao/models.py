@@ -40,7 +40,7 @@ class Cidadao(models.Model):
             if len(cpf) == 11:
                 return ('{}.{}.{}-{}'.format( cpf[:3], cpf[3:6], cpf[6:9], cpf[9:]))
         
-        return ' '
+        return ''
         
     
 class Endereco(models.Model):

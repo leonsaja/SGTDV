@@ -8,7 +8,7 @@
 
     <div class="row">
         <div class=" col-md-12">
-            <h4 class=" text-primary text-center"><strong>{{especialidade.nome}}</strong></h4>
+            <h4 class=" text-primary text-center"><strong>{{especialidade.nome|upper}}</strong></h4>
         </div>
 
     </div>
@@ -41,44 +41,45 @@
                                     <th>Paciente</th>
                                     <th>CPF</th>
                                     <th>ACS</th>
-                                    <th>PSF</th>
                                     <th>Tipo de Atendimento</th>
                                     <th>Classficação</th>
-                                    <th>Opção</th>
+                                    <th>Data do Pedido</th>
+                                    <th>Ação</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {%for especialidade in especialidade.especialidades.all %}
+                                {%for especialidade in paciente_especialidade %}
                                 <tr>
-                                    <td>{{especialidade.paciente.nome_completo teste}}</td>
+                                    <td>{{especialidade.paciente.nome_completo}}</td>
                                     <td>{{especialidade.paciente.formt_cpf}}</td>
                                     <td>{{especialidade.profissional.nome_completo}}</td>
-                                    <td>{{especialidade.profissional.estabelecimento}} </td>
                                     <td>{{especialidade.get_tipo_atendimento_display }}</td>
                                     {% if especialidade.classificacao == '2'%}
                                     <td style="background-color: red; color: white;">
-                                        {{especialidade.get_classificacao_display}}
-
+                                      {{especialidade.get_classificacao_display}}
+                  
                                     </td>
                                     {% else %}
                                     <td>
-                                        {{especialidade.get_classificacao_display}}
+                                      {{especialidade.get_classificacao_display}}
                                     </td>
-
                                     {%endif%}
                                     <td>
-
-                                        <a href="{% url 'especialidades:detail-paciente-especialidade' especialidade.id%}"
-                                            class="pr-1"><i class="fas fa-solid fa-eye"></i></a>
-
-                                        <a href="{% url 'especialidades:edit-paciente-especialidade' especialidade.id%}"
-                                            class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
-
-                                        <a href="#modal--{{especialidade.id}}" data-bs-toggle="modal"
-                                            data-bs-target="#modal--{{especialidade.id}}" class="pr-2 text-danger">
-
-                                            <i class="fas fa-solid fa-trash-can"></i>
-                                        </a>
+                                      {{especialidade.data_pedido|date:"d/m/Y"|default:'---'}}
+                                    </td>
+                                    <td>
+                  
+                                      <a href="{% url 'especialidades:detail-paciente-especialidade' especialidade.id%}" class="pr-1"><i
+                                          class="fas fa-solid fa-eye"></i></a>
+                  
+                                      <a href="{% url 'especialidades:edit-paciente-especialidade' especialidade.id%}"
+                                        class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
+                  
+                                      <a href="#modal--{{especialidade.id}}" data-bs-toggle="modal"
+                                        data-bs-target="#modal--{{especialidade.id}}" class="pr-2 text-danger">
+                  
+                                        <i class="fas fa-solid fa-trash-can"></i>
+                                      </a>
                                     </td>
                                 </tr>
                                 {% include 'paciente_especialidade/modal_delete_paciente_especialidade.html'%}

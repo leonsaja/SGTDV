@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="text-right">
-                <a href="{% url 'especialidades:edit-paciente-especialidade' especialidade.id %}"
+                <a href="{% url 'especialidades:edit-paciente-especialidade' paciente_especialidade.id %}"
                     class="btn btn-primary"><b>Editar Informação </b> </a>
             </div>
         </div>
@@ -22,7 +22,7 @@
     <br />
 
     <div class="col-md-12 px-4">
-        <h4 class=" text-primary"><strong>{{especialidade.especialidade}} </strong></h4>
+        <h4 class=" text-primary"><strong>{{paciente_especialidade.especialidade|upper}} </strong></h4>
         <br>
         <fieldset>
             <legend class="text-primary"><strong> Dados do Paciente</strong></legend>
@@ -31,15 +31,15 @@
             <div class="row">
                 <div class="col-md-4">
                     <label for="id_paciente" class="form-label">Nome Completo: </label>
-                    <h6 class="text-muted">{{especialidade.paciente.nome_completo}}</h6>
+                    <h6 class="text-muted">{{paciente_especialidade.paciente.nome_completo}}</h6>
                 </div>
                 <div class="col-md-4">
                     <label for="id_email" class="form-label">ACS:</label>
-                    <h6 id='email' class="text-muted">{{especialidade.profissional.nome_completo}}</h6>
+                    <h6 id='email' class="text-muted">{{paciente_especialidade.profissional.nome_completo}}</h6>
                 </div>
                 <div class="col-md-4">
                     <label for="id_estabelecimento" class="form-label">Estabelecimento:</label>
-                    <h6 id='email' class="text-muted">{{especialidade.profissional.estabelecimento}}</h6>
+                    <h6 id='email' class="text-muted">{{paciente_especialidade.profissional.estabelecimento}}</h6>
                 </div>
             </div>
 
@@ -47,20 +47,20 @@
 
             <div class="row mt-3">
                 <div class="col-md-3">
-                    <label for="id_rg" class="form-label">Data Pedido2:</label>
-                    <h6 id='rg' class="text-muted">{{especialidade.data_pedido|date:"d/m/Y"|default:'---'}}</h6>
+                    <label for="id_rg" class="form-label">Data Pedido:</label>
+                    <h6 id='rg' class="text-muted">{{paciente_especialidade.data_pedido|date:"d/m/Y"|default:'---'}}</h6>
                 </div>
                 <div class="col-md-3">
                     <label for="id_cpf" class="form-label">Classificação:</label>
-                    <h6 id='cpf' class="text-muted">{{especialidade.get_classificacao_display}}</h6>
+                    <h6 id='cpf' class="text-muted">{{paciente_especialidade.get_classificacao_display}}</h6>
                 </div>
                 <div class="col-md-3">
                     <label for="id_sus" class="form-label">Tipo de Atendimento:</label>
-                    <h6 class="text-muted">{{especialidade.get_tipo_atendimento_display}}</h6>
+                    <h6 class="text-muted">{{paciente_especialidade.get_tipo_atendimento_display}}</h6>
                 </div>
                 <div class="col-md-3">
                     <label for="id_sexo" class="form-label">Status:</label>
-                    <h6 class="text-muted">{{especialidade.get_status_display}}</h6>
+                    <h6 class="text-muted">{{paciente_especialidade.get_status_display}}</h6>
                 </div>
 
             </div>
@@ -69,7 +69,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="id_nome_mae" class="form-label">Observação:</label>
-                    <h6 class="text-muted"> {{especialidade.observacao}}</h6>
+                    <h6 class="text-muted"> {{paciente_especialidade.observacao}}</h6>
                 </div>
 
             </div>

@@ -21,58 +21,59 @@
 
   </div>
   <br>
-     <div class="row ">
-  <div class="container">
-    <div class="row justify-content-center ">
+  <div class="row ">
+    <div class="container">
+      <div class="row justify-content-center ">
 
-      <form class="col-md-8  needs-validation" method="GET" id="validar-form">
-        {% csrf_token %}
-        <div class="row">
-          <div class="col-md-10">
-            <div class="alert alert-danger d-none" role="alert">
-              Insira algum filtro para realizar a busca.
-            </div>
-          </div>
-
-        </div>
-        <div class="row">
-          <div class="col-md-10">
-            <label for="buscar"><strong> Busque pelo Nome/CPF</strong></label>
-            <input type="search" name="buscar" class="form-control" value="{{request.GET.buscar}}"
-              id="buscar">
-
-          </div>
-        </div>
-        <div class="row">
-
-          <div class="col-md-3 mt-2">
-            <label for="id_data">Data do Pedido</label>
-            <input type="date" name="data" class="form-control" id="id_data" value="{{request.GET.data}}">
-          </div>
-
-          <div class="col-md-7 mt-3">
-            <br>
-            <div class="float-right">
-              <a class="btn mr-2" href="{% url 'especialidades:list-paciente-especialidade' especialidade.id %}"
-                style="background-color:#DADADA;"> Limpar
-                Filtros</a>
-              <button type="submit" class=" btn btn-primary ">Buscar</button>
-
+        <form class="col-md-8  needs-validation"
+          action="{% url 'especialidades:search-paciente-especialidade' especialidade.id%}" method="GET"
+          id="validar-form">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-md-10">
+              <div class="alert alert-danger d-none" role="alert">
+                Insira algum filtro para realizar a busca.
+              </div>
             </div>
 
           </div>
-        </div>
+          <div class="row">
+            <div class="col-md-10">
+              <label for="buscar"><strong> Busque pelo Nome/CPF</strong></label>
+              <input type="search" name="buscar" class="form-control" value="{{request.GET.buscar}}" id="buscar">
+
+            </div>
+          </div>
+          <div class="row">
+
+            <div class="col-md-3 mt-2">
+              <label for="id_data">Data do Pedido</label>
+              <input type="date" name="data" class="form-control" id="id_data" value="{{request.GET.data}}">
+            </div>
+
+            <div class="col-md-7 mt-3">
+              <br>
+              <div class="float-right">
+                <a class="btn mr-2" href="{% url 'especialidades:list-paciente-especialidade' especialidade.id %}"
+                  style="background-color:#DADADA;"> Limpar
+                  Filtros</a>
+                <button type="submit" class=" btn btn-primary ">Buscar</button>
+
+              </div>
+
+            </div>
+          </div>
 
 
-      </form>
+        </form>
+
+      </div>
 
     </div>
-
   </div>
-</div>
-  
 
-  
+
+
   <div class="row">
     <div class="col-md-12 mt-3">
       <div class="card">

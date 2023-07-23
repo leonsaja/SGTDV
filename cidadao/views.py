@@ -129,5 +129,5 @@ class CidadaoListView(ListView):
             return qs """
             
         else:
-            qs=qs.select_related('endereco','microarea').all()[:4]
+            qs=qs.select_related('endereco','microarea').all()
             return qs

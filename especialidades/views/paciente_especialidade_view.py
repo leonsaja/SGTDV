@@ -137,11 +137,12 @@ class PacienteEspecialidadeDetailView(DetailView):
 
     model=PacienteEspecialidade
     template_name='paciente_especialidade/detail_paciente_especialidade.html'
-    context_object_name='especialidade'
+ 
     
     def get_context_data(self, *args, **kwargs):
         context= super().get_context_data(*args, **kwargs)
         paciente_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').get(id=self.kwargs['pk'])
+        context['especialiadade']=paciente_especialidade.especialidade
         context['paciente_especialidade']=paciente_especialidade
        
         return context

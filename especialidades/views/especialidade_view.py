@@ -41,6 +41,7 @@ class EspecialidadeListView(ListView):
             return queryset 
 
         qs=qs.all()                                                       
+        
         return qs
     
 
@@ -52,7 +53,7 @@ class EspecialidadeDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         especialidade=Especialidade.objects.get(id=self.kwargs['pk'])
-        context['especialidade']=especialidade
+        context['paciente_especialidade']=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade_id=especialidade.id)
         return context
     
 
