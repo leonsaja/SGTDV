@@ -7,29 +7,29 @@
             </a>
         </li>
         <li class="nav-item pt-2">
-            <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
+            <p class="nav-link  text-muted" style="padding: 0px; "><i class="right fas fa-angle-right"></i></p>
 
         </li>
         <li class="nav-item">
-            {% if  request.resolver_match.url_name == 'list-reembolso' %} 
-                 <p class="nav-link text-muted"> Lista de Reembolsos</p>
+            {% if  request.resolver_match.url_name == 'list-recibo_passagem' %} 
+                 <p class="nav-link text-muted"> Lista de Recibo de Passagens</p>
             {%else%}
-            <a class="nav-link" href="{% url 'despesas:list-reembolso'%}">Lista de Reembolsos</a>
+            <a class="nav-link" href="{% url 'tfds:list-recibo_passagem'%}">Lista de Recibo de Passagens</a>
             {%endif%}
             
         </li>
-        {% if request.resolver_match.url_name == 'add-reembolso' %}
+        {% if request.resolver_match.url_name == 'add-recibo_passagem' %}
         <li class="nav-item pt-2">
             <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
 
         </li>
         <li class="nav-item">
-            <p class="nav-link text-muted"> Cadastro de Reembolso</p>
+            <p class="nav-link text-muted"> Cadastro de Recibo de Passagem</p>
         </li>
         
         {% endif %}
         
-        {% if request.resolver_match.url_name == 'edit-reembolso' %}
+        {% if request.resolver_match.url_name == 'edit-recibo_passagem' %}
         <li class="nav-item pt-2">
             <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
 
@@ -41,7 +41,7 @@
         {% endif %}
         
         
-        {% if  request.resolver_match.url_name == 'detail-reembolso' %} 
+        {% if  request.resolver_match.url_name == 'detail-recibo_passagem' %} 
         
             <li class="nav-item pt-2">
                 <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
@@ -50,7 +50,7 @@
 
             <li class="nav-item">
                 
-                    <p class="nav-link text-muted">Detalhes do Reembolso</p>
+                    <p class="nav-link text-muted">Detalhes do Recibo de Passagem</p>
             </li>
                     
         {%endif%}

@@ -49,7 +49,7 @@ class ListReciboPassagemTFDView(ListView):
              return queryset
         
         else:
-            qs = qs.select_related('paciente','acompanhante').order_by('-id')[:3]
+            qs = qs.select_related('paciente','acompanhante').order_by('-id')
             return qs
     
 

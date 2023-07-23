@@ -7,29 +7,29 @@
             </a>
         </li>
         <li class="nav-item pt-2">
-            <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
+            <p class="nav-link  text-muted" style="padding: 0px; "><i class="right fas fa-angle-right"></i></p>
 
         </li>
         <li class="nav-item">
-            {% if  request.resolver_match.url_name == 'list-reembolso' %} 
-                 <p class="nav-link text-muted"> Lista de Reembolsos</p>
+            {% if  request.resolver_match.url_name == 'list-viagem' %} 
+                 <p class="nav-link text-muted"> Lista de Viagens</p>
             {%else%}
-            <a class="nav-link" href="{% url 'despesas:list-reembolso'%}">Lista de Reembolsos</a>
+            <a class="nav-link" href="{% url 'transportes:list-viagem'%}">Lista de Viagens</a>
             {%endif%}
             
         </li>
-        {% if request.resolver_match.url_name == 'add-reembolso' %}
+        {% if request.resolver_match.url_name == 'add-viagem' %}
         <li class="nav-item pt-2">
             <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
 
         </li>
         <li class="nav-item">
-            <p class="nav-link text-muted"> Cadastro de Reembolso</p>
+            <p class="nav-link text-muted"> Cadastro de Viagem</p>
         </li>
         
         {% endif %}
         
-        {% if request.resolver_match.url_name == 'edit-reembolso' %}
+        {% if request.resolver_match.url_name == 'edit-viagem' %}
         <li class="nav-item pt-2">
             <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
 
@@ -41,7 +41,7 @@
         {% endif %}
         
         
-        {% if  request.resolver_match.url_name == 'detail-reembolso' %} 
+        {% if  request.resolver_match.url_name == 'detail-viagem' %} 
         
             <li class="nav-item pt-2">
                 <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
@@ -50,7 +50,7 @@
 
             <li class="nav-item">
                 
-                    <p class="nav-link text-muted">Detalhes do Reembolso</p>
+                    <p class="nav-link text-muted">Detalhes da Viagem</p>
             </li>
                     
         {%endif%}

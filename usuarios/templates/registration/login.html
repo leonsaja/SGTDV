@@ -1,0 +1,35 @@
+{% extends 'baseP.html' %} {% load static %} {% load bootstrap5 %}
+
+{% block title %} Login {% endblock %} {% block content %}
+
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-4 ">
+
+            <br><br><br>
+            <form method="POST" class="col-md-10 needs-validation" novalidate>
+                <img src="/static/img/saude.jpg" width="100%" height="auto" alt="Logo-Saude">
+
+                {% csrf_token %}
+
+                {% bootstrap_form form %}
+
+                <br>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" type="submit">Entrar</button>
+                </div>
+
+            </form>
+
+
+
+        </div>
+
+    </div>
+</div>
+{% endblock content %}
+
+{%block scripts %}
+
+{%endblock scripts%}

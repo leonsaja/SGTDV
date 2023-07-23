@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
 
-<div class="descricaoiner-fluid">
-    <br />
+<div class="container-fluid">
+    {% include 'viagem/abas_viagem.html' %}
 
     <div class="row m-2">
 
@@ -34,7 +34,7 @@
             </div>
             <div class="col-md-3">
                 <label for="id_data" class="form-label">Data da Viagem:
-                    <h6 class="text-muted">{{viagem.data_viagem}}</h6>
+                    <h6 class="text-muted">{{viagem.data_viagem|date:"d/m/Y"|default:'---'}}</h6>
             </div>
             <div class="col-md-3">
                 <label for="id_horario_viagem" class="form-label">Horario da Viagem:

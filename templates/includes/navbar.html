@@ -9,25 +9,30 @@
     </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
+        {% if user.is_authenticated%}
         <a class="nav-link" data-toggle="dropdown" href="#">
-            <p class="text-sm text-muted">Olá, leonardo pereira
+
+            <p class="text-sm text-muted">Olá, 
+             
+                  {{user.nome_completo}}
                   <img class="img-profile rounded-circle ml-4 " align="Absmiddle" height="35px" src="/static/dist/img/user2-160x160.jpg">
                 </p>
                 </a>
              
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 
-           <a href="#" class="dropdown-item">
+           <a href="{% url 'usuarios:detail-usuario' user.id%}" class="dropdown-item">
             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Perfil
           </a>
          
-          <a href="#" class="dropdown-item">
+          <a href="{% url 'usuarios:deslogar_usuario'%}" class="dropdown-item">
             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Sair
           </a>
       
          
           
-      </li>
+          {% endif %}
+        </li>
 
 
                

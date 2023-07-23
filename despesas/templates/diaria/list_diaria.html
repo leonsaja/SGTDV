@@ -15,7 +15,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="row justify-content-center ">
     <div class="col-md-8 ">
       <h4 class=" text-primary"><strong>Diárias</strong> </h4>
@@ -26,7 +26,8 @@
     <div class="container">
       <div class="row justify-content-center">
 
-        <form class="col-md-8 needs-validation" method="GET" id="validar-form">
+        <form class="col-md-8 needs-validation" action="{% url 'despesas:search-diaria'%}" method="GET"
+          id="validar-form">
 
           <div class="row">
             <div class="col-md-12">
@@ -38,9 +39,8 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <label for="search_nome_cpf"><strong> Busque pelo Nome/CPF</strong></label>
-              <input type="search" name="search_nome_cpf" class="form-control" value="{{request.GET.search_nome_cpf}}"
-                id="search_nome_cpf">
+              <label for="buscar"><strong> Busque pelo Nome/CPF</strong></label>
+              <input type="search" name="buscar" class="form-control" value="{{request.GET.buscar}}" id="buscar">
 
             </div>
           </div>
@@ -67,7 +67,7 @@
 
   </div>
 
-  
+
 
   <div class="row">
     <div class="col-md-12 mt-4">
@@ -91,7 +91,7 @@
                   <th>CPF</th>
                   <th>CNS</th>
                   <th>Data da Diária</th>
-                  <th>Opção</th>
+                  <th>Ação</th>
                 </tr>
               </thead>
               <tbody>
@@ -140,5 +140,7 @@
 {% include 'includes/modal_delete.html'%}
 <!-- Button trigger modal -->
 {% endblock content %} {% block scripts %}
-<script src="/static/utils/validar_form.js"></script>
+<script src="/static/utils/validar_form.js/">
+
+</script>
 {% endblock scripts %}

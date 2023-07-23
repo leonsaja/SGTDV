@@ -1,3 +1,6 @@
+from typing import Any
+
+from django.db import models
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import redirect, render
@@ -46,28 +49,43 @@ class ReembolsoListView(ListView):
    model=Diaria
    template_name='reembolso/list_reembolso.html'
    context_object_name='diarias'
-   paginate_by=10
 
 
    def get_queryset(self, *args, **kwargs):
         qs = super(ReembolsoListView,self).get_queryset(*args, **kwargs)
-        search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
+        qs = qs.select_related('profissional').filter(reembolso=1).order_by('-data_diaria')[:5]
+        return qs
+
+class SearchReembolsoView(ListView):
+   model=Diaria
+   template_name='reembolso/list_reembolso.html'
+   context_object_name='diarias'
+   paginate_by=1
+   
+   def get_queryset(self, *args, **kwargs):
+        qs = super(SearchReembolsoView,self).get_queryset(*args, **kwargs)
+        buscar=self.request.GET.get('buscar',None)
         data=self.request.GET.get('data',None)
         
-        if search_nome_cpf and data:
-            queryset=qs.select_related('profissional').filter(reembolso=1).filter(Q(profissional__nome_completo__icontains=search_nome_cpf)| Q(profissional__cpf__icontains=search_nome_cpf)).filter(data_diaria__iexact=data).order_by('-data_diaria')
+        if buscar and data:
+            queryset=qs.select_related('profissional')\
+                .filter(reembolso=1).filter(Q(profissional__nome_completo__icontains=buscar)| Q(profissional__cpf__icontains=buscar))\
+                    .filter(data_diaria__iexact=data).order_by('-data_diaria')
             return queryset
         
-        elif search_nome_cpf:
-            queryset=qs.select_related('profissional').filter(reembolso=1).filter(Q(profissional__nome_completo__icontains=search_nome_cpf)| Q(profissional__cpf__icontains=search_nome_cpf)).order_by('-data_diaria')
+        elif buscar:
+            queryset=qs.select_related('profissional').filter(reembolso=1)\
+                .filter(Q(profissional__nome_completo__icontains=buscar)| Q(profissional__cpf__icontains=buscar))\
+                    .order_by('-data_diaria')
             return queryset
         
         elif data:
             queryset=qs.select_related('profissional').filter(reembolso=1).filter(data_diaria__iexact=data).order_by('-data_diaria')
             return queryset 
     
-        qs = qs.select_related('profissional').filter(reembolso=1).order_by('-data_diaria')
-        return qs
+       
+
+   
    
 class ReembolsoDetailView(DetailView):
     model=Diaria
@@ -81,5 +99,6 @@ class ReembolsoDetailView(DetailView):
     
         return context
 
-class ReembolsoDeleteView(DeleteView):
-   pass
+    
+    
+

@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import ProtectedError, Q
 from django.http import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView
 
 from especialidades.forms.form_paciente_especialidade import \
@@ -16,7 +16,7 @@ def pacienteEspecialidadeCreate(request,id):
     especialidade=Especialidade.objects.get(id=id)
 
     if not especialidade:
-        not Http404()
+        raise Http404()
 
     if request.method == 'POST':
         form=PacienteEspecialidadeForm(request.POST)
@@ -38,12 +38,10 @@ def pacienteEspecialidadeCreate(request,id):
     return render(request,'paciente_especialidade/form_paciente_especialidade.html',context)
 
 def pacienteEspecialidadeUpdate(request,id):
-    paciente_especialidade=PacienteEspecialidade.objects.get(id=id)
+    paciente_especialidade=get_object_or_404(PacienteEspecialidade,id=id)
+  
     especialidade=Especialidade.objects.get(nome=paciente_especialidade.especialidade.nome)
-
-    if not especialidade:
-        not Http404()
-
+   
     if request.method == 'POST':
         form=PacienteEspecialidadeForm(request.POST, instance=paciente_especialidade)
 
@@ -79,24 +77,42 @@ def pacienteEspecialidadeDelete(request,id):
     finally:
         return redirect('especialidades:detail-especialidade', especialidade.id)    
 
-def  pacienteEspecialidadeList(request,id):
+def pacienteEspecialidadeList(request,id): 
+   
     template_name='paciente_especialidade/list_pacientes_especialidade.html'
     context=[]
 
-    search_nome_cpf=request.GET.get('search_nome_cpf',None)
+    especialidade=get_object_or_404(Especialidade,id=id)
+
+    pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).order_by('-data_pedido')[:5]
+    
+    context={
+        
+        'page_obj':pacientes_especialidade,
+        'especialidade':especialidade,
+    }
+    
+    
+    return render(request,template_name,context)
+
+def pacienteEspecialidadeSearch(request,id):
+    template_name='paciente_especialidade/list_pacientes_especialidade.html'
+    context=[]
+
+    buscar=request.GET.get('buscar',None)
     data=request.GET.get('data',None)  
 
     especialidade=Especialidade.objects.get(id=id)
     
-    if search_nome_cpf and data :
+    if buscar and data :
             pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(\
-                                                            especialidade__id=especialidade.id).filter(Q(paciente__nome_completo__icontains=search_nome_cpf)|\
-                                                            Q(paciente__cpf__icontains=search_nome_cpf)).filter(data_pedido__iexact=data).order_by('-data_pedido')
+                                                            especialidade__id=especialidade.id).filter(Q(paciente__nome_completo__icontains=buscar)|\
+                                                            Q(paciente__cpf__icontains=buscar)).filter(data_pedido__iexact=data).order_by('-data_pedido')
 
-    elif search_nome_cpf:             
+    elif buscar:             
             pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(\
-                                                            especialidade__id=especialidade.id).filter(Q(paciente__nome_completo__icontains=search_nome_cpf)|\
-                                                            Q(paciente__cpf__icontains=search_nome_cpf)).order_by('-data_pedido')
+                                                            especialidade__id=especialidade.id).filter(Q(paciente__nome_completo__icontains=buscar)|\
+                                                            Q(paciente__cpf__icontains=buscar)).order_by('-data_pedido')
     elif data:
             pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).filter(data_pedido__iexact=data).order_by('-data_pedido')
         
@@ -104,7 +120,7 @@ def  pacienteEspecialidadeList(request,id):
         pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).order_by('-data_pedido')
     
     
-    paginator = Paginator(pacientes_especialidade, 10)  
+    paginator = Paginator(pacientes_especialidade, 1)  
     page_number = request.GET.get("page")
     page_obj= paginator.get_page(page_number)
     

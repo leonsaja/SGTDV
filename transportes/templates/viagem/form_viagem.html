@@ -6,7 +6,8 @@
 {% block content %}
 
 <div class="container-fluid">
-  <br />
+  {% include 'viagem/abas_viagem.html' %}
+
   <div class="col-12 m-2 pl-3">
     <h4 class=" text-primary"><b>Cadastro de Viagem</b> </h4>
   </div>
@@ -28,7 +29,7 @@
           <div class="col-md-4">{{form.carro|as_crispy_field }}
           </div>
           <div class="col-md-3">{{form.status|as_crispy_field }}</div>
-          <div class="col-md-3">{{form.motorista|as_crispy_field }}</div>
+          <div class="col-md-5">{{form.motorista|as_crispy_field }}</div>
 
         </div>
     </fieldset>

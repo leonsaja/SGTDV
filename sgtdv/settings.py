@@ -203,6 +203,10 @@ MESSAGE_TAGS = {
 }
 
 AUTH_USER_MODEL = "usuarios.Usuario"
+LOGIN_URL= 'usuarios:login_usuario'
+LOGIN_REDIRECT_URL = "core:home"
+LOGOUT_REDIRECT_URL = 'usuarios:login_usuario'
+
 
 INTERNAL_IPS = [
     # ...

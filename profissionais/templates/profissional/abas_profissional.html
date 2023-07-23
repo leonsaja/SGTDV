@@ -1,55 +1,61 @@
-<div class="row m-2">
+<div class="row mt-2 ml-2">
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'core:home'%}">
+                <i class="fa fa-home" aria-hidden="true"></i>
 
-    <div class="col-md-12">
+            </a>
+        </li>
+        <li class="nav-item pt-2">
+            <p class="nav-link  text-muted" style="padding: 0px; "><i class="right fas fa-angle-right"></i></p>
 
-        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-
-            <li class="nav-item" role="presentation">
-                <a href="{% url 'profissionais:detail-profissional' profissional.id %}"
-                {% if request.resolver_match.url_name == 'detail-profissional' %}
-                class="nav-link active">
-               {%else%}
-                class="nav-link">
-               {%endif%}    
-                  Informações</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a href="{% url 'profissionais:list-diarias-profissional' profissional.id %}" aria-selected="true"
-                {% if request.resolver_match.url_name == 'list-diarias-profissional' %}
-                 class="nav-link active">
-                {%else%}
-                 class="nav-link">
-                {%endif%}    
-                    Diárias</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a   class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
-                    role="tab">Reembolsos </a>
-            </li>
-
-        </ul>
-        <br>
-    </div>
-
-
-</div>
-{% comment %} 
-
-<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-
-    <li class="nav-item" role="presentation">
-        <a href="{% url 'profissionais:detail-profissional' profissional.id %}"
-            class="nav-link active">
+        </li>
+        <li class="nav-item">
+            {% if  request.resolver_match.url_name == 'list-cidadao' %} 
+                 <p class="nav-link text-muted"> Lista de Profissionais</p>
+            {%else%}
+            <a class="nav-link" href="{% url 'profissionais:list-profissional'%}">Lista de Profissionais</a>
+            {%endif%}
             
-            Informações</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a href="{% url 'profissionais:list-diarias-profissional' profissional.id %}" aria-selected="true"
-            class="nav-link">Diárias</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
-            role="tab">Reembolsos </a>
-    </li>
+        </li>
+        {% if request.resolver_match.url_name == 'add-profissional' %}
+        <li class="nav-item pt-2">
+            <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
 
-</ul> {% endcomment %}
+        </li>
+        <li class="nav-item">
+            <p class="nav-link text-muted"> Cadastro de Profissional</p>
+        </li>
+        
+        {% endif %}
+        
+        {% if request.resolver_match.url_name == 'edit-profissional' %}
+        <li class="nav-item pt-2">
+            <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
+
+        </li>
+        <li class="nav-item">
+            <p class="nav-link text-muted"> Edição</p>
+        </li>
+        
+        {% endif %}
+        
+        
+        {% if  request.resolver_match.url_name == 'detail-profissional' %} 
+        
+            <li class="nav-item pt-2">
+                <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
+
+            </li>
+
+            <li class="nav-item">
+                
+                    <p class="nav-link text-muted">Detalhes do Profissional</p>
+            </li>
+                    
+        {%endif%}
+                
+        
+       
+    </ul>
+</div>

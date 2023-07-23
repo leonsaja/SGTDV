@@ -37,9 +37,9 @@
         </div>
         <div class="row">
           <div class="col-md-10">
-            <label for="search_nome_cpf"><strong> Busque pelo Nome/CPF</strong></label>
-            <input type="search" name="search_nome_cpf" class="form-control" value="{{request.GET.search_nome_cpf}}"
-              id="search_nome_cpf">
+            <label for="buscar"><strong> Busque pelo Nome/CPF</strong></label>
+            <input type="search" name="buscar" class="form-control" value="{{request.GET.buscar}}"
+              id="buscar">
 
           </div>
         </div>
@@ -92,7 +92,7 @@
                   <th>Tipo de Atendimento</th>
                   <th>Classficação</th>
                   <th>Data do Pedido</th>
-                  <th>Opção</th>
+                  <th>Ação</th>
                 </tr>
               </thead>
               <tbody>
@@ -145,5 +145,6 @@
 {% include 'includes/modal_delete.html'%}
 <!-- Button trigger modal -->
 {% endblock content %} {% block scripts %}
+<script src="/static/utils/validar_form.js/"></script>
 
 {% endblock scripts %}

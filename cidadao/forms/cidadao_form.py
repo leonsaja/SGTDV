@@ -18,7 +18,7 @@ class CidadaoForm(forms.ModelForm):
         input_formats=('%Y-%m-%d',),
     )
     telefone = forms.CharField(
-        label='Telefone',widget=forms.TextInput(attrs={'placeholder':"(xx) xxxxx-xxxx"}))
+        label='Telefone',required=False, widget=forms.TextInput(attrs={'placeholder':"(xx) xxxxx-xxxx"}))
     telefone1 = forms.CharField(
         label='Celular',widget=forms.TextInput(attrs={'placeholder':"(xx) xxxxx-xxxx"}))
    

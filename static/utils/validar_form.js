@@ -1,12 +1,14 @@
 $('#validar-form').submit(function () {
-    let nome_cpf = $('#search_nome_cpf')
+    let buscar = $('#buscar')
     let data = $('#id_data')
     let erro = $('.alert')
+    
+    console.log('teste30')
 
-    if (nome_cpf.val() == '' && data.val() == '') {
-        erro.removeClass('d-none')
-        return false
+    if (buscar.val() == '' && data.val() == '') {
+      erro.removeClass('d-none')
+      return false
     }
 
     return true
-})
+  })

@@ -3,7 +3,7 @@
   <!-- Brand Logo -->
 
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="{% url 'core:home'%}">
       <img src="/static/img/logo.jpg" alt="Logo" width="60" height="60" class="d-inline-block ">
       <span class="brand-text  logo pl-3 "> <b> SGDTV</b>
     </a>
@@ -101,7 +101,7 @@
           <a href="#" class="nav-link">
             <i class=" text-primary  nav-icon fas fa-solid fa-user"></i>
             <p class="text-md text-muted">
-              Pacientes
+              Cidadão
               <i class="right fas fa-angle-right"></i>
             </p>
           </a>
@@ -109,13 +109,13 @@
             <li class="nav-item">
               <a href="{% url 'cidadao:add-cidadao'%}" class="nav-link link-houver">
 
-                <p class=" text-sm text-muted"> Cadastrar Paciente</p>
+                <p class=" text-sm text-muted"> Cadastrar Cidadão</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="{% url 'cidadao:list-cidadao'%}" class="nav-link link-houver">
 
-                <p class="text-sm text-muted">Listar Pacientes </p>
+                <p class="text-sm text-muted">Listar Cidadãos</p>
               </a>
             </li>
 

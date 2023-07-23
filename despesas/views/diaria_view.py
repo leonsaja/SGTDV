@@ -1,14 +1,8 @@
-
-from typing import Any, Tuple
-
 from django.contrib import messages
-from django.core.paginator import Paginator
 from django.db.models import ProtectedError, Q
 from django.http import Http404
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from despesas.forms.diaria_form import DiariaForm
 from despesas.forms.reembolso_form import ReembolFormSet
@@ -31,7 +25,6 @@ class DiariaCreateView(CreateView):
        else:
            return redirect('despesas:list-diaria')
    
-
 class DiariaUpdateView(UpdateView):
 
     model=Diaria             
@@ -52,19 +45,31 @@ class DiariaListView(ListView):
     model=Diaria
     template_name='diaria/list_diaria.html'
     context_object_name='diarias'
-    paginate_by=10
-    
+
     def get_queryset(self, *args, **kwargs):
         qs = super(DiariaListView,self).get_queryset(*args, **kwargs)
-        search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
+        qs = qs.select_related('profissional').order_by('-data_diaria')[:5]
+        return qs
+    
+
+class SearchDiaria(ListView):
+
+    model=Diaria
+    template_name='diaria/list_diaria.html'
+    context_object_name='diarias'
+    paginate_by=10
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(SearchDiaria,self).get_queryset(*args, **kwargs)
+        buscar=self.request.GET.get('buscar',None)
         data=self.request.GET.get('data',None)
         
-        if search_nome_cpf and data:
-            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=search_nome_cpf)| Q(profissional__cpf__icontains=search_nome_cpf)).filter(data_diaria__iexact=data).order_by('-data_diaria')
+        if buscar and data:
+            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=buscar)| Q(profissional__cpf__icontains=buscar)).filter(data_diaria__iexact=data).order_by('-data_diaria')
             return queryset
         
-        elif search_nome_cpf:
-            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=search_nome_cpf)| Q(profissional__cpf__icontains=search_nome_cpf)).order_by('-data_diaria')
+        elif buscar:
+            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=buscar)| Q(profissional__cpf__icontains=buscar)).order_by('-data_diaria')
             return queryset
 
         elif data:
@@ -75,9 +80,8 @@ class DiariaListView(ListView):
         else:
             qs = qs.select_related('profissional').all().order_by('profissional__nome_completo')
             return qs
-    
-    
-  
+        
+
 class DiariaDetailView(DetailView):
     model=Diaria
     template_name='diaria/detail_diaria.html'

@@ -1,7 +1,8 @@
 {% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
 
 <div class="descricaoiner-fluid">
-    <br />
+    {% include 'recibo_passagem_tfd/abas_recibo_passagem.html' %}
+
 
     <div class="row m-2">
 
@@ -24,7 +25,7 @@
             </div>
         </div>
 
-<hr>
+        <hr>
 
         <div class="row">
             <div class="col-md-4">
@@ -73,10 +74,10 @@
                     <h6 class="text-muted">{{recibo.qta_passagem|upper}}</h6>
 
             </div>
-            
-           
+
+
         </div>
-        
+
         <div class="row">
             <div class="col-md-6 mt-2">
                 <label for="id_trecho" class="form-label">Trecho:</label>
@@ -88,10 +89,10 @@
                 <h6 class="text-muted">{{recibo.get_meio_transporte_display}}</h6>
 
             </div>
-            
+
         </div>
         <br>
-       
+
     </div>
 </div>
 {% endblock content %}

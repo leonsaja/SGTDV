@@ -1,3 +1,4 @@
+
 :root {
   --color-primary: #269fe6;
   --color-primary-hover: #2086c2;
@@ -107,6 +108,23 @@ body {
  
     
 }
+
+@media screen and (max-width: 830px) 
+{
+  .fotoLogin{
+    max-width: auto;
+   max-height: 45%;
+  }
+  
+}
+@media screen and (max-width: 450px) 
+{
+  .login{
+    display: none;
+  }
+}
+
+
 /* .sidebar-menu .dropdown-divider {
   height: 0;
   margin: 0.5rem 0;
@@ -152,6 +170,7 @@ body {
 .form-select{
   border-radius: 6px;
 }
+
 
 .select2.select2-container.select2-container--open .select2-selection.select2-selection--single {
   background: #f8f8f8;
