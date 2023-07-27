@@ -5,14 +5,8 @@
 
 <div class="container-fluid">
     {% include 'especialidade/abas_especialidade.html' %}
+    {% include 'includes/mensagens.html'%}
 
-    <div class="row">
-        <div class=" col-md-12">
-            <h4 class=" text-primary text-center"><strong>{{especialidade.nome|upper}}</strong></h4>
-        </div>
-
-    </div>
-    <br>
     <div class="row">
         <div class="col-md-12">
             <div class="text-right">
@@ -23,7 +17,68 @@
         </div>
     </div>
 
+
+    <div class="row row justify-content-center">
+        <div class=" col-md-8">
+            <h4 class=" text-primary"><strong>{{especialidade.nome|upper}}</strong></h4>
+        </div>
+
+    </div>
     <br>
+    <div class="row ">
+        <div class="container">
+            <div class="row justify-content-center ">
+
+                <form class="col-md-8  needs-validation"
+                    action="{% url 'especialidades:search-paciente-especialidade' especialidade.id%}" method="GET"
+                    id="validar-form">
+
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="alert alert-danger d-none" role="alert">
+                                Insira algum filtro para realizar a busca.
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <label for="buscar"><strong> Busque pelo Nome/CPF</strong></label>
+                            <input type="search" name="buscar" class="form-control" value="{{request.GET.buscar}}"
+                                id="buscar">
+
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-3 mt-2">
+                            <label for="id_data">Data do Pedido</label>
+                            <input type="date" name="data" class="form-control" id="id_data"
+                                value="{{request.GET.data}}">
+                        </div>
+
+                        <div class="col-md-7 mt-3">
+                            <br>
+                            <div class="float-right">
+                                <a class="btn mr-2"
+                                    href="{% url 'especialidades:detail-especialidade' especialidade.id %}"
+                                    style="background-color:#DADADA;"> Limpar
+                                    Filtros</a>
+                                <button type="submit" class=" btn btn-primary ">Buscar</button>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
     <br>
     <div class="row">
         <div class="col-md-12">
@@ -44,11 +99,12 @@
                                     <th>Tipo de Atendimento</th>
                                     <th>Classficação</th>
                                     <th>Data do Pedido</th>
+                                    <th>created</th>
                                     <th>Ação</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {%for especialidade in paciente_especialidade %}
+                                {%for especialidade in page_obj %}
                                 <tr>
                                     <td>{{especialidade.paciente.nome_completo}}</td>
                                     <td>{{especialidade.paciente.formt_cpf}}</td>
@@ -56,30 +112,33 @@
                                     <td>{{especialidade.get_tipo_atendimento_display }}</td>
                                     {% if especialidade.classificacao == '2'%}
                                     <td style="background-color: red; color: white;">
-                                      {{especialidade.get_classificacao_display}}
-                  
+                                        {{especialidade.get_classificacao_display}}
+
                                     </td>
                                     {% else %}
                                     <td>
-                                      {{especialidade.get_classificacao_display}}
+                                        {{especialidade.get_classificacao_display}}
                                     </td>
                                     {%endif%}
                                     <td>
-                                      {{especialidade.data_pedido|date:"d/m/Y"|default:'---'}}
+                                        {{especialidade.data_pedido|date:"d/m/Y"|default:'---'}}
                                     </td>
                                     <td>
-                  
-                                      <a href="{% url 'especialidades:detail-paciente-especialidade' especialidade.id%}" class="pr-1"><i
-                                          class="fas fa-solid fa-eye"></i></a>
-                  
-                                      <a href="{% url 'especialidades:edit-paciente-especialidade' especialidade.id%}"
-                                        class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
-                  
-                                      <a href="#modal--{{especialidade.id}}" data-bs-toggle="modal"
-                                        data-bs-target="#modal--{{especialidade.id}}" class="pr-2 text-danger">
-                  
-                                        <i class="fas fa-solid fa-trash-can"></i>
-                                      </a>
+                                        {{especialidade.created_at|date:"d/m/Y"|default:'---'}}
+                                    </td>
+                                    <td>
+
+                                        <a href="{% url 'especialidades:detail-paciente-especialidade' especialidade.id%}"
+                                            class="pr-1"><i class="fas fa-solid fa-eye"></i></a>
+
+                                        <a href="{% url 'especialidades:edit-paciente-especialidade' especialidade.id%}"
+                                            class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
+
+                                        <a href="#modal--{{especialidade.id}}" data-bs-toggle="modal"
+                                            data-bs-target="#modal--{{especialidade.id}}" class="pr-2 text-danger">
+
+                                            <i class="fas fa-solid fa-trash-can"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 {% include 'paciente_especialidade/modal_delete_paciente_especialidade.html'%}
@@ -87,6 +146,8 @@
 
                             </tbody>
                         </table>
+                        <br>
+                        {% include 'includes/paginacao.html'%}
                     </div>
                 </div>
             </div>
@@ -96,5 +157,21 @@
 {% include 'includes/modal_delete.html'%}
 <!-- Button trigger modal -->
 {% endblock content %} {% block scripts %}
+<script>
+    $('#validar-form').submit(function () {
+        let buscar = $('#buscar')
+        let data = $('#id_data')
+        let erro = $('.alert')
+
+        console.log('teste30')
+
+        if (buscar.val() == '' && data.val() == '') {
+            erro.removeClass('d-none')
+            return false
+        }
+
+        return true
+    })
+</script>
 
 {% endblock scripts %}

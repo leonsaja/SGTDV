@@ -3,7 +3,7 @@ from typing import Any
 from django.db import models
 from django.db.models import Q
 from django.http import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView
 
@@ -12,7 +12,7 @@ from despesas.models import Diaria, Reembolso
 
 
 def reembolsoCreate(request,id):
-    diaria=Diaria.objects.get(id=id)
+    diaria=get_object_or_404(Diaria,id=id)
 
     if not diaria:
         return Http404()
@@ -28,7 +28,7 @@ def reembolsoCreate(request,id):
     return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset})
 
 def reembolsoUpdate(request, id):
-   diaria=Diaria.objects.get(id=id)
+   diaria=get_object_or_404(Diaria,id=id)
     
    if not diaria:
         return Http404()
@@ -49,21 +49,21 @@ class ReembolsoListView(ListView):
    model=Diaria
    template_name='reembolso/list_reembolso.html'
    context_object_name='diarias'
-
+   paginate_by=10
 
    def get_queryset(self, *args, **kwargs):
         qs = super(ReembolsoListView,self).get_queryset(*args, **kwargs)
         qs = qs.select_related('profissional').filter(reembolso=1).order_by('-data_diaria')[:5]
         return qs
 
-class SearchReembolsoView(ListView):
+class SearchReembolsoListView(ListView):
    model=Diaria
    template_name='reembolso/list_reembolso.html'
    context_object_name='diarias'
-   paginate_by=1
+   paginate_by=10
    
    def get_queryset(self, *args, **kwargs):
-        qs = super(SearchReembolsoView,self).get_queryset(*args, **kwargs)
+        qs = super(SearchReembolsoListView,self).get_queryset(*args, **kwargs)
         buscar=self.request.GET.get('buscar',None)
         data=self.request.GET.get('data',None)
         
@@ -82,11 +82,7 @@ class SearchReembolsoView(ListView):
         elif data:
             queryset=qs.select_related('profissional').filter(reembolso=1).filter(data_diaria__iexact=data).order_by('-data_diaria')
             return queryset 
-    
-       
 
-   
-   
 class ReembolsoDetailView(DetailView):
     model=Diaria
     template_name='reembolso/detail_reembolso.html'

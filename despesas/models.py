@@ -34,7 +34,7 @@ class Diaria(models.Model):
     def __str__(self):
         return f'{self.profissional}'
 
-    def total_pag(self):
+    def total_desp(self):
       items=Reembolso.objects.filter(diaria=self)
       total=0
 
@@ -42,7 +42,16 @@ class Diaria(models.Model):
         for item in items:
             total+=item.valor_desp
 
-        
+      return total
+    
+    def total_movimento(self):
+      items=Reembolso.objects.filter(diaria=self)
+      total=0
+
+      if items:
+        for item in items:
+            total+=item.valor_mov
+
       return total
     
 

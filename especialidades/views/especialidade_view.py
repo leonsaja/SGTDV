@@ -27,24 +27,24 @@ class EspecialidadeUpdateView(UpdateView):
     context_object_name='form'
 
 class EspecialidadeListView(ListView):
+
     model=Especialidade
     template_name='especialidade/list_especialidades.html'
     context_object_name='especialidades'
-    paginate_by=5    
+    paginate_by=10
 
     def get_queryset(self):
         qs=super(EspecialidadeListView,self).get_queryset()
-        busca_nome=self.request.GET.get('busca_nome',None)
+        buscar=self.request.GET.get('buscar',None)
 
-        if busca_nome:
-            queryset=qs.filter(nome__icontains=busca_nome).order_by('-nome')
+        if buscar:
+            queryset=qs.filter(nome__icontains=buscar).order_by('-nome')
             return queryset 
 
-        qs=qs.all()                                                       
+        qs=qs.all().order_by('nome')                                          
         
         return qs
     
-
 class EspecialidadeDetailView(DetailView):
     model=Especialidade
     template_name='especialidade/detail_especialidade.html'
@@ -53,10 +53,11 @@ class EspecialidadeDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         especialidade=Especialidade.objects.get(id=self.kwargs['pk'])
-        context['paciente_especialidade']=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade_id=especialidade.id)
+        
+        context['especialidade']=especialidade
+        context['page_obj']=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade_id=especialidade.id)[:10]
         return context
     
-
 def especialidadeDelete(request, id):
     especialidade=Especialidade.objects.get(id=id)
     

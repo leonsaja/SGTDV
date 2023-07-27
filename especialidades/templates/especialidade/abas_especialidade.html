@@ -54,6 +54,17 @@
             </li>
                     
         {%endif%}
+        {%if request.resolver_match.url_name == 'search-paciente-especialidade' %}
+        <li class="nav-item pt-2">
+            <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
+
+        </li>
+
+        <li class="nav-item">
+            
+                <p class="nav-link text-muted">Detalhes da Especialidade</p>
+        </li>
+        {%endif%}
                 
         
        

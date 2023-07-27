@@ -13,10 +13,8 @@ from especialidades.models import Especialidade, PacienteEspecialidade
 
 
 def pacienteEspecialidadeCreate(request,id):
-    especialidade=Especialidade.objects.get(id=id)
-
-    if not especialidade:
-        raise Http404()
+    
+    especialidade=get_object_or_404(Especialidade,id=id)
 
     if request.method == 'POST':
         form=PacienteEspecialidadeForm(request.POST)
@@ -25,7 +23,7 @@ def pacienteEspecialidadeCreate(request,id):
             form=form.save(commit=False)
             form.especialidade=especialidade
             form.save()
-            return redirect('especialidades:list-paciente-especialidade',especialidade.id)
+            return redirect('especialidades:detail-especialidade', especialidade.id)
 
     
     form=PacienteEspecialidadeForm(request.POST or None)
@@ -49,7 +47,7 @@ def pacienteEspecialidadeUpdate(request,id):
             form=form.save(commit=False)
             form.especialidade=especialidade
             form.save()
-            return redirect('especialidades:list-paciente-especialidade',especialidade.id)
+            return redirect('especialidades:detail-especialidade', especialidade.id)
 
     else:
         form=PacienteEspecialidadeForm(instance=paciente_especialidade)
@@ -65,11 +63,10 @@ def pacienteEspecialidadeUpdate(request,id):
 
 def pacienteEspecialidadeDelete(request,id):
 
-    paciente_especialidade=PacienteEspecialidade.objects.get(id=id)
+    paciente_especialidade=get_object_or_404(PacienteEspecialidade,id=id)
+   
     especialidade=Especialidade.objects.get(nome=paciente_especialidade.especialidade.nome)
 
-    if not paciente_especialidade:
-        raise Http404()
     try:
         paciente_especialidade.delete()
     except ProtectedError:
@@ -77,32 +74,15 @@ def pacienteEspecialidadeDelete(request,id):
     finally:
         return redirect('especialidades:detail-especialidade', especialidade.id)    
 
-def pacienteEspecialidadeList(request,id): 
-   
-    template_name='paciente_especialidade/list_pacientes_especialidade.html'
-    context=[]
-
-    especialidade=get_object_or_404(Especialidade,id=id)
-
-    pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).order_by('-data_pedido')[:5]
-    
-    context={
-        
-        'page_obj':pacientes_especialidade,
-        'especialidade':especialidade,
-    }
-    
-    
-    return render(request,template_name,context)
-
 def pacienteEspecialidadeSearch(request,id):
-    template_name='paciente_especialidade/list_pacientes_especialidade.html'
+    
+    template_name='especialidade/detail_especialidade.html'
     context=[]
 
     buscar=request.GET.get('buscar',None)
     data=request.GET.get('data',None)  
-
-    especialidade=Especialidade.objects.get(id=id)
+   
+    especialidade= get_object_or_404(Especialidade,id=id)
     
     if buscar and data :
             pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(\
@@ -120,7 +100,7 @@ def pacienteEspecialidadeSearch(request,id):
         pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).order_by('-data_pedido')
     
     
-    paginator = Paginator(pacientes_especialidade, 1)  
+    paginator = Paginator(pacientes_especialidade, 8)  
     page_number = request.GET.get("page")
     page_obj= paginator.get_page(page_number)
     
@@ -129,7 +109,6 @@ def pacienteEspecialidadeSearch(request,id):
         'page_obj':page_obj,
         'especialidade':especialidade,
     }
-    
     
     return render(request,template_name,context)
 

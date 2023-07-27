@@ -45,13 +45,13 @@ class DiariaListView(ListView):
     model=Diaria
     template_name='diaria/list_diaria.html'
     context_object_name='diarias'
+    paginate_by=10
 
     def get_queryset(self, *args, **kwargs):
         qs = super(DiariaListView,self).get_queryset(*args, **kwargs)
         qs = qs.select_related('profissional').order_by('-data_diaria')[:5]
         return qs
     
-
 class SearchDiaria(ListView):
 
     model=Diaria
@@ -81,7 +81,6 @@ class SearchDiaria(ListView):
             qs = qs.select_related('profissional').all().order_by('profissional__nome_completo')
             return qs
         
-
 class DiariaDetailView(DetailView):
     model=Diaria
     template_name='diaria/detail_diaria.html'

@@ -9,20 +9,20 @@ app_name='despesas'
 urlpatterns = [
     
     #Diária
-    path('create/diaria/',diaria_view.DiariaCreateView.as_view(),name='add-diaria'),
-    path('update/<int:pk>/diaria/',diaria_view.DiariaUpdateView.as_view(), name='edit-diaria'),
-    path('delete/<int:id>/diaria/',diaria_view.diariaDelete,name='del-diaria'),
-    path('detail/<int:pk>/diaria/',diaria_view.DiariaDetailView.as_view(),name='detail-diaria'),
-    path('list/diarias/',diaria_view.DiariaListView.as_view(),name='list-diaria'),
-    path('search/diarias/',diaria_view.SearchDiaria.as_view(),name='search-diaria'),
+    path('diaria/create',diaria_view.DiariaCreateView.as_view(),name='add-diaria'),
+    path('diaria/update/<int:pk>',diaria_view.DiariaUpdateView.as_view(), name='edit-diaria'),
+    path('diaria/delete/<int:id>',diaria_view.diariaDelete,name='del-diaria'),
+    path('diaria/detail/<int:pk>',diaria_view.DiariaDetailView.as_view(),name='detail-diaria'),
+    path('diaria/list',diaria_view.DiariaListView.as_view(),name='list-diaria'),
+    path('diaria/search',diaria_view.SearchDiaria.as_view(),name='search-diaria'),
 
 
     #Reembolsos
-    path('create/<int:id>/reembolso/',reem_view.reembolsoCreate,name='add-reembolso'),
-    path('update/<int:id>/reembolso/',reem_view.reembolsoUpdate,name='edit-reembolso'),
-    path('detail/<int:pk>/reembolso/',reem_view.ReembolsoDetailView.as_view(),name='detail-reembolso'),
-    path('list/reembolsos/',reem_view.ReembolsoListView.as_view(),name='list-reembolso'),
-    path('search/reembolsos/',reem_view.SearchReembolsoView.as_view(),name='search-reembolso'),
+    path('reembolso/create/<int:id>',reem_view.reembolsoCreate,name='add-reembolso'),
+    path('reembolso/update/<int:id>',reem_view.reembolsoUpdate,name='edit-reembolso'),
+    path('reembolso/detail/<int:pk>',reem_view.ReembolsoDetailView.as_view(),name='detail-reembolso'),
+    path('reembolso/list',reem_view.ReembolsoListView.as_view(),name='list-reembolso'),
+    path('reembolso/search',reem_view.SearchReembolsoListView.as_view(),name='search-reembolso'),
 
 
 
