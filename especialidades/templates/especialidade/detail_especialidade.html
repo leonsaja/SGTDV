@@ -99,7 +99,6 @@
                                     <th>Tipo de Atendimento</th>
                                     <th>Classficação</th>
                                     <th>Data do Pedido</th>
-                                    <th>created</th>
                                     <th>Ação</th>
                                 </tr>
                             </thead>
@@ -123,9 +122,7 @@
                                     <td>
                                         {{especialidade.data_pedido|date:"d/m/Y"|default:'---'}}
                                     </td>
-                                    <td>
-                                        {{especialidade.created_at|date:"d/m/Y"|default:'---'}}
-                                    </td>
+                                    
                                     <td>
 
                                         <a href="{% url 'especialidades:detail-paciente-especialidade' especialidade.id%}"
