@@ -27,10 +27,9 @@ def cidadaoCreate(request):
     return render(request,'cidadao/form_cidadao.html',{'form':form,'endereco':form_endereco})
 
 def cidadaoUpdate(request,id):
-    cidadao=Cidadao.objects.get(id=id)
+
+    cidadao=get_object_or_404(Cidadao,id=id)
     
-    if not cidadao:
-        return Http404()
     
     if request.method =='POST':
         form=CidadaoForm(request.POST or None, instance=cidadao)
@@ -50,10 +49,8 @@ def cidadaoUpdate(request,id):
 
 def cidadaoDelete(request,id):
 
-    cidadao=Cidadao.objects.get(id=id)
-    
-    if not cidadao:
-        raise Http404()
+    cidadao=get_object_or_404(Cidadao,id=id)
+
     try:
         cidadao.delete()
     except ProtectedError:
@@ -64,8 +61,7 @@ def cidadaoDelete(request,id):
 class CidadaoDetailView(DetailView):
     model=Cidadao
     template_name='cidadao/detail_cidadao.html'
-    
-    
+
     def get_context_data(self, *args, **kwargs):
         context=super().get_context_data(*args, **kwargs)
         context[ 'paciente']=Cidadao.objects.select_related('endereco','microarea').get(pk=self.kwargs['pk'])
@@ -76,11 +72,23 @@ class CidadaoListView(ListView):
     model=Cidadao
     template_name='cidadao/list_cidadao.html'
     context_object_name='pacientes'
+   
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(CidadaoListView,self).get_queryset(*args, **kwargs)
+        qs=qs.select_related('endereco','microarea').order_by('nome_completo')[:5]
+        return qs
+
+class CidadaoSearchListView(ListView):
+    
+    model=Cidadao
+    template_name='cidadao/list_cidadao.html'
+    context_object_name='pacientes'
     paginate_by=10
 
 
     def get_queryset(self, *args, **kwargs):
-        qs = super(CidadaoListView,self).get_queryset(*args, **kwargs)
+        qs = super(CidadaoSearchListView,self).get_queryset(*args, **kwargs)
 
         search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
         search_nome_mae=self.request.GET.get('search_nome_mae',None)
@@ -88,33 +96,27 @@ class CidadaoListView(ListView):
 
        
         if search_nome_cpf and search_nome_mae and search_dt_nascimento:
-            print('teste 1')
             queryset=qs.select_related('endereco','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))\
                 .filter(nome_mae__icontains=search_nome_mae)\
                 .filter(dt_nascimento__iexact=search_dt_nascimento)
             return queryset
         
         elif search_nome_cpf  and search_dt_nascimento:
-            print('teste 2')
             queryset=qs.select_related('endereco','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))\
                 .filter(dt_nascimento__iexact=search_dt_nascimento).order_by('-nome_completo')
             return queryset
         
         elif search_nome_mae and search_dt_nascimento:
-            print('teste 3')
             queryset=qs.select_related('endereco','microarea')\
                 .filter(nome_mae__icontains=search_nome_mae)\
                     .filter(dt_nascimento__iexact=search_dt_nascimento)
             return queryset              
         
         elif search_nome_cpf:
-            print('teste 4', search_nome_cpf)
-
             queryset=qs.select_related('endereco','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))
             return queryset
         
         elif search_nome_mae:
-            print('teste 5', search_nome_mae)
             queryset=qs.select_related('endereco','microarea').filter(nome_mae__icontains=search_nome_mae).order_by('-nome_completo')
             return queryset
         
@@ -123,10 +125,6 @@ class CidadaoListView(ListView):
             print('teste 6',search_dt_nascimento)
             queryset=qs.select_related('endereco','microarea').filter(dt_nascimento__iexact=search_dt_nascimento).order_by('-nome_completo')
             return queryset
-    
-            """  else:
-            qs = qs.none() 
-            return qs """
             
         else:
             qs=qs.select_related('endereco','microarea').all()

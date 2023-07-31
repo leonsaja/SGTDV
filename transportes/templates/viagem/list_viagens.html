@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
     {% include 'viagem/abas_viagem.html' %}
- 
+
     <div class="row">
         <div class="col-md-12">
             <div class="text-right">
@@ -24,7 +24,8 @@
         <div class="container">
             <div class="row  justify-content-center">
 
-                <form class="col-md-8  needs-validation" method="GET" id="validar-form">
+                <form class="col-md-8  needs-validation" action="{% url 'transportes:search-viagem' %}" method="GET"
+                    id="validar-form">
 
                     <div class="row">
                         <div class="col-md-12">
@@ -92,6 +93,7 @@
                             <thead>
                                 <tr>
                                     <th>Carro</th>
+                                    <th>Placa</th>
                                     <th>Destino</th>
                                     <th>Motorista</th>
                                     <th>Data Viagem</th>
@@ -102,9 +104,10 @@
                                 {%for viagem in viagens %}
                                 <tr>
                                     <td>{{viagem.carro.nome}}</td>
+                                    <td>{{viagem.carro.placa}}</td>
                                     <td>{{viagem.destino_viagem}}</td>
                                     <td>{{viagem.motorista.nome_completo}}</td>
-                                    <td>{{viagem.data_viagem }}</td>
+                                    <td>{{viagem.data_viagem|date:"d/m/Y"|default:'---'}}</td>
 
 
 
@@ -124,11 +127,13 @@
                                     </td>
                                 </tr>
                                 {% include 'viagem/modal_delete_viagem.html'%}
-                                
+
                                 {%endfor%}
 
                             </tbody>
                         </table>
+                        <br>
+                        {% include 'viagem/paginacao_viagem.html'%}
                     </div>
                 </div>
             </div>

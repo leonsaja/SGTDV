@@ -23,7 +23,8 @@
     <div class="container">
       <div class="row  justify-content-center">
 
-        <form class="col-md-8  needs-validation" method="GET" id="validar-form">
+        <form class="col-md-8  needs-validation" action="{% url 'profissionais:search-profissional'%}" method="GET"
+          id="validar-form">
 
           <div class="row">
             <div class="col-md-12">
@@ -85,6 +86,7 @@
                   <th>Nome Completo</th>
                   <th>CPF</th>
                   <th>CNS</th>
+                  <th>Data de Nascimento</th>
 
                   <th>Ação</th>
                 </tr>
@@ -97,6 +99,7 @@
                   <td>{{profissional.formt_cpf}}</td>
 
                   <td>{{profissional.cns}}</td>
+                  <td>{{profissional.dt_nascimento|date:"d/m/Y"|default:'---'}}</td>
 
                   <td>
                     <a href="{% url 'profissionais:detail-profissional' profissional.id %}" class="pr-2"><i
@@ -114,7 +117,7 @@
               </tbody>
             </table>
             <br />
-            {% include 'includes/paginacao.html'%}
+            {% include 'profissional/paginacao_profissional.html'%}
           </div>
         </div>
       </div>

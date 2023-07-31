@@ -1,13 +1,13 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container-fluid">
-  
- {% include 'usuario/abas_usuario.html' %}
+
+  {% include 'usuario/abas_usuario.html' %}
   <div class="row">
-            
+
     <div class="col-md-12">
       <div class="text-right">
-          <a href="{% url 'usuarios:add-usuario'%}" class="btn btn-primary"><b>Cadastrar Usuário</b>
-          </a>
+        <a href="{% url 'usuarios:add-usuario'%}" class="btn btn-primary"><b>Cadastrar Usuário</b>
+        </a>
       </div>
     </div>
   </div>
@@ -20,8 +20,9 @@
   <div class="row ">
     <div class="container">
       <div class="row  justify-content-center">
-        
-        <form class="col-md-8  needs-validation" method="GET" id="validar-form">
+
+        <form class="col-md-8  needs-validation" action="{% url 'usuarios:search-usuario'%}" method="GET"
+          id="validar-form">
 
 
           <div class="row">
@@ -42,9 +43,9 @@
           </div>
           <div class="row">
             <div class="col-md-4 pt-2 ">
-              <label for="data">Data de Nascimento</label>
-              <input type="date" name="data" class="form-control" id="data"
-                value="{{request.GET.data}}">
+              <label for="search_dt_nascimento">Data de Nascimento</label>
+              <input type="date" name="search_dt_nascimento" class="form-control" id="search_dt_nascimento"
+                value="{{request.GET.search_dt_nascimento}}">
             </div>
             <div class="col-md-8 pt-2">
               <br>
@@ -80,38 +81,34 @@
                   <th>CPF</th>
                   <th>Data de Nascimento</th>
                   <th>Perfil</th>
-                 
+
                   <th>Ação</th>
                 </tr>
               </thead>
               <tbody>
                 {%for usuario in usuarios %}
                 <tr>
-                  <td >{{usuario.id}}</td>
-                  <td >{{usuario.nome_completo}}</td>
-                  
+                  <td>{{usuario.id}}</td>
+                  <td>{{usuario.nome_completo}}</td>
+
                   <td>{{usuario.formt_cpf}}</td>
 
                   <td>{{usuario.dt_nascimento|date:"d/m/Y"|default:'---'}}</td>
                   <td>{{usuario.get_tipo_usuario_display}}</td>
                   <td>
-                    <a
-                      href="{% url 'usuarios:detail-usuario' usuario.id%}"
-                      class="pr-2"
-                      ><i class="fas fa-solid fa-eye"></i
-                    ></a>
-                    <a
-                      href="{% url 'usuarios:edit-usuario' usuario.id%}"
-                      class="pr-1 text-warning"
-                      ><i class="fas fa-edit"></i
-                    ></a>
-                   
+                    <a href="{% url 'usuarios:detail-usuario' usuario.id%}" class="pr-2"><i
+                        class="fas fa-solid fa-eye"></i></a>
+                    <a href="{% url 'usuarios:edit-usuario' usuario.id%}" class="pr-1 text-warning"><i
+                        class="fas fa-edit"></i></a>
+
                   </td>
                 </tr>
-               
+
                 {%endfor%}
               </tbody>
             </table>
+            <br>
+            {% include 'usuario/paginacao_usuario.html'%}
           </div>
         </div>
       </div>

@@ -1,3 +1,5 @@
+from typing import Any, Dict
+
 from django.contrib import messages
 from django.db.models import ProtectedError, Q
 from django.http import Http404
@@ -47,22 +49,31 @@ def viagemUpdate(request,id):
     
     return render(request, 'viagem/form_viagem.html', {'form': form,'formset':formset})
 
-class ViagemListView(ListView):
+class ViagemListView(ListView): 
+    model=Viagem
+    template_name='viagem/list_viagens.html'
+    paginate_by=10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["viagens"] = Viagem.objects.order_by('-data_viagem')[:10]
+        return context
+    
+class ViagemSearchListView(ListView):
 
     model=Viagem
     template_name='viagem/list_viagens.html'
     context_object_name='viagens'
-
-
+    paginate_by=1
 
     def get_queryset(self, *args, **kwargs):
-        qs = super(ViagemListView,self).get_queryset(*args, **kwargs)
+        qs = super(ViagemSearchListView,self).get_queryset(*args, **kwargs)
         
         destino_viagem=self.request.GET.get('destino_viagem',None)
         placa_carro=self.request.GET.get('placa_carro',None)
         data=self.request.GET.get('data',None)
 
-
+        print('data',placa_carro)
         if destino_viagem and data and placa_carro:
             queryset=qs.select_related('motorista','carro').filter(destino_viagem__icontains=destino_viagem).\
                 filter(data_viagem__iexact=data).\
@@ -90,13 +101,12 @@ class ViagemListView(ListView):
             queryset=qs.select_related('motorista','carro').filter(data_viagem__iexact=data)
             return queryset
         
-        else:
-            qs = qs.select_related('motorista','carro').order_by('-id')[:3]
-            return qs
-    """  def get_queryset(self, *args, **kwargs):
-        qs = super().get_queryset(*args, **kwargs)
-        qs = qs.select_related('motorista','carro').all()
-        return qs """
+        elif placa_carro:
+            queryset=qs.select_related('motorista','carro').\
+            filter(carro__placa__iexact=placa_carro)
+            return queryset
+
+ 
     
 class DetailViagemView(DetailView):
     model=Viagem
@@ -106,7 +116,6 @@ class DetailViagemView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         viagem = Viagem.objects.select_related('motorista','carro').get(id=self.kwargs['pk']) 
-        """ passageiros=PassageiroViagem.objects.select_related('viagem').filter(viagem__id=viagem.id) """
         context['viagem']=viagem
         return context
 

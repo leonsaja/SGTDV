@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.db.models import ProtectedError, Q
 from django.http import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView
 
 from despesas.models import Diaria
@@ -12,7 +12,6 @@ from .models import Profissional
 
 
 def profissionalCreate(request):
-
     if request.method == 'POST':
         form=ProfissionalForm(request.POST or None)
         form_endereco=EnderecoForm(request.POST or None)
@@ -32,11 +31,9 @@ def profissionalCreate(request):
     return render(request,'profissional/form_profissional.html',{'form':form,'form_endereco':form_endereco})
 
 def profissionalUpdate(request,id):
-    profissional=Profissional.objects.get(id=id)
-    
-    if not profissional:
-        raise Http404()
 
+    profissional=get_object_or_404(Profissional,id=id)
+    
     if request.method == 'POST':
         form=ProfissionalForm(request.POST or None, instance=profissional)
         form_endereco=EnderecoForm(request.POST or None, instance=profissional.endereco)
@@ -54,10 +51,8 @@ def profissionalUpdate(request,id):
     return render(request,'profissional/form_profissional.html',{'form':form,'form_endereco':form_endereco})
 
 def profissionalDelete(request, id):
-    profissional=Profissional.objects.get(id=id)
+    profissional=get_object_or_404(Profissional,id=id)
 
-    if not profissional:
-        raise Http404()
     try:
         profissional.delete()
     except ProtectedError:
@@ -73,17 +68,28 @@ class ProfissionalDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context=super().get_context_data(*args, **kwargs)
         context['profissional']= Profissional.objects.select_related('endereco','microarea','estabelecimento').get(id=self.kwargs['pk'])
-        
         return context
 
 class ProfissionalListView(ListView):
     model=Profissional
     template_name='profissional/list_profissionais.html'
     context_object_name='profissionais'
-    paginate_by=2
-
+  
     def get_queryset(self, *args, **kwargs):
         qs = super(ProfissionalListView,self).get_queryset(*args, **kwargs)
+        qs = qs.select_related('endereco','estabelecimento','microarea').order_by('-id')[:5]
+        return qs
+
+class ProfissionalSearchListView(ListView):
+
+    model=Profissional
+    template_name='profissional/list_profissionais.html'
+    context_object_name='profissionais'
+    paginate_by=10
+  
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(ProfissionalSearchListView,self).get_queryset(*args, **kwargs)
         
         search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
         search_dt_nascimento=self.request.GET.get('search_dt_nascimento',None)

@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container-fluid">
   {% include 'cidadao/abas_cidadao.html' %}
+  {% include 'includes/mensagens.html'%}
 
 
   <div class="row mb-1">
@@ -18,13 +19,14 @@
     </div>
   </div>
 
-<br>
+  <br>
 
   <div class="row ">
     <div class="container">
       <div class="row  justify-content-center">
-        
-        <form class="col-md-8  needs-validation" method="GET" id="validar-form">
+
+        <form class="col-md-8  needs-validation" action="{% url 'cidadao:search-cidadao'%}" method="GET"
+          id="validar-form">
 
           <div class="row">
             <div class="col-md-12">
@@ -96,6 +98,7 @@
                   <th>Nome Completo</th>
                   <th>CPF</th>
                   <th>CNS</th>
+                  <th>Data de Nascimento</th>
                   <th>Mãe</th>
                   <th>Ação</th>
                 </tr>
@@ -107,10 +110,11 @@
                 <tr>
                   <td id="paciente_id">{{paciente.id}}</td>
                   <td id="paciente_nome">{{paciente.nome_completo}}</td>
-                  
-                  <td >{{paciente.formt_cpf}}</td>
+
+                  <td>{{paciente.formt_cpf}}</td>
 
                   <td>{{paciente.cns}}</td>
+                  <td>{{paciente.dt_nascimento|date:"d/m/Y"|default:'---'}}</td>
                   <td>{{paciente.nome_mae}}</td>
                   <td>
                     <a href="{% url 'cidadao:detail-cidadao' paciente.id%}" class="pr-2"><i
@@ -133,7 +137,7 @@
               </tbody>
             </table>
             <br />
-            {% include 'includes/paginacao.html'%}
+            {% include 'cidadao/paginacao_cidadao.html'%}
           </div>
         </div>
         {%else%}

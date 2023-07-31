@@ -21,8 +21,9 @@
   <div class="row ">
     <div class="container">
       <div class="row  justify-content-center">
-        
-        <form class="col-md-8  needs-validation" method="GET" id="validar-form">
+
+        <form class="col-md-8  needs-validation" action="{% url 'tfds:search-recibo_tfd'%}" method="GET"
+          id="validar-form">
 
 
           <div class="row">
@@ -44,8 +45,7 @@
           <div class="row">
             <div class="col-md-4 pt-2 ">
               <label for="data">Data do Recibo</label>
-              <input type="date" name="data" class="form-control" id="data"
-                value="{{request.GET.data}}">
+              <input type="date" name="data" class="form-control" id="data" value="{{request.GET.data}}">
             </div>
             <div class="col-md-8 pt-2">
               <br>
@@ -87,49 +87,40 @@
               <tbody>
                 {%for recibo in recibos_tfds %}
                 <tr>
-                  <td >{{recibo.id}}</td>
+                  <td>{{recibo.id}}</td>
                   <td>{{recibo.paciente.nome_completo}}</td>
-                  
+
                   <td>{{recibo.paciente.formt_cpf}}</td>
 
                   <td>{{recibo.paciente.cns}}</td>
                   <td>{{recibo.data|date:"d/m/Y"|default:'---'}}</td>
                   <td>
-                    <a
-                      href="{% url 'tfds:detail-recibo_tfd' recibo.id%}"
-                      class="pr-2"
-                      ><i class="fas fa-solid fa-eye"></i
-                    ></a>
-                    <a
-                      href="{% url 'tfds:edit-recibo_tfd' recibo.id%}"
-                      class="pr-1 text-warning"
-                      ><i class="fas fa-edit"></i
-                    ></a>
-                    <a
-                      type="button"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modal--{{paciente.id}}"
-                      class="pr-2 text-danger"
-                    >
+                    <a href="{% url 'tfds:detail-recibo_tfd' recibo.id%}" class="pr-2"><i
+                        class="fas fa-solid fa-eye"></i></a>
+                    <a href="{% url 'tfds:edit-recibo_tfd' recibo.id%}" class="pr-1 text-warning"><i
+                        class="fas fa-edit"></i></a>
+                    <a type="button" data-bs-toggle="modal" data-bs-target="#modal--{{recibo.id}}"
+                      class="pr-2 text-danger">
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>
                   </td>
                 </tr>
-            {%endfor%}
+                {% include  'recibo_tfd/modal_delete_recibo_tfd.html'%}
+                {%endfor%}
               </tbody>
             </table>
             <br />
-            {% include 'includes/paginacao.html'%}
-          </div>
+            {% include 'paginacao_tfd.html'%}
           </div>
         </div>
       </div>
-      {%else%}
-      <h5 class="text-center pt-4">Nenhum Recibo de Passagem foi  encontrado.
-      </h5>
-      {%endif%}
     </div>
+    {%else%}
+    <h5 class="text-center pt-4">Nenhum Recibo de Passagem foi encontrado.
+    </h5>
+    {%endif%}
   </div>
+</div>
 </div>
 
 <!-- Button trigger modal -->

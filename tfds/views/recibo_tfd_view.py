@@ -1,6 +1,7 @@
 from django.db.models import ProtectedError, Q
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import DetailView, ListView
+from django.urls import reverse_lazy
+from django.views.generic import DeleteView, DetailView, ListView
 
 from tfds.forms.form_tfd import CodigoSIASet, RecibcoTFDForm
 from tfds.models import CodigoSIA, ReciboTFD
@@ -38,37 +39,42 @@ def reciboTFDUpdate(request,id):
     return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset})
 
 class ReciboTFDListView(ListView):
+
     model=ReciboTFD
     template_name='recibo_tfd/list_recibos_tfds.html'
     context_object_name='recibos_tfds'
-    paginate_by=1
-
-
+    
     def get_queryset(self, *args, **kwargs):
         qs = super(ReciboTFDListView,self).get_queryset(*args, **kwargs)
-        
+        qs=qs.select_related('paciente','acompanhante').order_by('-data')[:10]
+        return qs
+    
+class ReciboTFDSearchListView(ListView):
+   
+    model=ReciboTFD
+    template_name='recibo_tfd/list_recibos_tfds.html'
+    context_object_name='recibos_tfds'
+    paginate_by=10
+    
+    def get_queryset(self, *args, **kwargs):
+        qs = super(ReciboTFDSearchListView,self).get_queryset(*args, **kwargs)
         search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
         data=self.request.GET.get('data',None)
       
-
         if search_nome_cpf and data:
             queryset=qs.select_related('paciente','acompanhante').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))\
-                .filter(data__iexact=data)
+                .filter(data__iexact=data).order_by('-data')
             return queryset
         
         elif search_nome_cpf:
-            queryset=qs.select_related('paciente','acompanhante').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))
+            queryset=qs.select_related('paciente','acompanhante').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))\
+            .order_by('-data')
             return queryset
         
         elif data:
-            
-             queryset=qs.select_related('paciente','acompanhante').filter(data__iexact=data)
+             queryset=qs.select_related('paciente','acompanhante').filter(data__iexact=data).order_by('-data')
              return queryset
-        
-        else:
-            qs = qs.select_related('paciente','acompanhante').order_by('-id')[:3]
-            return qs
-   
+
 class ReciboTFDDetailView(DetailView):
 
     model=ReciboTFD
@@ -83,5 +89,11 @@ class ReciboTFDDetailView(DetailView):
         
         return context
 
+class ReciboTFDDeleteView(DeleteView):
 
+    model=ReciboTFD
+    success_url=reverse_lazy('tfds:list-recibo_tfd')
+
+    def get(self, request, *args, **kwargs):
+        return self.post().get(request, *args, **kwargs)
     

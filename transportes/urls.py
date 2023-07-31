@@ -6,11 +6,12 @@ app_name='transportes'
 
 urlpatterns = [
     # Viagem
-    path('create/viagem/',viagem_view.viagemCreate,name='add-viagem'),
-    path('update/<int:id>/viagem/',viagem_view.viagemUpdate,name='edit-viagem'),
-    path('list/viagens/',viagem_view.ViagemListView.as_view(),name='list-viagem'),
-    path('detail/<int:pk>/viagem/',viagem_view.DetailViagemView.as_view(),name='detail-viagem'),
-    path('delete/<int:pk>/viagem/',viagem_view.ViagemDeleteView.as_view(),name='del-viagem'),
+    path('create/viagem',viagem_view.viagemCreate,name='add-viagem'),
+    path('update/<int:id>/viagem',viagem_view.viagemUpdate,name='edit-viagem'),
+    path('list/viagens',viagem_view.ViagemListView.as_view(),name='list-viagem'),
+    path('search/viagem',viagem_view.ViagemSearchListView.as_view(),name='search-viagem'),
+    path('detail/<int:pk>/viagem',viagem_view.DetailViagemView.as_view(),name='detail-viagem'),
+    path('delete/<int:pk>/viagem',viagem_view.ViagemDeleteView.as_view(),name='del-viagem'),
 
 
     # Carro

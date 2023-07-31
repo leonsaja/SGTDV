@@ -23,34 +23,49 @@ class UsuarioUpdateView(UpdateView):
     success_url=reverse_lazy('usuarios:list-usuario')
 
 class UsuarioListView(ListView):
+   
     User=get_user_model()
     model=User
     template_name='usuario/list_usuarios.html'
     context_object_name='usuarios'
+    paginate_by=10
     
     def get_queryset(self, *args, **kwargs):
         qs = super(UsuarioListView,self).get_queryset(*args, **kwargs)
+        qs = qs.filter(is_staff=False).order_by('nome_completo')[:10]
+        return qs
+        
+class UsuarioSearchListView(ListView):
+    User=get_user_model()
+    model=User
+    template_name='usuario/list_usuarios.html'
+    context_object_name='usuarios'
+    paginate_by=1
+
+    
+    def get_queryset(self, *args, **kwargs):
+        qs = super(UsuarioSearchListView,self).get_queryset(*args, **kwargs)
         
         search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
         data=self.request.GET.get('data',None)
 
         if search_nome_cpf and data:
             queryset=qs.filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))\
-                .filter(dt_nascimento__iexact=data)
+                .filter(dt_nascimento__iexact=data).order_by('nome_completo')
             return queryset
         
         elif search_nome_cpf:
-            queryset=qs.filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))
+            queryset=qs.filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf)).order_by('nome_completo')
             return queryset
         
         elif data:
-             queryset=qs.filter(dt_nascimento__iexact=data).filter(is_staff=False)
+             queryset=qs.filter(dt_nascimento__iexact=data).filter(is_staff=False).order_by('nome_completo')
              return queryset
         
         else:
             qs = qs.filter(is_staff=False)
             return qs
-        
+
 class UsuarioDetailView(DetailView):
     User=get_user_model()
     model=User
