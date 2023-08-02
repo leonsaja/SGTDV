@@ -2,7 +2,7 @@ from django.urls import path
 
 from despesas.views import reembolso_view as reem_view
 
-from .views import diaria_view as 
+from .views import diaria_view as diaria_view
 
 app_name='relatorios'
 
