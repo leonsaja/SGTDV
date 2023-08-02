@@ -1,8 +1,10 @@
 from django.shortcuts import render
+
 from cidadao.models import Cidadao
 from despesas.models import Diaria
-from transportes.models import Viagem
+from especialidades.models import Especialidade, PacienteEspecialidade
 from tfds.models import ReciboTFD
+from transportes.models import Viagem
 
 
 def home(request):
@@ -11,5 +13,9 @@ def home(request):
    context['qta_diaria']=Diaria.objects.count()
    context['qta_viagens']=Viagem.objects.count()
    context['qta_recibo_tfd']=ReciboTFD.objects.count()
+
+   especialidade=Especialidade.objects.all()
+
+ 
 
    return render(request,'home.html',context)

@@ -10,6 +10,7 @@ class Especialidade(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
     def __str__(self):
        return f'{self.nome}'
 
@@ -41,6 +42,14 @@ class PacienteEspecialidade(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+    def status_count(self):
+        count_status=self.status
+
+        if count_status:
+            print('status',count_status)
+
 
 
     def __str__(self):
