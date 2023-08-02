@@ -1,6 +1,5 @@
-from datetime import datetime
+from weasyprint import HTML
 
-# getting the current date and time
-current_datetime =
-current_date_time = current_datetime.strftime("%Y-%m-%d")
-print(current_date_time)
+""" 
+HTML('http://127.0.0.1:8000').write_pdf('/home/ti/Documentos/weasyprint-website.pdf')
+ """

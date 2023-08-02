@@ -10,10 +10,13 @@ urlpatterns = [
     path('',include('core.urls')),
     path('cidadao/', include('cidadao.urls')),
     path('profissionais/', include('profissionais.urls')),
+    path('relatorios/',include('relatorios.urls')),
     path('estabelecimentos/', include('estabelecimentos.urls')),
     path('usuarios/',include('usuarios.urls')),
     path('tfds/',include('tfds.urls')),
     path('despesas/',include('despesas.urls')),
+      
+
     path('especialidades/',include('especialidades.urls')),
     path('transportes/',include('transportes.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
