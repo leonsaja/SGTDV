@@ -74,8 +74,8 @@
 
         <li class="nav-item">
           <a href="#" class="nav-link">
-              <i class="text-primary  nav-icon fas fa-hospital"></i>
-              
+            <i class="text-primary  nav-icon fas fa-hospital"></i>
+
             <p class="text-md text-muted">
               Estabelecimentos
               <i class="right fas fa-angle-right"></i>
@@ -145,6 +145,30 @@
 
           </ul>
         </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class=" text-primary nav-icon fas fa-solid fa-user-tie"></i>
+            <p class="text-md text-muted">
+              Relatorios
+              <i class="right fas fa-angle-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview ">
+            <li class="nav-item">
+              <a href="{% url 'relatorios:relatorio-diaria'%}" target="_blank" class="nav-link link-houver">
+
+                <p class="text-sm text-muted"> Diária</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'profissionais:list-profissional'%}" class="nav-link link-houver">
+
+                <p class=" text-sm text-muted">Listar Profissionais </p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
 
         </li>
         <li class="nav-item">
@@ -156,7 +180,7 @@
             </p>
           </a>
           <ul class="nav  nav-treeview">
-           {% comment %}  <li class="nav-item">
+            {% comment %} <li class="nav-item">
               <a href="{% url 'tfds:add-recibo_tfd'%}" class="nav-link link-houver">
 
                 <p class="text-sm nav-child-indent text-muted"> Cadastrar Recibo de TFD</p>
