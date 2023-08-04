@@ -1,5 +1,3 @@
-from weasyprint import HTML
+from weasyprint import CSS, HTML
 
-""" 
-HTML('http://127.0.0.1:8000').write_pdf('/home/ti/Documentos/weasyprint-website.pdf')
- """
+HTML('http://samplewebsite.com/').write_pdf('/home/leonardo/Downloads/test.pdf', stylesheets=[CSS(string='body { font-size: 10px }')])
