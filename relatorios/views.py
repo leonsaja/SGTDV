@@ -9,32 +9,52 @@ from django.http import FileResponse, HttpResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
+from reportlab.platypus import  Table, TableStyle
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
 def relatorioDiaria(request):
-    response= HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment;filename="mydata.pdf"'
-    # Create a file-like buffer to receive PDF data.
-    buffer = io.BytesIO()
+   
 
-    # Create the PDF object, using the buffer as its "file."
-    p = canvas.Canvas(buffer,pagesize=A4)
-    p.setTitle('ola mundo ')
+    response = HttpResponse(content_type='application/pdf')
+    """ response['Content-Disposition'] = 'attachment; filename="mydata.pdf"' """
 
-    data=[
-        ['id','profissional','descricao','data_diaria']
-    ]
-    for obj in Diaria.objects.all():
-        data.append([obj.id, obj.profissional.nome_completo, obj.descricao, obj.data_diaria])
+    # Render the template with the data from the Django model
+    html_string = render_to_string('diarias/relatorio_diarias.html', {'diarias': Diaria.objects.all()})
 
-    # Draw the table
-    x = 50
-    y = 750
-    for row in data:
-        for item in row:
-            p.drawString(x, y, str(item))
-            x += column_width
-        x = 50
-        y -= row_height
+    # Create the PDF from the HTML string
+    
+    
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
 
+   
+    return response
+    """  response = HttpResponse(content_type='application/pdf')
+   
+
+    # Create the PDF object, using the response object as its "file."
+    p = canvas.Canvas(response,pagesize=A4)
+
+    # Define the width and height of each row in the table
+    row_height = 20
+    column_width = 50
+
+    # Define the data to be printed in the table
+    
+    
+    p.drawString(260, 800, "Hello world.")
+
+    data=  [['00', '01', '02', '03', '04'],
+        ['10', '11', '12', '13', '14'],
+        ['20', '21', '22', '23', '24'],
+        ['30', '31', '32', '33', '34']]
+    t=Table(data)
+    t.setStyle(TableStyle([('BACKGROUND',(1,1),(-2,-2),colors.green),
+                            ('TEXTCOLOR',(0,0),(1,-1),colors.red)]))
+    
+    elems=[]
+    elems.append(t)
+    response.
     # Close the PDF object cleanly, and we're done.
     p.showPage()
     p.save()
@@ -43,7 +63,6 @@ def relatorioDiaria(request):
     
     # Draw things on the PDF. Here's where the PDF generation happens.
     # See the ReportLab documentation for the full list of functionality.
-    p.drawString(260, 800, "Hello world.")
    
  
 
@@ -72,21 +91,23 @@ def relatorioDiaria(request):
     return response
     # FileResponse sets the Content-Disposition header so that browsers
     # present the option to save the file.
-    """ buffer.seek(0)
-    return HttpResponse(buffer, as_attachment=True, filename="hello.pdf")
-    """
     
-response = HttpResponse(content_type='application/pdf')
+    buffer.seek(0)
+    return HttpResponse(buffer, as_attachment=True, filename="hello.pdf")
+    
+    
+    response = HttpResponse(content_type='application/pdf')
 
 
     template=get_template('diarias/relatorio_diarias.html')
     context={'diarias': Diaria.objects.all()}
     html_string=template.render(context)
     # Render the template with the data from the Django model
-    """   html_string = render_to_string('diarias/relatorio_diarias.html', {'diarias': Diaria.objects.all()}) """
+    
+    html_string = render_to_string('diarias/relatorio_diarias.html', {'diarias': Diaria.objects.all()}) 
 
     # Create the PDF from the HTML string
     HTML(string=html_string).write_pdf(response)
 
-    return response
-    
+    return respons 
+    """
