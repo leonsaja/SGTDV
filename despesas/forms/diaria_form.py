@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django import forms
 from django.core.exceptions import ValidationError
 from django_select2 import forms as s2forms
@@ -22,8 +24,8 @@ class DiariaForm(forms.ModelForm):
         label='Valor',widget=forms.TextInput(attrs={'placeholder':"R$ 0,00"}))
 
     total = forms.CharField(
-        label='Subtotal',widget=forms.TextInput(attrs={'placeholder':"R$ 0,00"}))
-
+        label='Subtotal',widget=forms.TextInput(attrs={'placeholder':'R$ 0,00','class':'money'}))
+    
     class Meta:
         model=Diaria
         fields='__all__'
@@ -31,6 +33,11 @@ class DiariaForm(forms.ModelForm):
             'profissional':s2forms.Select2Widget(),
            
         }
+    def clean_total(self):
+        data = self.cleaned_data["total"]
+        return Decimal(data.replace(',', '.'))
+       
+    
     def clean_qta_diaria(self):
         data = self.cleaned_data["qta_diaria"]
         if data==0:

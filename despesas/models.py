@@ -26,13 +26,16 @@ class Diaria(models.Model):
     tipo_diaria=models.CharField(max_length=1, verbose_name='Tipo de Diária',choices=TIPO_DIARIA,null=False,blank=False,default='')
     qta_diaria=models.PositiveBigIntegerField(verbose_name='Quantidade',null=False,blank=False)
     valor=models.CharField(verbose_name='Valor', max_length=50, null=False,blank=False)
-    total=models.CharField(verbose_name='Subtotal',null=False,blank=False,max_length=50)
+    total=models.DecimalField(null=False, blank=False, decimal_places=2, max_digits=10)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.profissional}'
+    
+
+   
 
     def total_desp(self):
       items=Reembolso.objects.filter(diaria=self)

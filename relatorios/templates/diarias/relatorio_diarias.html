@@ -1,27 +1,90 @@
-{% load static %}
 <!DOCTYPE html>
 
-
-<html lang="en">
+{% load static %}
+<html lang="pt-br">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Document</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
+  <title>Relátorio de Diarias</title>
+  <style>
+    /* use CSS into style */
+    @page {
+      size: A4;
+      /* Change from the default size of A4 */
+      margin: 2.5mm;
+      /* Set margin on each page */
+    }
+
+    table {
+      width: 100%;
+      margin-bottom: 10cm;
+      margin-left: 10px;
+      padding-top: 5px;
+      border: none;
+    }
+
+    .table-bordered {
+      border: 1px solid #e3e6f0;
+      margin-top: 5px;
+
+
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+      border: 1px solid #e3e6f0;
+    }
+
+    .table-bordered thead th,
+    .table-bordered thead td {
+      border-bottom-width: 1px;
+
+    }
+
+    .table-borderless th,
+    .table-borderless td,
+    .table-borderless thead th,
+    .table-borderless tbody+tbody {
+      border: 10px;
+    }
+
+    img {
+      width: 620px;
+      height: 110px;
+
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+
+    }
+  </style>
 
 </head>
 
 <body>
   <div class="container">
 
-    <table class="table">
+    <img src=" {% static 'img/saude.jpg' %}" alt="">
+
+    <h4 style="text-align: center;"> Relátorio de Diárias</h4>
+    <p style="padding-left: 10px;"> <b>Período:</b> 12/01/2023 a 12/06/2023</p>
+    <p style="padding-left: 10px;"> <b>Quantidade de Diárias:</b> {{qta_diarias}}</p>
+    <p style="padding-left: 10px;"><b> Total de Diárias:</b> R$ {{ total_diarias}}</p>
+
+
+
+    <table class="table table-bordered">
       <thead>
+
+
         <tr>
-          <th style="width: 10px">#</th>
+          <th>#</th>
           <th>Nome Profissional</th>
           <th>CPF</th>
+          <th>CNS</th>
 
         </tr>
       </thead>
@@ -30,7 +93,8 @@
         <tr>
           <td>{{diaria.id}}</td>
           <td>{{diaria.profissional.nome_completo}}</td>
-          <td>{{diaria.profissional.cpf}}</td>
+          <td style="padding:0 !important;">{{diaria.profissional.formt_cpf}}</td>
+          <td>{{diaria.profissional.cns}}</td>
         </tr>
 
         {%endfor%}

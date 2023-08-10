@@ -49,7 +49,7 @@ class DiariaListView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(DiariaListView,self).get_queryset(*args, **kwargs)
-        qs = qs.select_related('profissional').order_by('-data_diaria')[:5]
+        qs = qs.select_related('profissional').order_by('-data_diaria')
         return qs
     
 class SearchDiaria(ListView):

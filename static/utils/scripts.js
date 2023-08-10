@@ -33,8 +33,8 @@ $(function(){
     $('.mask-telefone').mask(SPMaskBehavior, spOptions);
     $('.mask-celular').mask(SPMaskBehavior, spOptions);
     $('.money2').mask("#.##0,00", {reverse: true});
-    $('.money').mask('000.000.000.000.000,00', {reverse: true});
+    $('.money').mask('000,00',{reverse:true});
 
-
+  
 
 })
