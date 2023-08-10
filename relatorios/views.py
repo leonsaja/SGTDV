@@ -26,24 +26,14 @@ def relatorioDiaria(request):
     context['qta_diarias']=Diaria.objects.select_related('profissional').count()
     diarias=context['diarias']
     total=0 
-
    
     for d in diarias:
        total+=(d.total)
 
     context['total_diarias']=total
 
-
-
-
     html_string = render_to_string('diarias/relatorio_diarias.html',context)
-
-    # Create the PDF from the HTML string
-    
-    
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
-
-   
     return response
     """  response = HttpResponse(content_type='application/pdf')
    

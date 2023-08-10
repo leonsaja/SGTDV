@@ -6,8 +6,8 @@ from profissionais.models import Profissional
 class Diaria(models.Model):
     TIPO_DIARIA=(
         ('','---------'),
-        ('1','1-Integral'),
-        ('2','2-Meia'),
+        ('1','Integral'),
+        ('2','Meia'),
     )
     STATUS_REEMBOLSO=(
        ('1','SIM'),

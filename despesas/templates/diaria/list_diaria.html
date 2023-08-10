@@ -117,6 +117,9 @@
 
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>
+                    <a href="{% url 'despesas:pdf-diaria' diaria.id %}">
+                      <i class="fa-solid fa-print"></i>
+                    </a>
                   </td>
                 </tr>
                 {% include 'diaria/modal_delete_diaria.html'%}

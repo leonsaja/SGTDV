@@ -51,23 +51,57 @@
     }
 
     img {
-      width: 620px;
+      width: 300px;
       height: 110px;
 
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      width: 50%;
 
+
+    }
+
+    .container,
+    .container-fluid,
+    .container-xxl,
+    .container-xl,
+    .container-lg,
+    .container-md,
+    .container-sm {
+      width: 100%;
+      padding-right: var(--bs-gutter-x, 0.75rem);
+      padding-left: var(--bs-gutter-x, 0.75rem);
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    .row {
+      --bs-gutter-x: 1.5rem;
+      --bs-gutter-y: 0;
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: calc(var(--bs-gutter-y) * -1);
+      margin-right: calc(var(--bs-gutter-x) * -.5);
+      margin-left: calc(var(--bs-gutter-x) * -.5);
     }
   </style>
 
 </head>
 
 <body>
-  <div class="container">
+  <div class="container-fluid">
+    <div style="border: solid 1px black;">
+      <div class="row">
 
-    <img src=" {% static 'img/saude.jpg' %}" alt="">
+        <img src=" {% static 'img/saude.jpg' %}" alt="">
+        <p style="margin-left: 10px ; ">MUNICIPIO DE SANTO ANTÔNIO DO JACINTO-MG
+          <br>
+          Rua Beira Rio, nº 741 - Centro - CEP: 39935-000
+          <br>
+          FONE: (33) 3747-1256 - CNPJ:18.349.951/0001-36
+          <br>
+          E-mail: smssantoantoniodojacinto@gmail.com
+        </p>
+      </div>
+    </div>
+
 
     <h4 style="text-align: center;"> Relátorio de Diárias</h4>
     <p style="padding-left: 10px;"> <b>Período:</b> 12/01/2023 a 12/06/2023</p>

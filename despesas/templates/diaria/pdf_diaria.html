@@ -1,0 +1,209 @@
+{% load static %}
+<!DOCTYPE html>
+
+
+
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style></style>
+  <title>Relátorio de Diarias</title>
+  <style>
+    /* use CSS into style */
+    @page {
+      size: A4;
+      /* Change from the default size of A4 */
+      margin: 3.5mm;
+      /* Set margin on each page */
+    }
+
+    table {
+      width: 100%;
+      margin-bottom: 100px;
+
+      border: 1px solid black;
+
+    }
+
+    .table-bordered {
+      border: 1px solid black;
+      margin-top: 5px;
+
+
+
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+
+      padding: 5px;
+    }
+
+    .table-bordered thead th,
+    .table-bordered thead td {
+      border-bottom-width: 1px;
+
+    }
+
+    .table-borderless th,
+    .table-borderless td,
+    .table-borderless thead th,
+    .table-borderless tbody+tbody {
+
+
+      border: 10px;
+    }
+
+    img {
+      width: 300px;
+      height: 110px;
+
+
+
+    }
+
+    .container,
+    .container-fluid,
+    .container-xxl,
+    .container-xl,
+    .container-lg,
+    .container-md,
+    .container-sm {
+      width: 100%;
+      padding-right: var(--bs-gutter-x, 0.75rem);
+      padding-left: var(--bs-gutter-x, 0.75rem);
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    .col-md-6 {
+      flex: 0 0 auto;
+      width: 50%;
+    }
+
+    .col-md-12 {
+      flex: 0 0 auto;
+      width: 100%;
+    }
+
+    .row {
+      --bs-gutter-x: 1.5rem;
+      --bs-gutter-y: 0;
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: calc(var(--bs-gutter-y) * -1);
+      margin-right: calc(var(--bs-gutter-x) * -.5);
+      margin-left: calc(var(--bs-gutter-x) * -.5);
+    }
+
+    .subtitle {
+      font-size: 14px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="container">
+    <div style="border: solid 1px black;">
+      <div class="row">
+        <img src=" {% static 'img/saude.jpg' %}" alt="">
+        <p style="margin-left: 10px ; ">MUNICIPIO DE SANTO ANTÔNIO DO JACINTO-MG
+          <br>
+          Rua Beira Rio, nº 741 - Centro - CEP: 39935-000
+          <br>
+          FONE: (33) 3747-1256 - CNPJ:18.349.951/0001-36
+          <br>
+          E-mail: smssantoantoniodojacinto@gmail.com
+        </p>
+      </div>
+    </div>
+
+
+    <h4 style="text-align: center;">Diária</h4>
+    <div style="border: solid 1px black;">
+      <div class="row">
+        <div class="col-md-5">
+          <p style="margin: 10px;"><b>Identificação: </b>{{diaria.profissional.nome_completo}}</p>
+        </div>
+        <div class="col-md-5">
+          <p style="margin: 10px;"><b>CPF: </b>{{diaria.profissional.formt_cpf}}</p>
+        </div>
+        <div class="col-md-2">
+          <p style="margin: 10px;"><b>DATA: </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
+        </div>
+      </div>
+      <hr>
+      <p style="text-align: center; margin: 0; padding: 0;" class="subtitle"><b>RELATÓRIO DESCREVENDO O OBJETO DA VIAGEM
+          INCLUINDO
+          PERÍODO</b></p>
+      <hr>
+      <div class="row">
+        <div class="col-md-12">
+          <p style="margin: 10px;">
+            {{diaria.descricao}}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <table border=" 1" class="table-bordered">
+      <thead>
+        <tr>
+          <th rowspan="2">ITENS</th>
+          <th>DESCRICAO - DESTINO DA VIAGEM</th>
+          <th>DIÁRIA</th>
+          <th>QTA</th>
+          <th>VALOR</th>
+          <th>TOTAL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="2">01</td>
+          <td>Origem: {{diaria.viagem_orig}}
+            <br>
+            Destino: {{diaria.viagem_dest}}
+          </td>
+          <td>{{diaria.get_tipo_diaria_display}}</td>
+          <td>{{diaria.qta_diaria}}</td>
+          <td>{{diaria.valor}}</td>
+          <td>{{diaria.total}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="border: solid 1px black;margin: 3px;">
+      <p style="text-align: center;"><b> APROVAÇÃO DA DESPESA</b></p>
+      <p style="padding: 3px;"><b>Data: </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
+      <p style="text-align: center;">______________________________________</p>
+      <p style="text-align: center; font-weight: bold;">VANUSA DIAS COSTA
+        <br>
+        SECRETARIA MUNICIPAL DE SAÚDE
+      </p>
+    </div>
+    <div style="border: solid 1px black; margin: 3px;">
+      <p style="text-align: center;"><b> AUTORIZAÇÃO DA DESPESA</b></p>
+      <p style="padding: 3px;"><b>Data: </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
+      <p style="text-align: center;">______________________________________</p>
+      <p style="text-align: center; font-weight: bold;">VANUSA DIAS COSTA
+        <br>
+        SECRETARIA MUNICIPAL DE SAÚDE
+      </p>
+    </div>
+
+
+
+
+  </div>
+
+</body>
+
+</html>
