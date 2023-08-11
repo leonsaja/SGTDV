@@ -1,0 +1,32 @@
+.bordas{
+    border: 1px solid black;
+}
+.title_cabecalho{
+    padding-bottom: 10px;
+    padding-left: 25px;
+    font-size: 16px;
+}
+
+.linha{
+
+    border-bottom: solid 1px black ;
+}
+.paragrafo{
+    margin: 5px;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 4px;
+}
+.title_center{
+    text-align: center;
+}
+.espaco{
+    padding-left: 60px;
+}
+.espaco1{
+    padding-left: 130px;
+}
+.mt{
+    margin-top: 10px;
+}
+
