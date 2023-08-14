@@ -92,7 +92,7 @@ class ReembolsoDetailView(DetailView):
         diaria=Diaria.objects.select_related('profissional').get(id=self.kwargs['pk'])
         context['diaria']=diaria
         context['reembolsos'] =Reembolso.objects.select_related('diaria').filter(diaria__id=diaria.id)
-    
+        
         return context
 
     

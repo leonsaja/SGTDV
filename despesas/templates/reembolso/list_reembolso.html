@@ -112,9 +112,13 @@
 
                     <a href="{% url 'despesas:detail-reembolso' diaria.id%}" class="pr-2"><i
                         class="fas fa-solid fa-eye"></i></a>
+                        <a href="{% url 'despesas:edit-reembolso' diaria.id%}" class="pr-1 text-warning"><i
+                          class="fas fa-edit"></i></a>
 
 
-
+                        <a href="{% url 'relatorios:relatorio-reembolso-pdf' diaria.id %}"  target="_blank">
+                          <i class="fa-solid fa-print"></i>
+                        </a>
 
                   </td>
                 </tr>

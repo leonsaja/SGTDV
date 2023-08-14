@@ -1,0 +1,149 @@
+{% extends 'relatorio.html' %}
+{% load static %}
+{% block title %}RELATÓRIO DE DIÁRIA{% endblock %}
+{% block content %}
+<div class="cabecalho">
+
+  <img src=" {% static 'img/saude.jpg' %}" alt="">
+  <p class="text-logo">MUNICIPIO DE SANTO ANTÔNIO DO JACINTO-MG
+    <br>
+    RUA BEIRA RIO, Nº 741 - CENTRO - CEP: 39935-000
+    <br>
+    FONE: (33) 3747-1256 - CNPJ:18.349.951/0001-36
+    <br>
+    E-MAIL: smssantoantoniodojacinto@gmail.com
+  </p>
+</div>
+<h3 class="title_center">RELATÓRIO DE DIÁRIA</h3>
+<div class="bordas">
+  <div class="row">
+    <div class="col-md-5">
+      <p class="paragrafo "><b>IDENTIFICAÇÃO: </b>{{diaria.profissional.nome_completo|upper}}
+
+        &nbsp; &nbsp;&nbsp;&nbsp;
+      </p>
+    </div>
+    <div class="col-md-5">
+      <p class="paragrafo espaco">
+        <b>CPF: </b>{{diaria.profissional.formt_cpf}}
+        &nbsp; &nbsp;&nbsp;&nbsp;
+      </p>
+    </div>
+    <div class="col-md-2">
+      <p class="paragrafo "><b>DATA: </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
+    </div>
+
+  </div>
+  <div class="linha"></div>
+  <div class="row">
+    <div class="col-md-5">
+      <p class="paragrafo"><b>FONTE: </b>{{diaria.fonte}}
+      </p>
+    </div>
+    <div class="col-md-5">
+      <p class="paragrafo espaco1">
+        <b>CONTA: </b>{{diaria.conta}}
+      </p>
+    </div>
+    <div class="col-md-2">
+      <p class="paragrafo espaco1"><b>REEMBOLSO: </b>{{diaria.get_reembolso_display}}</p>
+    </div>
+  </div>
+
+  <div class="linha"></div>
+  <p style="text-align: center;" class="paragrafo"><b>RELATÓRIO DESCREVENDO O OBJETO DA VIAGEM
+      INCLUINDO
+      PERÍODO</b></p>
+  <div class="linha"></div>
+  <div class="row">
+    <div class="col-md-12">
+      <p class="paragrafo">
+        <b>DESCRIÇÃO: </b>{{diaria.descricao}}
+      </p>
+    </div>
+  </div>
+  {% if diaria.obs%}
+  <div class="linha"></div>
+  <div class="row">
+    <div class="col-md-12">
+      <p class="paragrafo">
+        <b>OBSERVAÇÃO: </b>{{diaria.obs}}
+      </p>
+
+    </div>
+  </div>
+  {%endif%}
+</div>
+
+<table class="table-bordered">
+  <thead>
+    <tr>
+      <th>ITENS</th>
+      <th>DESCRICAO - DESPESAS</th>
+      <th>VALOR</th>
+      <th>QTA</th>
+      <th>VALOR</th>
+      <th>TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>01</td>
+      <td>
+        <p>
+          Origem: {{diaria.viagem_orig}}
+
+          Destino: {{diaria.viagem_dest}}
+        </p>
+      </td>
+      <td>{{diaria.get_tipo_diaria_display}}</td>
+      <td>{{diaria.qta_diaria}}</td>
+      <td>{{diaria.valor}}</td>
+      <td>{{diaria.total}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="bordas">
+  <p class="paragrafo" style="text-align: center;"><b> APROVAÇÃO DA DESPESA</b></p>
+  <p class="paragrafo"><b>DATA: </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
+  <p class="paragrafo title_center">______________________________________</p>
+  <p class="paragrafo title_center"><b>VANUSA DIAS COSTA
+      <br>
+      SECRETARIA MUNICIPAL DE SAÚDE
+    </b> </p>
+
+</div>
+
+<div class="bordas pt">
+  <p class="paragrafo title_center"><b> AUTORIZAÇÃO DA DESPESA</b></p>
+  <p class="paragrafo"><b>DATA: </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
+  <p class="paragrafo title_center">______________________________________</p>
+  <p class="paragrafo title_center"><b> VANUSA DIAS COSTA
+      <br>
+      SECRETARIA MUNICIPAL DE SAÚDE
+    </b>
+  </p>
+</div>
+
+
+<div class="bordas pt">
+  <p class="paragrafo title_center"><b> COMPROVANTE DE RECECIMENTO</b></p>
+  <p class="paragrafo"><b>DATA:</b> </p>
+  <p class="paragrafo">
+    <b>
+      <br>
+      Recebi o valor da importância acima a título de diária para despesas de viagem a serviço da Secretaria
+      Municipal de Saúde, no qual dou plena e total quitação.
+    </b>
+  </p>
+  <br>
+  <p class="title_center">______________________________________</p>
+
+  <p class="paragrafo title_center"><b>{{diaria.profissional.nome_completo}}</b></p>
+
+</div>
+
+
+
+{% endblock %}

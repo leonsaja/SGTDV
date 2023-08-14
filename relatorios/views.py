@@ -1,7 +1,7 @@
 import io
 
 from django.http import FileResponse, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
 from django.views import View
 from django.views.generic import ListView
@@ -11,10 +11,14 @@ from reportlab.pdfgen import canvas
 from reportlab.platypus import Table, TableStyle
 from weasyprint import HTML
 
-from despesas.models import Diaria
+from despesas.models import Diaria, Reembolso
+from tfds.models import CodigoSIA, ReciboPassagemTFD, ReciboTFD
 
 
-def relatorioDiaria(request):
+def relatorioDiaria(request):  
+
+
+
    
 
     response = HttpResponse(content_type='application/pdf')
@@ -116,4 +120,46 @@ def relatorioDiaria(request):
     HTML(string=html_string).write_pdf(response)
 
     return respons 
+
     """
+
+def relatorioDiariaPdf(request,id):
+   
+    diaria=get_object_or_404(Diaria,id=id)
+    response = HttpResponse(content_type='application/pdf')
+    html_string = render_to_string('diarias/relatorio_diaria_pdf.html',{'diaria':diaria})
+    
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+
+   
+    return response
+
+def relatorioReembolsoPdf(request,id):
+
+    diaria=get_object_or_404(Diaria,id=id)
+    context={}
+    context['diaria']=diaria
+    context['reembolsos'] =Reembolso.objects.select_related('diaria').filter(diaria__id=diaria.id)
+    response = HttpResponse(content_type='application/pdf')
+    context['movimentacao']=context['reembolsos'][0].movimentacao
+    html_string = render_to_string('reembolsos/relatorio_reembolso_pdf.html', context)
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+
+   
+    return response
+
+
+def relatorioReciboTfdPdf(request,id):
+    recibo_pdf=get_object_or_404(ReciboTFD,id=id)
+    context={}
+
+    context['recibo_tfd']= ReciboTFD.objects.select_related('paciente','acompanhante').get(id=recibo_pdf.id)
+    context['recibo_codigo']=CodigoSIA.objects.select_related('recibo_tfd').filter(recibo_tfd__id=context['recibo_tfd'].id)
+    
+    
+    response = HttpResponse(content_type='application/pdf')
+    html_string = render_to_string('tfds/recibo_tfds/relatorio_recibo_tfd_pdf.html', context)
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+
+
+    return response

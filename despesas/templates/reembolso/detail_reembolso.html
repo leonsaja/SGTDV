@@ -141,8 +141,14 @@
                                         <div class="table-responsive-md">
 
                                             <tr>
+                                                {% if r.descricao %}
                                                 <td>{{r.get_descricao_display}}</td>
+                                                {% else %}
+                                                <td class="text-center">
+                                                    -
 
+                                                </td>
+                                                 {%endif%}
                                                 <td class="text-center">{{r.valor_desp}}</td>
 
                                                 {% if r.movimentacao %}

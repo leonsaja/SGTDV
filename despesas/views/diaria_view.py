@@ -2,13 +2,13 @@ from django.contrib import messages
 from django.db.models import ProtectedError, Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from weasyprint import HTML
 
 from despesas.forms.diaria_form import DiariaForm
 from despesas.forms.reembolso_form import ReembolFormSet
 
-from django.template.loader import render_to_string
-from weasyprint import HTML
 from ..models import Diaria, Reembolso
 
 
@@ -94,16 +94,6 @@ class DiariaDetailView(DetailView):
         
         return context
 
-def diariaPdf(request,id):
-   
-    diaria=get_object_or_404(Diaria,id=id)
-    response = HttpResponse(content_type='application/pdf')
-    html_string = render_to_string('diaria/pdf_diaria.html',{'diaria':diaria})
-    
-    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
-
-   
-    return response
 
 def diariaDelete(request, id):
     diaria=Diaria.objects.get(id=id)

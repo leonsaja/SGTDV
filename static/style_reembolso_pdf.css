@@ -1,39 +1,16 @@
-
-/* Cabeçalho da pagina */
 @page {
-  size: "A4";
-  margin: 1.0cm 1.5cm 3.5cm 1.5cm;
-}
-.cabecalho{
-  display:flex; 
-} 
-.conteudo{
-  margin-bottom: 100px;
-}
-img {
-  position: relative;
-  width: 280px;
-  height: 110px;
-  top: -40px;
-}
-body {
-  font-family: Arial, Helvetica, sans-serif;
+    size: "A4";
+    margin: 1.0cm 1.5cm 3.5cm 1.5cm;
+  }
 
-}
 
-.text-logo{
-  font-size: 13px;
-  padding-left: 30px;
-}
 .bordas{
     border: 1px solid black;
-
-    margin-top: 8px;
+    margin-top:4px ;
 }
-.logo{
-  font-size: 14px;
-  margin-top: 30px;
-  float: right;
+.title_cabecalho{
+    padding-left: 20px;
+    font-size: 16px;
 }
 
 .linha{
@@ -41,21 +18,19 @@ body {
     border-bottom: solid 1px black ;
 }
 .paragrafo{
-    
-    font-size: 12px;
+    margin: 2px;
+    font-size: 14px;
     font-family: Arial, Helvetica, sans-serif;
     padding: 5px;
-    padding-left: 10px;
 }
 .title_center{
     text-align: center;
-   
 }
 .espaco{
     padding-left: 10px;
 }
 .espaco1{
-    padding-left: 150px;
+    padding-left: 130px;
 }
 .mt{
     margin-top: 10px;
@@ -65,10 +40,8 @@ table {
     width: 100%;
     border-collapse: collapse;
 
-}
-.pt{
-  padding-top: 5px;
-}
+
+  }
 
   thead {
     background-color: #eee;
@@ -77,13 +50,11 @@ table {
   .table-bordered {
     margin-top: 5px;
   }
-  thead{
-    text-align: center;
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+
   }
-  td{
-    padding-right: 8px;
-  }
-  
 
   .table-bordered th,
   .table-bordered td {
@@ -96,7 +67,6 @@ table {
   .table-bordered thead td {
     border-bottom-width: 1px;
 
-
   }
 
   .table-borderless th,
@@ -106,9 +76,27 @@ table {
     border: 10px;
   }
 
- 
+  img {
+    width: 250px;
+    height: 110px;
 
-  
+
+
+  }
+
+  .container,
+  .container-fluid,
+  .container-xxl,
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm {
+    width: 100%;
+    padding-right: var(--bs-gutter-x, 0.75rem);
+    padding-left: var(--bs-gutter-x, 0.75rem);
+    margin-right: auto;
+    margin-left: auto;
+  }
 
   .col-md-6 {
     flex: 0 0 auto;
@@ -118,10 +106,6 @@ table {
   .col-md-12 {
     flex: 0 0 auto;
     width: 100%;
-  }
-  p{
-    margin: 0px;
-    padding: 0px;
   }
 
   .row {

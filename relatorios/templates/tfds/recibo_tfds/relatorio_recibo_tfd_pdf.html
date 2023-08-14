@@ -1,0 +1,115 @@
+{% extends 'relatorio.html' %}
+{% load static %}
+{% block title %}RELATÓRIO DE RECIBO DE TFD{% endblock %}
+{% block content %}
+
+<div class="cabecalho">
+
+    <img src=" {% static 'img/saude.jpg' %}" alt="">
+    <p class="text-logo">MUNICIPIO DE SANTO ANTÔNIO DO JACINTO-MG
+        <br>
+        RUA BEIRA RIO, Nº 741 - CENTRO - CEP: 39935-000
+        <br>
+        FONE: (33) 3747-1256 - CNPJ:18.349.951/0001-36
+        <br>
+        E-MAIL: smssantoantoniodojacinto@gmail.com
+    </p>
+</div>
+<h3 class="title_center">RELATÓRIO DE RECIBO DE TFD</h3>
+
+<div class="bordas">
+    <div class="row">
+        <div class="col-md-4">
+            <p class="paragrafo "><b>NOME DO PACIENTE: </b>
+                <br>{{recibo_tfd.paciente.nome_completo|upper}}
+                &nbsp; &nbsp;&nbsp;&nbsp;
+            </p>
+        </div>
+        <div class="col-md-5">
+            <p class="paragrafo espaco">
+                <b>RG: </b><br>{{recibo_tfd.paciente.rg|upper}}
+                &nbsp; &nbsp;&nbsp;&nbsp;
+            </p>
+        </div>
+        <div class="col-md-2">
+            <p class="paragrafo "><b>CPF: </b><br>{{recibo_tfd.paciente.formt_cpf|upper}}</p>
+        </div>
+        <div class="col-md-2">
+            <p class="paragrafo "><b>CNS: </b><br>{{recibo_tfd.paciente.cns|upper}}</p>
+        </div>
+
+    </div>
+    <div class="linha"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <p class="paragrafo "><b>NOME DO ACOMPANHANTE: </b>
+                <br>{{recibo_tfd.acompanhante.nome_completo|upper}}
+
+                &nbsp; &nbsp;&nbsp;&nbsp;
+            </p>
+        </div>
+        <div class="col-md-5">
+
+            {% if recibo_tfd.acompanhante.rg %}
+            <p class="paragrafo espaco">
+                &nbsp; <b>RG: </b><br>&nbsp; {{recibo_tfd.acompanhante.rg|upper}}
+            </p>
+            {%else %}
+            <p class="paragrafo espaco">
+                &nbsp;
+                <b>RG: </b><br>{{recibo_tfd.acompanhante.rg|upper}}
+                &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+                &nbsp; &nbsp;&nbsp;&nbsp;
+            </p>
+            {%endif%}
+        </div>
+        <div class="col-md-2">
+            <p class="paragrafo "> &nbsp; &nbsp; &nbsp; <b>CPF: </b><br>&nbsp; &nbsp;
+                &nbsp;&nbsp;{{recibo_tfd.paciente.formt_cpf|upper}}</p>
+        </div>
+        <div class="col-md-2">
+            <p class="paragrafo espaco "><b>CNS: </b><br>{{recibo_tfd.paciente.cns|upper}}</p>
+        </div>
+
+    </div>
+
+
+
+    <div class="linha"></div>
+    <div class="row">
+        <div class="col-md-7">
+            <p class="paragrafo">
+                <b>MUNICIPIO DE ORIGEM : <br></b>
+
+                {{recibo_tfd.municipio_origem|upper}}
+            </p>
+        </div>
+        <div class="col-md-6">
+            <p class="paragrafo ">
+
+                <b>GRS : </b><br>{{recibo_tfd.grs|upper}}
+            </p>
+        </div>
+    </div>
+
+    <div class="linha"></div>
+    <div class="row">
+        <div class="col-md-7">
+            <p class="paragrafo">
+                <b>MUNICIPIO DE DESTINO : <br></b>
+
+                {{recibo_tfd.municipio_destino|upper}}
+            </p>
+        </div>
+        <div class="col-md-6">
+            <p class="paragrafo ">
+
+                <b>GRS : </b><br>{{recibo_tfd.grs|upper}}
+            </p>
+        </div>
+    </div>
+    {% if diaria.obs%}
+    <div class="linha"></div>
+
+    {%endif%}
+</div {% endblock content%}

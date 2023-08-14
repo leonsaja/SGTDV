@@ -15,7 +15,6 @@ urlpatterns = [
     path('diaria/detail/<int:pk>',diaria_view.DiariaDetailView.as_view(),name='detail-diaria'),
     path('diaria/list',diaria_view.DiariaListView.as_view(),name='list-diaria'),
     path('diaria/search',diaria_view.SearchDiaria.as_view(),name='search-diaria'),
-    path('diaria/pdf/<int:id>',diaria_view.diariaPdf,name='pdf-diaria'),
 
 
     #Reembolsos
