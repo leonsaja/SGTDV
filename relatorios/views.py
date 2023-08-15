@@ -1,26 +1,23 @@
 import io
 
 from django.http import FileResponse, HttpResponse
-from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
+from weasyprint import HTML
+from django.shortcuts import get_object_or_404, render
+
 from django.views import View
 from django.views.generic import ListView
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Table, TableStyle
-from weasyprint import HTML
+
 
 from despesas.models import Diaria, Reembolso
 from tfds.models import CodigoSIA, ReciboPassagemTFD, ReciboTFD
 
 
 def relatorioDiaria(request):  
-
-
-
-   
-
     response = HttpResponse(content_type='application/pdf')
     """ response['Content-Disposition'] = 'attachment; filename="mydata.pdf"' """
 

@@ -1,11 +1,9 @@
-from typing import Any
-
-from django.db import models
 from django.db.models import Q
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy
-from django.views.generic import DeleteView, DetailView, ListView
+from django.views.generic import DetailView, ListView
+from weasyprint import HTML
+from django.template.loader import render_to_string
 
 from despesas.forms.reembolso_form import ReembolFormSet
 from despesas.models import Diaria, Reembolso
@@ -95,6 +93,17 @@ class ReembolsoDetailView(DetailView):
         
         return context
 
-    
-    
 
+def reembolsoPdf(request,id):
+
+    diaria=get_object_or_404(Diaria,id=id)
+    context={}
+    context['diaria']=diaria
+    context['reembolsos'] =Reembolso.objects.select_related('diaria').filter(diaria__id=diaria.id)
+    response = HttpResponse(content_type='application/pdf')
+    context['movimentacao']=context['reembolsos'][0].movimentacao
+    html_string = render_to_string('reembolso/pdf_reembolso.html', context)
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+
+   
+    return response

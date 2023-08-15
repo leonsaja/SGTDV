@@ -13,7 +13,7 @@ urlpatterns = [
      path("search/recibo-tfd",view_r_t.ReciboTFDSearchListView.as_view(),name='search-recibo_tfd'),
      path("detail/<int:pk>/recibo-tfd/",view_r_t.ReciboTFDDetailView.as_view(),name='detail-recibo_tfd'),
      path("delete/<int:pk>/recibo-tfd",view_r_t.ReciboTFDDeleteView.as_view(),name='del-recibo_tfd'),
-
+     path("pdf/<int:id>/recibo-tfd",view_r_t.reciboTfdPdf,name='pdf-recibo_tfd'),
 
      #Recibo de Passagens TFDs
 

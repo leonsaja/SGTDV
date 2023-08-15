@@ -82,6 +82,7 @@ class SearchDiaria(ListView):
         else:
             qs = qs.select_related('profissional').all().order_by('profissional__nome_completo')
             return qs
+
 class DiariaDetailView(DetailView):
     model=Diaria
     template_name='diaria/detail_diaria.html'
@@ -93,7 +94,6 @@ class DiariaDetailView(DetailView):
         context['reembolsos'] =Reembolso.objects.select_related('diaria').filter(diaria__id=diaria.id)
         
         return context
-
 
 def diariaDelete(request, id):
     diaria=Diaria.objects.get(id=id)
@@ -107,3 +107,13 @@ def diariaDelete(request, id):
     finally:
         return redirect('despesas:list-diaria')
     
+def diariaPdf(request,id):
+   
+    diaria=get_object_or_404(Diaria,id=id)
+    response = HttpResponse(content_type='application/pdf')
+    html_string = render_to_string('diaria/pdf_diaria.html',{'diaria':diaria})
+    
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+
+   
+    return response

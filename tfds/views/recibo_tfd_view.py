@@ -6,6 +6,9 @@ from django.views.generic import DeleteView, DetailView, ListView
 from tfds.forms.form_tfd import CodigoSIASet, RecibcoTFDForm
 from tfds.models import CodigoSIA, ReciboTFD
 
+from django.http import FileResponse, HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
 
 def reciboTFDCreate(request):
     tfd=ReciboTFD()
@@ -96,4 +99,19 @@ class ReciboTFDDeleteView(DeleteView):
 
     def get(self, request, *args, **kwargs):
         return self.post().get(request, *args, **kwargs)
+
+
+def reciboTfdPdf(request,id):
+    recibo_pdf=get_object_or_404(ReciboTFD,id=id)
+    context={}
+
+    context['recibo_tfd']= ReciboTFD.objects.select_related('paciente','acompanhante').get(id=recibo_pdf.id)
+    context['recibo_codigo']=CodigoSIA.objects.select_related('recibo_tfd').filter(recibo_tfd__id=context['recibo_tfd'].id)
     
+    
+    response = HttpResponse(content_type='application/pdf')
+    html_string = render_to_string('recibo_tfd/pdf_recibo_tfd.html', context)
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+
+
+    return response

@@ -15,6 +15,7 @@ urlpatterns = [
     path('diaria/detail/<int:pk>',diaria_view.DiariaDetailView.as_view(),name='detail-diaria'),
     path('diaria/list',diaria_view.DiariaListView.as_view(),name='list-diaria'),
     path('diaria/search',diaria_view.SearchDiaria.as_view(),name='search-diaria'),
+    path('diaria/<int:id>/pdf',diaria_view.diariaPdf,name='pdf-diaria'),
 
 
     #Reembolsos
@@ -23,6 +24,7 @@ urlpatterns = [
     path('reembolso/detail/<int:pk>',reem_view.ReembolsoDetailView.as_view(),name='detail-reembolso'),
     path('reembolso/list',reem_view.ReembolsoListView.as_view(),name='list-reembolso'),
     path('reembolso/search',reem_view.SearchReembolsoListView.as_view(),name='search-reembolso'),
+    path('reembolso/<int:id>/pdf',reem_view.reembolsoPdf,name='pdf-reembolso'),
 
 
 

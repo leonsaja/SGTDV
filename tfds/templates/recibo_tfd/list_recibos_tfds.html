@@ -103,8 +103,13 @@
                       class="pr-2 text-danger">
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>
-                    <a href="{% url 'relatorios:relatorio-recibo-tfd-pdf' recibo.id%}" class="pr-2"><i
-                     class="fa-solid fa-print"></i></a>
+                    <a href="{% url 'tfds:pdf-recibo_tfd' recibo.id%}"  target="_blank" class="pr-2">
+                      <i class='fas fa-print'></i>
+
+                    
+              
+
+                    </a>
                   </td>
                 </tr>
                 {% include  'recibo_tfd/modal_delete_recibo_tfd.html'%}
