@@ -2,7 +2,7 @@ from typing import Any
 
 from django.db.models import Q
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
@@ -10,6 +10,9 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
 from tfds.forms.form_recibo_passagem_tfd import ReciboPassagemTFDForm
 from tfds.models import ReciboPassagemTFD
 
+from django.http import FileResponse, HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
 
 class ReciboPassagemCreateView(CreateView):
     model=ReciboPassagemTFD
@@ -76,7 +79,6 @@ class ReciboPassagemDetailView(DetailView):
        
         return context
 
-
 class ReciboPassagemDeleteView(DeleteView):
     model=ReciboPassagemTFD
     success_url=reverse_lazy('tfds:list-recibo_passagem')
@@ -86,3 +88,16 @@ class ReciboPassagemDeleteView(DeleteView):
 
      
                                                                                                                                                                                                                                               
+def reciboPassagemPdf(request,id):
+
+    recibo_passagem=get_object_or_404(ReciboPassagemTFD,id=id)
+    context={}
+
+    context['recibo_passagem']= ReciboPassagemTFD.objects.select_related('paciente','acompanhante').get(id=recibo_passagem.id)
+   
+    response = HttpResponse(content_type='application/pdf')
+    html_string = render_to_string('recibo_passagem_tfd/pdf_recibo_passagem.html', context)
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+
+
+    return response

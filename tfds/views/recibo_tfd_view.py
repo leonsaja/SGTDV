@@ -6,7 +6,7 @@ from django.views.generic import DeleteView, DetailView, ListView
 from tfds.forms.form_tfd import CodigoSIASet, RecibcoTFDForm
 from tfds.models import CodigoSIA, ReciboTFD
 
-from django.http import FileResponse, HttpResponse
+from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 

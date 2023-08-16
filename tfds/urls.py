@@ -23,5 +23,6 @@ urlpatterns = [
      path("search/recibo-passagem",view_r_p.ReciboPassagemSearchListView.as_view(),name='search-recibo_passagem'),
      path("detail/<int:pk>/recibo-passagem",view_r_p.ReciboPassagemDetailView.as_view(),name='detail-recibo_passagem'),
      path("delete/<int:pk>/recibo-passagen",view_r_p.ReciboPassagemDeleteView.as_view(),name='del-recibo_passagem'),
+     path("pdf/<int:id>/recibo-passagem",view_r_p.reciboPassagemPdf,name='pdf-recibo_passagem'),
 
 ]

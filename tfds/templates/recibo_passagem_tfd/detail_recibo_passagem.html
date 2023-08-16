@@ -61,8 +61,11 @@
             </div>
             <div class="col-md-3">
                 <label for="id_codigo_sia_acompanhante" class="form-label">Código SIA:
+                   {% if recibo.codigo_sia_acompanhante%}
                     <h6 class="text-muted">{{recibo.codigo_sia_acompanhante|upper}}</h6>
-
+                   {%else%}
+                    <h6 class="text-muted">-</h6> 
+                   {%endif%}
             </div>
             <div class="col-md-2">
                 <label for="id_valor_acompanhante_sia" class="form-label">Valor :

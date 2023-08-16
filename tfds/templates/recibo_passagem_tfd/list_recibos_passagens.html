@@ -106,6 +106,8 @@
                       class="pr-2 text-danger">
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>
+                    <a href="{% url 'tfds:pdf-recibo_passagem' r.id%}"  target="_blank" class="pr-2">
+                      <i class='fas fa-print'></i>
                   </td>
                 </tr>
                 {% include  'recibo_passagem_tfd/modal_delete_recibo_passagem.html'%}
