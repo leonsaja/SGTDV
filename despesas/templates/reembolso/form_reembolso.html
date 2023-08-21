@@ -93,14 +93,25 @@
     </fieldset>
   </div>
   <br>
+  
 
-  <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 px-4 needs-validation" novalidate>
+  <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-md-12 px-4 needs-validation"   id="validar-form" novalidate>
     {% csrf_token %}
 
     {{formset.management_form}}
     {{ formset.non_form_errors.as_ul }}
     <div class="row">
       <div class="col-md-12">
+        <div class="alert alert-danger d-none" role="alert">
+          Por favor, preencha o campo em vermelho.
+        </div>
+      </div>
+  
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+
+  
         <div class="card">
           <div class="card-header">
             <h5 class=" text-primary">Reembolso</h25>
@@ -163,14 +174,120 @@
 <script src='/static/utils/jquery.formset.min.js'></script>
 
 <script>
- 
-                                                                                                                                                                                        
+
   $('table.form tr').formset({
     prefix: '{{ formset.prefix }}',
     addText: "<div><i class='fas fa-plus'></i></div>",
     deleteText: 'Remover'
    });
 
+  /*  let validarCampos= function(){
+
+   let descricao_desp =$('#id_reembolso-0-descricao').attr('required',true)
+   let valor_desp = $('#id_reembolso-0-valor_desp').attr('required',true)
+   let movimentacao=$('#id_reembolso-0-movimentacao')
+   let valor_mov=$('#id_reembolso-0-valor_mov')
+   let erro = $('.alert')
+
+   }
+
+   validarCampos() */
+
+
+   $('#validar-form').submit(function () {
+
+
+    let descricao_desp =$('#id_reembolso-0-descricao').attr('required',true)
+    let valor_desp = $('#id_reembolso-0-valor_desp').attr('required',true)
+    let movimentacao=$('#id_reembolso-0-movimentacao')
+    let valor_mov=$('#id_reembolso-0-valor_mov')
+    let erro = $('.alert')
+
+    if (descricao_desp.val()==='' && (valor_desp.val()==='0.00' || valor_desp.val()===''))
+    {
+        valor_desp.addClass('is-invalid');
+        descricao_desp.addClass('is-invalid');
+        erro.removeClass('d-none');
+
+        console.log('teste1')
+        return false
+    }
+    if (valor_desp.val() && descricao_desp.val()=='')
+    {
+        valor_desp.removeClass('is-invalid');
+        descricao_desp.addClass('is-invalid');
+        
+        erro.removeClass('d-none');
+
+        console.log('teste1')
+        return false
+    }else{
+      if (descricao_desp.val() &&  (valor_desp.val()==='0.00'|| valor_desp.val()==='') )
+    {
+        descricao_desp.removeClass('is-invalid');
+
+        valor_desp.addClass('is-invalid');
+        erro.removeClass('d-none');
+
+        console.log('teste1')
+        return false
+    }
+    }
+
+
+
+
+
+   /*  if ((! valor_mov.val()!=='0.00' &&  movimentacao.val()) && descricao_desp.val()==='')
+    {
+        descricao_desp.attr('required',false)
+        valor_desp.attr('required',false)
+        return true
+      
+    } 
+    if((valor_desp.val()==='0.00' || valor_desp.val()==='') && descricao_desp.val()===''){
+        valor_desp.addClass('is-invalid');
+        descricao_desp.addClass('is-invalid');
+        erro.removeClass('d-none');
+
+        console.log('teste1')
+        return false
+
+    }
+   
+    if(descricao_desp.val() && (valor_desp.val()==='0.00' || valor_desp.val()===''))
+    {
+      valor_desp.addClass('is-invalid');
+      erro.removeClass('d-none');
+              console.log('teste1')
+      return false
+    }
+    if ((descricao_desp.val() && (valor_desp.val()!=='0.00')) && (movimentacao.val()==='' && (valor_mov.val() ==='0.00' || valor_mov.val() ==='')) )
+    {
+      return true
+    }
+    
+    else
+    {
+      if(!valor_mov.val()!=='0.00' && movimentacao.val()===''){
+      movimentacao.addClass('is-invalid');
+      console.log('teste2')
+      return false
+    }
+    }
+    if(movimentacao.val() && (valor_mov.val()==='0.00' || valor_mov.val()===''))
+    {
+      valor_mov.addClass('is-invalid');
+      return false
+    } */
+
+   return true
+  
+
+    
+  });
+                                                                                                                                                                                        
+ 
 
 </script>
 {% endblock scripts %}

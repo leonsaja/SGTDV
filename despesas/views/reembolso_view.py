@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView
 from weasyprint import HTML
 from django.template.loader import render_to_string
+from django.db.models import Q
 
 from despesas.forms.reembolso_form import ReembolFormSet
 from despesas.models import Diaria, Reembolso
@@ -19,7 +20,7 @@ def reembolsoCreate(request,id):
         formset=ReembolFormSet(request.POST,instance=diaria,prefix='reembolso')
         if formset.is_valid():
             formset.save()
-            return redirect('despesas:list-diaria')
+            return redirect('despesas:list-reembolso')
 
     formset=ReembolFormSet(request.POST or None,instance=diaria,prefix='reembolso')
     
@@ -35,7 +36,7 @@ def reembolsoUpdate(request, id):
         formset=ReembolFormSet(request.POST,instance=diaria,prefix='reembolso')
         if formset.is_valid():
             formset.save()
-            return redirect('despesas:list-diaria')
+            return redirect('despesas:list-reembolso')
         
 
    formset=ReembolFormSet(request.POST or None,instance=diaria,prefix='reembolso')
@@ -101,9 +102,11 @@ def reembolsoPdf(request,id):
     context['diaria']=diaria
     context['reembolsos'] =Reembolso.objects.select_related('diaria').filter(diaria__id=diaria.id)
     response = HttpResponse(content_type='application/pdf')
-    context['movimentacao']=context['reembolsos'][0].movimentacao
+
+    
+    context['movimentacao']=Reembolso.objects.select_related('diaria').filter(Q(movimentacao=1)|Q(movimentacao=2)|Q(movimentacao=3)|Q(movimentacao=4)|Q(movimentacao=5)|Q(movimentacao=6)).exists()
     html_string = render_to_string('reembolso/pdf_reembolso.html', context)
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
-
-   
     return response
+    
+   

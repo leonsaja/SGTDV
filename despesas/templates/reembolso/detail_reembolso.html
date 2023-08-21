@@ -197,7 +197,12 @@
                                                 </b> </td>
                                          
                                             <td class="text-center"><b>
-                                                    <h6>R$ {{ diaria.total_movimento}}</h6>
+                                                {% if diaria.total_movimento%}
+                                                 <h6>{{ diaria.total_movimento}}</h6>
+                                                {% else%}
+                                                <h6>R$  </h6>
+                                                {%endif%}
+                                                  
                                                 </b> </td>
                                         </tr>
                                         
