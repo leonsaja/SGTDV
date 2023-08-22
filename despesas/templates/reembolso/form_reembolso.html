@@ -233,6 +233,29 @@
         return false
     }
     }
+    if(movimentacao.val() && (valor_mov.val()==='0.00' || valor_mov.val()===''))
+    {     
+          movimentacao.removeClass('is-invalid');
+
+          valor_mov.addClass('is-invalid');
+          erro.removeClass('d-none');
+          console.log('teste55')
+          return false
+    }
+    
+    else{
+      if ((valor_mov.val()!=='0.00' && valor_mov.val()!=='') && movimentacao.val()==='')
+      {
+          valor_mov.removeClass('is-invalid');
+
+          movimentacao.addClass('is-invalid');
+          erro.removeClass('d-none');
+          console.log('teste22')
+          return false
+
+
+      }
+    }
 
 
 

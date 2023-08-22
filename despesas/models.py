@@ -42,10 +42,10 @@ class Diaria(models.Model):
 
       if items:
         for item in items:
-            total+=item.valor_desp
-
-        return total
-      return''
+                 
+              total+=item.valor_desp
+              return total
+        return''
     
     def total_movimento(self):
       items=Reembolso.objects.filter(diaria=self)
@@ -53,6 +53,7 @@ class Diaria(models.Model):
 
       if items:
         for item in items:
+            print('type',type(item.valor_mov))
             if item.valor_mov:
               total+=item.valor_mov
         return total
