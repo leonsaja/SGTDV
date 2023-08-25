@@ -53,9 +53,12 @@ class Diaria(models.Model):
 
       if items:
         for item in items:
-            print('type',type(item.valor_mov))
-            if item.valor_mov:
-              total+=item.valor_mov
+           valor=str(item.valor_mov)
+
+           if valor==None:
+              print('teste movimentacao',valor)
+           
+            
         return total
       
 
@@ -90,8 +93,8 @@ class Reembolso(models.Model):
     descricao=models.CharField(verbose_name='Descrição',choices=TIPOS_DESPESAS,null=True,blank=True, max_length=1)
     diaria=models.ForeignKey(Diaria,on_delete=models.PROTECT,related_name='reembolsos',null=False,blank=False)
     movimentacao=models.CharField(verbose_name='Movimentação', choices=MOVIMENTACAO_FINANCEIRO, null=True,blank=True, max_length=1)
-    valor_mov=models.DecimalField(max_digits=8,decimal_places=2, verbose_name='Valor',null=True, blank=True,default='0.00')
-    valor_desp=models.DecimalField(max_digits=8,decimal_places=2,verbose_name= 'Valor',null=True,blank=True,default='0.00')
+    valor_mov=models.DecimalField(max_digits=8,decimal_places=2, verbose_name='Valor',null=True, blank=True)
+    valor_desp=models.DecimalField(max_digits=8,decimal_places=2,verbose_name= 'Valor',null=True,blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

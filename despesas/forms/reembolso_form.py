@@ -15,6 +15,15 @@ class ReembolsoForm(forms.ModelForm):
         fields=['descricao','valor_desp','movimentacao','valor_mov']
 
 
+    """   def clean_valor_desp(self):
+        data = self.cleaned_data["valor_desp"]
+        print('clean valor desp',type (data))
+
+        if data == :
+            t=0.00
+
+            return t
+        return data """
     
     
     def __init__(self, *args, **kwargs):

@@ -55,7 +55,7 @@
           <label for="id_qta_diaria" class="form-label">Quantidade:</label>
           <h6 class="text-muted">{{diaria.qta_diaria}}</h6>
         </div>
-        
+
 
         <div class="col-md-2">
           <label for="id_valor" class="form-label">Valor:</label>
@@ -93,9 +93,10 @@
     </fieldset>
   </div>
   <br>
-  
 
-  <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-md-12 px-4 needs-validation"   id="validar-form" novalidate>
+
+  <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-md-12 px-4 needs-validation"
+    id="validar-form" novalidate>
     {% csrf_token %}
 
     {{formset.management_form}}
@@ -106,12 +107,12 @@
           Por favor, preencha o campo em vermelho.
         </div>
       </div>
-  
+
     </div>
     <div class="row">
       <div class="col-md-12">
 
-  
+
         <div class="card">
           <div class="card-header">
             <h5 class=" text-primary">Reembolso</h25>
@@ -179,7 +180,7 @@
     prefix: '{{ formset.prefix }}',
     addText: "<div><i class='fas fa-plus'></i></div>",
     deleteText: 'Remover'
-   });
+  });
 
   /*  let validarCampos= function(){
 
@@ -194,64 +195,79 @@
    validarCampos() */
 
 
-   $('#validar-form').submit(function () {
+  $('#validar-form').submit(function () {
 
 
-    let descricao_desp =$('#id_reembolso-0-descricao').attr('required',true)
-    let valor_desp = $('#id_reembolso-0-valor_desp').attr('required',true)
-    let movimentacao=$('#id_reembolso-0-movimentacao')
-    let valor_mov=$('#id_reembolso-0-valor_mov')
+    let descricao_desp = $('#id_reembolso-0-descricao')
+    let valor_desp = $('#id_reembolso-0-valor_desp')
+    let movimentacao = $('#id_reembolso-0-movimentacao')
+    let valor_mov = $('#id_reembolso-0-valor_mov')
     let erro = $('.alert')
 
-    if (descricao_desp.val()==='' && (valor_desp.val()==='0.00' || valor_desp.val()===''))
-    {
-        valor_desp.addClass('is-invalid');
-        descricao_desp.addClass('is-invalid');
+    if (descricao_desp.val() === '' && (valor_desp.val() === '0.00' || valor_desp.val() === '')) {
+      if (movimentacao.val() && (valor_mov.val() !== '0.00' && valor_mov.val() !== '')) {
+        return true
+      }
+      /* 
+      if ((valor_mov.val()==='0.00' || valor_mov.val()==='') && movimentacao.val()){
+        valor_mov.addClass('is-invalid');
+        movimentacao.removeClass('is-invalid');
         erro.removeClass('d-none');
-
-        console.log('teste1')
         return false
+      }
+      if ((valor_mov.val()!=='0.00' || valor_mov.val()!=='') && movimentacao.val()===''){
+        movimentacao.addClass('is-invalid');
+        valor_mov.removeClass('is-invalid');
+        erro.removeClass('d-none');
+        return false
+      } */
+
+      valor_desp.addClass('is-invalid');
+      descricao_desp.addClass('is-invalid');
+      erro.removeClass('d-none');
+
+      console.log('teste1')
+      return false
     }
-    if (valor_desp.val() && descricao_desp.val()=='')
-    {
-        valor_desp.removeClass('is-invalid');
-        descricao_desp.addClass('is-invalid');
-        
-        erro.removeClass('d-none');
+    if ((valor_desp.val() !== '0.00' && valor_desp.val() !== '0.00') && descricao_desp.val() == '') {
+      valor_desp.removeClass('is-invalid');
+      descricao_desp.addClass('is-invalid');
 
-        console.log('teste1')
-        return false
-    }else{
-      if (descricao_desp.val() &&  (valor_desp.val()==='0.00'|| valor_desp.val()==='') )
-    {
+      erro.removeClass('d-none');
+
+      console.log('teste555')
+      return false
+    } else {
+      if (descricao_desp.val() && (valor_desp.val() === '0.00' || valor_desp.val() === '')) {
         descricao_desp.removeClass('is-invalid');
 
         valor_desp.addClass('is-invalid');
         erro.removeClass('d-none');
 
-        console.log('teste1')
+        console.log('teste3')
         return false
+      }
     }
-    }
-    if(movimentacao.val() && (valor_mov.val()==='0.00' || valor_mov.val()===''))
-    {     
-          movimentacao.removeClass('is-invalid');
+    if (movimentacao.val() && (valor_mov.val() === '0.00' || valor_mov.val() === '')) {
+      if (descricao_desp.val() == '' && ((valor_desp.val() === '0.00' || valor_desp.val() === ''))) {
+        return true
+      }
+      movimentacao.removeClass('is-invalid');
 
-          valor_mov.addClass('is-invalid');
-          erro.removeClass('d-none');
-          console.log('teste55')
-          return false
+      valor_mov.addClass('is-invalid');
+      erro.removeClass('d-none');
+      console.log('teste4')
+      return false
     }
-    
-    else{
-      if ((valor_mov.val()!=='0.00' && valor_mov.val()!=='') && movimentacao.val()==='')
-      {
-          valor_mov.removeClass('is-invalid');
 
-          movimentacao.addClass('is-invalid');
-          erro.removeClass('d-none');
-          console.log('teste22')
-          return false
+    else {
+      if ((valor_mov.val() !== '0.00' && valor_mov.val() !== '') && movimentacao.val() === '') {
+        valor_mov.removeClass('is-invalid');
+
+        movimentacao.addClass('is-invalid');
+        erro.removeClass('d-none');
+        console.log('teste5')
+        return false
 
 
       }
@@ -261,56 +277,56 @@
 
 
 
-   /*  if ((! valor_mov.val()!=='0.00' &&  movimentacao.val()) && descricao_desp.val()==='')
-    {
-        descricao_desp.attr('required',false)
-        valor_desp.attr('required',false)
-        return true
-      
-    } 
-    if((valor_desp.val()==='0.00' || valor_desp.val()==='') && descricao_desp.val()===''){
-        valor_desp.addClass('is-invalid');
-        descricao_desp.addClass('is-invalid');
-        erro.removeClass('d-none');
-
-        console.log('teste1')
-        return false
-
-    }
-   
-    if(descricao_desp.val() && (valor_desp.val()==='0.00' || valor_desp.val()===''))
-    {
-      valor_desp.addClass('is-invalid');
-      erro.removeClass('d-none');
-              console.log('teste1')
-      return false
-    }
-    if ((descricao_desp.val() && (valor_desp.val()!=='0.00')) && (movimentacao.val()==='' && (valor_mov.val() ==='0.00' || valor_mov.val() ==='')) )
-    {
-      return true
-    }
-    
-    else
-    {
-      if(!valor_mov.val()!=='0.00' && movimentacao.val()===''){
-      movimentacao.addClass('is-invalid');
-      console.log('teste2')
-      return false
-    }
-    }
-    if(movimentacao.val() && (valor_mov.val()==='0.00' || valor_mov.val()===''))
-    {
-      valor_mov.addClass('is-invalid');
-      return false
-    } */
-
-   return true
-  
-
-    
-  });
-                                                                                                                                                                                        
+    /*  if ((! valor_mov.val()!=='0.00' &&  movimentacao.val()) && descricao_desp.val()==='')
+     {
+         descricao_desp.attr('required',false)
+         valor_desp.attr('required',false)
+         return true
+       
+     } 
+     if((valor_desp.val()==='0.00' || valor_desp.val()==='') && descricao_desp.val()===''){
+         valor_desp.addClass('is-invalid');
+         descricao_desp.addClass('is-invalid');
+         erro.removeClass('d-none');
  
+         console.log('teste1')
+         return false
+ 
+     }
+    
+     if(descricao_desp.val() && (valor_desp.val()==='0.00' || valor_desp.val()===''))
+     {
+       valor_desp.addClass('is-invalid');
+       erro.removeClass('d-none');
+               console.log('teste1')
+       return false
+     }
+     if ((descricao_desp.val() && (valor_desp.val()!=='0.00')) && (movimentacao.val()==='' && (valor_mov.val() ==='0.00' || valor_mov.val() ==='')) )
+     {
+       return true
+     }
+     
+     else
+     {
+       if(!valor_mov.val()!=='0.00' && movimentacao.val()===''){
+       movimentacao.addClass('is-invalid');
+       console.log('teste2')
+       return false
+     }
+     }
+     if(movimentacao.val() && (valor_mov.val()==='0.00' || valor_mov.val()===''))
+     {
+       valor_mov.addClass('is-invalid');
+       return false
+     } */
+
+    return true
+
+
+
+  });
+
+
 
 </script>
 {% endblock scripts %}
