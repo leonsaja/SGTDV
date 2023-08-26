@@ -149,8 +149,12 @@
 
                                                 </td>
                                                  {%endif%}
-                                                <td class="text-center">{{r.valor_desp}}</td>
+                                                 {%if r.valor_desp%}
 
+                                                    <td class="text-center">{{r.valor_desp}}</td>
+                                                 {%else%}
+                                                 <td class="text-center">-</td>
+                                                 {%endif%}
                                                 {% if r.movimentacao %}
                                                 <td class="text-center">
                                                     {{r.get_movimentacao_display}}
