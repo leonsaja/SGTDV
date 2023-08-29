@@ -57,7 +57,7 @@ class DiariaForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        """  self.fields['data_diaria'].widget.attrs.update({'class':'mask-data'}) """
+       
         self.fields['valor'].widget.attrs.update({'class':'mask-money'})
 
 

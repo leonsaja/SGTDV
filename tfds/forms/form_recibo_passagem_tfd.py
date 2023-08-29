@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django import forms
 from django.core.exceptions import ValidationError
 from django_select2 import forms as s2forms
@@ -9,20 +10,7 @@ class ReciboPassagemTFDForm(forms.ModelForm):
 
     
 
-    data_recibo = forms.DateField(
-        label='Data',
-        widget=forms.DateInput(
-            format='%Y-%m-%d',
-            attrs={
-                'type': 'date',
-            }),
-        input_formats=('%Y-%m-%d',),
-    )
-    valor_paciente_sia = forms.CharField(
-        label='Valor',widget=forms.TextInput(attrs={'placeholder':"R$ 0,00"}))
-
-    valor_acompanhante_sia = forms.CharField(
-        label='Valor',widget=forms.TextInput(attrs={'placeholder':"R$ 0,00"}), required=False)
+    data_recibo = forms.DateField(label='Data',widget=forms.DateInput(format='%Y-%m-%d',attrs={'type': 'date',}),input_formats=('%Y-%m-%d',),)
 
     class Meta:
         model=ReciboPassagemTFD
@@ -32,6 +20,8 @@ class ReciboPassagemTFDForm(forms.ModelForm):
             'acompanhante':s2forms.Select2Widget(),
            
         }
+
+  
     
     def clean_codigo_sia_paciente(self):
         data = self.cleaned_data["codigo_sia_paciente"]

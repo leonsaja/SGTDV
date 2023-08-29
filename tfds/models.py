@@ -54,15 +54,35 @@ class  ReciboPassagemTFD(models.Model):
    paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='recibo_passagem_paciente')
    acompanhante=models.ForeignKey(Cidadao,null=True,blank=True, on_delete=models.PROTECT,related_name='recibo_passagem_acompanhante')
    meio_transporte=models.CharField(max_length=1,null=False, blank=False,verbose_name='Meio de Transporte', choices=MEIO_TRANSPORTE)
-   qta_passagem=models.PositiveIntegerField(verbose_name='Quantidade de Passagem',null=False, blank=False, )
+   qta_passagem=models.PositiveIntegerField(verbose_name='Qta de Passagem',null=False, blank=False, )
    trecho =models.CharField(verbose_name='Trecho', null=False, blank=False, max_length=200 )
-   codigo_sia_paciente=models.CharField(verbose_name='Código SIA',max_length=10, null=True, blank=False)
+   codigo_sia_paciente=models.CharField(verbose_name='Código SIA', max_length=10,null=True, blank=False)
    codigo_sia_acompanhante=models.CharField(verbose_name='Código SIA', max_length=10, null=True, blank=True)
-   valor_paciente_sia=models.CharField(verbose_name='Valor', null=True,blank=False,max_length=30)
-   valor_acompanhante_sia=models.CharField(verbose_name='Valor', null=True,blank=True,max_length=30)
+   valor_paciente_sia=models.DecimalField(verbose_name='Valor', max_digits=8,decimal_places=2,null=False,blank=False)
+   valor_acompanhante_sia=models.DecimalField(verbose_name='Valor', max_digits=8,decimal_places=2, null=True,blank=True)
    data_recibo=models.DateField(verbose_name='Data',null=True,blank=False)
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
 
    def __str__(self):
       return f'{self.paciente.nome_completo}'
+   
+
+   def valor_total_passagem(self):
+      total=0
+      if self.valor_acompanhante_sia:
+         total=self.valor_paciente_sia+self.valor_acompanhante_sia
+         print('teste passagem2',total)
+         return total
+      return self.valor_paciente_sia
+   
+   def qta_passagem_acompanhante(self):
+      passagem=self.qta_passagem
+      resul=0
+      if self.valor_acompanhante_sia and self.codigo_sia_acompanhante and self.acompanhante:
+         if passagem % 2==0:
+            resul=int(passagem/2)
+            return resul   
+      return passagem
+
+

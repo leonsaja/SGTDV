@@ -35,12 +35,12 @@
             </div>
             <div class="col-md-3">
                 <label for="id_codigo_sia_paciente" class="form-label">Código SIA:
-                    <h6 class="text-muted">{{recibo.codigo_sia_paciente|upper}}</h6>
+                    <h6 class="text-muted">{{recibo.codigo_sia_paciente}}</h6>
 
             </div>
             <div class="col-md-2">
                 <label for="id_valor_paciente_sia" class="form-label">Valor :
-                    <h6 class="text-muted">{{recibo.valor_paciente_sia|upper}}</h6>
+                    <h6 class="text-muted">{{recibo.valor_paciente_sia}}</h6>
 
             </div>
             <div class="col-md-3">
@@ -62,19 +62,19 @@
             <div class="col-md-3">
                 <label for="id_codigo_sia_acompanhante" class="form-label">Código SIA:
                    {% if recibo.codigo_sia_acompanhante%}
-                    <h6 class="text-muted">{{recibo.codigo_sia_acompanhante|upper}}</h6>
+                    <h6 class="text-muted">{{recibo.codigo_sia_acompanhante}}</h6>
                    {%else%}
                     <h6 class="text-muted">-</h6> 
                    {%endif%}
             </div>
             <div class="col-md-2">
-                <label for="id_valor_acompanhante_sia" class="form-label">Valor :
-                    <h6 class="text-muted">{{recibo.valor_acompanhante_sia|upper}}</h6>
+                <label for="id_valor_acompanhante_sia" class="form-label">Valor2 :
+                    <h6 class="text-muted">{{recibo.valor_acompanhante_sia}}</h6>
 
             </div>
             <div class="col-md-3">
                 <label for="id_qta_passagem" class="form-label">Quantidade de Passagem :
-                    <h6 class="text-muted">{{recibo.qta_passagem|upper}}</h6>
+                    <h6 class="text-muted">{{recibo.qta_passagem}}</h6>
 
             </div>
 

@@ -46,6 +46,7 @@ class Diaria(models.Model):
                 total+=item.valor_desp
               
         return total
+      return ''
     
     def total_movimento(self):
       items=Reembolso.objects.filter(diaria=self)

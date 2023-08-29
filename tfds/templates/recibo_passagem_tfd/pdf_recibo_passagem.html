@@ -15,7 +15,7 @@
         E-MAIL: smssantoantoniodojacinto@gmail.com
     </p>
 </div>
-
+<h3 class="title_center"> DECLARAÇÃO DE RECEBIMENTO DE AUTORIZAÇÃO DE PASSAGEM</h3>
 <div class="conteudo-tfd">
     <div class="bordas">
         <div class="row ">
@@ -26,16 +26,24 @@
                 </p>
             </div>
             <div class="col-md-5">
+                {% if recibo_passagem.paciente.rg %}
                 <p class="paragrafo tfd">
-                    <b>RG: </b><br>{{recibo_tfd.paciente.rg|upper}}
+                    <b>RG: </b><br>{{recibo_passagem.paciente.rg}}
                     &nbsp; &nbsp;&nbsp;&nbsp;
                 </p>
+                {%else%}
+                <p class="paragrafo tfd">
+                   
+                    <b>RG: </b><br>-
+                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                </p>
+                {% endif%}
             </div>
             <div class="col-md-2">
-                <p class="paragrafo tfd "><b>CPF: </b><br>{{recibo_tfd.paciente.formt_cpf|upper}}</p>
+                <p class="paragrafo tfd "><b>CPF: </b><br>{{recibo_passagem.paciente.formt_cpf|upper}}</p>
             </div>
             <div class="col-md-2">
-                <p class="paragrafo tfd "><b>CNS: </b><br>{{recibo_tfd.paciente.cns|upper}}</p>
+                <p class="paragrafo tfd "><b>CNS: </b><br>{{recibo_passagem.paciente.cns|upper}}</p>
             </div>
     
         </div>
@@ -43,68 +51,125 @@
         <div class="row">
             <div class="col-md-4">
                 <p class="paragrafo tfd "><b>NOME DO ACOMPANHANTE: </b>
-                    <br>{{recibo_tfd.acompanhante.nome_completo|upper}}
+                    <br>{{recibo_passagem.acompanhante.nome_completo|upper}}
     
                     &nbsp; &nbsp;&nbsp;&nbsp;
                 </p>
             </div>
             <div class="col-md-5">
     
-                {% if recibo_tfd.acompanhante.rg %}
+                {% if recibo_passagem.acompanhante.rg %}
                 <p class="paragrafo tfd">
-                    &nbsp; <b>RG: </b><br>&nbsp; {{recibo_tfd.acompanhante.rg|upper}}
+                    &nbsp;
+                    <b>RG: </b><br>&nbsp; {{recibo_passagem.acompanhante.rg|upper}}
                 </p>
                 {%else %}
                 <p class="paragrafo tfd">
                     &nbsp;
-                    <b>RG: </b><br>{{recibo_tfd.acompanhante.rg|upper}}
-                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
-                    &nbsp; &nbsp;&nbsp;&nbsp;
+                    <b>RG: </b><br>  &nbsp; -
+                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                   
                 </p>
                 {%endif%}
             </div>
             <div class="col-md-2">
                 <p class="paragrafo  tfd"> &nbsp; &nbsp; &nbsp; <b>CPF: </b><br>&nbsp; &nbsp;
-                    &nbsp;&nbsp;{{recibo_tfd.paciente.formt_cpf|upper}}</p>
+                    &nbsp;&nbsp;{{recibo_passagem.paciente.formt_cpf|upper}}</p>
             </div>
             <div class="col-md-2">
-                <p class="paragrafo tfd "><b>CNS: </b><br>{{recibo_tfd.paciente.cns|upper}}</p>
+                <p class="paragrafo tfd "><b>CNS: </b><br>{{recibo_passagem.paciente.cns|upper}}</p>
             </div>
     
         </div>
     
-    
-    
         <div class="linha"></div>
+        <p style="text-align: center;" class="paragrafo"><b>MEIO DE TRANSPORTE</b></p>
+
         <div class="row">
-            <div class="col-md-8">
-                <p class="paragrafo tfd">
-                    <b>MUNICIPIO DE ORIGEM :</b>
-    
-                    {{recibo_tfd.municipio_origem|upper}}
-                </p>
-            </div>
-            <div class="col-md-4">
-                <p class="paragrafo tfd ">
-                    &nbsp; &nbsp; &nbsp;&nbsp;
-                    <b>GRS : </b>{{recibo_tfd.grs|upper}}
-                </p>
-            </div>
-        </div>
-    
-        <div class="linha"></div>
-        
-        <div class="row">
-            <div class="col-md-8">
-                <p class="paragrafo tfd">
-                    <b>ESPECIALIDADE:</b>
-    
-                    {{recibo_tfd.especialidade|upper}}
+            <div class="col-md-12">
+                <p class="paragrafo tfd title_center">
+                   {{recibo_passagem.get_meio_transporte_display}}
                 </p>
             </div>
             
         </div>
-        <div class="linha"></div>
+
+        </div>
+        <br>
+
+        <table border=" 1" class="table-bordered table-tfd ">
+       
+            <thead>
+            <tr>
+                <th></th>
+                <th>Ṇ° PASSAGEM</th>
+                <th>TRECHO</th>
+                <th>CODIGO SIA/SUS</th>
+                <th>VALOR</th>
+              
+            </tr>
+            </thead>
+            <tbody>
+          
+                
+            <tr>
+
+                <td>PACIENTE</td>
+                <td>{{recibo_passagem.qta_passagem}}</td>
+                <td>{{recibo_passagem.trecho}}</td>
+                <td>{{recibo_passagem.codigo_sia_paciente}}</td>
+                <td>{{recibo_passagem.valor_paciente_sia}}</td>
+                
+               
+    
+            </tr>
+                 
+            <tr>
+
+                <td>ACOMPANHANTE</td>
+                <td>{{recibo_passagem.qta_passagem_acompanhante}}</td>
+                <td>{{recibo_passagem.trecho}}</td>
+                <td>{{recibo_passagem.codigo_sia_acompanhante}}</td>
+                {%if recibo_passagem.valor_acompanhante_sia%}
+                <td>{{recibo_passagem.valor_acompanhante_sia}}</td>
+                {%else%}
+                <td>-</td>
+                {%endif%}                
+    
+            </tr>
+    
+         
+            
+            </tbody>
+            <tfoot>
+            <tr>
+                    <td colspan="4" style="text-align: end;"><b>
+                        <p>TOTAL:</p>
+                    </b> </td>
+    
+                    <td><b>
+                        <p>R$ {{ recibo_passagem.valor_total_passagem}}</p>
+                    </b> </td>
+                </tr>
+            </tfoot>
+        </table>
+        
+        <div class="bordas">
+            <p class="paragrafo title_center"><b> COMPROVANTE DE RECECIMENTO</b></p>
+            <p class="paragrafo">
+                     Declaro que recebi autorização de passagens da empresa____________________________________,<br> para viagem no dia ___/___/_____,
+                     
+              </p>
+              <p class="paragrafo">
+                Afirmo ainda, que estou ciente de que ao retornar a este município de SANTO ANTÔNIO DO JACINTO, terei o prazo maximo de 03 (três) dias para entregar na Secretaria Municipal de Saúde o 
+                 Relatorio de Atendimento, conforme Anexo II do Manual  de Procedimentos de TFD.
+
+              </p>
+              <br>
+              <p class="title_center">___________________________________________________________</p>
+              <p class="paragrafo title_center"><b>ASSINATURA DO PACIENTE OU RESPONSÁVEL LEGAL</b></p>
+           
+          </div>
     </div>
 
 </div>
