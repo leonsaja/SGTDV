@@ -54,7 +54,8 @@ class  ReciboPassagemTFD(models.Model):
    paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='recibo_passagem_paciente')
    acompanhante=models.ForeignKey(Cidadao,null=True,blank=True, on_delete=models.PROTECT,related_name='recibo_passagem_acompanhante')
    meio_transporte=models.CharField(max_length=1,null=False, blank=False,verbose_name='Meio de Transporte', choices=MEIO_TRANSPORTE)
-   qta_passagem=models.PositiveIntegerField(verbose_name='Qta de Passagem',null=False, blank=False, )
+   quant_passagem_paciente=models.PositiveIntegerField(verbose_name='Qta de Passagem',null=False, blank=False)
+   quant_passagem_acompanhante=models.PositiveBigIntegerField(verbose_name='Qta de Passagem',null=True, blank=True)
    trecho =models.CharField(verbose_name='Trecho', null=False, blank=False, max_length=200 )
    codigo_sia_paciente=models.CharField(verbose_name='Código SIA', max_length=10,null=True, blank=False)
    codigo_sia_acompanhante=models.CharField(verbose_name='Código SIA', max_length=10, null=True, blank=True)
@@ -70,19 +71,20 @@ class  ReciboPassagemTFD(models.Model):
 
    def valor_total_passagem(self):
       total=0
-      if self.valor_acompanhante_sia:
+      if self.valor_acompanhante_sia and self.codigo_sia_acompanhante and self.acompanhante and self.quant_passagem_acompanhante:
          total=self.valor_paciente_sia+self.valor_acompanhante_sia
-         print('teste passagem2',total)
          return total
       return self.valor_paciente_sia
    
-   def qta_passagem_acompanhante(self):
-      passagem=self.qta_passagem
+   def qta_passagem(self):
+     
       resul=0
-      if self.valor_acompanhante_sia and self.codigo_sia_acompanhante and self.acompanhante:
-         if passagem % 2==0:
-            resul=int(passagem/2)
-            return resul   
-      return passagem
+      if self.valor_acompanhante_sia and self.codigo_sia_acompanhante and self.acompanhante and self.quant_passagem_acompanhante:
+         resul=self.quant_passagem_paciente+self.quant_passagem_acompanhante
+         return resul
+      
+      else:
+            return ''
+      
 
 

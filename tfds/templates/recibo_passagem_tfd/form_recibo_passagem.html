@@ -28,13 +28,13 @@
            
               <div class="col-md-3">{{form.codigo_sia_paciente|as_crispy_field }}</div>
               <div class="col-md-3">{{form.valor_paciente_sia|as_crispy_field}}</div>
-              <div class="col-md-2">{{form.qta_passagem|as_crispy_field }}</div>
+              <div class="col-md-2">{{form.quant_passagem_paciente|as_crispy_field }}</div>
               <div class="col-md-4">
                 <div class="form-check">
                   <br>
                 
-                <input class="form-check-input" val type="checkbox" id="ativar_campos">
-                <label class="form-check-label" for="ativar_campos">
+                <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0">
+                <label class="form-check-label" for="ativar_campos" >
                  <b> Tem Acompanhante</b>
                 </label></div>
               </div>
@@ -45,7 +45,7 @@
           <div class="col-md-5">{{form.acompanhante|as_crispy_field }}</div>
           <div class="col-md-2">{{form.codigo_sia_acompanhante|as_crispy_field }}</div>
           <div class="col-md-2">{{form.valor_acompanhante_sia|as_crispy_field }}</div>
-          <div class="col-md-3">{{form.qta_passagem|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.quant_passagem_acompanhante|as_crispy_field }}</div>
         </div>
         </div>
         <div class="row mt-2">
@@ -79,26 +79,32 @@
 <script>
 
 $(document).ready(function () {
-
-let checkbox_acompanhante = document.getElementById("ativar_campos");
-let campos=document.getElementById('campos') ;
-
-
+console.log('teste1000')
+var checkbox_acompanhante = document.getElementById("ativar_campos");
+var campos=document.getElementById('campos') ;
 checkbox_acompanhante.addEventListener('change', ativarCampos);
 
-/* function ativarCampos() {
+function ativarCampos() {
   console.log('teste')
   if (checkbox_acompanhante.checked) {
-        campos.classList.remove('d-none')
-        
+        campos.classList.remove('d-none') 
       }
+      else{
+        campos.classList.add('d-none')
+      }
+
  
 
 }
-}); */
+});
 
-$('validar-form').submit(function () {
-  console.log('validar form')
+
+{% comment %} 
+
+ var validar_form=document.getElementById('#validar-form')
+
+ validar_form.addEventListener('submit',function(){
+
 
 let checkbox_acompanhante = document.getElementById("ativar_campos");
 let acompanhante=document.getElementById('id_acompanhante');
@@ -106,20 +112,26 @@ let codigo_acompanhante=document.getElementById('id_codigo_sia_acompanhante');
 let valor=document.getElementById('id_valor_acompanhante_sia');
 
 
-/* if(checkbox_acompanhante.checked)
-{
-        acompanhante.required=true
-        .required=true
-        valor.required=true
+    if(checkbox_acompanhante.checked)
+    {
+            acompanhante.required=true
 
-        acompanhante.addClass('is-invalid');
-        codigo_acompanhante.addClass('is-invalid');
-        codigo_acompanhante.addClass('is-invalid');
-        return false
+            valor.required=true
 
-        
-} */
-return true
+            acompanhante.addClass('is-invalid');
+            codigo_acompanhante.addClass('is-invalid');
+            codigo_acompanhante.addClass('is-invalid');
+            return false
+
+            
+    } 
+
 });
+ {% endcomment %}
+
+
+
+
+
 </script>
 {% endblock scripts %}

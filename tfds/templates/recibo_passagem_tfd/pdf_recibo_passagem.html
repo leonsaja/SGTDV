@@ -18,7 +18,9 @@
 <h3 class="title_center"> DECLARAÇÃO DE RECEBIMENTO DE AUTORIZAÇÃO DE PASSAGEM</h3>
 <div class="conteudo-tfd">
     <div class="bordas">
-        <div class="row ">
+         <!-- PACIENTE -->
+        
+         <div class="row ">
             <div class="col-md-4">
                 <p class="paragrafo tfd" ><b>NOME DO PACIENTE: </b>
                     <br>{{recibo_passagem.paciente.nome_completo|upper}}
@@ -35,54 +37,111 @@
                 <p class="paragrafo tfd">
                    
                     <b>RG: </b><br>-
-                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp;&nbsp;&nbsp;
                 </p>
                 {% endif%}
             </div>
             <div class="col-md-2">
-                <p class="paragrafo tfd "><b>CPF: </b><br>{{recibo_passagem.paciente.formt_cpf|upper}}</p>
-            </div>
-            <div class="col-md-2">
-                <p class="paragrafo tfd "><b>CNS: </b><br>{{recibo_passagem.paciente.cns|upper}}</p>
-            </div>
-    
-        </div>
-        <div class="linha"></div>
-        <div class="row">
-            <div class="col-md-4">
-                <p class="paragrafo tfd "><b>NOME DO ACOMPANHANTE: </b>
-                    <br>{{recibo_passagem.acompanhante.nome_completo|upper}}
-    
+                <p class="paragrafo tfd "><b>CPF: </b><br>{{recibo_passagem.paciente.formt_cpf}}
                     &nbsp; &nbsp;&nbsp;&nbsp;
                 </p>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-2">
+                <p class="paragrafo tfd "><b>CNS: </b><br>{{recibo_passagem.paciente.cns}}
+                   
+                </p>
+              
+            </div>
     
+        </div>
+
+        <div class="linha"></div>
+         <!-- ACOMPANHANTE  -->
+        <div class="row">
+            <div class="col-md-4">
+                {% if recibo_passagem.acompanhante.nome_completo%}
+                <p class="paragrafo tfd "><b>NOME DO ACOMPANHANTE:  &nbsp;&nbsp;&nbsp;&nbsp;</b>
+                    <br>{{recibo_passagem.acompanhante.nome_completo|upper}}
+                    &nbsp; &nbsp;&nbsp;&nbsp;
+                </p>
+                {% else %}
+                <p class="paragrafo tfd ">
+                    
+                    <b>NOME DO ACOMPANHANTE: </b> <br>
+                    &nbsp; 
+                    -
+                    &nbsp;
+                    &nbsp;
+                    &nbsp; 
+                    &nbsp; 
+                   
+                </p>
+                {%endif%}
+            </div>
+            <div class="col-md-4">
+                
                 {% if recibo_passagem.acompanhante.rg %}
                 <p class="paragrafo tfd">
-                    &nbsp;
-                    <b>RG: </b><br>&nbsp; {{recibo_passagem.acompanhante.rg|upper}}
+                   
+                    <b>RG: </b><br>{{recibo_passagem.acompanhante.rg}}
+                    &nbsp; &nbsp;&nbsp;&nbsp;
+
                 </p>
                 {%else %}
                 <p class="paragrafo tfd">
-                    &nbsp;
-                    <b>RG: </b><br>  &nbsp; -
+                    &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
+                    <b>RG: </b><br>  &nbsp; &nbsp; &nbsp;&nbsp;  -
                     &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
                    
                 </p>
                 {%endif%}
             </div>
-            <div class="col-md-2">
-                <p class="paragrafo  tfd"> &nbsp; &nbsp; &nbsp; <b>CPF: </b><br>&nbsp; &nbsp;
-                    &nbsp;&nbsp;{{recibo_passagem.paciente.formt_cpf|upper}}</p>
+            <div class="col-md-4">
+                {% if recibo_passagem.acompanhante.formt_cpf%}
+                <p class="paragrafo tfd"><b>CPF: </b>
+                   
+                    <br>{{recibo_passagem.acompanhante.formt_cpf}}
+                    &nbsp; &nbsp;&nbsp;&nbsp;
+                   
+                </p>
+                {% else %}
+                <p class="paragrafo tfd ">
+                    
+                    <b>CPF: </b> <br>
+                    &nbsp; -
+                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                   
+                </p>
+                {%endif%}
+                
             </div>
             <div class="col-md-2">
-                <p class="paragrafo tfd "><b>CNS: </b><br>{{recibo_passagem.paciente.cns|upper}}</p>
+                {% if recibo_passagem.acompanhante.cns%}
+                <p class="paragrafo tfd "><b>CNS: </b>
+                  
+                    <br>
+                    {{recibo_passagem.acompanhante.formt_cpf}}
+                   
+
+                </p>
+                
+                {% else %}
+                <p class="paragrafo tfd ">
+                    
+                    <b>CNS: </b> <br>
+                    &nbsp; -
+                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                   
+                </p>
+                {%endif%}
             </div>
     
         </div>
     
         <div class="linha"></div>
+
+        <!-- MEIO DE TRANSPORTE -->
+        <div>
         <p style="text-align: center;" class="paragrafo"><b>MEIO DE TRANSPORTE</b></p>
 
         <div class="row">
@@ -115,7 +174,7 @@
             <tr>
 
                 <td>PACIENTE</td>
-                <td>{{recibo_passagem.qta_passagem}}</td>
+                <td>{{recibo_passagem.quant_passagem_paciente}}</td>
                 <td>{{recibo_passagem.trecho}}</td>
                 <td>{{recibo_passagem.codigo_sia_paciente}}</td>
                 <td>{{recibo_passagem.valor_paciente_sia}}</td>
@@ -123,20 +182,20 @@
                
     
             </tr>
-                 
+                
+            {% if recibo_passagem.quant_passagem_acompanhante and recibo_passagem.codigo_sia_acompanhante and recibo_passagem.valor_acompanhante_sia%}
             <tr>
 
                 <td>ACOMPANHANTE</td>
-                <td>{{recibo_passagem.qta_passagem_acompanhante}}</td>
+                
+                <td>{{recibo_passagem.quant_passagem_acompanhante}}</td>
                 <td>{{recibo_passagem.trecho}}</td>
                 <td>{{recibo_passagem.codigo_sia_acompanhante}}</td>
-                {%if recibo_passagem.valor_acompanhante_sia%}
                 <td>{{recibo_passagem.valor_acompanhante_sia}}</td>
-                {%else%}
-                <td>-</td>
-                {%endif%}                
+                           
     
             </tr>
+            {%endif%}
     
          
             
