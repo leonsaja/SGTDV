@@ -29,16 +29,30 @@
               <div class="col-md-3">{{form.codigo_sia_paciente|as_crispy_field }}</div>
               <div class="col-md-3">{{form.valor_paciente_sia|as_crispy_field}}</div>
               <div class="col-md-2">{{form.quant_passagem_paciente|as_crispy_field }}</div>
+              {% if recibo_passagem.acompanhante and recibo_passagem.codigo_sia_acompanhante and recibo_passagem.valor_acompanhante_sia%}
+              
               <div class="col-md-4">
                 <div class="form-check">
                   <br>
                 
-                <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0">
+                <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0" checked>
                 <label class="form-check-label" for="ativar_campos" >
                  <b> Tem Acompanhante</b>
                 </label></div>
               </div>
             </div>
+            {%else%}
+            <div class="col-md-4">
+              <div class="form-check">
+                <br>
+              
+              <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0" >
+              <label class="form-check-label" for="ativar_campos" >
+               <b> Tem Acompanhante</b>
+              </label></div>
+            </div>
+          </div>
+            {%endif%}
             <div class="d-none" id="campos">
         <div class="row mt-2 ">
         
@@ -79,10 +93,16 @@
 <script>
 
 $(document).ready(function () {
-console.log('teste1000')
+
 var checkbox_acompanhante = document.getElementById("ativar_campos");
 var campos=document.getElementById('campos') ;
+
 checkbox_acompanhante.addEventListener('change', ativarCampos);
+if (checkbox_acompanhante.checked)
+{
+  campos.classList.remove('d-none') 
+
+}
 
 function ativarCampos() {
   console.log('teste')
@@ -92,9 +112,6 @@ function ativarCampos() {
       else{
         campos.classList.add('d-none')
       }
-
- 
-
 }
 });
 

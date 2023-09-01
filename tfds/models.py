@@ -84,7 +84,7 @@ class  ReciboPassagemTFD(models.Model):
          return resul
       
       else:
-            return ''
+            return '-'
       
 
 

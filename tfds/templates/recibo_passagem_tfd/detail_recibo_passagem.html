@@ -33,7 +33,7 @@
                 <h6 class="text-muted">{{recibo.paciente.nome_completo|upper}}</h6>
 
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="id_codigo_sia_paciente" class="form-label">Código SIA:
                     <h6 class="text-muted">{{recibo.codigo_sia_paciente}}</h6>
 
@@ -43,11 +43,17 @@
                     <h6 class="text-muted">{{recibo.valor_paciente_sia}}</h6>
 
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
+                <label for="id_data_recibo" class="form-label">Qta de Passagem :
+                    <h6 class="text-muted">{{recibo.quant_passagem_paciente}}</h6>
+
+            </div>
+            <div class="col-md-2">
                 <label for="id_data_recibo" class="form-label">Data :
                     <h6 class="text-muted">{{recibo.data_recibo|date:"d/m/Y"|default:'---'}}</h6>
 
             </div>
+           
         </div>
         <div class="row">
             <div class="col-md-4 mt-2">
@@ -68,13 +74,21 @@
                    {%endif%}
             </div>
             <div class="col-md-2">
-                <label for="id_valor_acompanhante_sia" class="form-label">Valor2 :
-                    <h6 class="text-muted">{{recibo.valor_acompanhante_sia}}</h6>
+                <label for="id_valor_acompanhante_sia" class="form-label">Valor :
+                    {% if recibo.valor_acompanhante_sia%}
+                        <h6 class="text-muted">{{recibo.valor_acompanhante_sia}}</h6>
+                    {%else %}
+                    <h6 class="text-muted">-</h6>
+                    {%endif%}
 
             </div>
             <div class="col-md-3">
                 <label for="id_qta_passagem" class="form-label">Quantidade de Passagem :
-                    <h6 class="text-muted">{{recibo.qta_passagem}}</h6>
+                    {% if recibo.quant_passagem_acompanhante%}
+                    <h6 class="text-muted">{{recibo.quant_passagem_acompanhante}}</h6>
+                    {%else%}
+                    <h6 class="text-muted">-</h6>
+                    {%endif%}
 
             </div>
 

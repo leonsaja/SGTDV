@@ -3,6 +3,7 @@
 @page {
   size: "A4";
   margin: 1.0cm 1.5cm 3.5cm 1.5cm;
+  /* size: A4 landscape; */
 }
 .cabecalho{
   display:flex; 

@@ -25,6 +25,13 @@ class ReciboPassagemUpdateView(UpdateView):
     form_class=ReciboPassagemTFDForm
     template_name='recibo_passagem_tfd/form_recibo_passagem.html'
     success_url=reverse_lazy('tfds:list-recibo_passagem')
+    
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["recibo_passagem"] =ReciboPassagemTFD.objects.get(id=self.kwargs['pk']) 
+        return context
+    
 
 class ReciboPassagemListView(ListView):
 
