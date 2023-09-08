@@ -6,16 +6,17 @@
   /* size: A4 landscape; */
 }
 .cabecalho{
-  display:flex; 
+  align-items: center;
 } 
 .conteudo{
   margin-bottom: 100px;
 }
 img {
-  position: relative;
+ 
+  
   width: 280px;
   height: 110px;
-  top: -40px;
+ 
 }
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -37,7 +38,29 @@ body {
   margin-top: 30px;
   float: right;
 }
+.container{
+  display: flex;
+  align-items: center;
+  
+}
 
+.conteudo2{
+  display: table;
+}
+
+.imagem{
+  display: table-cell;
+  padding-left: 40px;
+
+  
+}
+
+.texto{
+  display: table-cell;
+  float: left;
+  margin-top: -100px;
+  font-size: 14px;
+}
 .linha{
 
     border-bottom: solid 1px black ;
@@ -117,7 +140,11 @@ table {
   }
  
 
+  .table-viagem td{
+    padding: 4px;
   
+  }
+   
 
   .col-md-6 {
     flex: 0 0 auto;

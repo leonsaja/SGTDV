@@ -96,10 +96,9 @@ class DiariaDetailView(DetailView):
         return context
 
 def diariaDelete(request, id):
-    diaria=Diaria.objects.get(id=id)
-
-    if not diaria:
-        return Http404()
+    diaria=get_object_or_404(Diaria,id=id)
+    
+    print('teste')
     try:
         diaria.delete()
     except ProtectedError:
@@ -110,6 +109,8 @@ def diariaDelete(request, id):
 def diariaPdf(request,id):
    
     diaria=get_object_or_404(Diaria,id=id)
+    print('diaria',diaria)
+    
     response = HttpResponse(content_type='application/pdf')
     html_string = render_to_string('diaria/pdf_diaria.html',{'diaria':diaria})
     
