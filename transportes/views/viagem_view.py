@@ -1,11 +1,11 @@
 from typing import Any, Dict
+from django.template.loader import render_to_string
 
-from django.contrib import messages
-from django.db.models import ProtectedError, Q
-from django.http import Http404
-from django.shortcuts import redirect, render
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView
+from weasyprint import HTML
 
 from ..forms.viagem_form import PassageiroViagemSet, ViagemForm
 from ..models import PassageiroViagem, Viagem
@@ -106,8 +106,6 @@ class ViagemSearchListView(ListView):
             filter(carro__placa__iexact=placa_carro)
             return queryset
 
- 
-    
 class DetailViagemView(DetailView):
     model=Viagem
     template_name='viagem/detail_viagem.html'
@@ -141,3 +139,15 @@ class ViagemDeleteView(DeleteView):
         messages.error(request, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
     finally:
         return redirect('profissionais:list-profissional') """
+        
+def viagemPdf(request,id):
+    
+    viagem=get_object_or_404(Viagem,id=id)
+    response = HttpResponse(content_type='application/pdf')
+    
+    html_string = render_to_string('viagem/pdf_viagem.html',{'viagem':viagem})
+    
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+
+   
+    return response

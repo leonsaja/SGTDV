@@ -12,6 +12,7 @@ urlpatterns = [
     path('search/viagem',viagem_view.ViagemSearchListView.as_view(),name='search-viagem'),
     path('detail/<int:pk>/viagem',viagem_view.DetailViagemView.as_view(),name='detail-viagem'),
     path('delete/<int:pk>/viagem',viagem_view.ViagemDeleteView.as_view(),name='del-viagem'),
+    path('pdf/<int:id>/viagem',viagem_view.viagemPdf, name='pdf-viagem'),
 
 
     # Carro
@@ -19,5 +20,7 @@ urlpatterns = [
     path('create/carro/',carro_view.CarroCreateView.as_view(),name='add-carro'),
     path('update/<int:pk>/carro/',carro_view.CarroUpdateView.as_view(),name='edit-carro'),
     path('list/carros/',carro_view.ListCarroView.as_view(),name='list-carro'),
-    path('detail/<int:pk>/carros/',carro_view.DetailCarraView.as_view(),name='list-carro'),
+    path('detail/<int:pk>/carros/',carro_view.DetailCarraView.as_view(),name='detail-carro'),
+    path('delete/<int:id>/carro/',carro_view.carroDelete,name='del-carro'),
+
 ]

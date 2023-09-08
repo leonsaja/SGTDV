@@ -42,8 +42,9 @@ class PassageiroViagem(models.Model):
       return f'{self.paciente}'
    
 class Carro(models.Model):
-   nome=models.CharField(verbose_name='nome do Carro', max_length=180, null=False, blank=False)
+   nome=models.CharField(verbose_name='Nome do Carro', max_length=180, null=False, blank=False)
    placa=models.CharField(verbose_name='Placa do Carro', max_length=7,unique=True, help_text='Sem caracteres especiais(-)')
+   foto=models.ImageField(verbose_name='Foto do carro', upload_to='media/carros', null=False, blank=False, default='')
 
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)

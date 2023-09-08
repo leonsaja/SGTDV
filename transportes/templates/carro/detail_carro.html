@@ -1,5 +1,7 @@
 {% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+{% include 'carro/abas_carro.html' %}
 
+    {% include 'includes/mensagens.html'%}
 <div class="descricaoiner-fluid">
     <br />
 
@@ -18,7 +20,7 @@
         <br />
         <div class="row">
             <div class=" col-md-6">
-                <h4 class=" text-primary"><strong>Detail da Carro</strong> </h4>
+                <h4 class=" text-primary"><strong>Detalhe do Carro</strong> </h4>
 
             </div>
         </div>
@@ -27,85 +29,31 @@
 
 
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <label for="id_carro" class="form-label">Carro</label>
                 <h6 class="text-muted">{{carro.nome|upper}}</h6>
 
             </div>
-            <div class="col-md-3">
-                <label for="id_data" class="form-label">Data da Viagem:
-                    <h6 class="text-muted">{{carro.placa}}</h6>
+            <div class="col-md-6">
+                <label for="id_placa" class="form-label">Placa do Carro:</label>
+                <h6 class="text-muted">{{carro.placa|upper}}</h6>
+
             </div>
           
             
         </div>
         <br>
         <div class="row">
-            <div class="col-md-2">
-                <label for="id_carro" class="form-label">Carro:</label>
-                <h6 class="text-muted">{{viagem.carro|upper}}</h6>
+            <div class="col-md-6">
+                <label for="id_carro" class="form-label">Foto:</label>
+                <h6 class="text-muted"> <img src="{{carro.foto.url}}" alt="foto do carro" width="300px" height="200px"> </h6>
 
             </div>
-            <div class="col-md-2">
-                <label for="id_placa" class="form-label">Placa do Carro:</label>
-                <h6 class="text-muted">{{carro.placa|upper}}</h6>
-
-            </div>
+            
          
         </div>
         <br>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class=" text-primary"><b>Passageiros</b> </h4>
-                    </div>
-                    <div class="table-responsive-md">
-                        <div class="card-body">
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-
-                                        <th class="text-center">Nome do Paciente</th>
-                                        <th class="text-center">Acompanhante</th>
-                                        <th class="text-center">Local do Exame</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for p in viagem.passageiros_viagens.all%}
-                                    <div class="table-responsive-md">
-
-                                        <tr>
-                                            <td>{{p.paciente}}</td>
-
-                                            {% if p.acompanhante %}
-                                            
-                                                <td class="text-center">{{p.acompanhante}}</td>
-                                            {% else %}
-                                                 <td class="text-center">-</td>
-                                            {%endif%}
-                                            <td class="text-center">
-                                                {{p.local_exame}}
-
-                                            </td>
-                                           
-
-
-                                        </tr>
-
-
-
-                                        {%endfor%}
-
-                                </tbody>
-                               
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+     
     </div>
 </div>
 {% endblock content %}

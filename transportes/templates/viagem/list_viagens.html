@@ -124,6 +124,9 @@
 
                                             <i class="fas fa-solid fa-trash-can"></i>
                                         </a>
+                                        <a href="{% url 'transportes:pdf-viagem' viagem.id %}"  target="_blank">
+                                            <i class='fas fa-print'></i>
+                                          </a>
                                     </td>
                                 </tr>
                                 {% include 'viagem/modal_delete_viagem.html'%}
