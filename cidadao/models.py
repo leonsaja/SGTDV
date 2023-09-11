@@ -10,6 +10,7 @@ class Cidadao(models.Model):
         ('F','Feminino'),
         ('M','Masculino'),
     )
+   
     nome_completo = models.CharField(verbose_name='Nome Completo',max_length=150, null=False, blank=False)
     email=models.EmailField(verbose_name='E-mail', unique=True,null=True,blank=True)
     rg=models.CharField(max_length=10,verbose_name='RG', null=True,blank=True)
@@ -23,7 +24,6 @@ class Cidadao(models.Model):
     telefone1=models.CharField(verbose_name='Celular ', max_length=15,unique=True,null=False,blank=False)
     endereco=models.ForeignKey("Endereco",on_delete=models.SET_NULL, null=True, blank=False)
     microarea=models.ForeignKey(MicroArea,null=True,blank=False,on_delete=models.SET_NULL, related_name='microarea_cidadao',verbose_name='Micro Área')
-    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -45,14 +45,20 @@ class Cidadao(models.Model):
     
 class Endereco(models.Model):
 
+   ZONA=(
+        ('1','Urbana'),
+        ('2','Rural'),
+    )
+
    logradouro = models.CharField(max_length=60, null=False, blank=False)
    numero = models.CharField(max_length=10, null=False, blank=False)
    bairro = models.CharField(max_length=30, null=False, blank=False)
    complemento = models.CharField(max_length=100, null=False, blank=False)
    cep = models.CharField(verbose_name='CEP', max_length=10, null=False, blank=False)
    cidade = models.CharField(max_length=30, null=False, blank=False)
-   estado = models.CharField(max_length=2, null=False, blank=False)
-   
+   estado = models.CharField( verbose_name='UF',max_length=2, null=False, blank=False)
+   localizacao=models.CharField(verbose_name='LOCALIZAÇÃO',max_length=1,choices=ZONA,null=True, blank=False)
+
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
 

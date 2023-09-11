@@ -22,4 +22,9 @@ class MicroArea(models.Model):
 
     def __str__(self):
         return str(self.microarea)
+    
+    
+    class Meta:
+        ordering = ["microarea"]
+    
 

@@ -30,7 +30,7 @@ class MicroAreaListView(ListView):
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
        
-        qs = qs.select_related('estabelecimento').order_by('id')
+        qs = qs.select_related('estabelecimento').all().order_by('microarea')
         return qs
    
 class MicroAreaDetailView(DetailView):

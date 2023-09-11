@@ -13,7 +13,7 @@ urlpatterns = [
     path('create/especialidade/',  view_especialidade.EspecialidadeCreateView.as_view(), name='add-especialidade' ),  
     path('update/<int:pk>/especialidade/',  view_especialidade.EspecialidadeUpdateView.as_view(), name='edit-especialidade' ),  
     path('list/especialidades/',  view_especialidade.EspecialidadeListView.as_view(), name='list-especialidade' ),  
-    path('detail/<int:pk>/especialidade/',  view_especialidade.EspecialidadeDetailView.as_view(), name='detail-especialidade' ),  
+    path('detail/<int:id>/especialidade/',  view_especialidade.especialidadeDetail, name='detail-especialidade' ),  
     path('delete/<int:id>/especialidade/',  view_especialidade.especialidadeDelete, name='del-especialidade' ),  
 
 

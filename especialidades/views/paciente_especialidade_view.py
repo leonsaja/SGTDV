@@ -100,7 +100,7 @@ def pacienteEspecialidadeSearch(request,id):
         pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).order_by('-data_pedido')
     
     
-    paginator = Paginator(pacientes_especialidade, 8)  
+    paginator = Paginator(pacientes_especialidade, 10)  
     page_number = request.GET.get("page")
     page_obj= paginator.get_page(page_number)
     

@@ -1,8 +1,11 @@
 
+from typing import Any
+from django.core.paginator import Paginator
 from django.contrib import messages
 from django.db.models import ProtectedError
+from django.db.models.query import QuerySet
 from django.http import Http404
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
@@ -44,20 +47,20 @@ class EspecialidadeListView(ListView):
         qs=qs.all().order_by('nome')                                          
         
         return qs
-    
-class EspecialidadeDetailView(DetailView):
-    model=Especialidade
-    template_name='especialidade/detail_especialidade.html'
-   
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        especialidade=Especialidade.objects.get(id=self.kwargs['pk'])
-        
-        context['especialidade']=especialidade
-        context['page_obj']=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade_id=especialidade.id)[:10]
-        return context
+def especialidadeDetail(request,id):
+    context={}
+    template='especialidade/detail_especialidade.html'
     
+    especialidade=get_object_or_404(Especialidade,id=id)
+    context['especialidade']=especialidade
+    pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade_id=especialidade.id)
+    
+    paginator = Paginator(pacientes_especialidade,10)  
+    page_number = request.GET.get("page")
+    context['page_obj']= paginator.get_page(page_number)
+    return render(request,template, context)
+     
 def especialidadeDelete(request, id):
     especialidade=Especialidade.objects.get(id=id)
     

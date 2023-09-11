@@ -41,6 +41,7 @@
         <div class="col-md-3">{{form.telefone|as_crispy_field }}</div>
         <div class="col-md-3">{{form.telefone1|as_crispy_field }}</div>
         <div class="col-md-2">{{form.microarea|as_crispy_field }}</div>
+       
       </div>
 
       <div class="row">
@@ -59,8 +60,9 @@
       </div>
       <div class="row">
         <div class="col-md-3">{{endereco.cep   |as_crispy_field }}</div>
-        <div class="col-md-6">{{endereco.cidade|as_crispy_field }}</div>
-        <div class="col-md-3">{{endereco.estado|as_crispy_field }}</div>
+        <div class="col-md-4">{{endereco.cidade|as_crispy_field }}</div>
+        <div class="col-md-1">{{endereco.estado|as_crispy_field }}</div>
+        <div class="col-md-2">{{endereco.localizacao|as_crispy_field }}</div>
       </div>
     </fieldset>
     <br />

@@ -1,5 +1,4 @@
 from django.db import models
-
 from cidadao.models import Cidadao
 
 
@@ -42,7 +41,6 @@ class CodigoSIA(models.Model):
    def __str__(self):
       return str(self.codigo)
    
-
 class  ReciboPassagemTFD(models.Model):
 
    MEIO_TRANSPORTE=(
