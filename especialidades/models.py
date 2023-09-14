@@ -4,6 +4,12 @@ from cidadao.models import Cidadao
 from profissionais.models import Profissional
 
 
+class AtendimentoEspecialidade(models.Model):
+    paciente=models.ForeignKey('PacienteEspecialidade',null=False,blank=False, on_delete=models.PROTECT)
+    data=models.DateField(verbose_name='Data',null=False,blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 class Especialidade(models.Model):
     nome=models.CharField(max_length=255, verbose_name='Nome da Especialidade', unique=True)
 

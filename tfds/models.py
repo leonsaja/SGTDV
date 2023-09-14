@@ -53,7 +53,7 @@ class  ReciboPassagemTFD(models.Model):
    acompanhante=models.ForeignKey(Cidadao,null=True,blank=True, on_delete=models.PROTECT,related_name='recibo_passagem_acompanhante')
    meio_transporte=models.CharField(max_length=1,null=False, blank=False,verbose_name='Meio de Transporte', choices=MEIO_TRANSPORTE)
    quant_passagem_paciente=models.PositiveIntegerField(verbose_name='Qta de Passagem',null=False, blank=False)
-   quant_passagem_acompanhante=models.PositiveBigIntegerField(verbose_name='Qta de Passagem',null=True, blank=True)
+   quant_passagem_acompanhante=models.PositiveBigIntegerField(verbose_name='Qta  Passagem',null=True, blank=True)
    trecho =models.CharField(verbose_name='Trecho', null=False, blank=False, max_length=200 )
    codigo_sia_paciente=models.CharField(verbose_name='Código SIA', max_length=10,null=True, blank=False)
    codigo_sia_acompanhante=models.CharField(verbose_name='Código SIA', max_length=10, null=True, blank=True)

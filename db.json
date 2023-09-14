@@ -689,42 +689,7 @@
     "updated_at": "2023-05-28T21:47:07.635Z"
   }
 },
-{
-  "model": "tfds.recibopassagemtfd",
-  "pk": 1,
-  "fields": {
-    "paciente": 2,
-    "acompanhante": 4,
-    "meio_transporte": "1",
-    "qta_passagem": 4,
-    "trecho": "SANTO ANTONIO DO JACINTO/BELO HORIZONTE",
-    "codigo_sia_paciente": "0712074444",
-    "codigo_sia_acompanhante": "0712074442",
-    "valor_paciente_sia": "100.00",
-    "valor_acompanhante_sia": "200.00",
-    "data_recibo": "2023-11-23",
-    "created_at": "2023-06-11T12:11:22.140Z",
-    "updated_at": "2023-06-11T12:11:22.140Z"
-  }
-},
-{
-  "model": "tfds.recibopassagemtfd",
-  "pk": 2,
-  "fields": {
-    "paciente": 2,
-    "acompanhante": 4,
-    "meio_transporte": "1",
-    "qta_passagem": 4,
-    "trecho": "SANTO ANTONIO DO JACINTO/BELO HORIZONTE",
-    "codigo_sia_paciente": "0712074444",
-    "codigo_sia_acompanhante": "0712074442",
-    "valor_paciente_sia": "100.00",
-    "valor_acompanhante_sia": "200.00",
-    "data_recibo": "2023-11-23",
-    "created_at": "2023-06-11T12:15:23.808Z",
-    "updated_at": "2023-06-11T12:15:23.808Z"
-  }
-},
+
 {
   "model": "estabelecimentos.estabelecimento",
   "pk": 1,
