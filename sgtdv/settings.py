@@ -117,7 +117,7 @@ WSGI_APPLICATION = 'sgtdv.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
+""" DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'sgdtv',
@@ -125,6 +125,12 @@ DATABASES = {
         'PASSWORD': 'saja1212',
         'HOST':'127.0.0.1',
         'PORT':'3306',
+    }
+} """
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 

@@ -5,8 +5,11 @@ from profissionais.models import Profissional
 
 
 class AtendimentoEspecialidade(models.Model):
-    paciente=models.ForeignKey('PacienteEspecialidade',null=False,blank=False, on_delete=models.PROTECT)
-    data=models.DateField(verbose_name='Data',null=False,blank=False)
+    
+    especialidade=models.ForeignKey('Especialidade',on_delete=models.PROTECT,null=True,blank=False)
+    pacientespecialidade=models.ForeignKey('PacienteEspecialidade',null=True,blank=False, on_delete=models.PROTECT)
+    data=models.DateField(verbose_name='Data',null=True,blank=True)
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -18,7 +21,7 @@ class Especialidade(models.Model):
 
 
     def __str__(self):
-       return f'{self.nome}'
+       return self.nome
 
 
 class PacienteEspecialidade(models.Model):

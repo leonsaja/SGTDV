@@ -1,793 +1,62 @@
 [
 {
-  "model": "admin.logentry",
-  "pk": 1,
-  "fields": {
-    "action_time": "2023-06-08T01:39:50.010Z",
-    "user": 1,
-    "content_type": 10,
-    "object_id": "8",
-    "object_repr": "8",
-    "action_flag": 3,
-    "change_message": ""
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 2,
-  "fields": {
-    "action_time": "2023-06-08T01:39:50.021Z",
-    "user": 1,
-    "content_type": 10,
-    "object_id": "7",
-    "object_repr": "2",
-    "action_flag": 3,
-    "change_message": ""
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 3,
-  "fields": {
-    "action_time": "2023-06-08T01:39:58.139Z",
-    "user": 1,
-    "content_type": 10,
-    "object_id": "6",
-    "object_repr": "8",
-    "action_flag": 3,
-    "change_message": ""
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 4,
-  "fields": {
-    "action_time": "2023-06-08T01:39:58.150Z",
-    "user": 1,
-    "content_type": 10,
-    "object_id": "1",
-    "object_repr": "2",
-    "action_flag": 3,
-    "change_message": ""
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 5,
-  "fields": {
-    "action_time": "2023-06-08T01:40:06.325Z",
-    "user": 1,
-    "content_type": 9,
-    "object_id": "6",
-    "object_repr": "Kamilly Ana Marli Viana, CPF: 19211487480",
-    "action_flag": 3,
-    "change_message": ""
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 6,
-  "fields": {
-    "action_time": "2023-06-08T01:40:06.338Z",
-    "user": 1,
-    "content_type": 9,
-    "object_id": "5",
-    "object_repr": "Kamilly Ana Marli Viana, CPF: 19211487480",
-    "action_flag": 3,
-    "change_message": ""
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "0zq3rufppog68gj5hq9717p5tgnf6hi3",
-  "fields": {
-    "session_data": ".eJxVjMsOwiAUBf-FtSFwgaIu3fsNzX2AVA0kpV0Z_12bdKHbMzPnpUZclzKuPc3jJOqsrDr8boT8SHUDcsd6a5pbXeaJ9KbonXZ9bZKel939OyjYy7fOR6BAGSjHIUcPdjgZl7J3HJACM4DxIRMmYBGHEq2wA0OWI3tyUb0_-9s4pQ:1q74D0:WBLOLfiDqXDlCjHb2UGqhSTQk_cmFEAHN2R0aInrJZ4",
-    "expire_date": "2023-06-22T01:13:02.161Z"
-  }
-},
-{
-  "model": "cidadao.cidadao",
-  "pk": 1,
-  "fields": {
-    "nome_completo": "JOAO MESSIAS DE OLIVEIRA",
-    "email": "joao@gmail.com",
-    "rg": null,
-    "cpf": "22389570062",
-    "cns": 276340566090007,
-    "sexo": "M",
-    "dt_nascimento": "1991-05-01",
-    "nome_mae": "MARIA ALICE DA SILVA",
-    "nome_pai": null,
-    "telefone": null,
-    "telefone1": "(33) 99999-9999",
-    "endereco": 1,
-    "microarea": 1,
-    "created_at": "2023-05-21T22:46:29.058Z",
-    "updated_at": "2023-05-21T22:46:29.058Z"
-  }
-},
-{
-  "model": "cidadao.cidadao",
-  "pk": 2,
-  "fields": {
-    "nome_completo": "Elias Antonio Iago da Conceição",
-    "email": null,
-    "rg": "43.263.242",
-    "cpf": "94405476420",
-    "cns": 116618453280018,
-    "sexo": "M",
-    "dt_nascimento": "1992-03-13",
-    "nome_mae": "Jennifer Larissa Evelyn",
-    "nome_pai": "Vinicius Rodrigo Benício da Conceição",
-    "telefone": null,
-    "telefone1": "(33) 98854-5263",
-    "endereco": 2,
-    "microarea": 2,
-    "created_at": "2023-05-21T22:48:38.116Z",
-    "updated_at": "2023-05-21T22:48:38.116Z"
-  }
-},
-{
-  "model": "cidadao.cidadao",
-  "pk": 3,
-  "fields": {
-    "nome_completo": "Clara Letícia Milena Rezende",
-    "email": "clara-rezende90@sent.com",
-    "rg": "38.579.209",
-    "cpf": "72718711442",
-    "cns": 240725780800001,
-    "sexo": "F",
-    "dt_nascimento": "1994-12-01",
-    "nome_mae": "Maria Rayssa Maitê",
-    "nome_pai": "Lucas Erick Erick Rezende",
-    "telefone": null,
-    "telefone1": "(99) 99999-9999",
-    "endereco": 3,
-    "microarea": 3,
-    "created_at": "2023-05-21T22:49:58.878Z",
-    "updated_at": "2023-05-21T22:49:58.878Z"
-  }
-},
-{
-  "model": "cidadao.cidadao",
-  "pk": 4,
-  "fields": {
-    "nome_completo": "Caio Luan Carlos Eduardo Farias",
-    "email": null,
-    "rg": "32.728.180",
-    "cpf": "81746683490",
-    "cns": 206753191270006,
-    "sexo": "F",
-    "dt_nascimento": "2023-05-15",
-    "nome_mae": "Maria Elizangela Costa",
-    "nome_pai": null,
-    "telefone": null,
-    "telefone1": "(33) 8824-5785",
-    "endereco": 4,
-    "microarea": 5,
-    "created_at": "2023-05-21T22:52:48.699Z",
-    "updated_at": "2023-05-21T22:52:48.699Z"
-  }
-},
-{
-  "model": "cidadao.endereco",
-  "pk": 1,
-  "fields": {
-    "logradouro": "RUA DE 13 DE JANEIRO",
-    "numero": "100",
-    "bairro": "CENTRO",
-    "complemento": "CASA",
-    "cep": "39935-000",
-    "cidade": "Santo Antônio do Jacinto",
-    "estado": "MG",
-    "created_at": "2023-05-21T22:46:29.050Z",
-    "updated_at": "2023-05-21T22:46:29.050Z"
-  }
-},
-{
-  "model": "cidadao.endereco",
-  "pk": 2,
-  "fields": {
-    "logradouro": "Rua do Comércio 123",
-    "numero": "200",
-    "bairro": "CENTRO",
-    "complemento": "CASA",
-    "cep": "39935-000",
-    "cidade": "Santo Antônio do Jacinto",
-    "estado": "MG",
-    "created_at": "2023-05-21T22:48:38.101Z",
-    "updated_at": "2023-05-21T22:48:38.101Z"
-  }
-},
-{
-  "model": "cidadao.endereco",
-  "pk": 3,
-  "fields": {
-    "logradouro": "Rua do Comércio 123",
-    "numero": "500",
-    "bairro": "CENTRO",
-    "complemento": "CASA",
-    "cep": "39935-000",
-    "cidade": "Santo Antônio do Jacinto",
-    "estado": "MG",
-    "created_at": "2023-05-21T22:49:58.869Z",
-    "updated_at": "2023-05-21T22:49:58.869Z"
-  }
-},
-{
-  "model": "cidadao.endereco",
-  "pk": 4,
-  "fields": {
-    "logradouro": "Rua da Cancela",
-    "numero": "200",
-    "bairro": "Centro",
-    "complemento": "CASA",
-    "cep": "39935-000",
-    "cidade": "Santo Antônio do Jacinto",
-    "estado": "MG",
-    "created_at": "2023-05-21T22:52:48.678Z",
-    "updated_at": "2023-05-21T22:52:48.678Z"
-  }
-},
-{
-  "model": "usuarios.usuario",
-  "pk": 1,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$9sa3RLSoP1C3CTBxzOXcbK$Xb5kfyAaJ+B/l15oBSwS894h0AI21QW8z621zoCakRY=",
-    "last_login": "2023-06-08T01:13:02.149Z",
-    "is_superuser": true,
-    "first_name": "",
-    "last_name": "",
-    "is_staff": true,
-    "is_active": true,
-    "date_joined": "2023-06-08T01:12:42.840Z",
-    "nome_completo": "admin",
-    "email": null,
-    "cpf": "35707638890",
-    "dt_nascimento": "1996-12-01",
-    "tipo_usuario": "1",
-    "created_at": "2023-06-08T01:12:43.353Z",
-    "updated_at": "2023-06-08T01:12:43.353Z",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "despesas.diaria",
-  "pk": 1,
-  "fields": {
-    "profissional": 1,
-    "descricao": "adad",
-    "data_diaria": "2022-10-12",
-    "reembolso": "2",
-    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
-    "viagem_dest": "almenara",
-    "conta": 13245,
-    "fonte": 142,
-    "obs": "",
-    "tipo_diaria": "1",
-    "qta_diaria": 3,
-    "valor": "10,00",
-    "total": "30,00",
-    "created_at": "2023-05-21T23:10:08.372Z",
-    "updated_at": "2023-06-10T15:06:41.426Z"
-  }
-},
-{
-  "model": "despesas.diaria",
-  "pk": 2,
-  "fields": {
-    "profissional": 2,
-    "descricao": "mkj",
-    "data_diaria": "2023-05-15",
-    "reembolso": "1",
-    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
-    "viagem_dest": "xfdsgd",
-    "conta": 132785,
-    "fonte": 122,
-    "obs": "",
-    "tipo_diaria": "1",
-    "qta_diaria": 3,
-    "valor": "100,00",
-    "total": "300,00",
-    "created_at": "2023-05-28T11:15:45.596Z",
-    "updated_at": "2023-06-10T15:07:04.345Z"
-  }
-},
-{
-  "model": "despesas.diaria",
-  "pk": 4,
-  "fields": {
-    "profissional": 1,
-    "descricao": "adad",
-    "data_diaria": "2022-12-13",
-    "reembolso": "2",
-    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
-    "viagem_dest": "adda",
-    "conta": 257,
-    "fonte": 114,
-    "obs": "",
-    "tipo_diaria": "1",
-    "qta_diaria": 1,
-    "valor": "150,00",
-    "total": "150,00",
-    "created_at": "2023-05-28T11:39:39.170Z",
-    "updated_at": "2023-05-28T11:39:39.170Z"
-  }
-},
-{
-  "model": "despesas.diaria",
-  "pk": 7,
-  "fields": {
-    "profissional": 1,
-    "descricao": "TESTE",
-    "data_diaria": "2023-06-15",
-    "reembolso": "2",
-    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
-    "viagem_dest": "ALMENARA",
-    "conta": 132780,
-    "fonte": 13202,
-    "obs": "",
-    "tipo_diaria": "1",
-    "qta_diaria": 10,
-    "valor": "100,00",
-    "total": "1.000,00",
-    "created_at": "2023-06-08T01:40:52.633Z",
-    "updated_at": "2023-06-10T15:06:30.073Z"
-  }
-},
-{
-  "model": "despesas.diaria",
-  "pk": 8,
-  "fields": {
-    "profissional": 3,
-    "descricao": "ADADA",
-    "data_diaria": "2023-05-12",
-    "reembolso": "1",
-    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
-    "viagem_dest": "ADADA",
-    "conta": 13217,
-    "fonte": 13270,
-    "obs": "",
-    "tipo_diaria": "1",
-    "qta_diaria": 100,
-    "valor": "100,00",
-    "total": "10.000,00",
-    "created_at": "2023-06-08T01:41:39.808Z",
-    "updated_at": "2023-06-10T15:10:54.470Z"
-  }
-},
-{
-  "model": "despesas.diaria",
-  "pk": 9,
-  "fields": {
-    "profissional": 4,
-    "descricao": "teste",
-    "data_diaria": "2023-06-12",
-    "reembolso": "2",
-    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
-    "viagem_dest": "teste",
-    "conta": 118445,
-    "fonte": 123,
-    "obs": "",
-    "tipo_diaria": "1",
-    "qta_diaria": 3,
-    "valor": "100,00",
-    "total": "300,00",
-    "created_at": "2023-06-08T01:48:04.453Z",
-    "updated_at": "2023-06-10T15:05:31.633Z"
-  }
-},
-{
-  "model": "despesas.reembolso",
-  "pk": 4,
-  "fields": {
-    "descricao": "2",
-    "diaria": 2,
-    "movimentacao": null,
-    "valor_mov": null,
-    "valor_desp": "100.00",
-    "created_at": "2023-05-28T13:23:30.480Z",
-    "updated_at": "2023-05-28T13:23:30.481Z"
-  }
-},
-{
-  "model": "despesas.reembolso",
-  "pk": 5,
-  "fields": {
-    "descricao": "3",
-    "diaria": 2,
-    "movimentacao": null,
-    "valor_mov": null,
-    "valor_desp": "300.00",
-    "created_at": "2023-05-28T13:23:30.530Z",
-    "updated_at": "2023-05-28T13:23:30.530Z"
-  }
-},
-{
-  "model": "despesas.reembolso",
-  "pk": 10,
-  "fields": {
-    "descricao": "3",
-    "diaria": 8,
-    "movimentacao": null,
-    "valor_mov": null,
-    "valor_desp": "200.00",
-    "created_at": "2023-06-08T01:41:46.151Z",
-    "updated_at": "2023-06-08T01:41:46.151Z"
-  }
-},
-{
-  "model": "transportes.carro",
-  "pk": 1,
-  "fields": {
-    "nome": "SIENA2",
-    "placa": "RTJ8H34",
-    "created_at": "2023-06-08T02:01:22.337Z",
-    "updated_at": "2023-06-08T02:07:08.206Z"
-  }
-},
-{
-  "model": "transportes.carro",
-  "pk": 2,
-  "fields": {
-    "nome": "SIENA",
-    "placa": "RTJ8H34",
-    "created_at": "2023-06-08T02:06:06.384Z",
-    "updated_at": "2023-06-08T02:06:06.384Z"
-  }
-},
-{
-  "model": "profissionais.profissional",
-  "pk": 1,
-  "fields": {
-    "nome_completo": "Sara Luna Cavalcanti",
-    "email": null,
-    "cpf": "65561890492",
-    "status": "1",
-    "cns": 884849478630002,
-    "cargo": "1",
-    "sexo": "M",
-    "dt_nascimento": "1996-12-01",
-    "telefone": "(33) 9988-5542",
-    "endereco": 1,
-    "estabelecimento": 7,
-    "microarea": 28,
-    "created_at": "2023-05-21T22:55:42.252Z",
-    "updated_at": "2023-05-21T22:55:42.252Z"
-  }
-},
-{
-  "model": "profissionais.profissional",
-  "pk": 2,
-  "fields": {
-    "nome_completo": "Marcelo Enrico Gomes",
-    "email": null,
-    "cpf": "27373624405",
-    "status": "1",
-    "cns": 182197447020001,
-    "cargo": "3",
-    "sexo": "M",
-    "dt_nascimento": "1998-12-01",
-    "telefone": "(33) 8954-2369",
-    "endereco": 2,
-    "estabelecimento": 3,
-    "microarea": 24,
-    "created_at": "2023-05-21T22:59:56.676Z",
-    "updated_at": "2023-05-21T22:59:56.676Z"
-  }
-},
-{
-  "model": "profissionais.profissional",
-  "pk": 3,
-  "fields": {
-    "nome_completo": "Kamilly Ana Marli Viana",
-    "email": null,
-    "cpf": "19211487480",
-    "status": "1",
-    "cns": 255569890460004,
-    "cargo": "4",
-    "sexo": "F",
-    "dt_nascimento": "2023-02-12",
-    "telefone": "(33) 9988-7755",
-    "endereco": 3,
-    "estabelecimento": 7,
-    "microarea": 25,
-    "created_at": "2023-05-21T23:04:25.078Z",
-    "updated_at": "2023-05-21T23:04:25.078Z"
-  }
-},
-{
-  "model": "profissionais.profissional",
-  "pk": 4,
-  "fields": {
-    "nome_completo": "LEONARDO PEREIRA DA SILVA",
-    "email": "leonardosaja87@gmail.com",
-    "cpf": "35707638890",
-    "status": "1",
-    "cns": 769940780050006,
-    "cargo": "3",
-    "sexo": "M",
-    "dt_nascimento": "1996-01-12",
-    "telefone": "(33) 3747-1212",
-    "endereco": 4,
-    "estabelecimento": 1,
-    "microarea": 1,
-    "created_at": "2023-06-08T01:47:28.774Z",
-    "updated_at": "2023-06-08T01:47:28.774Z"
-  }
-},
-{
-  "model": "profissionais.endereco",
-  "pk": 1,
-  "fields": {
-    "logradouro": "FAZENDA BARRA DO TIMOTEO",
-    "numero": "S/N",
-    "bairro": "ZONA RURAL",
-    "complemento": "CASA",
-    "cep": "39935-000",
-    "cidade": "Santo Antônio do Jacinto",
-    "estado": "MG",
-    "created_at": "2023-05-21T22:55:42.243Z",
-    "updated_at": "2023-05-21T22:55:42.243Z"
-  }
-},
-{
-  "model": "profissionais.endereco",
-  "pk": 2,
-  "fields": {
-    "logradouro": "FAZENDA SERRA ALTA",
-    "numero": "S/N",
-    "bairro": "COM ALTAMIRA",
-    "complemento": "CASA",
-    "cep": "39935-000",
-    "cidade": "Santo Antônio do Jacinto",
-    "estado": "MG",
-    "created_at": "2023-05-21T22:59:56.663Z",
-    "updated_at": "2023-05-21T22:59:56.663Z"
-  }
-},
-{
-  "model": "profissionais.endereco",
-  "pk": 3,
-  "fields": {
-    "logradouro": "RUA DA SILVA",
-    "numero": "232",
-    "bairro": "CENTREO",
-    "complemento": "CASA",
-    "cep": "39935-000",
-    "cidade": "Santo Antônio do Jacinto",
-    "estado": "MG",
-    "created_at": "2023-05-21T23:04:25.067Z",
-    "updated_at": "2023-05-21T23:04:25.067Z"
-  }
-},
-{
-  "model": "profissionais.endereco",
-  "pk": 4,
-  "fields": {
-    "logradouro": "Rua 13 de Janeiro",
-    "numero": "100",
-    "bairro": "Centro",
-    "complemento": "Casa",
-    "cep": "39935-000",
-    "cidade": "Santo Antônio do Jacinto",
-    "estado": "MG",
-    "created_at": "2023-06-08T01:47:28.763Z",
-    "updated_at": "2023-06-08T01:47:28.763Z"
-  }
-},
-{
-  "model": "tfds.recibotfd",
-  "pk": 1,
-  "fields": {
-    "paciente": 1,
-    "acompanhante": null,
-    "municipio_origem": "Santo Antônio do Jacinto-MG",
-    "municipio_destino": "ALMENARA",
-    "data_criada": "2023-05-21",
-    "data_editada": "2023-05-28",
-    "data": "2023-01-12",
-    "grs": "Pedra Azul-MG",
-    "especialidade": "CARDIOLOGISTA",
-    "created_at": "2023-05-21T23:05:35.525Z",
-    "updated_at": "2023-05-28T21:41:53.043Z"
-  }
-},
-{
-  "model": "tfds.recibotfd",
-  "pk": 2,
-  "fields": {
-    "paciente": 4,
-    "acompanhante": 2,
-    "municipio_origem": "Santo Antônio do Jacinto-MG",
-    "municipio_destino": "Belo Horizonte",
-    "data_criada": "2023-05-28",
-    "data_editada": "2023-05-28",
-    "data": "2023-05-25",
-    "grs": "Pedra Azul-MG",
-    "especialidade": "CARDIOLOGISTA",
-    "created_at": "2023-05-28T21:42:45.872Z",
-    "updated_at": "2023-05-28T21:47:07.622Z"
-  }
-},
-{
-  "model": "tfds.codigosia",
-  "pk": 1,
-  "fields": {
-    "codigo": "1324545424",
-    "valor_unitario": "250.00",
-    "qtd_procedimento": 3,
-    "valor_total": "750.00",
-    "recibo_tfd": 1,
-    "created_at": "2023-05-21T23:05:35.533Z",
-    "updated_at": "2023-05-27T17:08:12.969Z"
-  }
-},
-{
-  "model": "tfds.codigosia",
-  "pk": 2,
-  "fields": {
-    "codigo": "1325745232",
-    "valor_unitario": "150.00",
-    "qtd_procedimento": 2,
-    "valor_total": "300.00",
-    "recibo_tfd": 1,
-    "created_at": "2023-05-27T17:08:12.977Z",
-    "updated_at": "2023-05-27T17:08:12.977Z"
-  }
-},
-{
-  "model": "tfds.codigosia",
-  "pk": 3,
-  "fields": {
-    "codigo": "0985587477",
-    "valor_unitario": "100.00",
-    "qtd_procedimento": 2,
-    "valor_total": "200.00",
-    "recibo_tfd": 1,
-    "created_at": "2023-05-27T18:08:35.115Z",
-    "updated_at": "2023-05-27T18:29:02.110Z"
-  }
-},
-{
-  "model": "tfds.codigosia",
-  "pk": 4,
-  "fields": {
-    "codigo": "0701070129",
-    "valor_unitario": "200.00",
-    "qtd_procedimento": 2,
-    "valor_total": "400.00",
-    "recibo_tfd": 1,
-    "created_at": "2023-05-27T18:29:38.985Z",
-    "updated_at": "2023-05-27T18:29:38.985Z"
-  }
-},
-{
-  "model": "tfds.codigosia",
-  "pk": 5,
-  "fields": {
-    "codigo": "0701070129",
-    "valor_unitario": "120.00",
-    "qtd_procedimento": 3,
-    "valor_total": "360.00",
-    "recibo_tfd": 2,
-    "created_at": "2023-05-28T21:42:45.886Z",
-    "updated_at": "2023-05-28T21:42:45.886Z"
-  }
-},
-{
-  "model": "tfds.codigosia",
-  "pk": 6,
-  "fields": {
-    "codigo": "0701070139",
-    "valor_unitario": "100.00",
-    "qtd_procedimento": 3,
-    "valor_total": "300.00",
-    "recibo_tfd": 2,
-    "created_at": "2023-05-28T21:47:07.635Z",
-    "updated_at": "2023-05-28T21:47:07.635Z"
-  }
-},
-
-{
-  "model": "estabelecimentos.estabelecimento",
-  "pk": 1,
-  "fields": {
-    "nome": "UNIDADE MISTA DE SANTO ANTONIO DO JACINTO",
-    "cnes": 3890643,
-    "created_at": "2023-05-21T22:18:05.124Z",
-    "updated_at": "2023-05-21T22:18:05.124Z"
-  }
-},
-{
   "model": "estabelecimentos.estabelecimento",
   "pk": 2,
-  "fields": {
-    "nome": "UNIDADE DE SAUDE DONA MARIA ROSA BANDEIRA",
-    "cnes": 6763227,
-    "created_at": "2023-05-21T22:18:16.226Z",
-    "updated_at": "2023-05-21T22:18:16.226Z"
-  }
-},
-{
-  "model": "estabelecimentos.estabelecimento",
-  "pk": 3,
-  "fields": {
-    "nome": "UNIDADE BASICA DE SAUDE ESF SAUDE PARA TODOS",
-    "cnes": 2119730,
-    "created_at": "2023-05-21T22:18:33.115Z",
-    "updated_at": "2023-05-21T22:18:33.115Z"
-  }
-},
-{
-  "model": "estabelecimentos.estabelecimento",
-  "pk": 4,
-  "fields": {
-    "nome": "UNIDADE BASICA DE SAUDE DONA CARMITA FREITAS DOS SANTOS",
-    "cnes": 7384831,
-    "created_at": "2023-05-21T22:18:50.356Z",
-    "updated_at": "2023-05-21T22:18:50.356Z"
-  }
-},
-{
-  "model": "estabelecimentos.estabelecimento",
-  "pk": 5,
-  "fields": {
-    "nome": "UNIDADE BASICA DE SAUDE DE CATAJAS",
-    "cnes": 2119749,
-    "created_at": "2023-05-21T22:19:49.876Z",
-    "updated_at": "2023-05-21T22:19:49.876Z"
-  }
-},
-{
-  "model": "estabelecimentos.estabelecimento",
-  "pk": 6,
-  "fields": {
-    "nome": "SECRETARIA MUNICIPAL DE SAUDE DE SANTO ANTONIO DO JACINTO",
-    "cnes": 6516556,
-    "created_at": "2023-05-21T22:20:02.973Z",
-    "updated_at": "2023-05-21T22:20:02.973Z"
-  }
-},
-{
-  "model": "estabelecimentos.estabelecimento",
-  "pk": 7,
   "fields": {
     "nome": "PSF JOVENTINO BATISTA",
     "cnes": 6228526,
-    "created_at": "2023-05-21T22:20:14.562Z",
-    "updated_at": "2023-05-21T22:20:14.562Z"
+    "created_at": "2023-09-16T15:34:09.710Z",
+    "updated_at": "2023-09-16T15:34:09.710Z"
+  }
+},
+{
+  "model": "estabelecimentos.estabelecimento",
+  "pk": 4,
+  "fields": {
+    "nome": "UNIDADE BASICA DE SAUDE DE CATAJAS",
+    "cnes": 2119749,
+    "created_at": "2023-09-16T15:34:46.536Z",
+    "updated_at": "2023-09-16T15:34:46.536Z"
+  }
+},
+{
+  "model": "estabelecimentos.estabelecimento",
+  "pk": 5,
+  "fields": {
+    "nome": "UNIDADE BASICA DE SAUDE DONA CARMITA FREITAS DOS SANTOS",
+    "cnes": 7384831,
+    "created_at": "2023-09-16T15:35:02.624Z",
+    "updated_at": "2023-09-16T15:35:02.624Z"
+  }
+},
+{
+  "model": "estabelecimentos.estabelecimento",
+  "pk": 6,
+  "fields": {
+    "nome": "UNIDADE BASICA DE SAUDE ESF SAUDE PARA TODOS",
+    "cnes": 2119730,
+    "created_at": "2023-09-16T15:35:23.031Z",
+    "updated_at": "2023-09-16T15:35:23.031Z"
+  }
+},
+{
+  "model": "estabelecimentos.estabelecimento",
+  "pk": 7,
+  "fields": {
+    "nome": "UNIDADE DE SAUDE DONA MARIA ROSA BANDEIRA",
+    "cnes": 6763227,
+    "created_at": "2023-09-16T15:35:36.446Z",
+    "updated_at": "2023-09-16T15:35:36.446Z"
   }
 },
 {
   "model": "estabelecimentos.estabelecimento",
   "pk": 8,
   "fields": {
-    "nome": "FARMACIA PUBLICA MUNICIPAL",
-    "cnes": 2912236,
-    "created_at": "2023-05-21T22:20:29.465Z",
-    "updated_at": "2023-05-21T22:20:29.465Z"
-  }
-},
-{
-  "model": "estabelecimentos.estabelecimento",
-  "pk": 9,
-  "fields": {
-    "nome": "CENTRO MUNICIPAL DE FISIOTERAPIA",
-    "cnes": 3890651,
-    "created_at": "2023-05-21T22:20:40.819Z",
-    "updated_at": "2023-05-21T22:20:40.819Z"
-  }
-},
-{
-  "model": "estabelecimentos.estabelecimento",
-  "pk": 10,
-  "fields": {
-    "nome": "VIGILANCIA EM SAUDE E COMBATE DAS ENDEMIAS",
-    "cnes": 2760126,
-    "created_at": "2023-05-21T22:20:53.011Z",
-    "updated_at": "2023-05-21T22:20:53.011Z"
+    "nome": "UNIDADE MISTA DE SANTO ANTONIO DO JACINTO",
+    "cnes": 3890643,
+    "created_at": "2023-09-16T15:36:06.339Z",
+    "updated_at": "2023-09-16T15:36:06.339Z"
   }
 },
 {
@@ -795,9 +64,9 @@
   "pk": 1,
   "fields": {
     "microarea": 1,
-    "estabelecimento": 3,
-    "created_at": "2023-05-21T22:30:56.509Z",
-    "updated_at": "2023-06-08T02:09:02.753Z"
+    "estabelecimento": 6,
+    "created_at": "2023-09-16T15:37:53.426Z",
+    "updated_at": "2023-09-16T15:37:53.426Z"
   }
 },
 {
@@ -805,9 +74,9 @@
   "pk": 2,
   "fields": {
     "microarea": 2,
-    "estabelecimento": 3,
-    "created_at": "2023-05-21T22:31:01.540Z",
-    "updated_at": "2023-05-21T22:31:01.540Z"
+    "estabelecimento": 6,
+    "created_at": "2023-09-16T15:37:59.809Z",
+    "updated_at": "2023-09-16T15:37:59.809Z"
   }
 },
 {
@@ -815,9 +84,9 @@
   "pk": 3,
   "fields": {
     "microarea": 3,
-    "estabelecimento": 3,
-    "created_at": "2023-05-21T22:31:08.656Z",
-    "updated_at": "2023-05-21T22:31:08.656Z"
+    "estabelecimento": 6,
+    "created_at": "2023-09-16T15:38:05.955Z",
+    "updated_at": "2023-09-16T15:38:05.955Z"
   }
 },
 {
@@ -825,9 +94,9 @@
   "pk": 4,
   "fields": {
     "microarea": 4,
-    "estabelecimento": 3,
-    "created_at": "2023-05-21T22:31:13.218Z",
-    "updated_at": "2023-05-21T22:31:13.218Z"
+    "estabelecimento": 6,
+    "created_at": "2023-09-16T15:38:17.323Z",
+    "updated_at": "2023-09-16T15:38:17.323Z"
   }
 },
 {
@@ -835,9 +104,9 @@
   "pk": 5,
   "fields": {
     "microarea": 5,
-    "estabelecimento": 3,
-    "created_at": "2023-05-21T22:31:20.261Z",
-    "updated_at": "2023-05-21T22:31:20.261Z"
+    "estabelecimento": 6,
+    "created_at": "2023-09-16T15:38:23.410Z",
+    "updated_at": "2023-09-16T15:38:23.410Z"
   }
 },
 {
@@ -845,9 +114,99 @@
   "pk": 6,
   "fields": {
     "microarea": 6,
-    "estabelecimento": 3,
-    "created_at": "2023-05-21T22:31:27.123Z",
-    "updated_at": "2023-05-21T22:31:27.123Z"
+    "estabelecimento": 6,
+    "created_at": "2023-09-16T15:38:29.088Z",
+    "updated_at": "2023-09-16T15:38:29.088Z"
+  }
+},
+{
+  "model": "estabelecimentos.microarea",
+  "pk": 22,
+  "fields": {
+    "microarea": 22,
+    "estabelecimento": 5,
+    "created_at": "2023-05-21T22:40:32.535Z",
+    "updated_at": "2023-05-21T22:40:32.535Z"
+  }
+},
+{
+  "model": "estabelecimentos.microarea",
+  "pk": 23,
+  "fields": {
+    "microarea": 23,
+    "estabelecimento": 5,
+    "created_at": "2023-05-21T22:40:38.206Z",
+    "updated_at": "2023-05-21T22:40:38.206Z"
+  }
+},
+{
+  "model": "estabelecimentos.microarea",
+  "pk": 24,
+  "fields": {
+    "microarea": 24,
+    "estabelecimento": 5,
+    "created_at": "2023-05-21T22:41:10.456Z",
+    "updated_at": "2023-05-21T22:41:10.456Z"
+  }
+},
+{
+  "model": "estabelecimentos.microarea",
+  "pk": 25,
+  "fields": {
+    "microarea": 27,
+    "estabelecimento": 7,
+    "created_at": "2023-05-21T22:41:23.382Z",
+    "updated_at": "2023-05-21T22:41:23.382Z"
+  }
+},
+{
+  "model": "estabelecimentos.microarea",
+  "pk": 26,
+  "fields": {
+    "microarea": 28,
+    "estabelecimento": 7,
+    "created_at": "2023-05-21T22:41:34.573Z",
+    "updated_at": "2023-05-21T22:41:34.573Z"
+  }
+},
+{
+  "model": "estabelecimentos.microarea",
+  "pk": 27,
+  "fields": {
+    "microarea": 29,
+    "estabelecimento": 7,
+    "created_at": "2023-05-21T22:41:45.447Z",
+    "updated_at": "2023-05-21T22:41:45.447Z"
+  }
+},
+{
+  "model": "estabelecimentos.microarea",
+  "pk": 28,
+  "fields": {
+    "microarea": 30,
+    "estabelecimento": 7,
+    "created_at": "2023-05-21T22:41:50.512Z",
+    "updated_at": "2023-05-21T22:41:50.512Z"
+  }
+},
+{
+  "model": "estabelecimentos.microarea",
+  "pk": 29,
+  "fields": {
+    "microarea": 25,
+    "estabelecimento": 7,
+    "created_at": "2023-05-28T20:32:18.288Z",
+    "updated_at": "2023-05-28T20:32:18.288Z"
+  }
+},
+{
+  "model": "estabelecimentos.microarea",
+  "pk": 30,
+  "fields": {
+    "microarea": 26,
+    "estabelecimento": 7,
+    "created_at": "2023-05-28T20:32:25.414Z",
+    "updated_at": "2023-05-28T20:32:25.414Z"
   }
 },
 {
@@ -1001,118 +360,253 @@
   }
 },
 {
-  "model": "estabelecimentos.microarea",
-  "pk": 22,
-  "fields": {
-    "microarea": 22,
-    "estabelecimento": 5,
-    "created_at": "2023-05-21T22:40:32.535Z",
-    "updated_at": "2023-05-21T22:40:32.535Z"
-  }
-},
-{
-  "model": "estabelecimentos.microarea",
-  "pk": 23,
-  "fields": {
-    "microarea": 23,
-    "estabelecimento": 5,
-    "created_at": "2023-05-21T22:40:38.206Z",
-    "updated_at": "2023-05-21T22:40:38.206Z"
-  }
-},
-{
-  "model": "estabelecimentos.microarea",
-  "pk": 24,
-  "fields": {
-    "microarea": 24,
-    "estabelecimento": 5,
-    "created_at": "2023-05-21T22:41:10.456Z",
-    "updated_at": "2023-05-21T22:41:10.456Z"
-  }
-},
-{
-  "model": "estabelecimentos.microarea",
-  "pk": 25,
-  "fields": {
-    "microarea": 27,
-    "estabelecimento": 7,
-    "created_at": "2023-05-21T22:41:23.382Z",
-    "updated_at": "2023-05-21T22:41:23.382Z"
-  }
-},
-{
-  "model": "estabelecimentos.microarea",
-  "pk": 26,
-  "fields": {
-    "microarea": 28,
-    "estabelecimento": 7,
-    "created_at": "2023-05-21T22:41:34.573Z",
-    "updated_at": "2023-05-21T22:41:34.573Z"
-  }
-},
-{
-  "model": "estabelecimentos.microarea",
-  "pk": 27,
-  "fields": {
-    "microarea": 29,
-    "estabelecimento": 7,
-    "created_at": "2023-05-21T22:41:45.447Z",
-    "updated_at": "2023-05-21T22:41:45.447Z"
-  }
-},
-{
-  "model": "estabelecimentos.microarea",
-  "pk": 28,
-  "fields": {
-    "microarea": 30,
-    "estabelecimento": 7,
-    "created_at": "2023-05-21T22:41:50.512Z",
-    "updated_at": "2023-05-21T22:41:50.512Z"
-  }
-},
-{
-  "model": "estabelecimentos.microarea",
-  "pk": 29,
-  "fields": {
-    "microarea": 25,
-    "estabelecimento": 7,
-    "created_at": "2023-05-28T20:32:18.288Z",
-    "updated_at": "2023-05-28T20:32:18.288Z"
-  }
-},
-{
-  "model": "estabelecimentos.microarea",
-  "pk": 30,
-  "fields": {
-    "microarea": 26,
-    "estabelecimento": 7,
-    "created_at": "2023-05-28T20:32:25.414Z",
-    "updated_at": "2023-05-28T20:32:25.414Z"
-  }
-},
-{
-  "model": "especialidades.especialidade",
+  "model": "despesas.diaria",
   "pk": 1,
   "fields": {
-    "nome": "CARDIOLOGISTA",
-    "created_at": "2023-06-09T19:08:56.559Z",
-    "updated_at": "2023-06-09T19:08:56.559Z"
+    "profissional": 1,
+    "descricao": "adad",
+    "data_diaria": "2022-10-12",
+    "reembolso": "1",
+    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
+    "viagem_dest": "almenara",
+    "conta": 13245,
+    "fonte": 142,
+    "obs": "",
+    "tipo_diaria": "1",
+    "qta_diaria": 3,
+    "valor": "10,00",
+    "total": "30.00",
+    "created_at": "2023-05-21T23:10:08.372Z",
+    "updated_at": "2023-05-21T23:10:08.372Z"
   }
 },
 {
-  "model": "especialidades.pacienteespecialidade",
+  "model": "despesas.diaria",
+  "pk": 2,
+  "fields": {
+    "profissional": 2,
+    "descricao": "mkj",
+    "data_diaria": "2023-05-15",
+    "reembolso": "1",
+    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
+    "viagem_dest": "xfdsgd",
+    "conta": 132785,
+    "fonte": 122,
+    "obs": "",
+    "tipo_diaria": "1",
+    "qta_diaria": 3,
+    "valor": "100,00",
+    "total": "300.00",
+    "created_at": "2023-05-28T11:15:45.596Z",
+    "updated_at": "2023-05-28T11:15:45.596Z"
+  }
+},
+{
+  "model": "despesas.diaria",
+  "pk": 4,
+  "fields": {
+    "profissional": 1,
+    "descricao": "adad",
+    "data_diaria": "2022-12-13",
+    "reembolso": "2",
+    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
+    "viagem_dest": "adda",
+    "conta": 257,
+    "fonte": 114,
+    "obs": "",
+    "tipo_diaria": "1",
+    "qta_diaria": 1,
+    "valor": "150,00",
+    "total": "150.00",
+    "created_at": "2023-05-28T11:39:39.170Z",
+    "updated_at": "2023-05-28T11:39:39.170Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
   "pk": 1,
   "fields": {
-    "paciente": 1,
-    "especialidade": 1,
-    "data_pedido": "2023-12-01",
-    "profissional": 4,
-    "classificacao": "1",
-    "tipo_atendimento": "1",
-    "observacao": "",
+    "descricao": "2",
+    "diaria": 1,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "200.00",
+    "created_at": "2023-05-27T17:00:36.729Z",
+    "updated_at": "2023-05-27T17:00:36.729Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 2,
+  "fields": {
+    "descricao": "8",
+    "diaria": 1,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "300.00",
+    "created_at": "2023-05-27T17:00:36.740Z",
+    "updated_at": "2023-05-27T17:00:36.740Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 3,
+  "fields": {
+    "descricao": "1",
+    "diaria": 1,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "100.00",
+    "created_at": "2023-05-27T17:00:36.758Z",
+    "updated_at": "2023-05-27T17:00:36.759Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 4,
+  "fields": {
+    "descricao": "2",
+    "diaria": 2,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "100.00",
+    "created_at": "2023-05-28T13:23:30.480Z",
+    "updated_at": "2023-05-28T13:23:30.481Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 5,
+  "fields": {
+    "descricao": "3",
+    "diaria": 2,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "300.00",
+    "created_at": "2023-05-28T13:23:30.530Z",
+    "updated_at": "2023-05-28T13:23:30.530Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 6,
+  "fields": {
+    "descricao": "8",
+    "diaria": 2,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "400.00",
+    "created_at": "2023-05-28T13:23:30.545Z",
+    "updated_at": "2023-05-28T13:23:30.545Z"
+  }
+},
+{
+  "model": "profissionais.profissional",
+  "pk": 1,
+  "fields": {
+    "nome_completo": "Sara Luna Cavalcanti",
+    "email": null,
+    "cpf": "65561890492",
     "status": "1",
-    "created_at": "2023-06-09T19:09:21.007Z",
-    "updated_at": "2023-06-09T19:09:21.007Z"
+    "cns": 884849478630002,
+    "cargo": "1",
+    "sexo": "M",
+    "dt_nascimento": "1996-12-01",
+    "telefone": "(33) 9988-5542",
+    "endereco": 1,
+    "estabelecimento": 4,
+    "microarea": 28,
+    "created_at": "2023-05-21T22:55:42.252Z",
+    "updated_at": "2023-05-21T22:55:42.252Z"
   }
+},
+{
+  "model": "profissionais.profissional",
+  "pk": 2,
+  "fields": {
+    "nome_completo": "Marcelo Enrico Gomes",
+    "email": null,
+    "cpf": "27373624405",
+    "status": "1",
+    "cns": 182197447020001,
+    "cargo": "3",
+    "sexo": "M",
+    "dt_nascimento": "1998-12-01",
+    "telefone": "(33) 8954-2369",
+    "endereco": 2,
+    "estabelecimento": 4,
+    "microarea": 24,
+    "created_at": "2023-05-21T22:59:56.676Z",
+    "updated_at": "2023-05-21T22:59:56.676Z"
+  }
+},
+{
+  "model": "profissionais.profissional",
+  "pk": 3,
+  "fields": {
+    "nome_completo": "Kamilly Ana Marli Viana",
+    "email": null,
+    "cpf": "19211487480",
+    "status": "1",
+    "cns": 255569890460004,
+    "cargo": "4",
+    "sexo": "F",
+    "dt_nascimento": "2023-02-12",
+    "telefone": "(33) 9988-7755",
+    "endereco": 3,
+    "estabelecimento": 5,
+    "microarea": 25,
+    "created_at": "2023-05-21T23:04:25.078Z",
+    "updated_at": "2023-05-21T23:04:25.078Z"
+  }
+},
+{
+  "model": "profissionais.endereco",
+  "pk": 1,
+  "fields": {
+    "logradouro": "FAZENDA BARRA DO TIMOTEO",
+    "numero": "S/N",
+    "bairro": "ZONA RURAL",
+    "complemento": "CASA",
+    "cep": "39935-000",
+    "cidade": "Santo Antônio do Jacinto",
+    "estado": "MG",
+    "created_at": "2023-05-21T22:55:42.243Z",
+    "updated_at": "2023-05-21T22:55:42.243Z"
+  }
+},
+{
+  "model": "profissionais.endereco",
+  "pk": 2,
+  "fields": {
+    "logradouro": "FAZENDA SERRA ALTA",
+    "numero": "S/N",
+    "bairro": "COM ALTAMIRA",
+    "complemento": "CASA",
+    "cep": "39935-000",
+    "cidade": "Santo Antônio do Jacinto",
+    "estado": "MG",
+    "created_at": "2023-05-21T22:59:56.663Z",
+    "updated_at": "2023-05-21T22:59:56.663Z"
+  }
+},
+
+{
+  "model": "profissionais.endereco",
+  "pk": 3,
+  "fields": {
+    "logradouro": "RUA DA SILVA",
+    "numero": "232",
+    "bairro": "CENTREO",
+    "complemento": "CASA",
+    "cep": "39935-000",
+    "cidade": "Santo Antônio do Jacinto",
+    "estado": "MG",
+    "created_at": "2023-05-21T23:04:25.067Z",
+    "updated_at": "2023-05-21T23:04:25.067Z"
+  }
+
 }
+
+
 ]

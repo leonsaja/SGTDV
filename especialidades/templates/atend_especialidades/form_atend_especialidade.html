@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container ">
+    <br><br>
+   <div class="row  justify-content-center">
+            <form method="POST">
+                {% csrf_token %}    
+                <div class="row">
+                
+                <div class="col-md-6">
+                    <label for="id_especialidade">SELECIONE UMA ESPECIALIDADE:</label>
+                    <select id='id_especialidade' class="select form-select" aria-label="">
+                        <option selected>----------</option>
+                        {% for esp in especialidades%}
+                        <option value={{esp.id}}>{{esp.nome|upper}}</option>
+                        {% endfor %}
+                        
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    {{form.data|as_crispy_field }}
+                </div>
+
+
+                <div class="row">
+                 
+
+                        {{atenEspformset.management_form}} 
+                        {% for atend in atenEspformset%}
+                     
+                        <div class="col-12">
+                        
+                            <div id="item-{{ forloop.counter0 }}" class="form-group">
+                                <div class="inlineform">      
+                                    {{atend}}
+                                </div>
+                            </div>
+                       
+                        </div>
+                        {%endfor %}
+                   
+                </div>
+            </div>
+                <button  class="btn btn-primary" type="submit">Salvar</button>
+            </form>
+    </div>
+</div
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src='/static/utils/jquery.formset.js'></script>
+
+<script>
+
+    $("#id_especialidade").on("change", function() {
+      
+        var val= $(this).val();       // pega o valor do option selecionado
+        
+        console.log("VALOR:"+val);
+    })
+
+
+
+</script>
+
+{% endblock scripts %}
