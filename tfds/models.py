@@ -24,17 +24,26 @@ class ReciboTFD(models.Model):
 
       for item in items:
          total+=item.valor_total
-
       return total
    
+class ProcedimentoSia(models.Model):
+   
+   qtd_procedimento=models.PositiveBigIntegerField(verbose_name='Quantidade',null=False,blank=False)
+   recibo_tfd=models.ForeignKey(ReciboTFD,on_delete=models.CASCADE,related_name='procedimento_recibo_tfd')
+   codigosia=models.ForeignKey("CodigoSIA",on_delete=models.CASCADE,related_name='procedimento_codigo')
+
+
+   created_at = models.DateTimeField(auto_now_add=True)
+   updated_at = models.DateTimeField(auto_now=True)
+
+
 class CodigoSIA(models.Model):
 
    codigo=models.CharField(max_length=10, verbose_name='Código SIA',null=False,blank=False)
-   valor_unitario=models.DecimalField(verbose_name='Valor Unitário', null=False,blank=False,max_digits=6,decimal_places=2)
-   qtd_procedimento=models.PositiveBigIntegerField(verbose_name='Quantidade',null=False,blank=False)
-   valor_total=models.DecimalField(verbose_name='Total',null=False,blank=False,max_digits=8,decimal_places=2 )
-   recibo_tfd=models.ForeignKey(ReciboTFD,on_delete=models.CASCADE,related_name='recibo_codigo')
-
+   nome_proced=models.CharField(verbose_name='Nome do Procedimento',null=False,blank=False,max_length=254)
+   valor_unitario=models.DecimalField(verbose_name='Valor Unitário', null=False,blank=False,max_digits=8,decimal_places=2)
+   valor_contrapartida=models.DecimalField(verbose_name='Valor ContraPartida', null=True,blank=True,max_digits=8,decimal_places=2)
+  
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
 

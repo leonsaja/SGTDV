@@ -1,0 +1,143 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container-fluid">
+  {% comment %} {% include 'recibo_tfd/abas_recibo_tfd.html' %} {% endcomment %}
+
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="text-right">
+        <a href="{% url 'tfds:add-procedimento' %}" class="btn btn-primary"><b>Cadastrar Procedimento</b>
+        </a>
+      </div>
+    </div>
+
+  </div>
+  <div class="row justify-content-center ">
+    <div class="col-md-8 ">
+      <h4 class=" text-primary"><strong>Procedimentos</strong> </h4>
+    </div>
+  </div>
+  <br>
+  <div class="row ">
+    <div class="container">
+      <div class="row  justify-content-center">
+
+        <form class="col-md-8  needs-validation" action="% url 'tfds:search-recibo_tfd'%}" method="GET"
+          id="validar-form">
+
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="alert alert-danger d-none" role="alert">
+                Insira algum filtro para realizar a busca.
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label for="search_nome_cpf"><strong> Busque pelo Nome/CPF</strong></label>
+              <input type="search" name="search_nome_cpf" class="form-control" value="{{request.GET.search_nome_cpf}}"
+                id="search_nome_cpf">
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 pt-2 ">
+              <label for="data">Data do Recibo</label>
+              <input type="date" name="data" class="form-control" id="data" value="{{request.GET.data}}">
+            </div>
+            <div class="col-md-8 pt-2">
+              <br>
+              <div class="float-right">
+                <a class="btn mr-2" href="% url 'tfds:list-recibo_tfd'%}" style="background-color:#DADADA;"> Limpar
+                  Filtros</a>
+                <button type="submit" class=" btn btn-primary ">Buscar</button>
+
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-12  mt-4">
+      {% if recibos_tfds %}
+      <div class="card">
+        <div class="card-header">
+          <h3 class="logo">Procedimentos</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="table-responsive-md">
+          <div class="card-body">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th style="width: 10px">#</th>
+                  <th>Código</th>
+                  <th>Valor Unitario</th>
+                  <th>Valor ContraPartida</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%for p in procedimentos %}
+                <tr>
+                  <td>{{p.id}}</td>
+                  <td>{{p.codigo}}</td>
+                  <td>{{p.nome_prod}}</td>
+                  <td>{{p.valor_unitario}}</td>
+                  <td>{{p.valor_contrapartida}}</td>
+                  
+                  <td>
+                    <a href="% url 'tfds:detail-recibo_tfd' recibo.id%}" class="pr-2"><i
+                        class="fas fa-solid fa-eye"></i></a>
+                    <a href="% url 'tfds:edit-recibo_tfd' recibo.id%}" class="pr-1 text-warning"><i
+                        class="fas fa-edit"></i></a>
+                    <a type="button" data-bs-toggle="modal" data-bs-target="#modal--{{recibo.id}}"
+                      class="pr-2 text-danger">
+                      <i class="fas fa-solid fa-trash-can"></i>
+                    </a>
+                    <a href="% url 'tfds:pdf-recibo_tfd' recibo.id%}"  target="_blank" class="pr-2">
+                      <i class='fas fa-print'></i>
+                    </a>
+                  </td>
+                </tr>
+                {% include  'recibo_tfd/modal_delete_recibo_tfd.html'%}
+                {%endfor%}
+              </tbody>
+            </table>
+            <br />
+            {% include 'paginacao_tfd.html'%}
+          </div>
+        </div>
+      </div>
+    </div>
+    {%else%}
+    <h5 class="text-center pt-4">Nenhum Recibo de Passagem foi encontrado.
+    </h5>
+    {%endif%}
+  </div>
+</div>
+</div>
+
+<!-- Button trigger modal -->
+{% endblock content %} {% block scripts %}
+<script>
+  $('#validar-form').submit(function () {
+    let nome_cpf = $('#search_nome_cpf')
+    let data = $('#data')
+    let erro = $('.alert')
+
+    if (nome_cpf.val() == '' && data.val() == '') {
+      erro.removeClass('d-none')
+      return false
+    }
+
+    return true
+  })
+</script>
+{% endblock scripts %}

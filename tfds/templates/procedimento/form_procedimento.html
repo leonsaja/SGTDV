@@ -1,0 +1,62 @@
+{% extends 'base.html' %} 
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+  {% comment %} {% include 'recibo_tfd/abas_recibo_tfd.html' %} {% endcomment %}
+
+  <div class="col-12 m-2 pl-3">
+    <h4 class=" text-primary"><b>PROCEDIMENTO </b> </h4>
+  </div>
+  <br>
+  <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 px-4 needs-validation" novalidate>
+    {% csrf_token %}
+    <fieldset>
+      <legend class="text-primary"><b>Dados do Procedimento</b> </legend>
+      <hr>
+      <br>
+      <div class="row mt-2">
+        <div class="col-md-2">{{form.codigo|as_crispy_field }}
+        </div>
+        <div class="col-md-5">{{form.nome_proced|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.valor_unitario|as_crispy_field }}</div>
+
+        <div class="col-md-2">{{form.valor_contrapartida|as_crispy_field }}
+        </div>
+    </fieldset>
+
+   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+   
+
+    <div class="row">
+      <div class="col-md-12 mb-5">
+        <div class="text-right">
+          <a href="% url 'tfds:list-recibo_tfd'%}" class="btn btn-outline-danger mr-2">Cancelar</a>
+          <button id="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+{% endblock content%}
+
+{%block scripts %}
+
+<script src='/static/utils/jquery.formset.min.js'></script>
+<script>
+  
+
+
+ $('table.form tr').formset({
+  prefix: '{{ formset.prefix }}',
+  addText: "<div><i class='fas fa-plus'></i></div>",
+  deleteText: 'Remover'
+ });
+</script>
+{% endblock scripts %}
