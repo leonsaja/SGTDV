@@ -28,6 +28,6 @@ urlpatterns = [
     #Atendimento de Especialidade
     
     path('list_especialidade', view_Atend_especialidade.EspecialidadeListView.as_view(), name='atend-especialidade'),  
-    path('create_paciente_atendimento', view_Atend_especialidade.atenEspecialidadeCreate, name='add_paciente_atend'),  
+    path('<int:id>/create_atendimento_paciente', view_Atend_especialidade.atenEspecialidadeCreate, name='add_paciente_atend'),  
 
 ]   

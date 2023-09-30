@@ -1,29 +1,30 @@
-from django.shortcuts import render
-from especialidades.models import PacienteEspecialidade,Especialidade
-from especialidades.forms.form_AtendimentoEspecialidade import AtendEspformset,AtendEspecialidadeForm
+from django.shortcuts import get_object_or_404, render
+from especialidades.models import PacienteEspecialidade,Especialidade,AtendimentoEspecialidade
+from especialidades.forms.form_AtendimentoEspecialidade import AtendPacienteformset,AtendEspecialidadeForm
 from django.views.generic import ListView
 from django.http import HttpResponse
 
-def atenEspecialidadeCreate(request):
+def atenEspecialidadeCreate(request,id):
 
     form=AtendEspecialidadeForm()
-    atenEspformset=AtendEspformset()
-    especialidades =Especialidade.objects.all()
-
-
+    atend=AtendimentoEspecialidade()
+    especialidade= get_object_or_404(Especialidade,id=id)
+    
     if request.method=='POST':
-        form=AtendEspecialidadeForm(request.POST or None)
-        atenEspformset=AtendEspformset(request.POST or None)
-        print('form',form)
-        print('aten',atenEspformset)
-        if form.is_valid() and atenEspformset.is_valid():
-            form=form.save()
-            atenEspformset.save()
+        
+        form=AtendEspecialidadeForm(request.POST or None)    
+        atendformset=AtendPacienteformset(request.POST or None,instance=atend,prefix='paciente')
+       
+        if form.is_valid() and atendformset.is_valid():
+            form=form.save(commit=False)
+            form.especialidade=especialidade
+            form.save()
+            atendformset.save()
             return HttpResponse('OPERACAO REALIZADO COM SUCESSO ')  
         
     form=AtendEspecialidadeForm(request.POST or None)
-    atenEspformset=AtendEspformset(request.POST or None)        
-    return render(request,'atend_especialidades/form_atend_especialidade.html',{'form':form,'atenEspformset':atenEspformset,'especialidades':especialidades})
+    atendformset=AtendPacienteformset(request.POST or None,instance=atend,prefix='paciente')
+    return render(request,'atend_especialidades/form_atend_especialidade.html',{'form':form,'atendformset':atendformset,'especialidade':especialidade})
 
 
 class EspecialidadeListView(ListView):

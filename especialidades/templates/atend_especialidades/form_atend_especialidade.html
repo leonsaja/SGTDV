@@ -8,63 +8,77 @@
             <form method="POST">
                 {% csrf_token %}    
                 <div class="row">
-                
-                <div class="col-md-6">
-                    <label for="id_especialidade">SELECIONE UMA ESPECIALIDADE:</label>
-                    <select id='id_especialidade' class="select form-select" aria-label="">
-                        <option selected>----------</option>
-                        {% for esp in especialidades%}
-                        <option value={{esp.id}}>{{esp.nome|upper}}</option>
-                        {% endfor %}
-                        
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    {{form.data|as_crispy_field }}
-                </div>
-
-
-                <div class="row">
-                 
-
-                        {{atenEspformset.management_form}} 
-                        {% for atend in atenEspformset%}
-                     
-                        <div class="col-12">
-                        
-                            <div id="item-{{ forloop.counter0 }}" class="form-group">
-                                <div class="inlineform">      
-                                    {{atend}}
-                                </div>
-                            </div>
-                       
+                         <div class="col-md-6">
+                        <label for="id_especialidade"> <b>ESPECIALIDADE</b></label>
+                        <input type="text" value="{{especialidade.nome}}" disabled class="form-control">
                         </div>
-                        {%endfor %}
+                                <div class="col-md-4">
+                                    {{form.data|as_crispy_field }}
+                                </div>
+                        </div>
+                    </div>
+
+                        <div class="row">
+                                     {{atendformset.management_form}} 
+                            
+                                    {% for atend in atendformset%}
+
+                    
+                                        <div class="col-12">
+                                            
+                                            <div id="item-{{ forloop.counter0 }}" class="form-group">
+                                                <div class="inlineform">      
+                                                    {{ atend|crispy }}
+                                                </div>
+                                            </div>
+                                    
+                                        </div>
+                    
+                                    {%endfor %}
+                         </div>
+
+                       
+
+                       
                    
-                </div>
             </div>
                 <button  class="btn btn-primary" type="submit">Salvar</button>
             </form>
     </div>
-</div
+</div>
 
 {% endblock %}
 
 {% block scripts %}
 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src='/static/utils/jquery.formset.js'></script>
 
 <script>
-
-    $("#id_especialidade").on("change", function() {
-      
-        var val= $(this).val();       // pega o valor do option selecionado
-        
-        console.log("VALOR:"+val);
-    })
-
+	$(function() {
+		$('.inlineform').formset({ prefix: '{{ atendformset.prefix }}', 
+		addText: '<i class=" fa fa-edit ">&nbsp &nbspAdicionar Alternativa', 
+		deleteText: '<br><i class="fa fa-times pb-4"> &nbsp &nbsp Excluir Alternativa', });
+		}) 
+</script>
 
 
+<script>
+
+
+ $('.clPaciente').select2()
+ $('.add-row').click(function(ev) {
+    ev.preventDefault();
+
+
+
+
+
+
+    $('.clPaciente').select2()
+
+});
 </script>
 
 {% endblock scripts %}

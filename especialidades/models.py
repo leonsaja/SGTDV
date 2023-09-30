@@ -6,12 +6,17 @@ from profissionais.models import Profissional
 
 class AtendimentoEspecialidade(models.Model):
     
-    especialidade=models.ForeignKey('Especialidade',on_delete=models.PROTECT,null=True,blank=False)
-    pacientespecialidade=models.ForeignKey('PacienteEspecialidade',null=True,blank=False, on_delete=models.PROTECT)
-    data=models.DateField(verbose_name='Data',null=True,blank=True)
-    
+    data=models.DateField(verbose_name='Data',null=False,blank=False)
+    especialidade=models.ForeignKey("Especialidade", on_delete=models.PROTECT, related_name='atend_especialidades')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    
+class AtendPaciente(models.Model):
+    pacientespecialidade=models.ForeignKey('PacienteEspecialidade', verbose_name='Paciente', null=True,blank=True, on_delete=models.PROTECT)
+    Atendespecialidade=models.ForeignKey(AtendimentoEspecialidade, on_delete=models.PROTECT, related_name='atend_paciente_especialidade')
+    
+    
 
 class Especialidade(models.Model):
     nome=models.CharField(max_length=255, verbose_name='Nome da Especialidade', unique=True)

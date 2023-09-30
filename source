@@ -57,3 +57,12 @@ return queryset """
 
 {% comment %} % include 'cidadao/modal_delete_cidadao.html'%}
 {% endcomment %}
+
+
+
+{% comment %}  $("#id_especialidade").on("change", function() {
+      
+  var val= $(this).val();       // pega o valor do option selecionado
+  
+  console.log("VALOR:"+val);
+}) {% endcomment %}
