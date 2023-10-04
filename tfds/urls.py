@@ -2,6 +2,7 @@ from django.urls import path
 
 from tfds.views import recibo_passagem_view as view_r_p
 from tfds.views import recibo_tfd_view as view_r_t
+from tfds.views import procedimento_view as view_proced
 
 app_name='tfds'
 urlpatterns = [
@@ -24,5 +25,14 @@ urlpatterns = [
      path("detail/<int:pk>/recibo-passagem",view_r_p.ReciboPassagemDetailView.as_view(),name='detail-recibo_passagem'),
      path("delete/<int:pk>/recibo-passagen",view_r_p.ReciboPassagemDeleteView.as_view(),name='del-recibo_passagem'),
      path("pdf/<int:id>/recibo-passagem",view_r_p.reciboPassagemPdf,name='pdf-recibo_passagem'),
+
+
+     #procedimento
+     path("create/procedimento",view_proced.ProcedimentoCreateView.as_view() ,name='add-procedimento'),
+     path("list/procedimentos",view_proced.ProcedimentosListView.as_view() ,name='list-procedimento'),
+     path("update/<int:pk>/procedimento",view_proced.ProcedimentoUpdateView.as_view() ,name='edit-procedimento'),
+
+
+
 
 ]

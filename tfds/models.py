@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 from cidadao.models import Cidadao
 
@@ -24,19 +25,43 @@ class ReciboTFD(models.Model):
 
       for item in items:
          total+=item.valor_total
-
       return total
    
-class CodigoSIA(models.Model):
-
-   codigo=models.CharField(max_length=10, verbose_name='Código SIA',null=False,blank=False)
-   valor_unitario=models.DecimalField(verbose_name='Valor Unitário', null=False,blank=False,max_digits=6,decimal_places=2)
+class ProcedimentoSia(models.Model):
+   
    qtd_procedimento=models.PositiveBigIntegerField(verbose_name='Quantidade',null=False,blank=False)
-   valor_total=models.DecimalField(verbose_name='Total',null=False,blank=False,max_digits=8,decimal_places=2 )
-   recibo_tfd=models.ForeignKey(ReciboTFD,on_delete=models.CASCADE,related_name='recibo_codigo')
+   recibo_tfd=models.ForeignKey(ReciboTFD,on_delete=models.CASCADE,related_name='procedimento_recibo_tfd')
+   codigosia=models.ForeignKey("CodigoSIA",on_delete=models.CASCADE,related_name='procedimento_codigo')
+
 
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
+
+
+class CodigoSIA(models.Model):
+
+   codigo=models.CharField(max_length=10, verbose_name='Código',null=False,blank=False,unique=True)
+   nome_proced=models.TextField(verbose_name='Nome do Procedimento',null=False,blank=False)
+   valor_unitario=models.DecimalField(verbose_name='Valor Unitário', null=False,blank=False,max_digits=5,decimal_places=2)
+   valor_contrapartida=models.DecimalField(verbose_name='Contra Partida', null=True,blank=True,max_digits=5,decimal_places=2)
+   """    valor_total=models.DecimalField(verbose_name='Total',null=True,blank=False,max_digits=5,decimal_places=2 ) """
+   
+   created_at = models.DateTimeField(auto_now_add=True)
+   updated_at = models.DateTimeField(auto_now=True)
+
+
+
+   def soma(self):
+      
+      total=0
+      
+      if (self.valor_contrapartida):
+         total+=self.valor_contrapartida+self.valor_unitario
+         
+         
+         return total
+      return self.valor_unitario
+         
 
    def __str__(self):
       return str(self.codigo)

@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView
 
-from tfds.forms.form_tfd import CodigoSIASet, RecibcoTFDForm
+from tfds.forms.form_tfd import ProcedimentoSia, RecibcoTFDForm,ProcedimentoSet
 from tfds.models import CodigoSIA, ReciboTFD
 
 from django.http import HttpResponse
@@ -15,14 +15,14 @@ def reciboTFDCreate(request):
     if request.method == 'POST':
 
         form = RecibcoTFDForm(request.POST,instance=tfd,prefix='recibo' )
-        formset=CodigoSIASet(request.POST,instance=tfd,prefix='codigo')
+        formset=ProcedimentoSet(request.POST,instance=tfd,prefix='procedimento')
         if form.is_valid() and formset.is_valid():
             form.save()
             formset.save()
             return redirect('tfds:list-recibo_tfd')
 
     form = RecibcoTFDForm(request.POST or None,instance=tfd,prefix='recibo')
-    formset=CodigoSIASet(request.POST or None,instance=tfd,prefix='codigo')
+    formset=ProcedimentoSet(request.POST or None,instance=tfd,prefix='procedimento')
     
     return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset})
     
@@ -31,14 +31,14 @@ def reciboTFDUpdate(request,id):
 
     if request.method =='POST':
         form=RecibcoTFDForm(request.POST, instance=recibo_tfd,prefix='recibo')
-        formset=CodigoSIASet(request.POST, instance=recibo_tfd,prefix='codigo')
+        formset=ProcedimentoSet(request.POST, instance=recibo_tfd,prefix='procedimento')
         if form.is_valid() and formset.is_valid():
            form.save()
            formset.save()
            return redirect('tfds:list-recibo_tfd')
 
     form=RecibcoTFDForm(request.POST or None, instance=recibo_tfd,prefix='recibo')
-    formset=CodigoSIASet(request.POST or None, instance=recibo_tfd,prefix='codigo')
+    formset=ProcedimentoSet(request.POST or None, instance=recibo_tfd,prefix='procedimento')
     return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset})
 
 class ReciboTFDListView(ListView):

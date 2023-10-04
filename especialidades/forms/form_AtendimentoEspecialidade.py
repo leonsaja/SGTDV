@@ -7,7 +7,7 @@ class AtendEspecialidadeForm(forms.ModelForm):
     
     class Meta:
         model=AtendimentoEspecialidade
-        fields=('data',)
+        fields='__all__'
        
         
         

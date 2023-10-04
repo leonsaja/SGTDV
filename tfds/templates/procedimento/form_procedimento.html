@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+  {% include 'procedimento/abas_procedimento.html' %}
+
+  <div class="row  justify-content-center ">
+    <div class="col-md-6">
+      
+    <br>
+      <h4 class="text-primary"><strong>Cadastro de Procedimento</strong> </h4>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 mt-2 needs-validation" novalidate>
+        {% csrf_token %}
+      
+        <div class="row justify-content-center ">
+            <div class="col-md-6">
+                {{ form|crispy }}
+            </div>
+
+        </div>
+        <br>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 mb-2">
+                <div class="text-right">
+                    <a href="{% url 'estabelecimentos:list-estabelecimento'%}"
+                        class="btn btn-outline-danger mr-2">Cancelar</a>
+                    <button class="btn btn-primary ">Salvar</button>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+</div>
+
+{% endblock content%}
+
+{%block scripts %}
+<script src='/static/utils/jquery.formset.js'></script>
+<!-- 
+<script>
+$(document).ready(function () {
+
+var valor_contrapartida = document.getElementById("id_valor_contrapartida")
+
+if (valor_contrapartida.value ==='')
+{
+  valor_contrapartida.value='0,00'
+}
+
+
+
+
+
+// Configuração para campos de Real.
+
+
+
+});
+</script>
+ -->
+
+{% endblock scripts %}

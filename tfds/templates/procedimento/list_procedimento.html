@@ -1,0 +1,141 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container-fluid">
+   {% include 'procedimento/abas_procedimento.html' %}
+
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="text-right pt-4">
+        <a href="{% url 'tfds:add-procedimento' %}" class="btn btn-primary"><b>Cadastrar Procedimento</b>
+        </a>
+      </div>
+    </div>
+
+  </div>
+  <div class="row justify-content-center ">
+    <div class="col-md-8 ">
+      
+      <h4 class=" text-primary"><strong>Procedimentos</strong> </h4>
+    </div>
+  </div>
+  <br>
+  <div class="row ">
+    <div class="container">
+      <div class="row  justify-content-center">
+
+        <form class="col-md-8  needs-validation" method="GET"
+          id="validar-form">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="alert alert-danger d-none" role="alert">
+                Insira algum filtro para realizar a busca.
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label for="search_codigo"><strong> Busque pelo Código</strong></label>
+              <input type="search" name="search_codigo" class="form-control" value="{{request.GET.search_codigo}}"
+                id="search_codigo">
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 pt-2">
+              <br>
+              <div class="float-right">
+                <a class="btn mr-2" href="{% url 'tfds:list-procedimento'%}" style="background-color:#DADADA;"> Limpar
+                  Filtros</a>
+                <button type="submit" class=" btn btn-primary ">Buscar</button>
+
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-12  mt-4">
+      {% if procedimentos %}
+      <div class="card">
+        <div class="card-header">
+          <h3 class="logo">Procedimentos</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="table-responsive-md">
+          <div class="card-body">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th style="width: 10px">#</th>
+                  <th>Código</th>
+                  <th>Descrição</th>
+                  <th>Valor Unitario</th>
+                  <th>Contra Partida</th>
+                  <th>Total (R$)</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%for p in procedimentos %}
+                <tr>
+                  <td>{{p.id}}</td>
+                  <td>{{p.codigo}}</td>
+                  <td>{{p.nome_proced}}</td>
+                  <td>{{p.valor_unitario}}</td>
+                  {% if p.valor_contrapartida%}
+                  <td>{{p.valor_contrapartida}}</td>
+                  {%else%}
+                  <td>-</td>
+                  {%endif%}
+                  
+                  <td>{{p.soma}}</td>
+                  <td>
+                    <a href="% url 'tfds:detail-recibo_tfd' recibo.id%}" class="pr-2"><i
+                        class="fas fa-solid fa-eye"></i></a>
+                    <a href="{% url 'tfds:edit-procedimento' p.id%}" class="pr-1 text-warning"><i
+                        class="fas fa-edit"></i></a>
+                    <a type="button" data-bs-toggle="modal" data-bs-target="#modal--{{recibo.id}}"
+                      class="pr-2 text-danger">
+                      <i class="fas fa-solid fa-trash-can"></i>
+                    </a>
+                  
+                  </td>
+                </tr>
+                {%endfor%}
+              </tbody>
+            </table>
+            <br />
+            {% include 'paginacao_tfd.html'%}
+          </div>
+        </div>
+      </div>
+    </div>
+    {%else%}
+    <h5 class="text-center pt-4">Nenhum Recibo de Passagem foi encontrado.
+    </h5>
+    {%endif%}
+  </div>
+</div>
+</div>
+
+<!-- Button trigger modal -->
+{% endblock content %} {% block scripts %}
+<script>
+  $('#validar-form').submit(function () {
+    let codigo = $('#search_codigo')
+    let erro = $('.alert')
+
+    if (codigo.val() == '') {
+      erro.removeClass('d-none')
+      return false
+    }
+
+    return true
+  })
+</script>
+{% endblock scripts %}
