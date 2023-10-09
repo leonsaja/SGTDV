@@ -1,6 +1,6 @@
 from django.urls import path
 
-from transportes.views import carro_view, viagem_view
+from transportes.views import carro_view, registro_transporte_view, viagem_view
 
 app_name='transportes'
 
@@ -22,5 +22,11 @@ urlpatterns = [
     path('list/carros/',carro_view.ListCarroView.as_view(),name='list-carro'),
     path('detail/<int:pk>/carros/',carro_view.DetailCarraView.as_view(),name='detail-carro'),
     path('delete/<int:id>/carro/',carro_view.carroDelete,name='del-carro'),
+    
+    
+    #Registro de Transporte
+    
+    path('create/registro-transporte/',registro_transporte_view.RegistroTransporteCreateView.as_view(),name='add-regis-transporte'),
+
 
 ]

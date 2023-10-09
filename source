@@ -7,7 +7,10 @@ python3 manage.py dumpdata --indent 2 --exclude auth.permission --exclude conten
 #Comando inserir as informações salva no Backup
 python3 manage.py loaddata 'nomeArquivo'.json
 
+# backup de um modelo 
 
+python3 manage.py dumpdata --indent 2 tfds auth.permission --exclu
+de contenttypes > procedimento.json
 
 
 elif data_inicio and data_final:
