@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+    {% include 'viagem/abas_viagem.html' %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-right">
+                <a href="{% url 'transportes:add-regis-transporte' %}" class="btn btn-primary"><b>Cadastrar Transporte</b>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center ">
+        <div class="col-md-8">
+            <h4 class=" text-primary"><strong>Registro de Transportes</strong> </h4>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="container">
+            <div class="row  justify-content-center">
+
+                <form class="col-md-8  needs-validation" action="% url 'transportes:search-viagem' %}" method="GET"
+                    id="validar-form">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger d-none" role="alert">
+                                Insira algum filtro para realizar a busca.
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="destino_viagem"><strong>Destino da Viagem</strong></label>
+                            <input type="search" name="destino_viagem" class="form-control"
+                                value="{{request.GET.destino_viagem}}" id="destino_viagem">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 pt-2">
+                            <label for="data">Data da Viagem</label>
+                            <input type="date" name="data" class="form-control" id="data" value="{{request.GET.data}}">
+
+                        </div>
+                        <div class="col-md-4 pt-2">
+
+                            <label for="placa_carro">Placa do Carro </label>
+                            <input type="search" name="placa_carro" class="form-control" id="placa_carro"
+                                value="{{request.GET.placa_carro}}">
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 pt-2">
+                            <br>
+                            <div class="float-right">
+                                <a class="btn mr-2" href="{% url 'transportes:list-viagem'%}"
+                                    style="background-color:#DADADA;"> Limpar
+                                    Filtros</a>
+                                <button type="submit" class=" btn btn-primary ">Buscar</button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 mt-4">
+            {% if transportes %}
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="logo"><strong>Viagens</strong></h3>
+
+                </div>
+                <!-- /.card-header -->
+                <div class="table-responsive-md">
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Paciente</th>
+                                    <th>Data de Atendimento</th>
+                                    <th>status</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for transporte in transportes %}
+                                <tr>
+                                    <td>{{transporte.paciente.nome_completo}}</td>
+                                    <td>{{transporte.dt_atendimento|date:"d/m/Y"|default:'---'}}</td>
+                                    <td>{{transporte.get_status_display }}</td>
+                                    
+                               
+                                    <td>
+
+                                        <a href="% url 'transportes:detail-viagem' viagem.id%}" class="pr-1"><i
+                                                class="fas fa-solid fa-eye"></i></a>
+
+                                        <a href="% url 'transportes:edit-viagem' viagem.id%}"
+                                            class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
+
+                                        <a href="#modal--{{viagem.id}}" data-bs-toggle="modal"
+                                            data-bs-target="#modal--{{viagem.id}}" class="pr-2 text-danger">
+
+                                            <i class="fas fa-solid fa-trash-can"></i>
+                                        </a>
+                                        <a href="% url 'transportes:pdf-viagem' viagem.id %}"  target="_blank">
+                                            <i class='fas fa-print'></i>
+                                          </a>
+                                    </td>
+                                </tr>
+                                % include 'viagem/modal_delete_viagem.html'%}
+
+                                {%endfor%}
+
+                            </tbody>
+                        </table>
+                        <br>
+                        % include 'viagem/paginacao_viagem.html'%}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <h5 class="text-center pt-4">Nenhuma Viagem foi encontrada.
+            </h5>
+            {%endif %}
+        </div>
+    </div>
+
+
+</div>
+{% endblock content %} {% block scripts %}
+<script>
+    $('#validar-form').submit(function () {
+        let destino_viagem = $('#destino_viagem')
+        let data = $('#data')
+        let placa_carro = $('#placa_carro')
+        let erro = $('.alert')
+
+        if (destino_viagem.val() == '' && data.val() == '' && placa_carro.val() == '') {
+            erro.removeClass('d-none')
+            return false
+        }
+
+        return true
+    })
+</script>
+{% endblock scripts %}

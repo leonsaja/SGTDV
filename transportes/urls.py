@@ -27,6 +27,9 @@ urlpatterns = [
     #Registro de Transporte
     
     path('create/registro-transporte/',registro_transporte_view.RegistroTransporteCreateView.as_view(),name='add-regis-transporte'),
+    path('update/<int:pk>/registro-transporte/',registro_transporte_view.RegistroTransporteUpdateView.as_view(),name='edit-regis-transporte'),
+    path('list/registro-transportes/',registro_transporte_view.RegistroTransporteListView.as_view(),name='list-regis-transporte'),
+
 
 
 ]

@@ -81,14 +81,16 @@ class RegistroTransporte(models.Model):
    paciente=models.ForeignKey(Cidadao,null=False,blank=False,verbose_name='Paciente',on_delete=models.PROTECT)
    status=models.CharField(verbose_name='Transporte Atendido',max_length=1, choices=STATUS_CHOICES)
    dt_atendimento=models.DateField(verbose_name='Data de Atendimento')
-   placa=models.ForeignKey(Carro, null=False, blank=False, verbose_name='Carro', related_name='carro_registro_transporte', on_delete=models.PROTECT)
+   carro=models.ForeignKey(Carro, null=False, blank=False, verbose_name='Carro', related_name='carro_registro_transporte', on_delete=models.PROTECT)
    tipo_atend=models.CharField(verbose_name='Tipo Atendimento',max_length=1, choices=TIPO_ATENDIMENTO, null=False, blank=False)
    acompanhante=models.CharField(verbose_name='Tem Acompanhante',null=False,blank=False,max_length=1,choices=ACOMPANHANTE)
    atend_zona_rural=models.CharField(verbose_name='Atend. Zona Rural',max_length=1,choices=ATEND_ZONA_RURAL)
    origem=models.CharField(verbose_name='Origem',null=False, blank=False, max_length=200, default='SANTO ANTÔNIO DO JACINTO-MG')
+   destino=models.CharField(verbose_name='Destino',null=False, blank=False, max_length=200,default='')
+
    dist_percorrida=models.PositiveBigIntegerField(verbose_name='Distância Percorrida', null=False, blank=False)
-   Quant_proced_paciente=models.PositiveBigIntegerField(verbose_name='Quantidade Procedimento 08.03.01.012-5',null=False,blank=False)
-   Quant_proced_acompanhante=models.PositiveBigIntegerField(verbose_name='Quantidade Procedimento 08.03.01.010-9',null=True,blank=True)
+   quant_proced_paciente=models.PositiveBigIntegerField(verbose_name='Quant. Procedimento 08.03.01.012-5',null=False,blank=False,help_text='Paciente')
+   quant_proced_acompanhante=models.PositiveBigIntegerField(verbose_name='Quant. Procedimento 08.03.01.010-9',null=True,blank=True,help_text='Acompanhante')
    
    
    
