@@ -1,0 +1,92 @@
+{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+
+<div class="container-fluid">
+    {% include 'registro_transporte/abas_registro_transporte.html' %}
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-right">
+                <a href=" {% url 'transportes:edit-regis-transporte' transporte.id %}" class="btn btn-primary"><b>Editar
+                        Informações</b> </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-md-6 ml-4 mt-4">
+            <h4 class=" text-primary"><strong>Detalhe do Registro de Transporte</strong></h4>
+        </div>
+    </div>
+
+    <div class="col-md-12 px-4">
+        <br>
+        <fieldset>
+            <legend class="text-primary"><strong>Dados Registro</strong></legend>
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="id_paciente" class="form-label">Nome Completo:</label>
+                    <h6 class="text-muted">{{transporte.paciente.nome_completo|upper}}</h6>
+                </div>
+                <div class="col-md-3">
+                    <label for="id_dt_atendimento" class="form-label">Data do Atendimento:</label>
+                    <h6 class="text-muted">{{transporte.dt_atendimento|date:"d/m/Y"|default:'---'}}</h6>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="id_rg" class="form-label">Atendimento Zona Rural:</label>
+                    <h6 id='atend_zona_rural' class="text-muted">{{transporte.get_atend_zona_rural_display|upper}}</h6>
+                </div>
+                <div class="col-md-3">
+                    <label for="id_tipo_atend" class="form-label">Tipo de Atendimento:</label>
+                    <h6 id='cpf' class="text-muted">{{transporte.get_tipo_atend_display}}</h6>
+                </div>
+                <div class="col-md-3">
+                    <label for="id_acompanhante" class="form-label">Acompanhante:</label>
+                    <h6 class="text-muted">{{transporte.get_acompanhante_display}}</h6>
+                </div>
+                <div class="col-md-3">
+                    <label for="id_status" class="form-label">Foi Atendido:</label>
+                    <h6 class="text-muted">{{transporte.get_status_display}}</h6>
+                </div>
+
+            </div>
+            <br />
+            <div class="row ">
+                <div class="col-md-3">
+                    <label for="id_carro" class="form-label">Carro:</label>
+                    <h6 class="text-muted">{{transporte.carro}}</h6>
+                </div>
+                <div class="col-md-4">
+                    <label for="id_origem" class="form-label">Origem:</label>
+                    <h6 class="text-muted">{{transporte.origem}}</h6>
+                </div>
+                <div class="col-md-4">
+                    <label for="id_destino" class="form-label">Destino:</label>
+                    <h6 class="text-muted">{{transporte.destino}}</h6>
+                </div>
+
+            </div>
+
+    </div>
+    <br>
+
+    </fieldset>
+
+    <br />
+</div>
+
+{% endblock %}
+
+{%block scripts %}
+<script>
+    $(document).ready(function () {
+
+    });
+</script>
+{%endblock scripts%}

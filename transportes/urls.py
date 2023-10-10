@@ -29,7 +29,8 @@ urlpatterns = [
     path('create/registro-transporte/',registro_transporte_view.RegistroTransporteCreateView.as_view(),name='add-regis-transporte'),
     path('update/<int:pk>/registro-transporte/',registro_transporte_view.RegistroTransporteUpdateView.as_view(),name='edit-regis-transporte'),
     path('list/registro-transportes/',registro_transporte_view.RegistroTransporteListView.as_view(),name='list-regis-transporte'),
-
+    path('detail/<int:pk>/registro-transporte/',registro_transporte_view.RegistroTransporteDetailView.as_view(),name='detail-regis-transporte'),
+    path('delete/<int:pk>/registro-transporte/',registro_transporte_view.RegistroTransporteDeleteView.as_view(),name='del-regis-transporte')
 
 
 ]

@@ -3,7 +3,12 @@
 {% block content %}
 
 <div class="container-fluid">
-    {% include 'viagem/abas_viagem.html' %}
+    {% include 'registro_transporte/abas_registro_transporte.html' %}
+    <div class="row">
+        <div class="col-md-12">
+            {% include 'includes/mensagens.html'%}
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-12">
@@ -108,23 +113,23 @@
                                
                                     <td>
 
-                                        <a href="% url 'transportes:detail-viagem' viagem.id%}" class="pr-1"><i
+                                        <a href="{% url 'transportes:detail-regis-transporte' transporte.id%}" class="pr-1"><i
                                                 class="fas fa-solid fa-eye"></i></a>
 
-                                        <a href="% url 'transportes:edit-viagem' viagem.id%}"
+                                        <a href="{% url 'transportes:edit-regis-transporte' transporte.id%}"
                                             class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
 
-                                        <a href="#modal--{{viagem.id}}" data-bs-toggle="modal"
-                                            data-bs-target="#modal--{{viagem.id}}" class="pr-2 text-danger">
+                                        <a href="#modal--{{transporte.id}}" data-bs-toggle="modal"
+                                            data-bs-target="#modal--{{transporte.id}}" class="pr-2 text-danger">
 
                                             <i class="fas fa-solid fa-trash-can"></i>
                                         </a>
-                                        <a href="% url 'transportes:pdf-viagem' viagem.id %}"  target="_blank">
+                                        <a href="% url 'transportes:pdf-viagem' transporte.id %}"  target="_blank">
                                             <i class='fas fa-print'></i>
                                           </a>
                                     </td>
                                 </tr>
-                                % include 'viagem/modal_delete_viagem.html'%}
+                                {% include 'registro_transporte/modal_delete_registro_transporte.html'%}
 
                                 {%endfor%}
 

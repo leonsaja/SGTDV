@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container-fluid">
-  % include 'diaria/abas_diaria.html' %}
+  {% include 'registro_transporte/abas_registro_transporte.html' %}
 
   <div class="col-12 m-2 pl-3">
     <h4 class=" text-primary"><b>Registro de Transporte</b> </h4>
@@ -37,8 +37,8 @@
       <br>
       <div class="row">
           <div class="col-md-4">{{form.dist_percorrida|as_crispy_field }}</div>
-          <div class="col-md-3">{{form.quant_proced_paciente|as_crispy_field }}</div>
-          <div class="col-md-3">{{form.quant_proced_acompanhante|as_crispy_field }}</div>
+          <div class="col-md-4">{{form.quant_proced_paciente|as_crispy_field }}</div>
+          <div class="col-md-4">{{form.quant_proced_acompanhante|as_crispy_field }}</div>
       </div>
      
     </fieldset>

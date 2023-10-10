@@ -89,8 +89,8 @@ class RegistroTransporte(models.Model):
    destino=models.CharField(verbose_name='Destino',null=False, blank=False, max_length=200,default='')
 
    dist_percorrida=models.PositiveBigIntegerField(verbose_name='Distância Percorrida', null=False, blank=False)
-   quant_proced_paciente=models.PositiveBigIntegerField(verbose_name='Quant. Procedimento 08.03.01.012-5',null=False,blank=False,help_text='Paciente')
-   quant_proced_acompanhante=models.PositiveBigIntegerField(verbose_name='Quant. Procedimento 08.03.01.010-9',null=True,blank=True,help_text='Acompanhante')
+   quant_proced_paciente=models.PositiveBigIntegerField(verbose_name='Qta. Procedimento 08.03.01.012-5',null=False,blank=False,help_text='Paciente')
+   quant_proced_acompanhante=models.PositiveBigIntegerField(verbose_name='Qta. Procedimento 08.03.01.010-9',null=True,blank=True,help_text='Acompanhante')
    
    
    
