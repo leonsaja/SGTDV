@@ -26,6 +26,7 @@ class RegistroTransporteListView(ListView):
     model=RegistroTransporte
     template_name='registro_transporte/list_registro_transporte.html'
     context_object_name='transportes'
+    paginate_by=1
     
 class RegistroTransporteDetailView(DetailView):
     model=RegistroTransporte
@@ -40,3 +41,5 @@ class RegistroTransporteDeleteView(SuccessMessageMixin, DeleteView):
         
     def get(self, request,*args, **kwargs):
          return self.post(request, *args, **kwargs)
+
+
