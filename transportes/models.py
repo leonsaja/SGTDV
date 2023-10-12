@@ -27,6 +27,9 @@ class Viagem(models.Model):
       return f'{self.destino_viagem}'
 
 
+
+      
+
 class PassageiroViagem(models.Model):
    
    paciente=models.CharField(verbose_name='Nome do Paciente', max_length=255,null=False, blank=False)
@@ -91,6 +94,9 @@ class RegistroTransporte(models.Model):
    dist_percorrida=models.PositiveBigIntegerField(verbose_name='Distância Percorrida', null=False, blank=False)
    quant_proced_paciente=models.PositiveBigIntegerField(verbose_name='Qta. Procedimento 08.03.01.012-5',null=False,blank=False,help_text='Paciente')
    quant_proced_acompanhante=models.PositiveBigIntegerField(verbose_name='Qta. Procedimento 08.03.01.010-9',null=True,blank=True,help_text='Acompanhante')
+   
+   created_at = models.DateTimeField(auto_now_add=True)
+   updated_at = models.DateTimeField(auto_now=True)
    
    
    

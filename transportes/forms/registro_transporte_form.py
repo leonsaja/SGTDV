@@ -4,7 +4,7 @@ from transportes.models import RegistroTransporte
 
 class RegistroTransporteForm(forms.ModelForm):
     dt_atendimento = forms.DateField(
-        label='Data',
+        label='Data de Atendimento',
         widget=forms.DateInput(
             format='%Y-%m-%d',
             attrs={

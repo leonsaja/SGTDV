@@ -30,7 +30,7 @@
         <div class="container">
             <div class="row  justify-content-center">
 
-                <form class="col-md-8  needs-validation" action="% url 'transportes:search-viagem' %}" method="GET"
+                <form class="col-md-8  needs-validation" action="{% url 'transportes:search-regis-transporte' %}" method="GET"
                     id="validar-form">
 
                     <div class="row">
@@ -44,14 +44,14 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label for="nome_paciente"><strong>Digite nome do Paciente</strong></label>
-                            <input type="search" name="destino_viagem" class="form-control"
-                                value="{{request.GET.destino_viagem}}" id="nome_paciente">
+                            <input type="search" name="nome_paciente" class="form-control"
+                                value="{{request.GET.nome_paciente}}" id="nome_paciente">
 
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4 pt-2">
-                            <label for="data">Data da Viagem</label>
+                            <label for="data">Data do Atendimento</label>
                             <input type="date" name="data" class="form-control" id="data" value="{{request.GET.data}}">
 
                         </div>
@@ -68,7 +68,7 @@
                         <div class="col-md-12 pt-2">
                             <br>
                             <div class="float-right">
-                                <a class="btn mr-2" href="{% url 'transportes:list-viagem'%}"
+                                <a class="btn mr-2" href="{% url 'transportes:list-regis-transporte'%}"
                                     style="background-color:#DADADA;"> Limpar
                                     Filtros</a>
                                 <button type="submit" class=" btn btn-primary ">Buscar</button>
@@ -101,6 +101,7 @@
                                     <th>Paciente</th>
                                     <th>Data de Atendimento</th>
                                     <th>status</th>
+                                    <th>Placa do Carro</th>
                                     <th>Ação</th>
                                 </tr>
                             </thead>
@@ -110,6 +111,7 @@
                                     <td>{{transporte.paciente.nome_completo}}</td>
                                     <td>{{transporte.dt_atendimento|date:"d/m/Y"|default:'---'}}</td>
                                     <td>{{transporte.get_status_display }}</td>
+                                    <td>{{transporte.carro.placa}}</td>
 
 
                                     <td>
@@ -150,13 +152,13 @@
 </div>
 {% endblock content %} {% block scripts %}
 <script>
-    $('#validar-form').submit(function () {
-        let destino_viagem = $('#destino_viagem')
+    $('#validar-form2').submit(function () {
+        let nome_paciente = $('#nome_paciente')
         let data = $('#data')
         let placa_carro = $('#placa_carro')
         let erro = $('.alert')
 
-        if (destino_viagem.val() == '' && data.val() == '' && placa_carro.val() == '') {
+        if (nome_paciente.val() == '' && data.val() == '' && placa_carro.val() == '') {
             erro.removeClass('d-none')
             return false
         }

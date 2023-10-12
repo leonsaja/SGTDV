@@ -1,14 +1,15 @@
-from typing import Any, Dict
-from django.template.loader import render_to_string
 
+from django.template.loader import render_to_string
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView
 from weasyprint import HTML
-
 from ..forms.viagem_form import PassageiroViagemSet, ViagemForm
-from ..models import PassageiroViagem, Viagem
+from ..models import Viagem
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+from django.contrib.messages import constants
 
 
 def viagemCreate(request):
@@ -20,6 +21,7 @@ def viagemCreate(request):
         if form.is_valid() and formset.is_valid():
             form.save()
             formset.save()
+            messages.add_message(request,constants.SUCCESS,'Viagem cadastrada com sucesso')
             return redirect('transportes:list-viagem')
 
     form = ViagemForm(request.POST or None,instance=viagem,prefix='viagem')
@@ -42,6 +44,7 @@ def viagemUpdate(request,id):
         if form.is_valid() and formset.is_valid():
             form.save()
             formset.save()
+            messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
             return redirect('transportes:list-viagem')
 
     form = ViagemForm(request.POST or None,instance=viagem,prefix='viagem')
@@ -73,40 +76,39 @@ class ViagemSearchListView(ListView):
         placa_carro=self.request.GET.get('placa_carro',None)
         data=self.request.GET.get('data',None)
 
-        print('data',placa_carro)
         if destino_viagem and data and placa_carro:
             queryset=qs.select_related('motorista','carro').filter(destino_viagem__icontains=destino_viagem).\
                 filter(data_viagem__iexact=data).\
                     filter(carro__placa__iexact=placa_carro)
-            return queryset
-        
+                    
         elif destino_viagem and placa_carro:
             queryset=qs.select_related('motorista','carro').\
                 filter(destino_viagem__icontains=destino_viagem).\
-                filter(carro__placa__iexact=placa_carro)
-            return queryset
+                filter(carro__placa__iexact=placa_carro).order_by('-data_viagem')
         
         elif data and placa_carro:
             
              queryset=qs.select_related('motorista','carro').filter(data_viagem__iexact=data)\
-             .filter(carro__placa__iexact=placa_carro)
-             return queryset
+             .filter(carro__placa__iexact=placa_carro).order_by('-data_viagem')
         
         elif destino_viagem:
              queryset=qs.select_related('motorista','carro').\
-                filter(destino_viagem__icontains=destino_viagem)
-             return queryset
-        
+                filter(destino_viagem__icontains=destino_viagem).order_by('-data_viagem')
+                
         elif data:
-            queryset=qs.select_related('motorista','carro').filter(data_viagem__iexact=data)
-            return queryset
+            queryset=qs.select_related('motorista','carro').filter(data_viagem__iexact=data).order_by('-data_viagem')
+          
         
         elif placa_carro:
             queryset=qs.select_related('motorista','carro').\
-            filter(carro__placa__iexact=placa_carro)
-            return queryset
-
-class DetailViagemView(DetailView):
+            filter(carro__placa__iexact=placa_carro).order_by('-data_viagem')
+       
+        else:
+            queryset=qs.select_related('motorista','carro').order_by('-data_viagem')
+            
+        return queryset
+    
+class DetailViagemView(SuccessMessageMixin,DetailView):
     model=Viagem
     template_name='viagem/detail_viagem.html'
     
