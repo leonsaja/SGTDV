@@ -72,11 +72,12 @@ class CidadaoListView(ListView):
     model=Cidadao
     template_name='cidadao/list_cidadao.html'
     context_object_name='pacientes'
+    paginate_by=1
    
 
     def get_queryset(self, *args, **kwargs):
         qs = super(CidadaoListView,self).get_queryset(*args, **kwargs)
-        qs=qs.select_related('endereco','microarea').order_by('nome_completo')[:5]
+        qs=qs.select_related('endereco','microarea').order_by('nome_completo')[:4]
         return qs
 
 class CidadaoSearchListView(ListView):

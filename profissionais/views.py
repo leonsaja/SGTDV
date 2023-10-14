@@ -74,10 +74,11 @@ class ProfissionalListView(ListView):
     model=Profissional
     template_name='profissional/list_profissionais.html'
     context_object_name='profissionais'
+    paginate_by=10
   
     def get_queryset(self, *args, **kwargs):
         qs = super(ProfissionalListView,self).get_queryset(*args, **kwargs)
-        qs = qs.select_related('endereco','estabelecimento','microarea').order_by('-id')[:5]
+        qs = qs.select_related('endereco','estabelecimento','microarea').order_by('-id')
         return qs
 
 class ProfissionalSearchListView(ListView):
@@ -93,6 +94,7 @@ class ProfissionalSearchListView(ListView):
         
         search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
         search_dt_nascimento=self.request.GET.get('search_dt_nascimento',None)
+        
         
         if search_nome_cpf and search_dt_nascimento:
             queryset=qs.select_related('endereco','estabelecimento','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))\

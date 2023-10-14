@@ -14,6 +14,4 @@ urlpatterns = [
     path('detail/<int:pk>/profissional/', view_profissional.ProfissionalDetailView.as_view(), name='detail-profissional' ),
 
 
-    
-
 ]

@@ -67,16 +67,18 @@ class SearchDiaria(ListView):
         data=self.request.GET.get('data',None)
         
         if buscar and data:
-            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=buscar)| Q(profissional__cpf__icontains=buscar)).filter(data_diaria__iexact=data).order_by('-data_diaria')
+            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=buscar)| Q(profissional__cpf__icontains=buscar)).\
+                filter(data_diaria__iexact=data).order_by('-data_diaria')
             return queryset
         
         elif buscar:
-            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=buscar)| Q(profissional__cpf__icontains=buscar)).order_by('-data_diaria')
+            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=buscar)|\
+                Q(profissional__cpf__icontains=buscar)).\
+                order_by('-data_diaria')
             return queryset
 
         elif data:
             queryset=qs.select_related('profissional').filter(data_diaria__iexact=data)
-           
             return queryset 
     
         else:
