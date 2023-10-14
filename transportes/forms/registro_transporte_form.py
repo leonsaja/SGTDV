@@ -16,8 +16,26 @@ class RegistroTransporteForm(forms.ModelForm):
       ('1','EVENTUAL'),
       ('2','ROTINEIRO'),
    )
-    tipo_atend=forms.ChoiceField(label='Tipo de Atendimento', widget=forms.RadioSelect,choices=TIPO_ATENDIMENTO)
+    ACOMPANHANTE=(
+      ('1','SIM'),
+      ('2','NÃO'),
+   )
     
+    ATEND_ZONA_RURAL=(
+      ('1','SIM'),
+      ('2','NÃO'),
+   )
+    STATUS_CHOICES=(
+      ('1','SIM'),
+      ('2','NÃO,PACIENTE UTILIZOU RECURSOS PROPRIO'),
+      ('3','NÃO,PERDEU A CONSULTA'),
+      ('4','NÃO, SEM INFORMAÇÃO')
+   )
+    status=forms.ChoiceField(label='Transporte Atendido', widget=forms.RadioSelect,choices=STATUS_CHOICES)
+
+    atend_zona_rural=forms.ChoiceField(label='Atend. Zona Rural', widget=forms.RadioSelect,choices=ATEND_ZONA_RURAL)
+    acompanhante=forms.ChoiceField(label='Tem Acompanhante', widget=forms.RadioSelect,choices=ACOMPANHANTE)
+    tipo_atend=forms.ChoiceField(label='Tipo de Atendimento', widget=forms.RadioSelect,choices=TIPO_ATENDIMENTO)
     
     class Meta:
         model=RegistroTransporte

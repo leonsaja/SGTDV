@@ -23,28 +23,30 @@
       <div class="row mt-2">
         <div class="col-md-6">{{form.paciente|as_crispy_field }}</div>
         <div class="col-md-3">{{form.dt_atendimento|as_crispy_field }}</div>
-        <div class="col-md-3">{{form.atend_zona_rural|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.carro|as_crispy_field }}</div>
+      
        
       </div>
       <br>
       <div class="row">
-        <div class="col-md-5">{{form.status|as_crispy_field }}</div>
-        <div class="col-md-3">{{form.carro|as_crispy_field }}</div>
-        <div class="col-md-3">{{form.tipo_atend|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.status|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.atend_zona_rural|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.tipo_atend|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.acompanhante|as_crispy_field }}</div>
       </div>
       <br>
       <div class="row">
         <div class="col-md-4">{{form.origem|as_crispy_field }}</div>
         <div class="col-md-4">{{form.destino|as_crispy_field }}</div>
-        <div class="col-md-2">{{form.acompanhante|as_crispy_field }}</div>
+       
 
         
       </div>
       <br>
       <div class="row">
           <div class="col-md-4">{{form.dist_percorrida|as_crispy_field }}</div>
-          <div class="col-md-4">{{form.quant_proced_paciente|as_crispy_field }}</div>
-          <div class="col-md-4">{{form.quant_proced_acompanhante|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.quant_proced_paciente|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.quant_proced_acompanhante|as_crispy_field }}</div>
       </div>
      
     </fieldset>
