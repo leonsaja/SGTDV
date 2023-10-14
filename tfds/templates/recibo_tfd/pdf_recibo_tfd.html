@@ -54,10 +54,10 @@
         </div>
         <div class="col-md-2">
             <p class="paragrafo  tfd"> &nbsp; &nbsp; &nbsp; <b>CPF: </b><br>&nbsp; &nbsp;
-                &nbsp;&nbsp;{{recibo_tfd.paciente.formt_cpf|upper}}</p>
+                &nbsp;&nbsp;{{recibo_tfd.acompanhante.formt_cpf|upper}}</p>
         </div>
         <div class="col-md-2">
-            <p class="paragrafo tfd "><b>CNS: </b><br>{{recibo_tfd.paciente.cns|upper}}</p>
+            <p class="paragrafo tfd "><b>CNS: </b><br>{{recibo_tfd.acompanhante.cns|upper}}</p>
         </div>
 
     </div>
@@ -108,16 +108,17 @@
         </tr>
         </thead>
         <tbody>
-        {% for r in recibo_codigo %}
+        {% for p in procedimentos %}
         <tr>
 
             <td class="title_center ">{{ forloop.counter }} </td>
 
-            <td>{{r.codigo}}</td>
-            <td>{{r.valor_unitario}}</td>
-            <td>{{r.qtd_procedimento}}</td>
+            <td>{{p.codigosia.codigo}}</td>
+            <td>{{p.codigosia.subtotal}}</td>
+            <td>{{p.qtd_procedimento}}</td>
             
-            <td>{{r.valor_total}}</td>
+
+            <td>{{p.soma}}</td>
 
         </tr>
 
@@ -130,7 +131,7 @@
                 </b> </td>
 
                 <td style="text-align: end;"><b>
-                    <p>R$ {{ recibo_tfd.total_pag}}</p>
+                    <p>R$ {{recibo_tfd.total_pag}}</p>
                 </b> </td>
             </tr>
         </tfoot>
@@ -153,7 +154,7 @@
         <p class="paragrafo">
     
             <b>
-              Recebi o valor R$ {{recibo_tfd.total_pag}} da importância acima a título de TFD </b>
+              Recebi o valor R$ recibo_tfd.total_pag}} da importância acima a título de TFD </b>
           </p>
         <p class="paragrafo"><b>DATA:</b> </p>
         

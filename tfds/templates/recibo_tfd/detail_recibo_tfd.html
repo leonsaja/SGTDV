@@ -93,13 +93,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for r in recibo_codigo.all%}
+                                    {% for r in procedimentos %}
                                     <div class="table-responsive-md">
 
                                         <tr>
-                                            <td>{{r.codigo}}</td>
+                                            <td>{{r.codigosia.codigo}}</td>
 
-                                            <td class="text-center">{{r.valor_unitario}}</td>
+                                            <td class="text-center">{{r.codigosia.subtotal}}</td>
 
 
                                             <td class="text-center">
@@ -107,7 +107,7 @@
 
                                             </td>
                                             <td class="text-center">
-                                                {{r.valor_total}}
+                                                {{r.soma}}
 
                                             </td>
 
@@ -127,7 +127,7 @@
                                                 <h6>Total:</h6>
                                             </b> </td>
                                         <td class="text-center"><b>
-                                                <h6>R$ {{ recibo_tfd.total_pag}}</h6>
+                                                <h6>R$ {{recibo_tfd.total_pag}}</h6>
                                             </b> </td>
                                     </tr>
 

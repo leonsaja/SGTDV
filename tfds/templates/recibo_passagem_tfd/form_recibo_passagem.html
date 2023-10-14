@@ -94,24 +94,37 @@
 
 $(document).ready(function () {
 
-var checkbox_acompanhante = document.getElementById("ativar_campos");
-var campos=document.getElementById('campos') ;
+var checkbox_acompanhante = document.getElementById("ativar_campos")
+var campos=document.getElementById('campos') 
+var select2_id_acompanhante_container=document.getElementById('select2-id_acompanhante-container')
+var id_acompanhante=document.getElementById("id_acompanhante")
+var id_codigo_sia_acompanhante=getElementById('id_codigo_sia_acompanhante')
+var id_valor_acompanhante_sia = document.getElementById('id_valor_acompanhante_sia')
+var id_quant_passagem_acompanhante = document.getElementById('id_quant_passagem_acompanhante')
 
 checkbox_acompanhante.addEventListener('change', ativarCampos);
+
+
 if (checkbox_acompanhante.checked)
 {
-  campos.classList.remove('d-none') 
+  campos.classList.remove('d-none');
 
 }
 
+
+
 function ativarCampos() {
-  console.log('teste')
+
   if (checkbox_acompanhante.checked) {
         campos.classList.remove('d-none') 
-      }
-      else{
+        id_codigo_sia_acompanhante.value='0803010109'   
+  }
+  else{
         campos.classList.add('d-none')
-      }
+        id_codigo_sia_acompanhante.value=''
+       
+         
+  }
 }
 });
 

@@ -8,6 +8,13 @@
 <div class="container-fluid">
   {% include 'recibo_tfd/abas_recibo_tfd.html' %}
 
+  <div class="row">
+    <div class="col-md-12">
+        {% include 'includes/mensagens.html'%}
+    </div>
+</div>
+
+
   <div class="col-12 m-2 pl-3">
     <h4 class=" text-primary"><b>Tratamento Fora do Domicílio-TFD</b> </h4>
   </div>
@@ -19,19 +26,21 @@
       <hr>
       <br>
       <div class="row mt-2">
-        <div class="col-md-5">{{form.paciente|as_crispy_field }}
+        <div class="col-md-6">{{form.paciente|as_crispy_field }}
         </div>
-        <div class="col-md-5">{{form.acompanhante|as_crispy_field }}</div>
-        <div class="col-md-2">{{form.data|as_crispy_field }}
-
+        <div class="col-md-6">{{form.acompanhante|as_crispy_field }}</div>
         </div>
         <div class="row mt-2">
           <div class="col-md-4">{{form.municipio_origem|as_crispy_field }}
           </div>
-          <div class="col-md-3">{{form.municipio_destino|as_crispy_field }}</div>
-          <div class="col-md-2">{{form.grs|as_crispy_field }}</div>
-          <div class="col-md-3">{{form.especialidade|as_crispy_field }}</div>
+          <div class="col-md-4">{{form.municipio_destino|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.data|as_crispy_field }}
+          
 
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-4">{{form.grs|as_crispy_field }}</div>
+          <div class="col-md-4">{{form.especialidade|as_crispy_field }}</div>
         </div>
     </fieldset>
 
