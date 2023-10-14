@@ -5,6 +5,7 @@ from transportes.views import carro_view, registro_transporte_view, viagem_view
 app_name='transportes'
 
 urlpatterns = [
+    
     # Viagem
     path('create/viagem',viagem_view.viagemCreate,name='add-viagem'),
     path('update/<int:id>/viagem',viagem_view.viagemUpdate,name='edit-viagem'),

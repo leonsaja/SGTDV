@@ -1,42 +1,56 @@
-{% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% extends 'base.html' %} {% load crispy_forms_tags %}
+
 {% block content %}
-
-<div class="container-fluid  ">
-    {% include 'carro/abas_carro.html' %}
-
-    {% include 'includes/mensagens.html'%}
-    <br />
-    <div class="row  justify-content-center ">
-        <div class="col-md-6">
-            <h4 class="text-primary"><strong>Cadastro de Carro</strong> </h4>
-        </div>
-        <br> <br>   
-        <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 mt-2 needs-validation" novalidate>
-            {% csrf_token %}
-            <div class="row justify-content-center ">
-                <div class="col-md-6">
-                    {{ form|crispy }}
-                </div>
-
-            </div>
-            <br>
-
-            <div class="row justify-content-center">
-                <div class="col-md-6 mb-2">
-                    <div class="text-right">
-                        <a href="{% url 'transportes:list-carro'%}"
-                            class="btn btn-outline-danger mr-2">Cancelar</a>
-                        <button class="btn btn-primary ">Salvar</button>
-                    </div>
-                </div>
-
-            </div>
-
-        </form>
-
+<div class="container-fluid">
+  {% include 'carro/abas_carro.html' %}
+  <div class="row">
+    <div class="col-md-12">
+        {% include 'includes/mensagens.html'%}
     </div>
 </div>
+
+  <div class="col-12 m-2 pl-3">
+    <h4 class=" text-primary"><b>Registro de Transporte</b> </h4>
+  </div>
+
+  <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 px-4 mt-2 needs-validation" novalidate>
+    <br>
+    <fieldset>
+      {% csrf_token %}
+      <legend class="text-primary"> <b> Dados do Transporte </b></legend>
+      <hr>
+      <div class="row mt-2">
+        <div class="col-md-3">{{form.nome|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.placa|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.ano_fabricacao|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.fabricante|as_crispy_field }}</div>
+       
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-5">{{form.foto|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.tipo_transporte|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.forma_atend|as_crispy_field }}</div>
+       
+      </div>
+      <br>
+     
+     
+    </fieldset>
+    <br>
+   
+
+    <div class="row justify-content-center">
+      <div class="col-md-12 mb-5">
+        <div class="text-right">
+          <a href="{% url 'transportes:list-carro'%}" class="btn btn-outline-danger mr-2">Cancelar</a>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <br /><br /><br />
 </div>
+</div>
+
 
 {% endblock %}

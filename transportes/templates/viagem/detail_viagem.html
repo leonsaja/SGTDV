@@ -27,16 +27,16 @@
 
 
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <label for="id_viagem" class="form-label">Destino da Viagem:</label>
                 <h6 class="text-muted">{{viagem.destino_viagem|upper}}</h6>
 
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <label for="id_data" class="form-label">Data da Viagem:
                     <h6 class="text-muted">{{viagem.data_viagem|date:"d/m/Y"|default:'---'}}</h6>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <label for="id_horario_viagem" class="form-label">Horario da Viagem:
                     <h6 class="text-muted">{{viagem.horario_saida}}</h6>
 
@@ -45,27 +45,24 @@
         </div>
         <br>
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <label for="id_carro" class="form-label">Carro:</label>
                 <h6 class="text-muted">{{viagem.carro|upper}}</h6>
 
             </div>
-            <div class="col-md-2">
-                <label for="id_placa" class="form-label">Placa do Carro:</label>
-                <h6 class="text-muted">{{viagem.carro.placa|upper}}</h6>
-
-            </div>
-            <div class="col-md-2">
+    
+            <div class="col-md-3">
                 <label for="id_status" class="form-label">Status da Viagem:</label>
-                <h6 class="text-muted">{{viagem.status|upper}}</h6>
+                <h6 class="text-muted">{{viagem.get_status_display|upper}}</h6>
 
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label for="id_motorista" class="form-label">Motorista:</label>
                 <h6 class="text-muted">{{viagem.motorista.nome_completo|upper}}</h6>
 
             </div>
         </div>
+
         <br>
         <div class="row">
             <div class="col-md-12">
@@ -83,6 +80,7 @@
                                         <th>Acompanhante</th>
                                         <th>Local do Exame</th>
                                         <th>Local de Espera</th>
+                                        <th>Telefone</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -98,16 +96,33 @@
                                             {% else %}
                                                  <td >-</td>
                                             {%endif%}
+
+                                            {% if p.local_exame %}
                                             <td>
                                                 {{p.local_exame}}
 
                                             </td>
-                                            <td>{{p.local_espera}}</td>
-                                           
+                                            {% else %}
+                                                <td>-</td>
+                                            {%endif%}
 
+                                            {% if p.local_espera %}
+                                                <td>{{p.local_espera}}</td>
+                                           
+                                            {%else%}
+                                            <td>-</td>
+                                            {%endif%}
+
+                                            {% if p.telefone %}
+                                            <td>
+                                              {{  p.telefone}}
+                                            </td>
+                                            {%else%}
+                                            <td>-</td>
+                                            {%endif%}
 
                                         </tr>
-
+                                       
 
 
                                         {%endfor%}

@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.db import models
-
 from cidadao.models import Cidadao
 from profissionais.models import Profissional
 
@@ -26,10 +25,6 @@ class Viagem(models.Model):
    def __str__(self):
       return f'{self.destino_viagem}'
 
-
-
-      
-
 class PassageiroViagem(models.Model):
    
    paciente=models.CharField(verbose_name='Nome do Paciente', max_length=255,null=False, blank=False)
@@ -45,9 +40,25 @@ class PassageiroViagem(models.Model):
       return f'{self.paciente}'
    
 class Carro(models.Model):
+   
+   CHOICES_TIPO_TRANSPORTE=(
+      ('1','AMBULÂNCIA'),
+      ('2','TRANSPORTE SANITÁRIO'),
+   )
+   
+   CHOICES_FORMA_ATEND=(
+      ('1','SERVIÇO PRÓPRIO'),
+      ('2','SERVIÇO DO CIS'),
+   )
+   
+   
    nome=models.CharField(verbose_name='Nome do Carro', max_length=180, null=False, blank=False)
    placa=models.CharField(verbose_name='Placa do Carro', max_length=7,unique=True, help_text='Sem caracteres especiais(-)')
    foto=models.ImageField(verbose_name='Foto do carro', upload_to='media/carros', null=False, blank=False, default='')
+   tipo_transporte=models.CharField(verbose_name='Tipo de Transporte',max_length=1,choices=CHOICES_TIPO_TRANSPORTE, null=True,blank=False)
+   forma_atend=models.CharField(verbose_name='Forma de Atendimento',max_length=1,choices=CHOICES_FORMA_ATEND, null=True,blank=False)
+   ano_fabricacao=models.IntegerField(verbose_name='Ano de Fabricacao',null=True, blank=False)
+   fabricante=models.CharField(verbose_name='Fabricante', max_length=100,null=True,blank=False)
 
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
@@ -55,8 +66,7 @@ class Carro(models.Model):
 
    def __str__(self):
       return f'{self.nome}, Placa: {self.placa}'
-   
-   
+      
 class RegistroTransporte(models.Model):
 
 

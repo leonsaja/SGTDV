@@ -108,7 +108,7 @@
                                 {%for viagem in viagens %}
                                 <tr>
                                     <td>{{viagem.carro.nome}}</td>
-                                    <td>{{viagem.carro.placa}}</td>
+                                    <td>{{viagem.carro.placa|upper}}</td>
                                     <td>{{viagem.destino_viagem}}</td>
                                     <td>{{viagem.motorista.nome_completo}}</td>
                                     <td>{{viagem.data_viagem|date:"d/m/Y"|default:'---'}}</td>

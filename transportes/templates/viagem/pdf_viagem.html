@@ -20,7 +20,7 @@
 <div class="conteudo2">
 
   <div class="texto">
-   <p class="paragrafo">     <b>MOTORISTA: </b>{{viagem.motorista.nome_completo|upper}}</p>
+   <p class="paragrafo">   <b>MOTORISTA: </b>{{viagem.motorista.nome_completo|upper}}</p>
    <br>
    <p class="paragrafo"><b>DESTINO: </b>{{viagem.destino_viagem}}</p>
    <br>
@@ -42,6 +42,7 @@
   <tr>
     <th>N°</th>
     <th>PACIENTE</th>
+    <th>ACOMPANHANTE</th>
     <th>LOCAL DE EXAME</th>
     <th>LOCAL DE ESPERA </th>
     <th>TELEFONE</th>
@@ -49,25 +50,45 @@
 </thead>
   <tbody>
     {% for p in viagem.passageiros_viagens.all %}
-  <tr>
-    <td class="title_center ">{{ forloop.counter }} </td>
-    <td>{{p.paciente}}</td>
-    <td>{{p.local_exame}}</td>
-    <td>
-      {{p.local_espera}}
-    </td>
-    <td>
-      {{p.telefone}}
-    </td>
-   
-  </tr>
-  {% if p.acompanhante%}
-  <tr>
+  
+    <tr>
+      <td class="title_center ">{{ forloop.counter }} </td>
+      <td>{{p.paciente}}</td>
+
+      {% if p.acompanhante %}
+          <td >{{p.acompanhante}}</td>
+      {% else %}
+           <td >-</td>
+      {%endif%}
+      
+
+      {% if p.local_exame %}
+      <td>
+          {{p.local_exame}}
+      </td>
+      {% else %}
+          <td>-</td>
+      {%endif%}
 
 
-    <td colspan="5"><b>ACOMPANHANTE:  </b>{{p.acompanhante |upper}}</td>
+
+      {% if p.local_espera %}
+          <td>{{p.local_espera}}</td>
+     
+      {%else%}
+      <td>-</td>
+      {%endif%}
+
+      {% if p.telefone %}
+      <td>
+        {{  p.telefone}}
+      </td>
+      {%else%}
+      <td>-</td>
+      {%endif%}
+
   </tr>
-  {%endif%}
+  
   {%endfor%}
 </tbody>
 </table>

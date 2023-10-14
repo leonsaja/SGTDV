@@ -5,7 +5,11 @@
 <div class="container-fluid">
     {% include 'carro/abas_carro.html' %}
 
-    {% include 'includes/mensagens.html'%}
+    <div class="row">
+        <div class="col-md-12">
+            {% include 'includes/mensagens.html'%}
+        </div>
+    </div>
 
     <br /><br />
     <div class="row">
@@ -41,6 +45,8 @@
                                             <th>ID</th>
                                             <th>Carro</th>
                                             <th>Placa</th>
+                                            <th>Tipo de Transporte</th>
+                                            <th>Forma de Atendimento</th>
                                             <th>Ação</th>
                                         </tr>
                                     </thead>
@@ -48,12 +54,12 @@
                                         {%for carro in carros %}
                                         <tr>
                                             <td>{{carro.id}}</td>
-                                            <td>{{carro.nome}}</td>
-                                            <td>{{carro.placa}}</td>
+                                            <td>{{carro.nome|upper}}</td>
+                                            <td>{{carro.placa|upper}}</td>
+                                            <td>{{carro.get_tipo_transporte_display}}</td>
+                                            <td>{{carro.get_forma_atend_display}}</td>
                                            
-                                           
-        
-                                            
+                                        
                                             <td>
         
                                                 <a href="{% url 'transportes:detail-carro' carro.id%}"

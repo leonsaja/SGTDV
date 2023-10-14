@@ -44,7 +44,7 @@ class PassageiroViagemForm(forms.ModelForm):
         self.fields['acompanhante'].widget.attrs.update({'class':'form-control'})
         self.fields['local_exame'].widget.attrs.update({'class':'form-control'})
         self.fields['local_espera'].widget.attrs.update({'class':'form-control'})
-        self.fields['telefone'].widget.attrs.update({'class':'mask-telefone form-control'})
+        self.fields['telefone'].widget.attrs.update({'class':'form-control'})
 
 PassageiroViagemSet=inlineformset_factory(Viagem,PassageiroViagem,form=PassageiroViagemForm, extra=1)
 

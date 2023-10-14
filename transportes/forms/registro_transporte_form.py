@@ -12,6 +12,13 @@ class RegistroTransporteForm(forms.ModelForm):
             }),
         input_formats=('%Y-%m-%d',),
     )
+    TIPO_ATENDIMENTO=(
+      ('1','EVENTUAL'),
+      ('2','ROTINEIRO'),
+   )
+    tipo_atend=forms.ChoiceField(label='Tipo de Atendimento', widget=forms.RadioSelect,choices=TIPO_ATENDIMENTO)
+    
+    
     class Meta:
         model=RegistroTransporte
         fields='__all__'

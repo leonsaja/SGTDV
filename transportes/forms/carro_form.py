@@ -5,19 +5,23 @@ from ..models import Carro
 
 
 class CarroForm(forms.ModelForm):
-
+    CHOICES_TIPO_TRANSPORTE=(
+      ('1','AMBULÂNCIA'),
+      ('2','TRANSPORTE SANITÁRIO'),
+   )
+    CHOICES_FORMA_ATEND=(
+      ('1','SERVIÇO PRÓPRIO'),
+      ('2','SERVIÇO DO CIS'),
+   )
+    tipo_transporte=forms.ChoiceField(label='Tipo de Transporte', widget=forms.RadioSelect,choices=CHOICES_TIPO_TRANSPORTE)
+    forma_atend=forms.ChoiceField(label='Forma de Atendimento', widget=forms.RadioSelect,choices=CHOICES_FORMA_ATEND)
+    
     class Meta:
         model=Carro
         fields='__all__'
 
     
-    def clean_placa(self):
-        data = self.cleaned_data["placa"]
-        
-        if Carro.objects.filter(placa=data).exists():
-            raise ValidationError('Já existe um carro com essa placa.')
-        return data
-    
+  
 
 
 

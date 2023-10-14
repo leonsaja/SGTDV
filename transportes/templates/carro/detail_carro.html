@@ -29,24 +29,43 @@
 
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label for="id_carro" class="form-label">Carro</label>
                 <h6 class="text-muted">{{carro.nome|upper}}</h6>
 
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label for="id_placa" class="form-label">Placa do Carro:</label>
                 <h6 class="text-muted">{{carro.placa|upper}}</h6>
 
             </div>
+            <div class="col-md-3">
+                <label for="ano_fabricacao" class="form-label">Ano de Fabricação:</label>
+                <h6 id='ano_fabricacao' class="text-muted">{{carro.ano_fabricacao}}</h6>
+
+            </div>
+            <div class="col-md-3">
+                <label for="fabricante" class="form-label">Fabricação</label>
+                <h6 id='fabricante' class="text-muted">{{carro.fabricante}}</h6>
+
+            </div>
           
-            
         </div>
         <br>
         <div class="row">
             <div class="col-md-6">
                 <label for="id_carro" class="form-label">Foto:</label>
                 <h6 class="text-muted"> <img src="{{carro.foto.url}}" alt="foto do carro" width="300px" height="200px"> </h6>
+
+            </div>
+            <div class="col-md-3">
+                <label for="tipo_transporte" class="form-label">Tipo de Transporte:</label>
+                <h6 class="text-muted" id="tipo_transporte">{{carro.get_tipo_transporte_display}} </h6>
+
+            </div>
+            <div class="col-md-3">
+                <label for="forma_atend" class="form-label">Forma de Atendimento:</label>
+                <h6 class="text-muted" id="forma_atend">{{carro.get_forma_atend_display}} </h6>
 
             </div>
             

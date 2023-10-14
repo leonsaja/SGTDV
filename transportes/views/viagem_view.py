@@ -1,4 +1,6 @@
 
+from typing import Any
+from django.db.models.query import QuerySet
 from django.template.loader import render_to_string
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -36,7 +38,6 @@ def viagemUpdate(request,id):
     if not viagem:
         not Http404()
 
-
     if request.method == 'POST':
 
         form = ViagemForm(request.POST,instance=viagem,prefix='viagem' )
@@ -55,19 +56,20 @@ def viagemUpdate(request,id):
 class ViagemListView(ListView): 
     model=Viagem
     template_name='viagem/list_viagens.html'
+    context_object_name='viagens'
     paginate_by=10
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["viagens"] = Viagem.objects.order_by('-data_viagem')[:10]
-        return context
+    def get_queryset(self, *args, **kwargs):
+        qs =super(ViagemListView,self).get_queryset(*args, **kwargs)
+        qs=qs.select_related('carro','motorista').order_by('-data_viagem')
+        return qs
     
 class ViagemSearchListView(ListView):
 
     model=Viagem
     template_name='viagem/list_viagens.html'
     context_object_name='viagens'
-    paginate_by=1
+    paginate_by=10
 
     def get_queryset(self, *args, **kwargs):
         qs = super(ViagemSearchListView,self).get_queryset(*args, **kwargs)
@@ -119,10 +121,11 @@ class DetailViagemView(SuccessMessageMixin,DetailView):
         context['viagem']=viagem
         return context
 
-class ViagemDeleteView(DeleteView):
+class ViagemDeleteView(SuccessMessageMixin,DeleteView):
 
     model=Viagem
     success_url=reverse_lazy('transportes:list-viagem')
+    success_message='Registro excluido com sucesso'
         
     def get(self, request,*args, **kwargs):
          return self.post(request, *args, **kwargs)
