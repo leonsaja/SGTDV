@@ -36,17 +36,17 @@
       </div>
       <br>
       <div class="row">
-        <div class="col-md-4">{{form.origem|as_crispy_field }}</div>
-        <div class="col-md-4">{{form.destino|as_crispy_field }}</div>
+        <div class="col-md-5">{{form.origem|as_crispy_field }}</div>
+        <div class="col-md-5">{{form.destino|as_crispy_field }}</div>
        
 
         
       </div>
       <br>
       <div class="row">
-          <div class="col-md-4">{{form.dist_percorrida|as_crispy_field }}</div>
-          <div class="col-md-3">{{form.quant_proced_paciente|as_crispy_field }}</div>
-          <div class="col-md-3">{{form.quant_proced_acompanhante|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.dist_percorrida|as_crispy_field }}</div>
+          <div class="col-md-4">{{form.quant_proced_paciente|as_crispy_field }}</div>
+          <div class="col-md-4">{{form.quant_proced_acompanhante|as_crispy_field }}</div>
       </div>
      
     </fieldset>
@@ -76,36 +76,37 @@
 
   $(document).ready(function () {
 
-    var tipo = document.getElementById("id_tipo_diaria")
-    var valor = document.getElementById("id_valor")
-    var quantidade = document.getElementById("id_qta_diaria")
-    var subtotal = document.getElementById("id_total")
+    var percorrida = document.getElementById("id_dist_percorrida")
+    var proced_paciente = document.getElementById("id_quant_proced_paciente")
+    var proced_acompanhante = document.getElementById("id_quant_proced_acompanhante")
 
-    tipo.addEventListener('change', calcular)
-    quantidade.addEventListener('change', calcular)
-    valor.addEventListener('blur', calcular)
+    var acompanhante_sim = document.getElementById("id_acompanhante_0")
+    var acompanhante_nao = document.getElementById("id_acompanhante_1")
+
+    percorrida.addEventListener('change', calcular)
+    acompanhante_sim.addEventListener('change',calcular)
+    acompanhante_nao.addEventListener('change',calcular)
+   
 
     function calcular() {
 
-      if (tipo.value == 1 && valor.value && quantidade.value) {
-        var num1 = parseFloat(valor.value);
-        var num2 = quantidade.value;
-        subtotal.value = parseFloat(num2 * num1);
-      }
+      var qta=0
+   
+      if (percorrida.value && acompanhante_sim.checked) {
 
-      else if (tipo.value == 2 && valor.value && quantidade.value) {
-        var num1 = parseFloat(valor.value);
-        var num2 = quantidade.value;
-        var resul = num1 / 2
-        subtotal.value = parseFloat(num2 * resul);
+          qta=Math.trunc(percorrida.value/50)
+          proced_paciente.value=qta
+          proced_acompanhante.value=qta
+      }
+      else if ( percorrida.value && acompanhante_nao.checked)
+      {
+        qta=Math.trunc(percorrida.value/50)
+        proced_paciente.value=qta
+        proced_acompanhante.value=''
+ 
       }
 
     }
-    // Configuração para campos de Real.
-    $("#id_valor").maskMoney({ showSymbol: true, symbol: "R$", decimal: ",", thousands: "." });
-    $("#id_total").maskMoney({ showSymbol: true, symbol: "R$", decimal: ",", thousands: "." });
-
-
   });
   
 </script>

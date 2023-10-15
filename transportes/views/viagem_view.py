@@ -1,6 +1,5 @@
 
-from typing import Any
-from django.db.models.query import QuerySet
+
 from django.template.loader import render_to_string
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render

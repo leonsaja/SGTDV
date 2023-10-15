@@ -10,14 +10,14 @@
 </div>
 
   <div class="col-12 m-2 pl-3">
-    <h4 class=" text-primary"><b>Registro de Transporte</b> </h4>
+    <h4 class=" text-primary"><b>Registro do Carro</b> </h4>
   </div>
 
   <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 px-4 mt-2 needs-validation" novalidate>
     <br>
     <fieldset>
       {% csrf_token %}
-      <legend class="text-primary"> <b> Dados do Transporte </b></legend>
+      <legend class="text-primary"> <b> Dados do Carro </b></legend>
       <hr>
       <div class="row mt-2">
         <div class="col-md-3">{{form.nome|as_crispy_field }}</div>
