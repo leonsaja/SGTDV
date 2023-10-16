@@ -31,6 +31,9 @@ urlpatterns = [
      path("create/procedimento",view_proced.ProcedimentoCreateView.as_view() ,name='add-procedimento'),
      path("list/procedimentos",view_proced.ProcedimentosListView.as_view() ,name='list-procedimento'),
      path("update/<int:pk>/procedimento",view_proced.ProcedimentoUpdateView.as_view() ,name='edit-procedimento'),
+     path("detail/<int:pk>/procedimento",view_proced.ProcedimentosDetailView.as_view() ,name='detail-procedimento'),
+     path("del/<int:id>/procedimento",view_proced.procedimentosDelete,name='del-procedimento'),
+
 
 
 

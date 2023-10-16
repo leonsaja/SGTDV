@@ -32,7 +32,7 @@ class ProcedimentoSia(models.Model):
    
    qtd_procedimento=models.PositiveBigIntegerField(verbose_name='Quantidade',null=False,blank=False)
    recibo_tfd=models.ForeignKey(ReciboTFD,on_delete=models.CASCADE,related_name='procedimento_recibo_tfd')
-   codigosia=models.ForeignKey("CodigoSIA",on_delete=models.CASCADE,related_name='procedimento_codigo')
+   codigosia=models.ForeignKey("CodigoSIA",on_delete=models.PROTECT,related_name='procedimento_codigo')
 
 
 

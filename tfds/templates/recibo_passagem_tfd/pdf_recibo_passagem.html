@@ -52,7 +52,9 @@
 
         <div class="linha"></div>
          <!-- ACOMPANHANTE  -->
-        <div class="row">
+        {% if recibo_passagem.acompanhante.nome_completo and recibo_passagem.quant_passagem_acompanhante and recibo_passagem.codigo_sia_acompanhante and recibo_passagem.valor_acompanhante_sia%}
+
+         <div class="row">
             <div class="col-md-4">
                 {% if recibo_passagem.acompanhante.nome_completo%}
                 <p class="paragrafo tfd "><b>NOME DO ACOMPANHANTE:  &nbsp;&nbsp;&nbsp;&nbsp;</b>
@@ -132,7 +134,55 @@
             </div>
     
         </div>
+        {%else%}
+        <div class="row">
+            <div class="col-md-4">
+                <p class="paragrafo tfd ">
+                    
+                    <b>NOME DO ACOMPANHANTE: </b> <br>
+                    &nbsp; 
+                    -
+                    &nbsp;
+                    &nbsp;
+                    &nbsp; 
+                    &nbsp; 
+                   
+                </p>
+              
+            </div>
+            <div class="col-md-4">
+                <p class="paragrafo tfd">
+                    &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
+                    <b>RG: </b><br>  &nbsp; &nbsp; &nbsp;&nbsp;  -
+                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                   
+                </p>
+               
+            </div>
+            <div class="col-md-4">
+               
+                <p class="paragrafo tfd ">
+                    
+                    <b>CPF: </b> <br>
+                    &nbsp; -
+                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                   
+                </p>
+            
+            </div>
+            <div class="col-md-2">
+                <p class="paragrafo tfd ">
+                    
+                    <b>CNS: </b> <br>
+                    &nbsp; -
+                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                   
+                </p>
+                
+            </div>
     
+        </div>
+        {%endif%}
         <div class="linha"></div>
 
         <!-- MEIO DE TRANSPORTE -->

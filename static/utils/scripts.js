@@ -35,9 +35,6 @@ $(function(){
     $('.money2').mask("#.##0,00", {reverse: true});
     $('.money').mask('000,00',{reverse:true});
 
-    console.log('teste200203')
-   
-
 })
 setTimeout(function(){
     $('.show').remove();

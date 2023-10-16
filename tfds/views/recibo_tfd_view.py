@@ -104,6 +104,7 @@ class ReciboTFDDeleteView(SuccessMessageMixin, DeleteView):
 
     model=ReciboTFD
     success_url=reverse_lazy('tfds:list-recibo_tfd')
+    success_message='Registro excluido com sucesso '
 
     def get(self, request, *args, **kwargs):
         return self.post().get(request, *args, **kwargs)

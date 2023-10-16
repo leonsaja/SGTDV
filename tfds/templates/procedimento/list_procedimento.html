@@ -2,6 +2,12 @@
 <div class="container-fluid">
    {% include 'procedimento/abas_procedimento.html' %}
 
+   <div class="row">
+    <div class="col-md-12">
+        {% include 'includes/mensagens.html'%}
+    </div>
+  </div>
+
   <div class="row">
 
     <div class="col-md-12">
@@ -95,17 +101,19 @@
                   
                   <td>{{p.subtotal}}</td>
                   <td>
-                    <a href="% url 'tfds:detail-recibo_tfd' recibo.id%}" class="pr-2"><i
+                    <a href="{% url 'tfds:detail-procedimento' p.id%}" class="pr-2"><i
                         class="fas fa-solid fa-eye"></i></a>
                     <a href="{% url 'tfds:edit-procedimento' p.id%}" class="pr-1 text-warning"><i
                         class="fas fa-edit"></i></a>
-                    <a type="button" data-bs-toggle="modal" data-bs-target="#modal--{{recibo.id}}"
+                    <a type="button" data-bs-toggle="modal" data-bs-target="#modal--{{p.id}}"
                       class="pr-2 text-danger">
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>
                   
                   </td>
                 </tr>
+                {% include  'procedimento/modal_delete_procedimento.html' %}
+
                 {%endfor%}
               </tbody>
             </table>

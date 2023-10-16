@@ -29,7 +29,7 @@
         
         {% endif %}
         
-        {% if request.resolver_match.url_name == 'edit-recibo_tfd' %}
+        {% if request.resolver_match.url_name == 'edit-procedimento' %}
         <li class="nav-item pt-2">
             <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
 
@@ -41,7 +41,7 @@
         {% endif %}
         
         
-        {% if  request.resolver_match.url_name == 'detail-recibo_tfd' %} 
+        {% if  request.resolver_match.url_name == 'detail-procedimento' %} 
         
             <li class="nav-item pt-2">
                 <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
@@ -50,7 +50,7 @@
 
             <li class="nav-item">
                 
-                    <p class="nav-link text-muted">Detalhes do Recibo de TFD</p>
+                    <p class="nav-link text-muted">Detalhes do Procedimento</p>
             </li>
                     
         {%endif%}

@@ -6,82 +6,86 @@
 {% block content %}
 
 
-  {% include 'recibo_passagem_tfd/abas_recibo_passagem.html' %}
+{% include 'recibo_passagem_tfd/abas_recibo_passagem.html' %}
 
-  <div class="col-12 m-2 pl-3">
-    <h4 class=" text-primary"><b>Tratamento Fora do Domicílio-TFD</b> </h4>
-  </div>
-  <br>
-  <form method="POST"   enctype="multipart/form-data" autocomplete="off" class="col-12 px-4" id="validar-form" novalidate>
-    {% csrf_token %}
-    <fieldset>
-      <legend class="text-primary"><strong>Dados do Recibo de Passagem                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </strong> </legend>
-      <hr>
-      <br>
-        <div class="row mt-2">
-            <div class="col-md-7">{{form.paciente|as_crispy_field }}</div>
-              <div class="col-md-3">{{form.data_recibo|as_crispy_field }}</div>
+<div class="col-12 m-2 pl-3">
+  <h4 class=" text-primary"><b>Tratamento Fora do Domicílio-TFD</b> </h4>
+</div>
+<br>
+<form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 px-4 needs-validation"  id="validar-form" novalidate>
+  {% csrf_token %}
+  <fieldset>
+    <legend class="text-primary"><strong>Dados do Recibo de Passagem </strong> </legend>
+    <hr>
+    <br>
+    <div class="row mt-2">
+      <div class="col-md-7">{{form.paciente|as_crispy_field }}</div>
+      <div class="col-md-3">{{form.data_recibo|as_crispy_field }}</div>
 
-            </div>
-            <div class="row">
-            
-           
-              <div class="col-md-3">{{form.codigo_sia_paciente|as_crispy_field }}</div>
-              <div class="col-md-3">{{form.valor_paciente_sia|as_crispy_field}}</div>
-              <div class="col-md-2">{{form.quant_passagem_paciente|as_crispy_field }}</div>
-              {% if recibo_passagem.acompanhante and recibo_passagem.codigo_sia_acompanhante and recibo_passagem.valor_acompanhante_sia%}
-              
-              <div class="col-md-4">
-                <div class="form-check">
-                  <br>
-                
-                <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0" checked>
-                <label class="form-check-label" for="ativar_campos" >
-                 <b> Tem Acompanhante</b>
-                </label></div>
-              </div>
-            </div>
-            {%else%}
-            <div class="col-md-4">
-              <div class="form-check">
-                <br>
-              
-              <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0" >
-              <label class="form-check-label" for="ativar_campos" >
-               <b> Tem Acompanhante</b>
-              </label></div>
-            </div>
-          </div>
-            {%endif%}
-            <div class="d-none" id="campos">
-        <div class="row mt-2 ">
-        
-          <div class="col-md-5">{{form.acompanhante|as_crispy_field }}</div>
-          <div class="col-md-2">{{form.codigo_sia_acompanhante|as_crispy_field }}</div>
-          <div class="col-md-2">{{form.valor_acompanhante_sia|as_crispy_field }}</div>
-          <div class="col-md-3">{{form.quant_passagem_acompanhante|as_crispy_field }}</div>
-        </div>
-        </div>
-        <div class="row mt-2">
-          <div class="col-md-5">{{form.trecho|as_crispy_field }}</div>
-          <div class="col-md-3">{{form.meio_transporte|as_crispy_field }}</div>
-
-        </div>
-    </fieldset>
-
-    
-
-
+    </div>
     <div class="row">
-      <div class="col-md-12 mb-5">
-        <div class="text-right">
-          <a href="{% url 'tfds:list-recibo_passagem'%}" class="btn btn-outline-danger mr-2">Cancelar</a>
-          <button id="submit" class="btn btn-primary">Salvar</button>
+
+
+      <div class="col-md-3">{{form.codigo_sia_paciente|as_crispy_field }}</div>
+      <div class="col-md-3">{{form.valor_paciente_sia|as_crispy_field}}</div>
+      <div class="col-md-2">{{form.quant_passagem_paciente|as_crispy_field }}</div>
+
+
+      {% if recibo_passagem.acompanhante or recibo_passagem.codigo_sia_acompanhante or  recibo_passagem.valor_acompanhante_sia%}
+
+      <div class="col-md-4">
+        <div class="form-check">
+          <br>
+
+          <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0" checked>
+          <label class="form-check-label" for="ativar_campos">
+            <b> Tem Acompanhante</b>
+          </label>
         </div>
       </div>
     </div>
+    {%else%}
+    <div class="col-md-4">
+      <div class="form-check">
+        <br>
 
-  </form>
+        <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0">
+        <label class="form-check-label" for="ativar_campos">
+          <b> Tem Acompanhante</b>
+        </label>
+      </div>
+    </div>
+    </div>
+    {%endif%}
+    <div class="d-none" id="campos">
+      <div class="row mt-2 ">
+
+        <div class="col-md-5">{{form.acompanhante|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.codigo_sia_acompanhante|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.valor_acompanhante_sia|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.quant_passagem_acompanhante|as_crispy_field }}</div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-5">{{form.trecho|as_crispy_field }}</div>
+      <div class="col-md-3">{{form.meio_transporte|as_crispy_field }}</div>
+
+    </div>
+  </fieldset>
+
+
+
+
+  <div class="row">
+    <div class="col-md-12 mb-5">
+      <div class="text-right">
+        <a href="{% url 'tfds:list-recibo_passagem'%}" class="btn btn-outline-danger mr-2">Cancelar</a>
+        <button id="submit" class="btn btn-primary">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+</form>
 
 
 {% endblock content%}
@@ -92,13 +96,15 @@
 
 <script>
 
+    
+
 $(document).ready(function () {
 
 var checkbox_acompanhante = document.getElementById("ativar_campos")
 var campos=document.getElementById('campos') 
 var select2_id_acompanhante_container=document.getElementById('select2-id_acompanhante-container')
 var id_acompanhante=document.getElementById("id_acompanhante")
-var id_codigo_sia_acompanhante=getElementById('id_codigo_sia_acompanhante')
+var id_codigo_sia_acompanhante=document.getElementById('id_codigo_sia_acompanhante')
 var id_valor_acompanhante_sia = document.getElementById('id_valor_acompanhante_sia')
 var id_quant_passagem_acompanhante = document.getElementById('id_quant_passagem_acompanhante')
 
@@ -110,8 +116,6 @@ if (checkbox_acompanhante.checked)
   campos.classList.remove('d-none');
 
 }
-
-
 
 function ativarCampos() {
 
@@ -128,39 +132,7 @@ function ativarCampos() {
 }
 });
 
-
-{% comment %} 
-
- var validar_form=document.getElementById('#validar-form')
-
- validar_form.addEventListener('submit',function(){
-
-
-let checkbox_acompanhante = document.getElementById("ativar_campos");
-let acompanhante=document.getElementById('id_acompanhante');
-let codigo_acompanhante=document.getElementById('id_codigo_sia_acompanhante');
-let valor=document.getElementById('id_valor_acompanhante_sia');
-
-
-    if(checkbox_acompanhante.checked)
-    {
-            acompanhante.required=true
-
-            valor.required=true
-
-            acompanhante.addClass('is-invalid');
-            codigo_acompanhante.addClass('is-invalid');
-            codigo_acompanhante.addClass('is-invalid');
-            return false
-
-            
-    } 
-
-});
- {% endcomment %}
-
-
-
+ 
 
 
 </script>
