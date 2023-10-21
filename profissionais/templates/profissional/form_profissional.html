@@ -1,19 +1,16 @@
 {% extends 'base.html' %} {% load crispy_forms_tags %}
  {% block content %}
-
-<div class="container-fluid">
   {% include 'profissional/abas_profissional.html' %}
 
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+          {% include 'includes/mensagens.html'%}
+      </div>
+  </div>
   <div class="col-12 m-2 pl-3">
     <h4 class=" text-primary" ><b>Cadastro de Profissional</b>  </h4>
   </div>
-{% comment %}   
- 
-    
-     <div class="col-12 pl-3">
-      {% bootstrap_form_errors form %}
-     </div> {% endcomment %}
-   
     <br>
     <form
       method="POST"
@@ -43,26 +40,6 @@
           <div class="col-md-6">{{ form.estabelecimento|as_crispy_field }}</div>
 
         </div>
-
-        <legend class="text-primary"><b>Endereço</b> </legend>
-        <hr>
-        <div class="row">
-          <div class="col-md-4">
-            {{ form_endereco.logradouro|as_crispy_field }}
-          </div>
-          <div class="col-md-2">{{ form_endereco.numero|as_crispy_field }}</div>
-
-          <div class="col-md-3">{{ form_endereco.bairro|as_crispy_field }}</div>
-          <div class="col-md-3">
-            {{form_endereco.complemento|as_crispy_field }}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-3">{{form_endereco.cep   |as_crispy_field }}</div>
-          <div class="col-md-6">{{form_endereco.cidade|as_crispy_field }}</div>
-          <div class="col-md-3">{{form_endereco.estado|as_crispy_field }}</div>
-        </div>
-      </fieldset>
       <br />
       <div class="row">
         <div class="col-md-12 mb-5">

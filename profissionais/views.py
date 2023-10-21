@@ -1,62 +1,41 @@
-from django.contrib import messages
+
 from django.db.models import ProtectedError, Q
-from django.http import Http404
+from django.urls import reverse_lazy
+
+from django.contrib.messages import constants
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import DetailView, ListView
-
-from despesas.models import Diaria
-from profissionais.forms.form_profissional import (EnderecoForm,
-                                                   ProfissionalForm)
-
+from django.views.generic import DetailView, ListView,CreateView,UpdateView
+from django.contrib.messages.views import SuccessMessageMixin
 from .models import Profissional
+from despesas.models import Diaria
+from profissionais.forms.form_profissional import ProfissionalForm
 
-
-def profissionalCreate(request):
-    if request.method == 'POST':
-        form=ProfissionalForm(request.POST or None)
-        form_endereco=EnderecoForm(request.POST or None)
-       
-        if form.is_valid() and form_endereco.is_valid():
-            
-            forms=form.save(commit=False)
-            form_end=form_endereco.save()
-            forms.endereco=form_end
-            forms.save()
-            
-            return redirect('profissionais:list-profissional')
-        
-    form=ProfissionalForm(request.POST or None)
-    form_endereco=EnderecoForm(request.POST or None)
+class ProfissionalCreateView(SuccessMessageMixin,CreateView):
     
-    return render(request,'profissional/form_profissional.html',{'form':form,'form_endereco':form_endereco})
-
-def profissionalUpdate(request,id):
-
-    profissional=get_object_or_404(Profissional,id=id)
+    model=Profissional
+    form_class=ProfissionalForm
+    context_object_name='form'
+    template_name='profissional/form_profissional.html'
+    success_url=reverse_lazy('profissionais:list-profissional')
+    success_message='Cadastro realizado com sucesso'
     
-    if request.method == 'POST':
-        form=ProfissionalForm(request.POST or None, instance=profissional)
-        form_endereco=EnderecoForm(request.POST or None, instance=profissional.endereco)
-        
-        if form.is_valid() and form_endereco.is_valid():
-            print('profissionais is valido')
-            forms=form.save(commit=False)
-            form_end=form_endereco.save()
-            forms.endereco=form_end
-            forms.save()
-            return redirect('profissionais:list-profissional')
-        
-    form=ProfissionalForm(request.POST or None, instance=profissional)
-    form_endereco=EnderecoForm(request.POST or None, instance=profissional.endereco)
-    return render(request,'profissional/form_profissional.html',{'form':form,'form_endereco':form_endereco})
-
-def profissionalDelete(request, id):
+class ProfissionalUpdateView(SuccessMessageMixin,UpdateView):
+    model=Profissional
+    form_class=ProfissionalForm
+    context_object_name='form'
+    template_name='profissional/form_profissional.html'
+    success_url=reverse_lazy('profissionais:list-profissional')
+    success_message='Dados atualizados com sucesso'
+ 
+def profissional_delete(request, id):
     profissional=get_object_or_404(Profissional,id=id)
 
     try:
         profissional.delete()
+        messages.add_message(request,constants.SUCCESS,'Registro excluido com sucesso')
     except ProtectedError:
-        messages.error(request, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
+        messages.add_message(request, constants.ERROR, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
     finally:
         return redirect('profissionais:list-profissional')
 
@@ -64,22 +43,14 @@ class ProfissionalDetailView(DetailView):
 
     model=Profissional
     template_name='profissional/detail_profissional.html'
-    
-    def get_context_data(self, *args, **kwargs):
-        context=super().get_context_data(*args, **kwargs)
-        context['profissional']= Profissional.objects.select_related('endereco','microarea','estabelecimento').get(id=self.kwargs['pk'])
-        return context
+    context_object_name='profissional'
 
 class ProfissionalListView(ListView):
     model=Profissional
     template_name='profissional/list_profissionais.html'
     context_object_name='profissionais'
     paginate_by=10
-  
-    def get_queryset(self, *args, **kwargs):
-        qs = super(ProfissionalListView,self).get_queryset(*args, **kwargs)
-        qs = qs.select_related('endereco','estabelecimento','microarea').order_by('-id')
-        return qs
+    ordering='-nome_completo'
 
 class ProfissionalSearchListView(ListView):
 
@@ -87,7 +58,6 @@ class ProfissionalSearchListView(ListView):
     template_name='profissional/list_profissionais.html'
     context_object_name='profissionais'
     paginate_by=10
-  
 
     def get_queryset(self, *args, **kwargs):
         qs = super(ProfissionalSearchListView,self).get_queryset(*args, **kwargs)
@@ -97,32 +67,15 @@ class ProfissionalSearchListView(ListView):
         
         
         if search_nome_cpf and search_dt_nascimento:
-            queryset=qs.select_related('endereco','estabelecimento','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))\
+            qs=qs.select_related('estabelecimento','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))\
                 .filter(dt_nascimento__iexact=search_dt_nascimento)
-            return queryset
+          
         
         elif search_nome_cpf:
-            queryset=qs.select_related('endereco','estabelecimento','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))
-            return queryset
+            qs=qs.select_related('estabelecimento','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))
+          
         
         elif search_dt_nascimento:
-             queryset=qs.select_related('endereco','estabelecimento','microarea').filter(dt_nascimento__iexact=search_dt_nascimento).order_by('-nome_completo')
-             return queryset
+             qs=qs.select_related('estabelecimento','microarea').filter(dt_nascimento__iexact=search_dt_nascimento)
         
-        else:
-            qs = qs.select_related('endereco','estabelecimento','microarea').order_by('-id')[:3]
         return qs
-
-#Profissional Diaria 
-class ProfissionalDiariaListView(ListView):
-    model=Profissional
-    template_name='profissional/diarias_profissional.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        profissional=Profissional.objects.select_related('endereco','microarea','estabelecimento').get(id=self.kwargs['pk'])
-        context["diarias"] = Diaria.objects.select_related('profissional').filter(profissional__id=profissional.id)
-        context['profissional']=profissional
-        print(context['diarias'])
-        return context
-    

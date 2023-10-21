@@ -40,7 +40,6 @@ class Profissional(models.Model):
     sexo=models.CharField(verbose_name='Sexo',max_length=1,choices=SEXO, null=False, blank=False,default='')
     dt_nascimento=models.DateField(verbose_name='Data de Nascimento', null=False,blank=False)
     telefone=models.CharField(verbose_name='Telefone', max_length=15,null=False,blank=False)
-    endereco=models.ForeignKey("Endereco",on_delete=models.CASCADE)
     estabelecimento=models.ForeignKey(Estabelecimento, verbose_name=('Estabelecimento'), on_delete=models.SET_NULL,null=True, related_name='profissional_estabelecimento')
     microarea=models.ForeignKey(MicroArea,on_delete=models.SET_NULL, null=True, blank=True,verbose_name='Micro área',help_text='Campo somente para ACS',related_name='profissional_microarea')
 
@@ -59,19 +58,3 @@ class Profissional(models.Model):
                 return ('{}.{}.{}-{}'.format( cpf[:3], cpf[3:6], cpf[6:9], cpf[9:]))
         return cpf
  
-class Endereco(models.Model):
-    
-   logradouro = models.CharField(max_length=100, null=False, blank=False)
-   numero = models.CharField(max_length=10, null=False, blank=False)
-   bairro = models.CharField(max_length=70, null=False, blank=False)
-   complemento = models.CharField(max_length=100, null=False, blank=False)
-   cep = models.CharField(verbose_name='CEP',max_length=10, null=False, blank=False)
-   cidade = models.CharField(max_length=100, null=False, blank=False)
-   estado = models.CharField(max_length=2, null=False, blank=False)
-   
-   created_at = models.DateTimeField(auto_now_add=True)
-   updated_at = models.DateTimeField(auto_now=True)
-
-    
-   def __str__(self):
-       return f'{self.logradouro}, Nº:{self.numero}, Bairro:{self.bairro}'   

@@ -1,7 +1,5 @@
 from django.contrib import admin
 
-from .models import Endereco, Profissional
+from .models import Profissional
 
 admin.site.register(Profissional)
-
-admin.site.register(Endereco)

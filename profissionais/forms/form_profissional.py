@@ -1,8 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from django_select2 import forms as s2forms
-
-from profissionais.models import Endereco, Profissional
+from profissionais.models import Profissional
 from utils.django_form import validarCNS, validarCpf
 
 
@@ -47,16 +45,3 @@ class ProfissionalForm(forms.ModelForm):
         self.fields['cpf'].widget.attrs.update({'class':'mask-cpf'}),
         self.fields['telefone'].widget.attrs.update({'class':'mask-telefone'}),
 
-
-class EnderecoForm(forms.ModelForm):
-
-    cep = forms.CharField(
-        label='CEP',widget=forms.TextInput(attrs={'placeholder':"00000-000"}))
-    
-    class Meta:
-        model=Endereco
-        fields='__all__'
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['cep'].widget.attrs.update({'class':'mask-cep'})
