@@ -19,12 +19,12 @@ urlpatterns = [
 
 
     #Reembolsos
-    path('reembolso/create/<int:id>',reem_view.reembolsoCreate,name='add-reembolso'),
-    path('reembolso/update/<int:id>',reem_view.reembolsoUpdate,name='edit-reembolso'),
+    path('reembolso/create/<int:id>',reem_view.reembolso_create,name='add-reembolso'),
+    path('reembolso/update/<int:id>',reem_view.reembolso_update,name='edit-reembolso'),
     path('reembolso/detail/<int:pk>',reem_view.ReembolsoDetailView.as_view(),name='detail-reembolso'),
     path('reembolso/list',reem_view.ReembolsoListView.as_view(),name='list-reembolso'),
     path('reembolso/search',reem_view.SearchReembolsoListView.as_view(),name='search-reembolso'),
-    path('reembolso/<int:id>/pdf',reem_view.reembolsoPdf,name='pdf-reembolso'),
+    path('reembolso/<int:id>/pdf',reem_view.reembolso_pdf,name='pdf-reembolso'),
 
 
 

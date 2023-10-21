@@ -62,9 +62,7 @@ class Diaria(models.Model):
       return ''
            
     
-     
-    
-
+  
 class Reembolso(models.Model):
 
     TIPOS_DESPESAS=(

@@ -8,9 +8,11 @@ from django.db.models import Q
 
 from despesas.forms.reembolso_form import ReembolFormSet
 from despesas.models import Diaria, Reembolso
+from django.contrib.messages import constants
+from django.contrib import messages
 
 
-def reembolsoCreate(request,id):
+def reembolso_create(request,id):
     diaria=get_object_or_404(Diaria,id=id)
 
     if not diaria:
@@ -20,13 +22,14 @@ def reembolsoCreate(request,id):
         formset=ReembolFormSet(request.POST,instance=diaria,prefix='reembolso')
         if formset.is_valid():
             formset.save()
+            messages.add_message(request,constants.SUCCESS,'cadastro realizado com sucesso')
             return redirect('despesas:list-reembolso')
 
     formset=ReembolFormSet(request.POST or None,instance=diaria,prefix='reembolso')
     
     return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset})
 
-def reembolsoUpdate(request, id):
+def reembolso_update(request, id):
    diaria=get_object_or_404(Diaria,id=id)
     
    if not diaria:
@@ -36,6 +39,7 @@ def reembolsoUpdate(request, id):
         formset=ReembolFormSet(request.POST,instance=diaria,prefix='reembolso')
         if formset.is_valid():
             formset.save()
+            messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
             return redirect('despesas:list-reembolso')
         
 
@@ -48,13 +52,10 @@ class ReembolsoListView(ListView):
    model=Diaria
    template_name='reembolso/list_reembolso.html'
    context_object_name='diarias'
+   queryset=Diaria.objects.select_related('profissional').filter(reembolso=1)
+   ordering='-created_at'
    paginate_by=10
-
-   def get_queryset(self, *args, **kwargs):
-        qs = super(ReembolsoListView,self).get_queryset(*args, **kwargs)
-        qs = qs.select_related('profissional').filter(reembolso=1).order_by('-data_diaria')[:5]
-        return qs
-
+   
 class SearchReembolsoListView(ListView):
    model=Diaria
    template_name='reembolso/list_reembolso.html'
@@ -67,20 +68,20 @@ class SearchReembolsoListView(ListView):
         data=self.request.GET.get('data',None)
         
         if buscar and data:
-            queryset=qs.select_related('profissional')\
+            qs=qs.select_related('profissional')\
                 .filter(reembolso=1).filter(Q(profissional__nome_completo__icontains=buscar)| Q(profissional__cpf__icontains=buscar))\
-                    .filter(data_diaria__iexact=data).order_by('-data_diaria')
-            return queryset
+                    .filter(data_diaria__iexact=data).order_by('-created_at')
         
         elif buscar:
-            queryset=qs.select_related('profissional').filter(reembolso=1)\
+            qs=qs.select_related('profissional').filter(reembolso=1)\
                 .filter(Q(profissional__nome_completo__icontains=buscar)| Q(profissional__cpf__icontains=buscar))\
-                    .order_by('-data_diaria')
-            return queryset
-        
+                    .order_by('-created_at')
+      
         elif data:
-            queryset=qs.select_related('profissional').filter(reembolso=1).filter(data_diaria__iexact=data).order_by('-data_diaria')
-            return queryset 
+             qs=qs.select_related('profissional')\
+                .filter(reembolso=1).filter(data_diaria__iexact=data).order_by('-created_at')
+            
+        return qs 
 
 class ReembolsoDetailView(DetailView):
     model=Diaria
@@ -94,8 +95,7 @@ class ReembolsoDetailView(DetailView):
         
         return context
 
-
-def reembolsoPdf(request,id):
+def reembolso_pdf(request,id):
 
     diaria=get_object_or_404(Diaria,id=id)
     context={}

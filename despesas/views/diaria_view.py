@@ -1,47 +1,32 @@
-from django.contrib import messages
 from django.db.models import ProtectedError, Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from weasyprint import HTML
 
 from despesas.forms.diaria_form import DiariaForm
-from despesas.forms.reembolso_form import ReembolFormSet
-
+from django.contrib.messages.views import SuccessMessageMixin
 from ..models import Diaria, Reembolso
+from django.contrib.messages import constants
+from django.contrib import messages
 
-
-class DiariaCreateView(CreateView):
+class DiariaCreateView(SuccessMessageMixin,CreateView):
    model=Diaria
    form_class=DiariaForm 
    template_name='diaria/form_diaria.html'
-   """ success_url=reverse_lazy('despesas:list-diaria') """
+   success_url=reverse_lazy('despesas:list-diaria')
+   success_message='Cadastro realizado com sucesso'
 
-
-   def form_valid(self,form ):
-       self.object = form.save()
-
-       if self.object.reembolso == '1':
-           return redirect ('despesas:add-reembolso', self.object.id)
-       else:
-           return redirect('despesas:list-diaria')
-   
-class DiariaUpdateView(UpdateView):
+class DiariaUpdateView(SuccessMessageMixin,UpdateView):
 
     model=Diaria             
     form_class=DiariaForm
     template_name='diaria/form_diaria.html'
- 
-
-    def form_valid(self,form ):
-       self.object = form.save()
-       
-       if self.object.reembolso == '1':
-           return redirect ('despesas:add-reembolso', self.object.id)
-       else:
-           return redirect('despesas:list-diaria')
-
+    success_url=reverse_lazy('despesas:list-diaria')
+    success_message='Dados atualizado com sucesso'
+    
 class DiariaListView(ListView):
     
     model=Diaria
@@ -103,8 +88,9 @@ def diariaDelete(request, id):
     print('teste')
     try:
         diaria.delete()
+        messages.add_message(request,constants.SUCCESS,'Registro excluir com sucesso')
     except ProtectedError:
-        messages.error(request, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
+        messages.add_message(request, constants.ERROR, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
     finally:
         return redirect('despesas:list-diaria')
     
