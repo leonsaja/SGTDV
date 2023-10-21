@@ -1,15 +1,14 @@
 from django.contrib import messages
 from django.db.models import ProtectedError, Q
-from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import DetailView, ListView
 
 from cidadao.forms.cidadao_form import CidadaoForm, EnderecoForm
 from cidadao.models import Cidadao
+from django.contrib.messages import constants
+from django.contrib import messages
 
-
-def cidadaoCreate(request):
+def cidadao_create(request):
     if request.method == 'POST':
         form=CidadaoForm(request.POST or None)
         form_endereco=EnderecoForm(request.POST or None)
@@ -20,13 +19,15 @@ def cidadaoCreate(request):
             form_end=form_endereco.save()
             forms.endereco=form_end
             forms.save()
+            messages.add_message(request,constants.SUCCESS,'cadastro realizado com sucesso')
+
             return redirect('cidadao:list-cidadao')
     
     form=CidadaoForm(request.POST or None)
     form_endereco=EnderecoForm(request.POST or None)      
     return render(request,'cidadao/form_cidadao.html',{'form':form,'endereco':form_endereco})
 
-def cidadaoUpdate(request,id):
+def cidadao_update(request,id):
 
     cidadao=get_object_or_404(Cidadao,id=id)
     
@@ -40,6 +41,7 @@ def cidadaoUpdate(request,id):
             endereco_form=form_endereco.save()
             cidadao_form.endereco=endereco_form
             cidadao_form.save()
+            messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
             return redirect('cidadao:list-cidadao')
         
     form=CidadaoForm(request.POST or None,instance=cidadao)
@@ -47,14 +49,16 @@ def cidadaoUpdate(request,id):
 
     return render(request,'cidadao/form_cidadao.html',{'form':form,'endereco':form_endereco})
 
-def cidadaoDelete(request,id):
+def cidadao_delete(request,id):
 
     cidadao=get_object_or_404(Cidadao,id=id)
 
     try:
         cidadao.delete()
+        messages.add_message(request, constants.SUCCESS ,"Registro excluido com sucesso")
+
     except ProtectedError:
-        messages.error(request, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
+        messages.add_message(request, constants.ERROR ,"Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
     finally:
         return redirect('cidadao:list-cidadao')
 
@@ -72,12 +76,12 @@ class CidadaoListView(ListView):
     model=Cidadao
     template_name='cidadao/list_cidadao.html'
     context_object_name='pacientes'
-    paginate_by=1
+    paginate_by=10
    
 
     def get_queryset(self, *args, **kwargs):
         qs = super(CidadaoListView,self).get_queryset(*args, **kwargs)
-        qs=qs.select_related('endereco','microarea').order_by('nome_completo')[:4]
+        qs=qs.select_related('endereco','microarea').order_by('nome_completo')
         return qs
 
 class CidadaoSearchListView(ListView):
