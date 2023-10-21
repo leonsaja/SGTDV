@@ -31,33 +31,61 @@
     <div class="linha"></div>
     <div class="row">
         <div class="col-md-4">
+            {%if recibo_tfd.acompanhante%}
             <p class="paragrafo tfd "><b>NOME DO ACOMPANHANTE: </b>
-                <br>{{recibo_tfd.acompanhante.nome_completo|upper}}
+                <br>{{recibo_tfd.acompanhante|upper}}
 
                 &nbsp; &nbsp;&nbsp;&nbsp;
             </p>
+            {% else %}
+            <p class="paragrafo tfd "><b>NOME DO ACOMPANHANTE: </b>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
+
+                &nbsp; &nbsp;&nbsp;&nbsp;
+            </p>
+            {% endif %}
         </div>
         <div class="col-md-5">
 
-            {% if recibo_tfd.acompanhante.rg %}
+            {% if recibo_tfd.rg %}
             <p class="paragrafo tfd">
-                &nbsp; <b>RG: </b><br>&nbsp; {{recibo_tfd.acompanhante.rg|upper}}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>RG: </b><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{recibo_tfd.rg|upper}}
             </p>
             {%else %}
             <p class="paragrafo tfd">
-                &nbsp;
-                <b>RG: </b><br>{{recibo_tfd.acompanhante.rg|upper}}
-                &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
-                &nbsp; &nbsp;&nbsp;&nbsp;
+                &nbsp;  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+
+                <b>RG: </b><br>  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp;-
+            
             </p>
             {%endif%}
         </div>
         <div class="col-md-2">
-            <p class="paragrafo  tfd"> &nbsp; &nbsp; &nbsp; <b>CPF: </b><br>&nbsp; &nbsp;
-                &nbsp;&nbsp;{{recibo_tfd.acompanhante.formt_cpf|upper}}</p>
+            {% if recibo_tfd.cpf  %}
+            <p class="paragrafo  tfd">  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>CPF: </b><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;{{recibo_tfd.cpf|upper}}</p>
+            {% else %}
+                <p class="paragrafo  tfd">  &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+                    <b>CPF: </b><br>&nbsp; &nbsp;
+                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp;-</p>
+            {% endif %}
+            
         </div>
         <div class="col-md-2">
-            <p class="paragrafo tfd "><b>CNS: </b><br>{{recibo_tfd.acompanhante.cns|upper}}</p>
+            {% if recibo_tfd.cns %}
+            <p class="paragrafo tfd ">
+                <b>CNS: </b><br>{{recibo_tfd.cns|upper}}</p>
+            {% else %}
+            
+            <p class="paragrafo tfd ">
+              &nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp;
+
+                <b>CNS: </b><br> &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp;
+                               &nbsp;&nbsp;  &nbsp; &nbsp;
+                -</p>
+            {% endif %}
+          
         </div>
 
     </div>

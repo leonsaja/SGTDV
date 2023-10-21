@@ -13,7 +13,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 
-def reciboTFDCreate(request):
+def reciboTFD_create(request):
     tfd=ReciboTFD()
     if request.method == 'POST':
 
@@ -30,7 +30,7 @@ def reciboTFDCreate(request):
     
     return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset})
     
-def reciboTFDUpdate(request,id):
+def reciboTFD_update(request,id):
     recibo_tfd=get_object_or_404(ReciboTFD, pk=id)
 
     if request.method =='POST':
@@ -44,7 +44,7 @@ def reciboTFDUpdate(request,id):
 
     form=ReciboTFDForm(request.POST or None, instance=recibo_tfd,prefix='recibo')
     formset=ProcedimentoSet(request.POST or None, instance=recibo_tfd,prefix='procedimento')
-    return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset})
+    return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset,'recibo_tfd':recibo_tfd})
 
 class ReciboTFDListView(ListView):
 
@@ -55,7 +55,7 @@ class ReciboTFDListView(ListView):
     
     def get_queryset(self, *args, **kwargs):
         qs = super(ReciboTFDListView,self).get_queryset(*args, **kwargs)
-        qs=qs.select_related('paciente','acompanhante').order_by('-created_at')
+        qs=qs.select_related('paciente').order_by('-created_at')
         return qs
     
 class ReciboTFDSearchListView(ListView):
@@ -72,16 +72,16 @@ class ReciboTFDSearchListView(ListView):
         data=self.request.GET.get('data',None)
       
         if search_nome_cpf and data:
-            qs=qs.select_related('paciente','acompanhante').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))\
+            qs=qs.select_related('paciente').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))\
                 .filter(data__iexact=data).order_by('-created_at')
            
         elif search_nome_cpf:
-            qs=qs.select_related('paciente','acompanhante').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))\
+            qs=qs.select_related('paciente').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))\
             .order_by('-data')
            
         
         elif data:
-             qs=qs.select_related('paciente','acompanhante').filter(data__iexact=data).order_by('-created_at')
+             qs=qs.select_related('paciente').filter(data__iexact=data).order_by('-created_at')
         
         return qs
 
@@ -92,7 +92,7 @@ class ReciboTFDDetailView(DetailView):
     
     def get_context_data(self,*args, **kwargs):
         context=super().get_context_data(*args, **kwargs)
-        recibo_tfd= ReciboTFD.objects.select_related('paciente','acompanhante').get(id=self.kwargs['pk'])
+        recibo_tfd= ReciboTFD.objects.select_related('paciente').get(id=self.kwargs['pk'])
         
         context['recibo_tfd']=recibo_tfd
         context['procedimentos']=ProcedimentoSia.objects.select_related('recibo_tfd','codigosia').filter(recibo_tfd__id=recibo_tfd.id)
@@ -109,11 +109,11 @@ class ReciboTFDDeleteView(SuccessMessageMixin, DeleteView):
     def get(self, request, *args, **kwargs):
         return self.post().get(request, *args, **kwargs)
 
-def reciboTfdPdf(request,id):
+def reciboTFD_pdf(request,id):
     recibo_pdf=get_object_or_404(ReciboTFD,id=id)
     context={}
 
-    context['recibo_tfd']= ReciboTFD.objects.select_related('paciente','acompanhante').get(id=recibo_pdf.id)
+    context['recibo_tfd']= ReciboTFD.objects.select_related('paciente').get(id=recibo_pdf.id)
     context['procedimentos']=ProcedimentoSia.objects.select_related('recibo_tfd').filter(recibo_tfd__id=context['recibo_tfd'].id)
 
     response = HttpResponse(content_type='application/pdf')

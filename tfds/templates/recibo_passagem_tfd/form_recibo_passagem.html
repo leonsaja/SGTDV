@@ -55,17 +55,28 @@
         </label>
       </div>
     </div>
+    
     </div>
     {%endif%}
-    <div class="d-none" id="campos">
-      <div class="row mt-2 ">
 
-        <div class="col-md-5">{{form.acompanhante|as_crispy_field }}</div>
-        <div class="col-md-2">{{form.codigo_sia_acompanhante|as_crispy_field }}</div>
-        <div class="col-md-2">{{form.valor_acompanhante_sia|as_crispy_field }}</div>
+    <div class="d-none" id="campos">
+      <div class="row">
+        
+        <legend class="text-primary"><b>Dados do acompanhante</b> </legend>
+        
+        <div class="col-md-4">{{form.acompanhante|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.cpf|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.rg|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.cns|as_crispy_field }}</div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">{{form.codigo_sia_acompanhante|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.valor_acompanhante_sia|as_crispy_field }}</div>
         <div class="col-md-3">{{form.quant_passagem_acompanhante|as_crispy_field }}</div>
       </div>
     </div>
+
     <div class="row mt-2">
       <div class="col-md-5">{{form.trecho|as_crispy_field }}</div>
       <div class="col-md-3">{{form.meio_transporte|as_crispy_field }}</div>
@@ -102,12 +113,16 @@ $(document).ready(function () {
 
 var checkbox_acompanhante = document.getElementById("ativar_campos")
 var campos=document.getElementById('campos') 
-var select2_id_acompanhante_container=document.getElementById('select2-id_acompanhante-container')
+
 var id_acompanhante=document.getElementById("id_acompanhante")
+var cpf_acompanhante=document.getElementById('id_cpf')
+var rg_acompanhante = document.getElementById('id_rg')
+var cns_acompanhante =document.getElementById('id_cns')
+
 var id_codigo_sia_acompanhante=document.getElementById('id_codigo_sia_acompanhante')
 var id_valor_acompanhante_sia = document.getElementById('id_valor_acompanhante_sia')
 var id_quant_passagem_acompanhante = document.getElementById('id_quant_passagem_acompanhante')
-
+console.log('teste923293')
 checkbox_acompanhante.addEventListener('change', ativarCampos);
 
 
@@ -120,19 +135,27 @@ if (checkbox_acompanhante.checked)
 function ativarCampos() {
 
   if (checkbox_acompanhante.checked) {
+    console.log('vdd')
         campos.classList.remove('d-none') 
         id_codigo_sia_acompanhante.value='0803010109'   
   }
   else{
+    console.log('false')
         campos.classList.add('d-none')
+        
         id_codigo_sia_acompanhante.value=''
-       
-         
+        id_valor_acompanhante_sia.value=''
+        id_quant_passagem_acompanhante.value=''
+
+        id_acompanhante.value=''
+        cpf_acompanhante.value=''
+        cns_acompanhante.value=''
+        rg_acompanhante.value='' 
   }
 }
 });
 
- 
+  
 
 
 </script>

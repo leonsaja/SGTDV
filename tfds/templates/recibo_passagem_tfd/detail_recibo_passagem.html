@@ -28,11 +28,33 @@
         <hr>
 
         <div class="row">
-            <div class="col-md-4">
+            <legend class="text-primary"><b>Dados do Paciente</b></legend>
+
+            <div class="col-md-3">
                 <label for="id_paciente" class="form-label">Nome do Paciente:</label>
                 <h6 class="text-muted">{{recibo.paciente.nome_completo|upper}}</h6>
 
             </div>
+            <div class="col-md-3">
+                <label for="id_cpf" class="form-label">CPF do Paciente:</label>
+                <h6 class="text-muted">{{recibo.paciente.formt_cpf|upper}}</h6>
+
+            </div>
+            <div class="col-md-3">
+                <label for="id_cns" class="form-label">CNS do Paciente :
+                    <h6 class="text-muted">{{recibo.paciente.cns}}</h6>
+
+            </div>
+            <div class="col-md-3">
+                <label for="id_data_recibo" class="form-label">Data :
+                    <h6 class="text-muted">{{recibo.data_recibo|date:"d/m/Y"|default:'---'}}</h6>
+
+            </div>
+
+
+        </div>
+        <br>
+        <div class="row">
             <div class="col-md-2">
                 <label for="id_codigo_sia_paciente" class="form-label">Código SIA:
                     <h6 class="text-muted">{{recibo.codigo_sia_paciente}}</h6>
@@ -48,42 +70,66 @@
                     <h6 class="text-muted">{{recibo.quant_passagem_paciente}}</h6>
 
             </div>
-            <div class="col-md-2">
-                <label for="id_data_recibo" class="form-label">Data :
-                    <h6 class="text-muted">{{recibo.data_recibo|date:"d/m/Y"|default:'---'}}</h6>
-
-            </div>
-           
         </div>
+        <br>
+        <hr>
         <div class="row">
-            <div class="col-md-4 mt-2">
-                <label for="id_acompanhante" class="form-label">Nome do Acompanante:
+            <legend class="text-primary"><b>Dados do Acompanhante</b></legend>
+            <div class="col-md-3">
+              
+                <label for="id_acompanhante" class="form-label">Nome do acompanhante:
                     {% if recibo.acompanhante%}
-                    <h6 class="text-muted">{{recibo.acompanhante.nome_completo|upper}}</h6>
+                    <h6 class="text-muted">{{recibo.acompanhante|upper}}</h6>
                     {%else%}
                     <h6 class="text-muted">-</h6>
                     {%endif%}
-
+    
             </div>
             <div class="col-md-3">
+                <label for="id_cpf" class="form-label">CPF do acompanhante:
+                    {% if recibo.cpf%}
+                    <h6 class="text-muted">{{recibo.cpf}}</h6>
+                    {%else%}
+                    <h6 class="text-muted">-</h6>
+                    {%endif%}
+            </div>
+            <div class="col-md-3">
+                <label for="id_cns" class="form-label">CNS do acompanhante:
+                    {% if recibo.cns%}
+                    <h6 class="text-muted">{{recibo.cns}}</h6>
+                    {%else%}
+                    <h6 class="text-muted">-</h6>
+                    {%endif%}
+            </div>
+            <div class="col-md-2">
+                <label for="id_cns" class="form-label">RG do acompanhante:
+                    {% if recibo.rg%}
+                    <h6 class="text-muted">{{recibo.rg}}</h6>
+                    {%else%}
+                    <h6 class="text-muted">-</h6>
+                    {%endif%}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
                 <label for="id_codigo_sia_acompanhante" class="form-label">Código SIA:
-                   {% if recibo.codigo_sia_acompanhante%}
+                    {% if recibo.codigo_sia_acompanhante%}
                     <h6 class="text-muted">{{recibo.codigo_sia_acompanhante}}</h6>
-                   {%else%}
-                    <h6 class="text-muted">-</h6> 
-                   {%endif%}
+                    {%else%}
+                    <h6 class="text-muted">-</h6>
+                    {%endif%}
             </div>
             <div class="col-md-2">
                 <label for="id_valor_acompanhante_sia" class="form-label">Valor :
                     {% if recibo.valor_acompanhante_sia%}
-                        <h6 class="text-muted">{{recibo.valor_acompanhante_sia}}</h6>
+                    <h6 class="text-muted">{{recibo.valor_acompanhante_sia}}</h6>
                     {%else %}
                     <h6 class="text-muted">-</h6>
                     {%endif%}
 
             </div>
-            <div class="col-md-3">
-                <label for="id_qta_passagem" class="form-label">Quantidade de Passagem :
+            <div class="col-md-2">
+                <label for="id_qta_passagem" class="form-label">Qta. de Passagem :
                     {% if recibo.quant_passagem_acompanhante%}
                     <h6 class="text-muted">{{recibo.quant_passagem_acompanhante}}</h6>
                     {%else%}
@@ -94,8 +140,11 @@
 
 
         </div>
-
+        <br>
+        <hr>
         <div class="row">
+            <legend class="text-primary"><b>Dados da Viagem</b></legend>
+
             <div class="col-md-6 mt-2">
                 <label for="id_trecho" class="form-label">Trecho:</label>
                 <h6 class="text-muted">{{recibo.trecho|upper}}</h6>

@@ -39,9 +39,8 @@ class ReciboPassagemListView(ListView):
     context_object_name='recibos'
     ordering='-created_at'
     paginate_by=10
-    queryset=ReciboPassagemTFD.objects.select_related('paciente','acompanhante').all()
-
-    
+    queryset=ReciboPassagemTFD.objects.select_related('paciente').all()
+   
 class ReciboPassagemSearchListView(ListView):
     
     model=ReciboPassagemTFD
@@ -56,17 +55,17 @@ class ReciboPassagemSearchListView(ListView):
         search_data_recibo=self.request.GET.get('data',None)
 
         if search_nome_cpf and search_data_recibo:
-            qs=qs.select_related('paciente','acompanhante').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))\
+            qs=qs.select_related('paciente').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))\
                 .filter(data_recibo__iexact=search_data_recibo)
             
         
         elif search_nome_cpf:
-            qs=qs.select_related('paciente','acompanhante').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)|\
+            qs=qs.select_related('paciente').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)|\
                 Q(paciente__cpf__icontains=search_nome_cpf))
           
         
         elif search_data_recibo:     
-             qs=qs.select_related('paciente','acompanhante').filter(data_recibo__iexact=search_data_recibo)
+             qs=qs.select_related('paciente').filter(data_recibo__iexact=search_data_recibo)
         
         return qs
         
@@ -77,7 +76,7 @@ class ReciboPassagemDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["recibo"] =ReciboPassagemTFD.objects.select_related('paciente', 'acompanhante').get(id=self.kwargs['pk'])
+        context["recibo"] =ReciboPassagemTFD.objects.select_related('paciente').get(id=self.kwargs['pk'])
        
         return context
 
@@ -95,7 +94,7 @@ def reciboPassagemPdf(request,id):
     recibo_passagem=get_object_or_404(ReciboPassagemTFD,id=id)
     context={}
 
-    context['recibo_passagem']= ReciboPassagemTFD.objects.select_related('paciente','acompanhante').get(id=recibo_passagem.id)
+    context['recibo_passagem']= ReciboPassagemTFD.objects.select_related('paciente').get(id=recibo_passagem.id)
    
     response = HttpResponse(content_type='application/pdf')
     html_string = render_to_string('recibo_passagem_tfd/pdf_recibo_passagem.html', context)

@@ -28,19 +28,48 @@
       <div class="row mt-2">
         <div class="col-md-6">{{form.paciente|as_crispy_field }}
         </div>
-        <div class="col-md-6">{{form.acompanhante|as_crispy_field }}</div>
-        </div>
-        <div class="row mt-2">
-          <div class="col-md-4">{{form.municipio_origem|as_crispy_field }}
-          </div>
-          <div class="col-md-4">{{form.municipio_destino|as_crispy_field }}</div>
-          <div class="col-md-3">{{form.data|as_crispy_field }}
-          
+        <div class="col-md-3">{{form.data|as_crispy_field }}</div>
 
+        {% if recibo_tfd.acompanhante  or recibo_tfd.rg or recibo_tfd.cpf or recibo_tfd.cns%}
+        <div class="col-md-3">
+          <div class="form-check">
+            <br>
+            <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0" checked>
+            <label class="form-check-label" for="ativar_campos">
+              <b> Tem Acompanhante</b>
+            </label>
+          </div>
         </div>
+        {%else%}
+        <div class="col-md-3">
+          <div class="form-check">
+            <br>
+            <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0">
+            <label class="form-check-label" for="ativar_campos">
+              <b> Tem Acompanhante</b>
+            </label>
+          </div>
+        </div>
+        {%endif%}
+      </div>
+      <div class="d-none" id="campos">
+        <div class="row">
+          <legend class="text-primary"><b>Dados do acompanhante</b> </legend>
+          <div class="col-md-4">{{form.acompanhante|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.cpf|as_crispy_field }}</div>
+          <div class="col-md-2">{{form.rg|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.cns|as_crispy_field }}</div>
+        </div>
+      </div>
         <div class="row mt-2">
-          <div class="col-md-4">{{form.grs|as_crispy_field }}</div>
-          <div class="col-md-4">{{form.especialidade|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.municipio_origem|as_crispy_field }}
+          </div>
+          <div class="col-md-3">{{form.municipio_destino|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.grs|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.especialidade|as_crispy_field }}</div>
+          
+        <div class="row mt-2">
+        
         </div>
     </fieldset>
 
@@ -116,8 +145,44 @@
 
 <script src='/static/utils/jquery.formset.min.js'></script>
 <script>
-  
 
+  
+$(document).ready(function () {
+
+var checkbox_acompanhante = document.getElementById("ativar_campos")
+var campos=document.getElementById('campos') 
+var id_acompanhante=document.getElementById("id_recibo-acompanhante")
+var cpf_acompanhante=document.getElementById('id_recibo-cpf')
+var rg_acompanhante = document.getElementById('id_recibo-rg')
+var cns_acompanhante =document.getElementById('id_recibo-cns')
+
+var id_quant_passagem_acompanhante = document.getElementById('id_quant_passagem_acompanhante')
+
+checkbox_acompanhante.addEventListener('change', ativarCampos);
+console.log('teste10002')
+
+if (checkbox_acompanhante.checked)
+{
+  campos.classList.remove('d-none');
+
+}
+
+function ativarCampos() {
+
+  if (checkbox_acompanhante.checked) {
+        campos.classList.remove('d-none') 
+  }
+  else{
+
+        campos.classList.add('d-none')
+        id_acompanhante.value=''
+        cpf_acompanhante.value=''
+        cns_acompanhante.value=''
+        rg_acompanhante.value=''  
+        cns_acompanhante.classList.remove('is-invalid')
+  }
+}
+});
 
  $('table.form tr').formset({
   prefix: '{{ formset.prefix }}',

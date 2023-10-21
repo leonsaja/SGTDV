@@ -24,50 +24,91 @@
 
             </div>
         </div>
-
+        <br>
+        <hr>
+        <legend class="text-primary"><b>Dados do Paciente</b></legend>
         <div class="row mt-2">
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <label for="id_paciente" class="form-label">Nome do Paciente:</label>
                 <h6 class="text-muted">{{recibo_tfd.paciente.nome_completo|upper}}</h6>
 
             </div>
-            <div class="col-md-5">
-                <label for="id_acompanhante" class="form-label">Nome do Acompanante:
-                    {% if recibo_tfd.acompanhante%}
-                    <h6 class="text-muted">{{recibo_tfd.acompanhante.nome_completo|upper}}</h6>
-                    {%else%}
-                    <h6 class="text-muted">-</h6>
-                    {%endif%}
+            <div class="col-md-3">
+                <label for="id_cpf" class="form-label">CPF do Paciente:
+                    <h6 class="text-muted" id="id_cpf">{{recibo_tfd.paciente.formt_cpf}}</h6>
 
-            </div>
+            </div>      
+            <div class="col-md-3">
+                <label for="id_cns" class="form-label">CNS do Paciente:
+                    <h6 class="text-muted" id="id_cns">{{recibo_tfd.paciente.cns}}</h6>
 
+            </div>      
             <div class="col-md-2">
                 <label for="id_data" class="form-label">Data:
                     <h6 class="text-muted">{{recibo_tfd.data|date:"d/m/Y"|default:'---'}}</h6>
 
             </div>       
         </div>
+        <br>
+        <hr>
+        <legend class="text-primary"><b>Dados do acompanhante</b></legend>
+        <div class="row">
+           
+            <div class="col-md-4">
+                <label for="id_acompanhante" class="form-label">Nome do acompanhante:
+                    {% if recibo_tfd.acompanhante%}
+                    <h6 class="text-muted">{{recibo_tfd.acompanhante|upper}}</h6>
+                    {%else%}
+                    <h6 class="text-muted">-</h6>
+                    {%endif%}
     
+            </div>
+            <div class="col-md-3">
+                <label for="id_cpf" class="form-label">CPF do acompanhante:
+                    {% if recibo_tfd.cpf%}
+                    <h6 class="text-muted">{{recibo_tfd.cpf}}</h6>
+                    {%else%}
+                    <h6 class="text-muted">-</h6>
+                    {%endif%}
+            </div>
+            <div class="col-md-3">
+                <label for="id_cns" class="form-label">CNS do acompanhante:
+                    {% if recibo_tfd.cns%}
+                    <h6 class="text-muted">{{recibo_tfd.cns}}</h6>
+                    {%else%}
+                    <h6 class="text-muted">-</h6>
+                    {%endif%}
+            </div>
+            <div class="col-md-2">
+                <label for="id_cns" class="form-label">RG do acompanhante:
+                    {% if recibo_tfd.rg%}
+                    <h6 class="text-muted">{{recibo_tfd.rg}}</h6>
+                    {%else%}
+                    <h6 class="text-muted">-</h6>
+                    {%endif%}
+            </div>
+        </div>
+        <br>
+        <hr>
+        <legend class="text-primary"><b>Dados do recibo</b></legend>
         <div class="row mt-2">
-            <div class="col-md-5">
+            <div class="col-md-3">
                 <label for="id_grs" class="form-label">GRS:
                     <h6 class="text-muted">{{recibo_tfd.grs|upper}}</h6>
 
             </div>
-            <div class="col-md-5">
+            <div class="col-md-2">
                 <label for="id_especialidade" class="form-label">Especialidade:</label>
                 <h6 class="text-muted">{{recibo_tfd.especialidade|upper}}</h6>
 
             </div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-md-5">
+     
+            <div class="col-md-4">
                 <label for="id_municipio_origem" class="form-label">Municipio Origem:</label>
                 <h6 class="text-muted">{{recibo_tfd.municipio_origem|upper}}</h6>
 
             </div>
-            <div class="col-md-5">
+            <div class="col-md-3">
                 <label for="id_municipio_destino" class="form-label">Municipio de Destino:</label>
                 <h6 class="text-muted">{{recibo_tfd.municipio_destino|upper}}</h6>
 

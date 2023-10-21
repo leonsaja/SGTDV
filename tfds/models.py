@@ -1,11 +1,18 @@
 from django.db import models
 from cidadao.models import Cidadao
+from localflavor.br.models import BRCPFField
 
 
 class ReciboTFD(models.Model):
    
    paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='paciente')
-   acompanhante=models.ForeignKey(Cidadao,null=True,blank=True, on_delete=models.PROTECT,related_name='recibo_acompanhante')
+   
+   #Dados para Acompanhante
+   acompanhante=models.CharField(verbose_name='Acompanhante',null=True,blank=True, max_length=200)
+   rg=models.CharField(max_length=10,verbose_name='RG', null=True,blank=True)
+   cpf=BRCPFField(verbose_name='CPF', max_length=11, null=True,blank=True)
+   cns=models.PositiveBigIntegerField(verbose_name='CNS',null=True,blank=True, help_text='Digite o cartão do SUS com 15 digitos')
+   
    municipio_origem=models.CharField(verbose_name='Municipio Origem', max_length=120,null=False,blank=False,default='Santo Antônio do Jacinto-MG')
    municipio_destino=models.CharField(verbose_name='Municipio Destino', max_length=120,null=False,blank=False)
    data=models.DateField(verbose_name='Data')
@@ -96,7 +103,12 @@ class ReciboPassagemTFD(models.Model):
    )
 
    paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='recibo_passagem_paciente')
-   acompanhante=models.ForeignKey(Cidadao,null=True,blank=True, on_delete=models.PROTECT,related_name='recibo_passagem_acompanhante')
+   #Dados para Acompanhante
+   acompanhante=models.CharField(verbose_name='Acompanhante',null=True,blank=True, max_length=200)
+   rg=models.CharField(max_length=10,verbose_name='RG', null=True,blank=True)
+   cpf=BRCPFField(verbose_name='CPF', max_length=11, null=True,blank=True)
+   cns=models.PositiveBigIntegerField(verbose_name='CNS', null=True,blank=True, help_text='Digite o cartão do SUS com 15 digitos')
+       
    meio_transporte=models.CharField(max_length=1,null=False, blank=False,verbose_name='Meio de Transporte', choices=MEIO_TRANSPORTE)
    quant_passagem_paciente=models.PositiveIntegerField(verbose_name='Qta de Passagem',null=False, blank=False)
    quant_passagem_acompanhante=models.PositiveBigIntegerField(verbose_name='Qta  Passagem',null=True, blank=True)

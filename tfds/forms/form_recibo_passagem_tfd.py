@@ -4,6 +4,8 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django_select2 import forms as s2forms
 
+from utils.django_form import validarCNS
+
 from ..models import ReciboPassagemTFD
 
 
@@ -18,7 +20,7 @@ class ReciboPassagemTFDForm(forms.ModelForm):
         fields='__all__'
         widgets = {
             'paciente':s2forms.Select2Widget(),
-            'acompanhante':s2forms.Select2Widget(),
+           
         }
         
 
@@ -34,7 +36,15 @@ class ReciboPassagemTFDForm(forms.ModelForm):
     def clean_valor_paciente_sia(self):
         data = self.cleaned_data["valor_paciente_sia"]
         return Decimal(data.replace(',', '.'))
-       
+    
+    def clean_cns(self):
+        data=self.cleaned_data.get('cns')
+        if data:
+            if validarCNS(data):
+                return data    
+            raise ValidationError('Digite o cartão do SUS com 15 digitos')
+        return data
+    
     def clean_valor_acompanhante_sia(self):
         data = self.cleaned_data["valor_acompanhante_sia"]
         if data:
@@ -52,4 +62,7 @@ class ReciboPassagemTFDForm(forms.ModelForm):
              raise ValidationError('Por favor, digite 10 digitos')
         raise ValidationError('Por favor, digite números')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['cpf'].widget.attrs.update({'class':'mask-cpf'})
     

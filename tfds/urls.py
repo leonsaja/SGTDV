@@ -8,13 +8,13 @@ app_name='tfds'
 urlpatterns = [
    
      #Recibo de TFDs
-     path("create/recibo-tfd",view_r_t.reciboTFDCreate,name='add-recibo_tfd'),
-     path("update/<int:id>/recibo-tfd",view_r_t.reciboTFDUpdate,name='edit-recibo_tfd'),
+     path("create/recibo-tfd",view_r_t.reciboTFD_create,name='add-recibo_tfd'),
+     path("update/<int:id>/recibo-tfd",view_r_t.reciboTFD_update,name='edit-recibo_tfd'),
      path("list/recibos-tfds",view_r_t.ReciboTFDListView.as_view(),name='list-recibo_tfd'),
      path("search/recibo-tfd",view_r_t.ReciboTFDSearchListView.as_view(),name='search-recibo_tfd'),
      path("detail/<int:pk>/recibo-tfd/",view_r_t.ReciboTFDDetailView.as_view(),name='detail-recibo_tfd'),
      path("delete/<int:pk>/recibo-tfd",view_r_t.ReciboTFDDeleteView.as_view(),name='del-recibo_tfd'),
-     path("pdf/<int:id>/recibo-tfd",view_r_t.reciboTfdPdf,name='pdf-recibo_tfd'),
+     path("pdf/<int:id>/recibo-tfd",view_r_t.reciboTFD_pdf,name='pdf-recibo_tfd'),
 
      #Recibo de Passagens TFDs
 

@@ -52,137 +52,66 @@
 
         <div class="linha"></div>
          <!-- ACOMPANHANTE  -->
-        {% if recibo_passagem.acompanhante.nome_completo and recibo_passagem.quant_passagem_acompanhante and recibo_passagem.codigo_sia_acompanhante and recibo_passagem.valor_acompanhante_sia%}
-
          <div class="row">
             <div class="col-md-4">
-                {% if recibo_passagem.acompanhante.nome_completo%}
-                <p class="paragrafo tfd "><b>NOME DO ACOMPANHANTE:  &nbsp;&nbsp;&nbsp;&nbsp;</b>
-                    <br>{{recibo_passagem.acompanhante.nome_completo|upper}}
+                {%if recibo_passagem.acompanhante%}
+                <p class="paragrafo tfd "><b>NOME DO ACOMPANHANTE: </b>
+                    <br>{{recibo_passagem.acompanhante|upper}}
+    
                     &nbsp; &nbsp;&nbsp;&nbsp;
                 </p>
                 {% else %}
-                <p class="paragrafo tfd ">
-                    
-                    <b>NOME DO ACOMPANHANTE: </b> <br>
-                    &nbsp; 
-                    -
-                    &nbsp;
-                    &nbsp;
-                    &nbsp; 
-                    &nbsp; 
-                   
-                </p>
-                {%endif%}
-            </div>
-            <div class="col-md-4">
-                
-                {% if recibo_passagem.acompanhante.rg %}
-                <p class="paragrafo tfd">
-                   
-                    <b>RG: </b><br>{{recibo_passagem.acompanhante.rg}}
+                <p class="paragrafo tfd "><b>NOME DO ACOMPANHANTE: </b>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
+    
                     &nbsp; &nbsp;&nbsp;&nbsp;
-
+                </p>
+                {% endif %}
+            </div>
+            <div class="col-md-5">
+    
+                {% if recibo_passagem.rg %}
+                <p class="paragrafo tfd">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>RG: </b><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{recibo_passagem.rg|upper}}
                 </p>
                 {%else %}
                 <p class="paragrafo tfd">
-                    &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
-                    <b>RG: </b><br>  &nbsp; &nbsp; &nbsp;&nbsp;  -
-                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
-                   
+                    &nbsp;  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+    
+                    <b>RG: </b><br>  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp;-
+                
                 </p>
                 {%endif%}
             </div>
-            <div class="col-md-4">
-                {% if recibo_passagem.acompanhante.formt_cpf%}
-                <p class="paragrafo tfd"><b>CPF: </b>
-                   
-                    <br>{{recibo_passagem.acompanhante.formt_cpf}}
-                    &nbsp; &nbsp;&nbsp;&nbsp;
-                   
-                </p>
+            <div class="col-md-2">
+                {% if recibo_passagem.cpf  %}
+                <p class="paragrafo  tfd">  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>CPF: </b><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;{{recibo_passagem.cpf|upper}}</p>
                 {% else %}
-                <p class="paragrafo tfd ">
-                    
-                    <b>CPF: </b> <br>
-                    &nbsp; -
-                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
-                   
-                </p>
-                {%endif%}
+                    <p class="paragrafo  tfd">  &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+                        <b>CPF: </b><br>&nbsp; &nbsp;
+                        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp;-</p>
+                {% endif %}
                 
             </div>
             <div class="col-md-2">
-                {% if recibo_passagem.acompanhante.cns%}
-                <p class="paragrafo tfd "><b>CNS: </b>
-                  
-                    <br>
-                    {{recibo_passagem.acompanhante.formt_cpf}}
-                   
-
-                </p>
-                
+                {% if recibo_passagem.cns %}
+                <p class="paragrafo tfd ">
+                    <b>CNS: </b><br>{{recibo_passagem.cns|upper}}</p>
                 {% else %}
+                
                 <p class="paragrafo tfd ">
-                    
-                    <b>CNS: </b> <br>
-                    &nbsp; -
-                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
-                   
-                </p>
-                {%endif%}
-            </div>
+                  &nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp;
     
-        </div>
-        {%else%}
-        <div class="row">
-            <div class="col-md-4">
-                <p class="paragrafo tfd ">
-                    
-                    <b>NOME DO ACOMPANHANTE: </b> <br>
-                    &nbsp; 
-                    -
-                    &nbsp;
-                    &nbsp;
-                    &nbsp; 
-                    &nbsp; 
-                   
-                </p>
+                    <b>CNS: </b><br> &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp;
+                                   &nbsp;&nbsp;  &nbsp; &nbsp;
+                    -</p>
+                {% endif %}
               
             </div>
-            <div class="col-md-4">
-                <p class="paragrafo tfd">
-                    &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
-                    <b>RG: </b><br>  &nbsp; &nbsp; &nbsp;&nbsp;  -
-                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
-                   
-                </p>
-               
-            </div>
-            <div class="col-md-4">
-               
-                <p class="paragrafo tfd ">
-                    
-                    <b>CPF: </b> <br>
-                    &nbsp; -
-                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
-                   
-                </p>
-            
-            </div>
-            <div class="col-md-2">
-                <p class="paragrafo tfd ">
-                    
-                    <b>CNS: </b> <br>
-                    &nbsp; -
-                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
-                   
-                </p>
-                
-            </div>
     
         </div>
-        {%endif%}
         <div class="linha"></div>
 
         <!-- MEIO DE TRANSPORTE -->
