@@ -11,14 +11,12 @@ class AtendimentoEspecialidade(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-    
 class AtendPaciente(models.Model):
     pacientespecialidade=models.ForeignKey('PacienteEspecialidade', verbose_name='Paciente', null=True,blank=True, on_delete=models.PROTECT)
     Atendespecialidade=models.ForeignKey(AtendimentoEspecialidade, on_delete=models.PROTECT, related_name='atend_paciente_especialidade')
     
-    
-
 class Especialidade(models.Model):
+    
     nome=models.CharField(max_length=255, verbose_name='Nome da Especialidade', unique=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -27,7 +25,6 @@ class Especialidade(models.Model):
 
     def __str__(self):
        return self.nome
-
 
 class PacienteEspecialidade(models.Model):
 

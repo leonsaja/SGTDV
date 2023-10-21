@@ -29,8 +29,7 @@
     <div class="container">
       <div class="row  justify-content-center">
 
-        <form class="col-md-8  needs-validation" method="GET"
-          id="validar-form">
+        <form class="col-md-8  needs-validation" method="GET" id="validar-form" action="{% url 'tfds:search-procedimento'%}">
           <div class="row">
             <div class="col-md-12">
               <div class="alert alert-danger d-none" role="alert">
@@ -118,13 +117,13 @@
               </tbody>
             </table>
             <br />
-            {% include 'paginacao_tfd.html'%}
+            {% include 'procedimento/paginacao_procedimento.html'%}
           </div>
         </div>
       </div>
     </div>
     {%else%}
-    <h5 class="text-center pt-4">Nenhum Recibo de Passagem foi encontrado.
+    <h5 class="text-center pt-4">Nenhum Procedimento foi encontrado.
     </h5>
     {%endif%}
   </div>

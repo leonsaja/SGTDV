@@ -33,6 +33,7 @@ urlpatterns = [
      path("update/<int:pk>/procedimento",view_proced.ProcedimentoUpdateView.as_view() ,name='edit-procedimento'),
      path("detail/<int:pk>/procedimento",view_proced.ProcedimentosDetailView.as_view() ,name='detail-procedimento'),
      path("del/<int:id>/procedimento",view_proced.procedimentosDelete,name='del-procedimento'),
+     path("search/procedimento",view_proced.ProcedimentoSearchListView.as_view() ,name='search-procedimento'),
 
 
 

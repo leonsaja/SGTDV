@@ -23,7 +23,8 @@ class Cidadao(models.Model):
     telefone=models.CharField(verbose_name='Telefone', max_length=15, null=True,blank=True)
     telefone1=models.CharField(verbose_name='Celular ', max_length=15,unique=True,null=False,blank=False)
     endereco=models.ForeignKey("Endereco",on_delete=models.SET_NULL, null=True, blank=False)
-    microarea=models.ForeignKey(MicroArea,null=True,blank=False,on_delete=models.SET_NULL, related_name='microarea_cidadao',verbose_name='Micro Área')
+    microarea=models.ForeignKey(MicroArea,null=True,blank=False,on_delete=models.PROTECT, related_name='microarea_cidadao',verbose_name='Micro Área')
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
