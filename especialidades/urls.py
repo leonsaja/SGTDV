@@ -18,11 +18,11 @@ urlpatterns = [
 
 
     #Paciente Especialidade
-    path('<int:id>/create/paciente_especialidade', view_paciente_especialidade.pacienteEspecialidadeCreate, name='add-paciente-especialidade' ),  
-    path('update/<int:id>/paciente_especialidade', view_paciente_especialidade.pacienteEspecialidadeUpdate, name='edit-paciente-especialidade' ),  
-    path('<int:id>/search/pacientes_especialidades', view_paciente_especialidade.pacienteEspecialidadeSearch, name='search-paciente-especialidade'),
+    path('<int:id>/create/paciente_especialidade', view_paciente_especialidade.pacienteEspecialidade_create, name='add-paciente-especialidade' ),  
+    path('update/<int:id>/paciente_especialidade', view_paciente_especialidade.pacienteEspecialidade_update, name='edit-paciente-especialidade' ),  
+    path('<int:id>/search/pacientes_especialidades', view_paciente_especialidade.pacienteEspecialidade_search, name='search-paciente-especialidade'),
     path('detail /<int:pk>/paciente_especialidade', view_paciente_especialidade.PacienteEspecialidadeDetailView.as_view(), name='detail-paciente-especialidade' ),  
-    path('delete/<int:id>/paciente_especialidade', view_paciente_especialidade.pacienteEspecialidadeDelete, name='del-paciente-especialidade' ),  
+    path('delete/<int:id>/paciente_especialidade', view_paciente_especialidade.pacienteEspecialidade_delete, name='del-paciente-especialidade' ),  
 
 
     #Atendimento de Especialidade

@@ -1,18 +1,17 @@
-from typing import Any, Dict
 
 from django.contrib import messages
-from django.core.paginator import Paginator
 from django.db.models import ProtectedError, Q
-from django.http import Http404
+from django.core.paginator import Paginator
+
 from django.shortcuts import get_object_or_404, redirect, render
+from especialidades.forms.form_paciente_especialidade import PacienteEspecialidadeForm
+from especialidades.models import Especialidade, PacienteEspecialidade
+from django.contrib import messages
+from django.contrib.messages import constants
 from django.views.generic import DetailView
 
-from especialidades.forms.form_paciente_especialidade import \
-    PacienteEspecialidadeForm
-from especialidades.models import Especialidade, PacienteEspecialidade
 
-
-def pacienteEspecialidadeCreate(request,id):
+def pacienteEspecialidade_create(request,id):
     
     especialidade=get_object_or_404(Especialidade,id=id)
 
@@ -23,6 +22,7 @@ def pacienteEspecialidadeCreate(request,id):
             form=form.save(commit=False)
             form.especialidade=especialidade
             form.save()
+            messages.add_message(request,constants.SUCCESS,'Cadastro realizado com sucesso')
             return redirect('especialidades:detail-especialidade', especialidade.id)
 
     
@@ -35,7 +35,7 @@ def pacienteEspecialidadeCreate(request,id):
     } 
     return render(request,'paciente_especialidade/form_paciente_especialidade.html',context)
 
-def pacienteEspecialidadeUpdate(request,id):
+def pacienteEspecialidade_update(request,id):
     paciente_especialidade=get_object_or_404(PacienteEspecialidade,id=id)
   
     especialidade=Especialidade.objects.get(nome=paciente_especialidade.especialidade.nome)
@@ -47,34 +47,32 @@ def pacienteEspecialidadeUpdate(request,id):
             form=form.save(commit=False)
             form.especialidade=especialidade
             form.save()
+            messages.add_message(request,constants.SUCCESS,'Dados  atualizado com sucesso')
             return redirect('especialidades:detail-especialidade', especialidade.id)
 
     else:
         form=PacienteEspecialidadeForm(instance=paciente_especialidade)
     
     context={
-            
             'form':form,
             'especialidade':especialidade,
     } 
-
-
     return render(request,'paciente_especialidade/form_paciente_especialidade.html',context)
 
-def pacienteEspecialidadeDelete(request,id):
+def pacienteEspecialidade_delete(request,id):
 
     paciente_especialidade=get_object_or_404(PacienteEspecialidade,id=id)
-   
     especialidade=Especialidade.objects.get(nome=paciente_especialidade.especialidade.nome)
 
     try:
         paciente_especialidade.delete()
+        messages.add_message(request,constants.SUCCESS,'Registro excluido com sucesso')
     except ProtectedError:
-        messages.error(request, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
+        messages.add_message(request,constants.ERROR ,"Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
     finally:
         return redirect('especialidades:detail-especialidade', especialidade.id)    
 
-def pacienteEspecialidadeSearch(request,id):
+def pacienteEspecialidade_search(request,id):
     
     template_name='especialidade/detail_especialidade.html'
     context=[]
@@ -87,17 +85,17 @@ def pacienteEspecialidadeSearch(request,id):
     if buscar and data :
             pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(\
                                                             especialidade__id=especialidade.id).filter(Q(paciente__nome_completo__icontains=buscar)|\
-                                                            Q(paciente__cpf__icontains=buscar)).filter(data_pedido__iexact=data).order_by('-data_pedido')
+                                                            Q(paciente__cpf__icontains=buscar)).filter(data_pedido__iexact=data).order_by('-created_at')
 
     elif buscar:             
             pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(\
                                                             especialidade__id=especialidade.id).filter(Q(paciente__nome_completo__icontains=buscar)|\
-                                                            Q(paciente__cpf__icontains=buscar)).order_by('-data_pedido')
+                                                            Q(paciente__cpf__icontains=buscar)).order_by('-created_at')
     elif data:
-            pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).filter(data_pedido__iexact=data).order_by('-data_pedido')
+            pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).filter(data_pedido__iexact=data).order_by('-created_at')
         
     else:
-        pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).order_by('-data_pedido')
+        pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).order_by('-created_at')
     
     
     paginator = Paginator(pacientes_especialidade, 10)  
@@ -105,7 +103,6 @@ def pacienteEspecialidadeSearch(request,id):
     page_obj= paginator.get_page(page_number)
     
     context={
-        
         'page_obj':page_obj,
         'especialidade':especialidade,
     }

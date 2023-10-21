@@ -10,12 +10,5 @@ class EspecialidadeForm(forms.ModelForm):
         model=Especialidade
         fields='__all__'
 
-    def clean_nome(self):
-        data = self.cleaned_data["nome"]
-
-        if Especialidade.objects.filter(nome=data).exists():
-            raise ValidationError('Já existe uma especialidade com esse nome.')
-        
-        return data
-    
+   
 

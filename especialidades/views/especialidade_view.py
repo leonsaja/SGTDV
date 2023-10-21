@@ -1,33 +1,35 @@
 
-from typing import Any
 from django.core.paginator import Paginator
 from django.contrib import messages
+from django.contrib.messages import constants
 from django.db.models import ProtectedError
-from django.db.models.query import QuerySet
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+from django.views.generic import (CreateView, ListView,
                                   UpdateView)
+
+from django.contrib.messages.views import SuccessMessageMixin
 
 from especialidades.forms.form_especialidade import EspecialidadeForm
 from especialidades.models import Especialidade, PacienteEspecialidade
 
 
-class EspecialidadeCreateView(CreateView):
+class EspecialidadeCreateView(SuccessMessageMixin,CreateView):
     model=Especialidade
     form_class=EspecialidadeForm
     success_url=reverse_lazy('especialidades:list-especialidade')
-    template_name='especialidade/form_especialidade.html'
-    
+    template_name='especialidade/form_especialidade.html' 
     context_object_name='form'
+    success_message='Cadastro realizado com sucesso'
 
-class EspecialidadeUpdateView(UpdateView):
+class EspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
     model=Especialidade
     form_class=EspecialidadeForm
     template_name='especialidade/form_especialidade.html'
     success_url=reverse_lazy('especialidades:list-especialidade')
     context_object_name='form'
+    success_message='Dados atualizado com sucesso'
 
 class EspecialidadeListView(ListView):
 
@@ -68,8 +70,10 @@ def especialidadeDelete(request, id):
         raise Http404()
     try:
         especialidade.delete()
+        messages.add_message(request,constants.SUCCESS,'Registro excluido com sucesso')
+        
     except ProtectedError:
-        messages.error(request, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
+        messages.add_message(request,constants.ERROR, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
     finally:
         return redirect('especialidades:list-especialidade')
        
