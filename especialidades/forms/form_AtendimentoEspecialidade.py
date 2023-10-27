@@ -16,10 +16,8 @@ class AtendEspecialidadeForm(forms.ModelForm):
     
     class Meta:
         model=AtendimentoEspecialidade
-        exclude=('especialiade',)
-       
-        
-        
+        fields='__all__'
+               
 class AtendPacienteForm(forms.ModelForm):
     
     class Meta:

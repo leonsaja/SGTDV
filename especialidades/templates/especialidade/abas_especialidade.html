@@ -1,4 +1,4 @@
-<div class="row mt-2 ml-2">
+<div class="row mt-2 ">
     <ul class="nav">
         <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{% url 'core:home'%}">
@@ -18,13 +18,13 @@
             {%endif%}
             
         </li>
-        {% if request.resolver_match.url_name == 'add-reembolso' %}
+        {% if request.resolver_match.url_name == 'add-especialidade' %}
         <li class="nav-item pt-2">
             <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
 
         </li>
         <li class="nav-item">
-            <p class="nav-link text-muted"> Cadastro de Reembolso</p>
+            <p class="nav-link text-muted"> Cadastro </p>
         </li>
         
         {% endif %}

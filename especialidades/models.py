@@ -4,7 +4,7 @@ from cidadao.models import Cidadao
 from profissionais.models import Profissional
 
 
-class AtendimentoEspecialidade(models.Model):
+""" class AtendimentoEspecialidade(models.Model):
     
     data=models.DateField(verbose_name='Data',null=False,blank=False)
     especialidade=models.ForeignKey("Especialidade", null=True, blank=True, on_delete=models.PROTECT, related_name='atend_especialidades')
@@ -12,9 +12,9 @@ class AtendimentoEspecialidade(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
 class AtendPaciente(models.Model):
-    pacientespecialidade=models.CharField(verbose_name='Paciente',null=True,blank=False, max_length=200)
-    atendespecialidade=models.ForeignKey(AtendimentoEspecialidade, on_delete=models.CASCADE, related_name='atend_paciente_especialidade')
-    
+    pacientespecialidade=models.CharField(verbose_name='Paciente',null=True,blank=True, max_length=200)
+    atendimentoespecialidade=models.ForeignKey(AtendimentoEspecialidade, on_delete=models.CASCADE, related_name='atend_paciente_especialidade')
+"""
 class Especialidade(models.Model):
     
     nome=models.CharField(max_length=255, verbose_name='Nome da Especialidade', unique=True)

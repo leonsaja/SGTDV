@@ -4,7 +4,6 @@ from especialidades.views import \
     paciente_especialidade_view as view_paciente_especialidade
 
 from .views import especialidade_view as view_especialidade
-from .views import atend_especialidade_view  as view_Atend_especialidade
 app_name='especialidades'
 
 urlpatterns = [
@@ -25,9 +24,6 @@ urlpatterns = [
     path('delete/<int:id>/paciente_especialidade', view_paciente_especialidade.pacienteEspecialidade_delete, name='del-paciente-especialidade' ),  
 
 
-    #Atendimento de Especialidade
     
-    path('list_especialidade', view_Atend_especialidade.EspecialidadeListView.as_view(), name='atend-especialidade'),  
-    path('<int:id>/create_atendimento_paciente', view_Atend_especialidade.atenEspecialidadeCreate, name='add_paciente_atend'),  
 
 ]   
