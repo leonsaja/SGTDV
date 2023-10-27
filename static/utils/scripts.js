@@ -38,5 +38,5 @@ $(function(){
 })
 setTimeout(function(){
     $('.show').remove();
-},2000);
+},4000);
 

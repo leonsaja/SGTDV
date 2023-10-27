@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     #Pacote
-    'adminlte3',
+   'adminlte3',
     'adminlte3_theme',  
     'bootstrap5',
     "widget_tweaks",
