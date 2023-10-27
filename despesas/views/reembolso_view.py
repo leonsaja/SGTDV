@@ -56,14 +56,14 @@ class ReembolsoListView(ListView):
    ordering='-created_at'
    paginate_by=10
    
-class SearchReembolsoListView(ListView):
+class ReembolsoSearchListView(ListView):
    model=Diaria
    template_name='reembolso/list_reembolso.html'
    context_object_name='diarias'
    paginate_by=10
    
    def get_queryset(self, *args, **kwargs):
-        qs = super(SearchReembolsoListView,self).get_queryset(*args, **kwargs)
+        qs = super(ReembolsoSearchListView,self).get_queryset(*args, **kwargs)
         buscar=self.request.GET.get('buscar',None)
         data=self.request.GET.get('data',None)
         

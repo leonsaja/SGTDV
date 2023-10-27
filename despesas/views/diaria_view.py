@@ -33,13 +33,9 @@ class DiariaListView(ListView):
     template_name='diaria/list_diaria.html'
     context_object_name='diarias'
     paginate_by=10
-
-    def get_queryset(self, *args, **kwargs):
-        qs = super(DiariaListView,self).get_queryset(*args, **kwargs)
-        qs = qs.select_related('profissional').order_by('-data_diaria')
-        return qs
+    queryset=Diaria.objects.select_related('profissional').order_by('-created_at')
     
-class SearchDiaria(ListView):
+class DiariaSearchListView(ListView):
 
     model=Diaria
     template_name='diaria/list_diaria.html'
@@ -47,28 +43,23 @@ class SearchDiaria(ListView):
     paginate_by=10
 
     def get_queryset(self, *args, **kwargs):
-        qs = super(SearchDiaria,self).get_queryset(*args, **kwargs)
+        qs = super(DiariaSearchListView,self).get_queryset(*args, **kwargs)
         buscar=self.request.GET.get('buscar',None)
         data=self.request.GET.get('data',None)
         
         if buscar and data:
-            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=buscar)| Q(profissional__cpf__icontains=buscar)).\
-                filter(data_diaria__iexact=data).order_by('-data_diaria')
-            return queryset
+            qs=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=buscar)| Q(profissional__cpf__icontains=buscar)).\
+                filter(data_diaria__iexact=data).order_by('-created_at')
         
         elif buscar:
-            queryset=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=buscar)|\
+            qs=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=buscar)|\
                 Q(profissional__cpf__icontains=buscar)).\
-                order_by('-data_diaria')
-            return queryset
+                order_by('-created_at')
 
         elif data:
-            queryset=qs.select_related('profissional').filter(data_diaria__iexact=data)
-            return queryset 
+            qs=qs.select_related('profissional').filter(data_diaria__iexact=data).order_by('-created_at')
     
-        else:
-            qs = qs.select_related('profissional').all().order_by('profissional__nome_completo')
-            return qs
+        return qs
 
 class DiariaDetailView(DetailView):
     model=Diaria
@@ -82,10 +73,9 @@ class DiariaDetailView(DetailView):
         
         return context
 
-def diariaDelete(request, id):
+def diaria_delete(request, id):
     diaria=get_object_or_404(Diaria,id=id)
     
-    print('teste')
     try:
         diaria.delete()
         messages.add_message(request,constants.SUCCESS,'Registro excluir com sucesso')
@@ -94,10 +84,9 @@ def diariaDelete(request, id):
     finally:
         return redirect('despesas:list-diaria')
     
-def diariaPdf(request,id):
+def diaria_pdf(request,id):
    
     diaria=get_object_or_404(Diaria,id=id)
-    print('diaria',diaria)
     
     response = HttpResponse(content_type='application/pdf')
     html_string = render_to_string('diaria/pdf_diaria.html',{'diaria':diaria})
