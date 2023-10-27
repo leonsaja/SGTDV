@@ -34,6 +34,8 @@ class EstabelecimentoListView(ListView):
     model=Estabelecimento
     template_name='estabelecimento/list_estabelecimento.html'
     context_object_name='estabelecimentos'
+    paginate_by=10
+    ordering='nome'
                                                                                                                                                                                                                                                                           
 def estabelecimento_delete(request,id):
    

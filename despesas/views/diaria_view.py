@@ -40,7 +40,7 @@ class DiariaSearchListView(ListView):
     model=Diaria
     template_name='diaria/list_diaria.html'
     context_object_name='diarias'
-    paginate_by=10
+    paginate_by=1
 
     def get_queryset(self, *args, **kwargs):
         qs = super(DiariaSearchListView,self).get_queryset(*args, **kwargs)
