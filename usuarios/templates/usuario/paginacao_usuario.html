@@ -4,11 +4,11 @@
 <nav aria-label="Page navigation">
   <ul class="pagination">
     {% if page_obj.has_previous %}
-    {% if request.GET.search_nome_cpf or request.GET.search_dt_nascimentoe%}
+    {% if request.GET.search_nome_cpf or request.GET.search_dt_nascimentoe or request.GET.check%}
 
     <li class="page-item">
       <a class="page-link"
-        href="?page={{ page_obj.previous_page_number }}&search_nome_cpf={{request.GET.search_nome_cpf}}&search_dt_nascimento={{request.GET.search_dt_nascimento}} "
+        href="?page={{ page_obj.previous_page_number }}&search_nome_cpf={{request.GET.search_nome_cpf}}&search_dt_nascimento={{request.GET.search_dt_nascimento}}&check{{request.GET.check}} "
         tabindex="-1" aria-disabled="true">&laquo;</a>
     </li>
     {%else%}
@@ -32,7 +32,7 @@
     {% elif i > page_obj.number|add:'-2' and i < page_obj.number|add:'2' %} 
        {% if request.GET.search_nome_cpf  or request.GET.search_dt_nascimento%}
             <li class="page-item"><a class="page-link"
-                href="?page={{ i }}&search_nome_cpf={{request.GET.search_nome_cpf}}&search_dt_nascimento={{request.GET.search_dt_nascimento}}">{{ i }}</a>
+                href="?page={{ i }}&search_nome_cpf={{request.GET.search_nome_cpf}}&search_dt_nascimento={{request.GET.search_dt_nascimento}}&check{{request.GET.check}}">{{ i }}</a>
             </li>
         {%else%}
             <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a>
@@ -42,15 +42,15 @@
     {% endfor %}
 
     {% if page_obj.has_next %}
-    {% if request.GET.search_nome_cpf or  request.GET.search_dt_nascimento %}
+    {% if request.GET.search_nome_cpf or  request.GET.search_dt_nascimento  or request.GET.check%}
     <li class="page-item " aria-current="page">
-      <a href="?page={{page_obj.next_page_number}}&search_nome_cpf={{request.GET.search_nome_cpf}}&search_dt_nascimento={{request.GET.search_dt_nascimento}}"
+      <a href="?page={{page_obj.next_page_number}}&search_nome_cpf={{request.GET.search_nome_cpf}}&search_dt_nascimento={{request.GET.search_dt_nascimento}}&check{{request.GET.check}}"
         class="page-link" tabindex="-2" aria-disabled="true">&raquo;</a>
     </li>
 
     {% else %}
     <li class="page-item " aria-current="page">
-      <a href="?page={{page_obj.next_page_number}}&search_nome_cpf={{request.GET.search_nome_cpf}}&search_dt_nascimento={{request.GET.search_dt_nascimento}}"
+      <a href="?page={{page_obj.next_page_number}}&search_nome_cpf={{request.GET.search_nome_cpf}}&search_dt_nascimento={{request.GET.search_dt_nascimento}}&check{{request.GET.check}}"
         class="page-link" tabindex="-2" aria-disabled="true">&raquo;</a>
     </li>
     {% endif %}

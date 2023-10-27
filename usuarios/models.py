@@ -23,7 +23,7 @@ class Usuario(AbstractUser):
      cpf=BRCPFField(verbose_name='CPF', unique=True, null=True, blank=False)
      dt_nascimento=models.DateField(verbose_name='Data de Nascimento', null=False, blank=False)
      tipo_usuario=models.CharField(verbose_name='Tipo de Usuario',choices=TIPO_USUARIO, max_length=1, null=True,blank=False)
-    
+     
      USERNAME_FIELD = "cpf"
      REQUIRED_FIELDS = ['nome_completo','tipo_usuario','dt_nascimento']
 

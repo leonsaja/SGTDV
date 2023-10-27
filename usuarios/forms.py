@@ -20,9 +20,7 @@ class CadastroUsuarioForm(UserCreationForm):
     class Meta:
         model = get_user_model()
         fields = ['nome_completo', 'email','cpf','password1', 'password2','dt_nascimento','tipo_usuario',]
-        """ widget={
-            'dt_nascimento':forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date', }),
-        }  """   
+       
     
     def clean_cpf(self):
       
