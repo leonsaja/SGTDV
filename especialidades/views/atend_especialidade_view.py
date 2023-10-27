@@ -6,25 +6,25 @@ from django.http import HttpResponse
 
 def atenEspecialidadeCreate(request,id):
 
-    form=AtendEspecialidadeForm()
-    atend=AtendimentoEspecialidade()
     especialidade= get_object_or_404(Especialidade,id=id)
+
+    atend=AtendimentoEspecialidade()
+   
     
     if request.method=='POST':
         
-        form=AtendEspecialidadeForm(request.POST or None)    
-        atendformset=AtendPacienteformset(request.POST or None,instance=atend,prefix='paciente')
-       
-        if form.is_valid() and atendformset.is_valid():
+        form=AtendEspecialidadeForm(request.POST)    
+        atendformset=AtendPacienteformset(request.POST,instance=atend,prefix='paciente')
+        
+        if form.is_valid() and  atendformset.is_valid():
             form=form.save(commit=False)
-            form.especialidade=especialidade
             form.save()
             atendformset.save()
             return HttpResponse('OPERACAO REALIZADO COM SUCESSO ')  
-        
+    
     form=AtendEspecialidadeForm(request.POST or None)
     atendformset=AtendPacienteformset(request.POST or None,instance=atend,prefix='paciente')
-    return render(request,'atend_especialidades/form_atend_especialidade.html',{'form':form,'atendformset':atendformset,'especialidade':especialidade})
+    return render(request,'atend_especialidades/form_atend_especialidade.html',{'form':form,'formset':atendformset,'especialidade':especialidade})
 
 
 class EspecialidadeListView(ListView):

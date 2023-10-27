@@ -4,81 +4,98 @@
 
 <div class="container ">
     <br><br>
-   <div class="row  justify-content-center">
-            <form method="POST">
-                {% csrf_token %}    
+
+    <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 px-4 needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="row">
+            
+            <div class="col-md-4">
+                {{form.data|as_crispy_field }}
+            </div>
+           
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <br>
+                {{formset.management_form}}
+
+
                 <div class="row">
-                         <div class="col-md-6">
-                        <label for="id_especialidade"> <b>ESPECIALIDADE</b></label>
-                        <input type="text" value="{{especialidade.nome}}" disabled class="form-control">
-                        </div>
-                                <div class="col-md-4">
-                                    {{form.data|as_crispy_field }}
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class=" text-primary"><strong>Paciente </strong></h4>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="table-responsive-md">
+                                <div class="card-body">
+                                    <table class="form table table-bordered">
+                                        {% for forms in formset %}
+                                        {% if forloop.first %}
+                                        <thead>
+                                            <tr>
+                                                {% for field in forms.visible_fields %}
+                                                <th>{{ field.label|capfirst }}</th>
+                                                {% endfor %}
+                                            </tr>
+                                        </thead>
+                                        {% endif %}
+                                        <tbody>
+                                            <tr class="{% cycle 'row1' 'row2' %}">
+                                                {% for field in forms.visible_fields %}
+                                                <td>
+                                                    {% if forloop.first %}
+                                                    {% for hidden in forms.hidden_fields %}
+                                                    {{ hidden }}
+                                                    {% endfor %}
+                                                    {% endif %}
+                                                    {{ field }}
+                                                    {{ field.errors.as_ul }}
+                                                </td>
+                                                {% endfor %}
+                                            </tr>
+                                        </tbody>
+                                        {% endfor %}
+                                    </table>
                                 </div>
+                            </div>
                         </div>
                     </div>
 
-                        <div class="row">
-                                     {{atendformset.management_form}} 
-                            
-                                    {% for atend in atendformset%}
 
-                    
-                                        <div class="col-12">
-                                            
-                                            <div id="item-{{ forloop.counter0 }}" class="form-group">
-                                                <div class="inlineform">      
-                                                    {{ atend|crispy }}
-                                                </div>
-                                            </div>
-                                    
-                                        </div>
-                    
-                                    {%endfor %}
-                         </div>
-
-                       
-
-                       
-                   
+                </div>
             </div>
-                <button  class="btn btn-primary" type="submit">Salvar</button>
-            </form>
-    </div>
+
+
+            <div class="row">
+                <div class="col-md-12 mb-5">
+                    <div class="text-right">
+                        <a href="{% url 'transportes:list-viagem'%}" class="btn btn-outline-danger mr-2">Cancelar</a>
+                        <button id="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
 </div>
+
 
 {% endblock %}
 
 {% block scripts %}
 
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src='/static/utils/jquery.formset.js'></script>
 
-<script>
-	$(function() {
-		$('.inlineform').formset({ prefix: '{{ atendformset.prefix }}', 
-		addText: '<i class=" fa fa-edit ">&nbsp &nbspAdicionar Alternativa', 
-		deleteText: '<br><i class="fa fa-times pb-4"> &nbsp &nbsp Excluir Alternativa', });
-		}) 
-</script>
-
-
+<script src='/static/utils/jquery.formset.min.js'></script>
 <script>
 
-
- $('.clPaciente').select2()
- $('.add-row').click(function(ev) {
-    ev.preventDefault();
-
-
-
-
-
-
-    $('.clPaciente').select2()
-
-});
+    $('table.form tr').formset({
+        prefix: '{{ formset.prefix }}',
+        addText: "<div><i class='fas fa-plus'></i></div>",
+        deleteText: 'Remover'
+    });
 </script>
 
 {% endblock scripts %}
