@@ -15,7 +15,7 @@ class Estabelecimento(models.Model):
 
 class MicroArea(models.Model):
     microarea=models.PositiveIntegerField(verbose_name='Microárea',unique=True)
-    estabelecimento=models.ForeignKey(Estabelecimento, verbose_name=('Estabelecimento'), on_delete=models.CASCADE)
+    estabelecimento=models.ForeignKey(Estabelecimento, verbose_name=('Estabelecimento'), on_delete=models.PROTECT)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

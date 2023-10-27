@@ -12,7 +12,7 @@ urlpatterns = [
     path('edit/<int:pk>/estabelecimento/',est_view.EstabelecimentoUpdateView.as_view(),name='edit-estabelecimento'),
     path('detail/<int:pk>/estabelecimento/',est_view.EstabelecimentoDetailView.as_view(),name='detail-estabelecimento'),
     path('list/estabelecimentos/',est_view.EstabelecimentoListView.as_view(),name='list-estabelecimento'),
-    path('delete/<int:pk>/estabelecimento/',est_view.EstabelecimentoDeleteView.as_view(),name='del-estabelecimento'),
+    path('delete/<int:id>/estabelecimento/',est_view.estabelecimento_delete,name='del-estabelecimento'),
 
     #Micro Área
     path('create/microarea/',micro_view.MicroAreaCreateView.as_view(),name='add-microarea'),
