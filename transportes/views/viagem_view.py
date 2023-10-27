@@ -23,6 +23,7 @@ def viagemCreate(request):
             form.save()
             formset.save()
             messages.add_message(request,constants.SUCCESS,'Viagem cadastrada com sucesso')
+           
             return redirect('transportes:list-viagem')
 
     form = ViagemForm(request.POST or None,instance=viagem,prefix='viagem')
