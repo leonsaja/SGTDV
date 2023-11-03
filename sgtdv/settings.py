@@ -34,8 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     #Pacote
-   'adminlte3',
-    'adminlte3_theme',  
+   
     'bootstrap5',
     "widget_tweaks",
     'crispy_forms',
@@ -196,6 +195,8 @@ CACHES = {
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
     },
 }
+
+
 
 SELECT2_CACHE_BACKEND = "select2"
 

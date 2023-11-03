@@ -1,4 +1,3 @@
-import decimal
 
 from django.db import models
 
