@@ -1,0 +1,74 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %}
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      {% include 'includes/mensagens.html' %}
+    </div>
+  </div>
+
+  <br /><br />
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h4 class="text-primary"><strong>Relátorio de Diária</strong></h4>
+    </div>
+  </div>
+  <br />
+  <form method="POST" target="_blank" class="needs-validation" novalidate>
+ {% csrf_token %}
+
+ <div class="row justify-content-center">
+  <div class="col-md-8 mt-3">
+    <h6><b>Período:</b></h6>
+  </div>
+ </div>
+    <div class="row justify-content-center mt-3" >
+      <div class="col-md-4 ">
+        {{form.data_inicial|as_crispy_field }}
+        <p id="error_1_id_data_inicial" class="invalid-feedback">
+          <strong>Este campo é obrigatório.</strong>
+        </p>
+      </div>
+      
+      <div class="col-md-4">
+        {{form.data_final|as_crispy_field }}
+      </div>
+    </div>
+
+    
+
+    <div class="row justify-content-center">
+      <div class="col-md-8 mt-5">
+        <div class="text-right">
+          <button type="submit" class="btn btn-primary" >Gerar Relatório</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/utils/buscacep.js"></script>
+<script>
+    document.getElementById('id_data_inicial').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+    document.getElementById('id_data_final').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+
+    let inicial=document.getElementById('id_data_inicial')
+    let final=document.getElementById('id_data_final')
+   
+    final.addEventListener('change',function(){
+        let data1= new Date(inicial.value)
+        let data2 = new Date(final.value)
+
+        console.log ('data',data1)
+        if (data1 > data2){
+          
+        }
+
+        console.log('teste10002',inicial.value,final.value)
+        
+    })
+    
+</script>
+{% endblock %}

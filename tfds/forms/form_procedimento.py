@@ -23,7 +23,7 @@ class CodigoSiaForm(forms.ModelForm):
    
     nome_proced=forms.CharField(label='Nome do Procedimento', widget=forms.Textarea( attrs={'placeholder':'Descrição', 'rows':4,'cols':10}))
     valor_unitario = forms.CharField(label='Valor Unitário ',widget=forms.TextInput(attrs={'placeholder':"R$ 0,00",'class':"money"}))
-    valor_contrapartida = forms.CharField(label='Contra Partida ',required=False, widget=forms.TextInput(attrs={'placeholder':"R$ 0,00",'class':"money"}))
+    valor_contrapartida = forms.CharField(label='Contrapartida ',required=False, widget=forms.TextInput(attrs={'placeholder':"R$ 0,00",'class':"money"}))
 
     class Meta:
         model=CodigoSIA

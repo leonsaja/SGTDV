@@ -32,6 +32,15 @@ class Diaria(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+    def valor_total(self):
+       total=0
+
+       if self.total:
+          total+=self.total
+       return total
+    
+    
     def __str__(self):
         return f'{self.profissional}'
     
