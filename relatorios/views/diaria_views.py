@@ -7,6 +7,7 @@ from reportlab.lib.pagesizes import A4
 from despesas.models import Diaria
 from relatorios.forms import RelatorioForm
 from datetime import datetime
+
 def relatorio_diaria_pdf(request,context):
     
     response = HttpResponse(content_type='application/pdf')
@@ -19,7 +20,8 @@ def relatorio_diaria_pdf(request,context):
     context['inicial']='{}/{}/{}'.format( context['inicial'][8:10],context['inicial'][5:7], context['inicial'][0:4])
     context['final']='{}/{}/{}'.format( context['final'][8:10],context['final'][5:7], context['final'][0:4])
     
-
+    context['data']=datetime.today().strftime('%d/%m/%Y') 
+    context['qta_reembolsos']=diarias.filter(reembolso='1').count()
     for d in diarias:
         total+=d.total
         
