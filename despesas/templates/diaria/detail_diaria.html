@@ -151,14 +151,24 @@
                                 <div class="table-responsive-md">
 
                                     <tr>
-                                        <td>{{r.get_descricao_display}}</td>
+                                        {% if r.descricao %}
+                                                <td>{{r.get_descricao_display}}</td>
+                                                {% else %}
+                                                <td class="text-center">
+                                                    -
 
-                                        <td class="text-center">{{r.valor_desp}}</td>
+                                                </td>
+                                                 {%endif%}
+                                                 {%if r.valor_desp%}
 
-                                        {% if movimentacao %}
+                                                    <td class="text-center">{{r.valor_desp}}</td>
+                                                 {%else%}
+                                                 <td class="text-center">-</td>
+                                                 {%endif%}
+
+                                        {% if r.movimentacao %}
                                         <td class="text-center">
-                                            {{r.get_movimento_display}}
-
+                                            {{r.get_movimentacao_display}}   
                                         </td>
                                         {%else %}
                                         <td class="text-center">
@@ -166,7 +176,7 @@
 
                                         </td>
                                         {%endif%}
-                                        {% if valor_mov %}
+                                        {% if r.valor_mov %}
                                         <td class="text-center">
                                             {{r.valor_mov}}
 
@@ -191,11 +201,25 @@
                                     <td class="text-end"><b>
                                             <h6>Total:</h6>
                                         </b> </td>
-
+                                 
                                     <td class="text-center"><b>
-                                            <h6>R$ {{ diaria.total_pag}}</h6>
+                                            <h6>R$ {{ diaria.total_desp}}</h6>
+                                        </b> </td>
+
+                                        <td class="text-end"><b>
+                                            <h6>Total:</h6>
+                                        </b> </td>
+                                 
+                                    <td class="text-center"><b>
+                                        {% if diaria.total_movimento%}
+                                         <h6>{{ diaria.total_movimento}}</h6>
+                                        {% else%}
+                                        <h6>R$  </h6>
+                                        {%endif%}
+                                          
                                         </b> </td>
                                 </tr>
+                                
 
 
                             </tfoot>

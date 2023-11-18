@@ -103,5 +103,15 @@ class Reembolso(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+
+    def total_desp(self):
+       total=0
+
+       if self.valor_desp:
+          total+=self.valor_desp
+
+       return total
+
     def __str__(self):
         return f'{self.id}'
