@@ -1,11 +1,34 @@
 {% extends 'relatorio.html' %}
 {% load static %}
 {% block title %}Relatorio{% endblock %}
+
+{% block head%} 
+<style>
+      body{
+
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      td{
+      padding-right: 8px;
+      padding: 8px;
+      text-align:center
+      }
+      th{
+        padding: 8px;
+        text-align: center;
+      }
+    
+
+</style>
+
+
+{%endblock head%}
 {% block content %}
 
 {% include  'includes/cabecalho.html' %}
 <div class="conteudo">
-  <h3 class=" title_center">Relatorio de Diarias</h3>
+  <h3 class=" title_center">Relatorio de Diárias</h3>
  
     <div class="row">
       <div class="col-md-5">
@@ -14,9 +37,8 @@
         
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         
+          
           <b> Data:</b> {{data}}
        
             </p>
@@ -25,185 +47,62 @@
     <div class="linha"></div>
     <div class="row">
       <div class="col-md-3">
-        <p class="paragrafo"><b>Quant. de Diarias: </b>{{qta_diarias}}
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-          <b>Total de Diarias R$: </b>{{total_diarias}}
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;
-          <b>Quant. de Reembolsos: </b>{{qta_reembolsos}}
+          <p class="paragrafo";>
+            <b>Quantidade de Diárias: </b>{{qta_diarias}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>Total  de Diárias: R$ </b>{{total_diarias}}
         </p>
       </div>
-     
-      
-
     </div>
-    <div class="linha"></div>
-    <p style="text-align: center;" class="paragrafo"><b>RELATÓRIO DESCREVENDO O OBJETO DA VIAGEM
-        INCLUINDO
-        PERÍODO</b></p>
     <div class="linha"></div>
     <div class="row">
-      <div class="col-md-12">
-        <p class="paragrafo">
-          <b>DESCRIÇÃO: </b>{{diaria.descricao}}
+      <div class="col-md-3">
+          <p class="paragrafo";>
+            <b>Quantidade de Reembolsos: </b>{{qta_reembolsos}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+            <b>Total  de Reembolsos: R$ </b>{{total_reembolsos}}
         </p>
       </div>
     </div>
-    {% if diaria.obs%}
     <div class="linha"></div>
-    <div class="row">
-      <div class="col-md-12">
-        <p class="paragrafo">
-          <b>OBSERVAÇÃO: </b> {{diaria.obs}}
-        </p>
-
-      </div>
-    </div>
-    {%endif%}
+    
   
   <div class="pt">
-    <table border=" 1" class="table-bordered ">
-      <thead>
-        <tr>
-          <th class="title_center">ITENS</th>
-          <th>DESCRICAO DAS DESPESAS</th>
-          <th>VALORES</th>
-
-
-
-        </tr>
-      </thead>
-      <tbody>
-        {% for r in reembolsos %}
-        <tr>
-
-          <td class="title_center">{{ forloop.counter }} </td>
-
-          {% if r.descricao %}
-          <td>{{r.get_descricao_display}}</td>
-          {% else %}
-          <td class="text-center">
-            -
-          </td>
-          {%endif%}
-          {%if r.valor_desp %}
-          <td style="text-align: end; ">R$ {{r.valor_desp}}
-          </td>
-          {%else%}
-          <td>
-            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            &nbsp; &nbsp; &nbsp; &nbsp;-
-
-          </td>
-
-          {%endif%}
-
-
-        </tr>
-
-        {%endfor%}
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="2" style="text-align: end;"><b>
-              <p>Total:</p>
-            </b> </td>
-
-          <td style="text-align: end;"><b>
-              <p>R$ {{ diaria.total_desp}}</p>
-            </b> </td>
-      </tfoot>
-    </table>
-  </div>
-  {% if movimentacao %}
-  <div class="pt">
-    <table border=" 1" class="table-bordered ">
-      <thead>
-        <tr>
-          <th class="title_center">ITENS</th>
-          <th class="title_center">MOVIMENTAÇÃO FINANCEIRA</th>
-          <th>VALORES</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for r in reembolsos %}
-        {% if r.movimentacao %}
-        <tr>
-
-          <td class="title_center">{{ forloop.counter }}</td>
-          {% if r.movimentacao %}
-          <td>{{r.get_movimentacao_display}}</td>
-          {% else %}
-          <td>
-
-            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            &nbsp; &nbsp; &nbsp; &nbsp;-
-          </td>
-          {%endif%}
-          {%if r.valor_mov %}
-          <td style="text-align: end;">R$ {{r.valor_mov}}
-          </td>
-          {%else%}
-          <td class="text-center">
-            -
-          </td>
-
-          {%endif%}
-        </tr>
-        {% endif %}
-        {%endfor%}
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="2" style="text-align: end;"><b>
-              <p>Total:</p>
-            </b> </td>
-          {% if diaria.total_movimento %}
-          <td style="text-align: end;">
-
-            <b>
-              <p>R$ {{ diaria.total_movimento}}</p>
-            </b>
-          </td>
-          {%else%}
-          <td style="text-align: end;">
-            <b>
-              <p>R$ 0,00 </p>
-            </b>
-          </td>
-          {%endif%}
-      </tfoot>
-    </table>
-  </div>
-
-  {%endif%}
-
-
-  <div class="bordas pt">
-    <p class="paragrafo title_center"> <b>AUTORIZAÇÃO DA DESPESA</b></p>
-    <p class="paragrafo"><b>DATA: </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
-    <p class="title_center">______________________________________</p>
-    <p class="paragrafo title_center"><b> VANUSA DIAS COSTA
-        <br>
-        SECRETARIA MUNICIPAL DE SAÚDE
-      </b>
-
-    </p>
-  </div>
-  <div class="bordas">
-    <p class="paragrafo title_center"><b> COMPROVANTE DE RECECIMENTO</b></p>
-    <p class="paragrafo"><b>DATA:</b> </p>
-    <p class="paragrafo">
-
-      <b>
-        Recebi o valor da importância acima a título de diária para despesas de viagem a serviço da Secretaria
-        Municipal de Saúde, no qual dou plena e total quitação.
-      </b>
-    </p>
     <br>
-    <p class="title_center">______________________________________</p>
-    <p class="paragrafo title_center"><b>{{diaria.profissional.nome_completo}}</b></p>
-  </div>
+    <table border=" 1" class="">
+      <thead>
+        <tr>
+          <th>ITENS</th>
+          <th>CPF</th>
+          <th>Nome do Profissional</th>
+         
+          <th>Quantidade</th>
 
-</div>
+
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in diarias %}
+        
+        <tr>
+
+          <td>{{ forloop.counter }}</td>
+          <td>{{d.profissional.formt_cpf}}</td>
+          <td>{{d.profissional.nome_completo}}</td>
+      
+          <td>{{d.qta_diaria}}</td>
+        
+        </tr>
+       
+        {%endfor%}
+      </tbody>
+      
+    </table>
+  </div>
+ 
+
 
 {% endblock %}
