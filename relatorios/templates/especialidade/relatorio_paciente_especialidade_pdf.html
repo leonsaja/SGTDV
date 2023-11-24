@@ -1,0 +1,110 @@
+{% extends 'relatorio.html' %}
+{% load static %}
+{% block title %}Relatorio{% endblock %}
+
+{% block head%} 
+<style>
+      body{
+
+        font-size: 15px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      td{
+      padding-right: 8px;
+      padding: 4px;
+      text-align:center
+      }
+      th{
+        padding: 8px;
+        text-align: center;
+      }
+    
+
+</style>
+
+
+{%endblock head%}
+{% block content %}
+
+{% include  'includes/cabecalho.html' %}
+<div class="conteudo">
+  <h3 class=" title_center">Relatorio de Pacientes na Especialidade</h3>
+  <br/>
+      <div class="col-md-3">
+        <p class="paragrafo";>
+          <b>Especialidade: </b>{{especialidade}}
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+          <b>Data: {{data}}</b> 
+     
+    </div>
+    <div class="linha"></div>
+      <div class="col-md-3">
+          <p class="paragrafo";>
+            <b>Quantidade de Pacientes: </b>{{qta_pacienteespecialidade}}
+            
+        </p>
+      </div>
+      <div class="linha"></div>
+      <div class="linha"></div>
+      <div class="col-md-3">
+          <p class="paragrafo";>
+            {% if especialidade and profissional and tipo_atendimento and classificacao%}
+            <b>Filtros de buscar: </b> Especialidade, Profissional, Tipo de atendimento e Classificação
+
+            {% elif  especialidade and profissional and tipo_atendimento %}
+            <b>Filtros de buscar: </b> Especialidade, Profissional e Tipo de atendimento
+
+            {% elif  especialidade and profissional   and classificacao%}
+            <b>Filtros de buscar: </b> Especialidade, Profissional e Tipo de atendimento
+
+            {% elif  especialidade  and classificacao and tipo_atendimento%}
+            <b>Filtros de buscar: </b> Especialidade, CLassificação e Tipo de atendimento
+
+            {% elif   especialidade and tipo_atendimento%}
+            <b>Filtros de buscar: </b> Especialidade e Tipo de atendimento
+
+            {% elif  especialidade and classificacao %}
+            <b>Filtros de buscar: </b> Especialidade e Classificação
+
+            {% elif  especialidade and profissional%}
+            <b>Filtros de buscar: </b> Especialidade e Profissional
+            {% else %}
+            <b>Filtros de buscar: </b> Especialidade
+            {% endif %}
+            
+        </p>
+      </div>
+      <div class="linha"></div>
+  <br/> 
+  <div class="pt">
+    
+    <table border=" 1" class="">
+      <thead>
+        <tr>
+          <th>Itens</th>
+          <th>Paciente</th>
+          <th>ACS</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in pacientes_especialidade %}
+        
+        <tr>
+
+          <td>{{ forloop.counter }}</td>
+          <td>{{p.paciente.nome_completo|upper}}</td>
+          <td>{{p.profissional.nome_completo|upper}}</td>
+         
+        
+        </tr>
+        {%endfor%}
+      </tbody>
+      
+    </table>
+  </div>
+ 
+</div>
+
+{% endblock %}

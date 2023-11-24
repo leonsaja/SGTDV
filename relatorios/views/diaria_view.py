@@ -5,7 +5,7 @@ from weasyprint import HTML
 from django.shortcuts import get_object_or_404, render,redirect
 from reportlab.lib.pagesizes import A4
 from despesas.models import Diaria
-from relatorios.forms import RelatorioForm
+from relatorios.forms.diaria_form import RelatorioDiariaForm
 from datetime import datetime
 
 def relatorio_diaria_pdf(request,context):
@@ -54,7 +54,7 @@ def relatorio_diaria_pdf(request,context):
 def relatorio_diaria(request):
     context={}
     if request.method == 'POST':
-        form=RelatorioForm(request.POST or None)
+        form=RelatorioDiariaForm(request.POST or None)
 
         if form.is_valid():
           context['inicial']=form.cleaned_data.get('data_inicial')
@@ -64,6 +64,6 @@ def relatorio_diaria(request):
           return relatorio_diaria_pdf(request,context)
 
     else:
-        form=RelatorioForm(request.POST or None)    
+        form=RelatorioDiariaForm(request.POST or None)    
         
     return render(request,'diaria/relatorio_diaria.html',{'form':form})           

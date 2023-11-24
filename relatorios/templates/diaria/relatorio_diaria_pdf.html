@@ -47,7 +47,7 @@
     <div class="linha"></div>
     <div class="row">
       <div class="col-md-3">
-          <p class="paragrafo";>
+          <p class="paragrafo">
             <b>Quantidade de Diárias: </b>{{qta_diarias}}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -75,9 +75,9 @@
       <thead>
         <tr>
           <th>ITENS</th>
-          <th>CPF</th>
           <th>Nome do Profissional</th>
-         
+          <th>CPF</th>
+          <th>Data da Diária</th>
           <th>Quantidade</th>
 
 
@@ -90,9 +90,10 @@
         <tr>
 
           <td>{{ forloop.counter }}</td>
-          <td>{{d.profissional.formt_cpf}}</td>
           <td>{{d.profissional.nome_completo}}</td>
-      
+          <td>{{d.profissional.formt_cpf}}</td>
+          
+          <td>{{d.data_diaria|date:"d/m/Y"|default:'---'}}</td>
           <td>{{d.qta_diaria}}</td>
         
         </tr>

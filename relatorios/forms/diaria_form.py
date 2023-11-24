@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from profissionais.models import Profissional
 from django.core.exceptions import ValidationError
 
-class RelatorioForm(forms.Form):
+class RelatorioDiariaForm(forms.Form):
     data_inicial=forms.CharField(label='Data Inicial', required=True,widget=forms.DateInput(
         format='%Y-%m-%d',
             attrs={

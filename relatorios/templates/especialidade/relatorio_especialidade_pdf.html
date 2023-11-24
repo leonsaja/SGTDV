@@ -1,0 +1,84 @@
+{% extends 'relatorio.html' %}
+{% load static %}
+{% block title %}Relatorio{% endblock %}
+
+{% block head%} 
+<style>
+      body{
+
+        font-size: 15px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      td{
+      padding-right: 8px;
+      padding: 8px;
+      text-align:center
+      }
+      th{
+        padding: 8px;
+        text-align: center;
+      }
+    
+
+</style>
+
+
+{%endblock head%}
+{% block content %}
+
+{% include  'includes/cabecalho.html' %}
+<div class="conteudo">
+  <h3 class=" title_center">Relatorio de Especialidades</h3>
+  <br/>
+      <div class="col-md-3">
+          <p class="paragrafo";>
+            <b>Quantidade de Especialidades: </b>{{qta_especialidade}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+            <b>Data:{{data}}</b> 
+        </p>
+      </div>
+   
+  <br/>  <br/>
+  <div class="pt">
+    
+    <table border=" 1" class="">
+      <thead>
+        <tr>
+          <th>Itens</th>
+          <th>Especialidade</th>
+          <th>Quantidade</th>
+          <th>Aguardando</th>
+          <th>Urgência</th>
+          <th>Concluido</th>
+          
+          
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in especialidades %}
+        
+        <tr>
+
+          <td>{{ forloop.counter }}</td>
+          <td>{{e.nome|upper}}</td>
+          <td>{{e.qta_pessoas_especialidade}}
+         </td>
+          <td>{{e.qta_pessoas_aguardando_especialidade}}
+          </td>
+          <td>{{e.qta_pessoas_urgencia_especialidade}}</td>
+       
+          <td>{{e.qta_pessoas_concluido_especialidade}}</td>
+        
+        </tr>
+        {%endfor%}
+      </tbody>
+      
+    </table>
+  </div>
+ 
+</div>
+
+{% endblock %}

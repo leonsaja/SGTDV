@@ -9,33 +9,31 @@
 
   <br /><br />
   <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-4">
       <h4 class="text-primary"><strong>Relátorio de Diária</strong></h4>
     </div>
   </div>
-  <br />
+  
   <form method="POST" class="needs-validation" novalidate>
  {% csrf_token %}
 
  <div class="row justify-content-center">
-  <div class="col-md-8 mt-3">
+  <div class="col-md-4 mt-3">
     <h6><b>Período:</b></h6>
   </div>
  </div>
     <div class="row justify-content-center mt-3" >
-      <div class="col-md-4 ">
+      <div class="col-md-2 ">
         {{form.data_inicial|as_crispy_field }}
-        <p id="error_1_id_data_inicial" class="invalid-feedback">
-          <strong>Este campo é obrigatório.</strong>
-        </p>
+      
       </div>
       
-      <div class="col-md-4">
+      <div class="col-md-2">
         {{form.data_final|as_crispy_field }}
       </div>
     </div>
     <div class="row justify-content-center mt-3" >
-      <div class="col-md-8 ">
+      <div class="col-md-4 ">
         {{form.profissionais|as_crispy_field }}
        
       </div>
@@ -45,7 +43,7 @@
     
 
     <div class="row justify-content-center">
-      <div class="col-md-8 mt-5">
+      <div class="col-md-4 mt-2">
         <div class="text-right">
           <button type="submit" class="btn btn-primary" >Gerar Relatório</button>
         </div>

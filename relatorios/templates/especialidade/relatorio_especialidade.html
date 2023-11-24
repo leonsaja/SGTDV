@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">{% include 'includes/mensagens.html' %}</div>
+  </div>
+
+  <br /><br />
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <h4 class="text-primary"><strong>Relátorio de Especialiades</strong></h4>
+    </div>
+  </div>
+
+  <form method="POST" class="needs-validation" novalidate>
+    {% csrf_token %} {% comment %}
+    
+    <div class="row justify-content-center mt-3">
+      <div class="col-md-4">{{form.especialidades|as_crispy_field }}</div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-md-4 mt-2">
+        <div class="text-right">
+          <button type="submit" class="btn btn-primary">Gerar Relatório</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %} {% block scripts %}
+
+{% endblock %}
