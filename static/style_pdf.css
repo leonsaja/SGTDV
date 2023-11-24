@@ -106,12 +106,8 @@ table {
   .table-bordered {
     margin-top: 5px;
   }
-  thead{
-    text-align: center;
-  }
-  td{
-    padding-right: 8px;
-  }
+ 
+  
   
 
   .table-bordered th,

@@ -39,3 +39,14 @@ HTML('http://samplewebsite.com/').write_pdf('/home/leonardo/Downloads/test.pdf',
         </label>
       </div>
     </div>
+
+
+class ACS(AbstractUserRole):
+    available_permissions = {
+        'cidadao_create': True,
+        'cidadao_update': True,
+    }
+
+
+
+    diaria=Diaria.objects.annotate(quant=Count('profissional'))

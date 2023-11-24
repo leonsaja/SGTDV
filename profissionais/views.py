@@ -28,17 +28,6 @@ class ProfissionalUpdateView(SuccessMessageMixin,UpdateView):
     success_url=reverse_lazy('profissionais:list-profissional')
     success_message='Dados atualizados com sucesso'
  
-def profissional_delete(request, id):
-    profissional=get_object_or_404(Profissional,id=id)
-
-    try:
-        profissional.delete()
-        messages.add_message(request,constants.SUCCESS,'Registro excluido com sucesso')
-    except ProtectedError:
-        messages.add_message(request, constants.ERROR, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
-    finally:
-        return redirect('profissionais:list-profissional')
-
 class ProfissionalDetailView(DetailView):
 
     model=Profissional
@@ -79,3 +68,14 @@ class ProfissionalSearchListView(ListView):
              qs=qs.select_related('estabelecimento','microarea').filter(dt_nascimento__iexact=search_dt_nascimento)
         
         return qs
+
+def profissional_delete(request, id):
+    profissional=get_object_or_404(Profissional,id=id)
+
+    try:
+        profissional.delete()
+        messages.add_message(request,constants.SUCCESS,'Registro excluido com sucesso')
+    except ProtectedError:
+        messages.add_message(request, constants.ERROR, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
+    finally:
+        return redirect('profissionais:list-profissional')
