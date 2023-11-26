@@ -9,6 +9,9 @@
         font-size: 15px;
         font-family: Arial, Helvetica, sans-serif;
       }
+      .subtitulo{
+        font-size: 12px;
+      }
       td{
       padding-right: 8px;
       padding: 4px;
@@ -17,6 +20,10 @@
       th{
         padding: 8px;
         text-align: center;
+      }
+      table{
+
+        font-size: 12px;
       }
     
 
@@ -27,7 +34,31 @@
 {% block content %}
 
 {% include  'includes/cabecalho.html' %}
+<div>
+
+  <p class="subtitulo"><b>Filtros:</b>
+    
+      {% if especialidade%}
+          Especialidade
+      {% endif %}
+
+      {% if profissional%}
+        , Profissional
+      {% endif %}
+
+      {% if  tipo_atendimento%}
+          , Tipo de Atendimento
+      {% endif %}
+
+      {% if  classificacao%}
+          , Classificação
+      {% endif %}
+
+</p>
+</div>
 <div class="conteudo">
+
+
   <h3 class=" title_center">Relatorio de Pacientes na Especialidade</h3>
   <br/>
       <div class="col-md-3">
@@ -46,46 +77,34 @@
             
         </p>
       </div>
-      <div class="linha"></div>
-      <div class="linha"></div>
-      <div class="col-md-3">
-          <p class="paragrafo";>
-            {% if especialidade and profissional and tipo_atendimento and classificacao%}
-            <b>Filtros de buscar: </b> Especialidade, Profissional, Tipo de atendimento e Classificação
-
-            {% elif  especialidade and profissional and tipo_atendimento %}
-            <b>Filtros de buscar: </b> Especialidade, Profissional e Tipo de atendimento
-
-            {% elif  especialidade and profissional   and classificacao%}
-            <b>Filtros de buscar: </b> Especialidade, Profissional e Tipo de atendimento
-
-            {% elif  especialidade  and classificacao and tipo_atendimento%}
-            <b>Filtros de buscar: </b> Especialidade, CLassificação e Tipo de atendimento
-
-            {% elif   especialidade and tipo_atendimento%}
-            <b>Filtros de buscar: </b> Especialidade e Tipo de atendimento
-
-            {% elif  especialidade and classificacao %}
-            <b>Filtros de buscar: </b> Especialidade e Classificação
-
-            {% elif  especialidade and profissional%}
-            <b>Filtros de buscar: </b> Especialidade e Profissional
-            {% else %}
-            <b>Filtros de buscar: </b> Especialidade
-            {% endif %}
-            
-        </p>
-      </div>
+     
       <div class="linha"></div>
   <br/> 
   <div class="pt">
     
-    <table border=" 1" class="">
+    <table border=" 1">
       <thead>
         <tr>
           <th>Itens</th>
           <th>Paciente</th>
           <th>ACS</th>
+            {% if  tipo_atendimento%}
+            <th>
+              Tipo de Atendimento
+            </th>
+            {% endif %}
+            {% if  classificacao%}
+            <th>
+              Classificação
+            </th>
+            {% endif %}
+            {% if  status%}
+            <th>
+              Status
+            </th>
+            {% endif %}
+            <th>Data do Pedido</th>
+         
         </tr>
       </thead>
       <tbody>
@@ -96,8 +115,23 @@
           <td>{{ forloop.counter }}</td>
           <td>{{p.paciente.nome_completo|upper}}</td>
           <td>{{p.profissional.nome_completo|upper}}</td>
-         
-        
+            {% if  tipo_atendimento%}
+            <td>
+              {{p.get_tipo_atendimento_display}}
+            </td>
+            {% endif %}
+            {% if classificacao%}
+            <td>
+              {{ p.get_classificacao_display }}
+            </td>
+            {% endif %}
+            {% if status%}
+            <td>
+              {{ p.get_status_display }}
+            </td>
+            {% endif %}
+           <td>{{p.data_pedido|date:"d/m/Y"|default:'---'}}</td>
+                  
         </tr>
         {%endfor%}
       </tbody>

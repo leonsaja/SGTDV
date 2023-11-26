@@ -30,7 +30,6 @@ class ReciboTFD(models.Model):
 
       total=0
       for item in items:
-            """   print('dados total',item.codigosia.subtotal,item.qtd_procedimento) """
             total+=item.codigosia.subtotal*item.qtd_procedimento
            
       return total
@@ -140,6 +139,6 @@ class ReciboPassagemTFD(models.Model):
          return resul
       
       else:
-            return '-'
+            return resul
 
 

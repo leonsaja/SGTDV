@@ -1,0 +1,105 @@
+{% extends 'relatorio.html' %}
+{% load static %}
+{% block title %}Relatorio{% endblock %}
+
+{% block head%} 
+<style>
+      body{
+
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      td{
+      padding-right: 8px;
+      padding: 8px;
+      text-align:center
+      }
+      th{
+        padding: 8px;
+        text-align: center;
+      }
+      table{
+
+        font-size: 12px;
+      }
+    
+
+</style>
+
+
+{%endblock head%}
+{% block content %}
+
+{% include  'includes/cabecalho.html' %}
+<div class="conteudo">
+  <h3 class=" title_center">Relatório de Recibo de TFDs</h3>
+ 
+    <div class="row">
+      <div class="col-md-5">
+        <p class="paragrafo "><b>Período: </b>{{inicial}}   a {{final}}
+
+        
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+         
+          
+          <b> Data:</b> {{data}}
+       
+            </p>
+      </div>
+    </div>
+    <div class="linha"></div>
+    <div class="row">
+      <div class="col-md-3">
+          <p class="paragrafo">
+            <b>Quantidade de Recibo: </b>{{qta_recibo_tfds}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>Total  de Recibo:  </b>R$ {{total_recibo}}
+        </p>
+      </div>
+    </div>
+    <div class="linha"></div>
+    
+  
+  <div class="pt">
+    <br>
+    <table border=" 1" class="">
+      <thead>
+        <tr>
+          <th>ITENS</th>
+          <th>Nome do Paciente</th>
+          <th>CPF</th>
+          <th>Acompanhante</th>
+          <th>Subtotal</th>
+          
+        
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in recibos_tfds %}
+        
+        <tr>
+
+          <td>{{ forloop.counter }}</td>
+          <td>{{r.paciente.nome_completo|upper}}</td>
+          <td>{{r.paciente.formt_cpf}}</td>
+          {%if r.acompanhante%}
+            <td>{{r.acompanhante|upper}}</td>
+          {%else%}
+            <td>-</td>
+          {%endif%}
+          <td>R$ {{r.total_pag}}</td>
+         
+        
+        </tr>
+       
+        {%endfor%}
+      </tbody>
+      
+    </table>
+  </div>
+ 
+
+
+{% endblock %}
