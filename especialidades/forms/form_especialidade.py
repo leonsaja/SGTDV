@@ -10,5 +10,13 @@ class EspecialidadeForm(forms.ModelForm):
         model=Especialidade
         fields='__all__'
 
+    
+    def clean_nome(self):
+        data = self.cleaned_data["nome"]
+        data=data.upper()
+        
+        return data
+    
+
    
 
