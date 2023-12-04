@@ -18,6 +18,10 @@
         padding: 8px;
         text-align: center;
       }
+      table{
+
+        font-size: 12px;
+      }
     
 
 </style>
@@ -28,7 +32,7 @@
 
 {% include  'includes/cabecalho.html' %}
 <div class="conteudo">
-  <h3 class=" title_center">Relatorio de Diárias</h3>
+  <h3 class=" title_center">Relatório de Recibo de Passagens</h3>
  
     <div class="row">
       <div class="col-md-5">
@@ -48,53 +52,54 @@
     <div class="row">
       <div class="col-md-3">
           <p class="paragrafo">
-            <b>Registros identificados: </b>{{qta_diarias}}
+            <b>Registros identificados: </b>{{qta_recibo_passagem}}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <b>Total  de Diárias: R$ </b>{{total_diarias}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>Total  de Recibos:  </b>R$ {{total_recibo}}
         </p>
       </div>
     </div>
     <div class="linha"></div>
     <div class="row">
-      <div class="col-md-3">
-          <p class="paragrafo";>
-            <b>Quantidade de Reembolsos: </b>{{qta_reembolsos}}
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-            <b>Total  de Reembolsos: R$ </b>{{total_reembolsos}}
-        </p>
+        <div class="col-md-3">
+            <p class="paragrafo">
+              <b>Quantidade de Passagens: </b>{{qta_passagem}}
+              
+             
+          </p>
+        </div>
       </div>
-    </div>
-    <div class="linha"></div>
-    
-  
+      <div class="linha"></div>
+      
   <div class="pt">
     <br>
     <table border=" 1" class="">
       <thead>
         <tr>
           <th>ITENS</th>
-          <th>Nome do Profissional</th>
+          <th>Nome do Paciente</th>
           <th>CPF</th>
-          <th>Data da Diária</th>
-          <th>Quantidade</th>
-
-
-
+          <th>Acompanhante</th>
+          <th>Subtotal</th>
+          
+        
         </tr>
       </thead>
       <tbody>
-        {% for d in diarias %}
+        {% for r in recibos_tfds %}
         
         <tr>
 
           <td>{{ forloop.counter }}</td>
-          <td>{{d.profissional.nome_completo}}</td>
-          <td>{{d.profissional.formt_cpf}}</td>
-          
-          <td>{{d.data_diaria|date:"d/m/Y"|default:'---'}}</td>
-          <td>{{d.qta_diaria}}</td>
+          <td>{{r.paciente.nome_completo|upper}}</td>
+          <td>{{r.paciente.formt_cpf}}</td>
+          {%if r.acompanhante%}
+            <td>{{r.acompanhante|upper}}</td>
+          {%else%}
+            <td>-</td>
+          {%endif%}
+          <td>R$ {{r.valor_total_passagem}}</td>
+         
         
         </tr>
        

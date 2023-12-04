@@ -56,26 +56,12 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="/static/utils/buscacep.js"></script>
+
 <script>
     document.getElementById('id_data_inicial').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
     document.getElementById('id_data_final').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
 
-    let inicial=document.getElementById('id_data_inicial')
-    let final=document.getElementById('id_data_final')
-   
-    final.addEventListener('change',function(){
-        let data1= new Date(inicial.value)
-        let data2 = new Date(final.value)
-
-        console.log ('data',data1)
-        if (data1 > data2){
-          
-        }
-
-        console.log('teste10002',inicial.value,final.value)
-        
-    })
+  
     
 </script>
 {% endblock %}

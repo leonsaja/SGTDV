@@ -7,7 +7,7 @@
   <br /><br />
   <div class="row justify-content-center">
     <div class="col-md-4">
-      <h4 class="text-primary"><strong>Relátorio de Recibo de TFDs</strong></h4>
+      <h4 class="text-primary"><strong>Relátorio de Recibo de Passagens</strong></h4>
     </div>
   </div>
 
@@ -36,10 +36,10 @@
 </div>
 {% endblock %} {% block scripts %}
 <script>
-  document.getElementById('id_data_inicial').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
-  document.getElementById('id_data_final').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
-
+    document.getElementById('id_data_inicial').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+    document.getElementById('id_data_final').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
 
   
+    
 </script>
 {% endblock %}

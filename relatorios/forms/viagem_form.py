@@ -1,28 +1,35 @@
 from django import forms
 from datetime import datetime, timedelta
-from especialidades.models import Especialidade
-from django.core.exceptions import ValidationError
 from cidadao.models import Cidadao
 from django_select2 import forms as s2forms
 
+from profissionais.models import Profissional
 
-class RelatorioReciboPassagemForm(forms.Form):
 
-    data_inicial=forms.CharField(label='Data Inicial',widget=forms.DateInput(
+class RelatorioViagemForm(forms.Form):
+
+    data_inicial=forms.CharField(label='Data Inicial',required=True,widget=forms.DateInput(
         format='%Y-%m-%d',
             attrs={
                 'type': 'date',
             }),
        
     )
-    data_final= forms.CharField(label='Data Final',widget=forms.DateInput(format='%Y-%m-%d',
+    data_final= forms.CharField(label='Data Final',required=True,widget=forms.DateInput(format='%Y-%m-%d',
             attrs={
                 'type': 'date',
             }),
         )
-    pacientes=forms.ModelChoiceField(label='Paciente', queryset=Cidadao.objects.select_related('endereco','microarea').all(),
-                                         required=False,  widget=s2forms.Select2Widget()) 
+    profissionais=forms.ModelChoiceField(label='Motorista', queryset=Profissional.objects.select_related('estabelecimento','microarea').all(),
+                                         required=False,widget=forms.Select(attrs={'class': 'form-control'}))
     
+    
+    STATUS=(
+        ('1','AGUARDANDO'),
+        ('2','CONCLUÍDO'),
+    )
+
+    status=forms.ChoiceField(label='Status',required=False, widget=forms.RadioSelect,choices=STATUS) 
 
     def clean(self):
 

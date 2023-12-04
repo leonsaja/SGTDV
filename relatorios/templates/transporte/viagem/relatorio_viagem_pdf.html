@@ -12,15 +12,19 @@
       td{
       padding-right: 8px;
       padding: 8px;
-      text-align:center
+     
       }
       th{
         padding: 8px;
-        text-align: center;
+        
       }
       table{
 
         font-size: 12px;
+       
+      }
+      .negrito{
+        font-weight: bold;
       }
     
 
@@ -32,7 +36,7 @@
 
 {% include  'includes/cabecalho.html' %}
 <div class="conteudo">
-  <h3 class=" title_center">Relatório de Recibo de TFDs</h3>
+  <h3 class=" title_center">Relatório de Viagens</h3>
  
     <div class="row">
       <div class="col-md-5">
@@ -43,7 +47,7 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
          
           
-          <b> Data:</b> {{data}}
+          <b> Data do relatório:</b> {{data}}
        
             </p>
       </div>
@@ -51,50 +55,51 @@
     <div class="linha"></div>
     <div class="row">
       <div class="col-md-3">
-          <p class="paragrafo">
-            <b>Registros identificados: </b>{{qta_recibo_tfds}}
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <b>Total  de Recibo:  </b>R$ {{total_recibo}}
+          <p class="paragrafo ">
+            <b>Registros identificados: </b>{{qta_registro_viagens}}
+           
+        </p>
+      </div>
+    </div>
+   
+    <div class="linha"></div>
+    <div class="row">
+      <div class="col-md-3">
+          <p class="paragrafo ">
+            <b>Quantidade pessoas transportados:</b> {{qta_pessoas_transportados}}            
         </p>
       </div>
     </div>
     <div class="linha"></div>
+    <br>
+
     
-  
+      
+      
   <div class="pt">
     <br>
-    <table border=" 1" class="">
+    <table border=" 1">
       <thead>
         <tr>
-          <th>ITENS</th>
-          <th>Nome do Paciente</th>
-          <th>CPF</th>
-          <th>Acompanhante</th>
-          <th>Subtotal</th>
-          
-        
+          <th>Destino</th>
+          <th>Motorista</th>
+          <th>Carro</th>
+          <th>Data da Viagem</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
-        {% for r in recibos_tfds %}
-        
+        {%for v in viagens%}
         <tr>
-
-          <td>{{ forloop.counter }}</td>
-          <td>{{r.paciente.nome_completo|upper}}</td>
-          <td>{{r.paciente.formt_cpf}}</td>
-          {%if r.acompanhante%}
-            <td>{{r.acompanhante|upper}}</td>
-          {%else%}
-            <td>-</td>
-          {%endif%}
-          <td>R$ {{r.total_pag}}</td>
-         
-        
+         <td>{{v.destino_viagem}}</td>
+         <td>{{v.motorista.nome_completo}}</td>
+         <td>{{v.carro}}</td>
+         <td>{{v.data_viagem|date:"d/m/Y"|default:'---'}}</td>
+         <td>{{v.get_status_display}}</td>
         </tr>
-       
+        
         {%endfor%}
+      
       </tbody>
       
     </table>

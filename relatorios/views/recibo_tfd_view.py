@@ -40,8 +40,7 @@ def relatorio_recibo_tfd_pdf(request,context):
 
 def relatorio_recibo_tfd(request):
     context={}
-    recibo_tfds=ReciboTFD.objects.select_related('paciente').all().prefetch_related('procedimento_recibo_tfd')
-    print(recibo_tfds)
+    
     
     if request.method == 'POST':
         form=RelatorioReciboTfdsForm(request.POST or None)

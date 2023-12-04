@@ -1,0 +1,163 @@
+{% extends 'relatorio.html' %}
+{% load static %}
+{% block title %}Relatorio{% endblock %}
+
+{% block head%} 
+<style>
+      body{
+
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      td{
+      padding-right: 8px;
+      padding: 8px;
+     
+      }
+      th{
+        padding: 8px;
+        text-align: center;
+      }
+      table{
+
+        font-size: 12px;
+       
+      }
+      .negrito{
+        font-weight: bold;
+      }
+    
+
+</style>
+
+
+{%endblock head%}
+{% block content %}
+
+{% include  'includes/cabecalho.html' %}
+<div class="conteudo">
+  <h3 class=" title_center">Relatório de Transportes</h3>
+ 
+    <div class="row">
+      <div class="col-md-5">
+        <p class="paragrafo "><b>Período: </b>{{inicial}}   a {{final}}
+
+        
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+         
+          
+          <b> Data do relatório:</b> {{data}}
+       
+            </p>
+      </div>
+    </div>
+    <div class="linha"></div>
+    <div class="row">
+      <div class="col-md-3">
+          <p class="paragrafo ">
+            <b>Registros identificados: </b>{{qta_registro_transporte}}
+           
+        </p>
+      </div>
+    </div>
+   
+    <div class="linha"></div>
+    <br>
+
+    <div class="row">
+        <div class="col-md-3">
+            <p class="paragrafo ">
+              Quantidade de atendimento aos pacientes residentes na zona rural: {{qta_atend_zona_rural}}
+              
+          </p>
+        </div>
+      </div>
+      <div class="linha"></div>
+      <div class="row">
+        <div class="col-md-3">
+            <p class="paragrafo">
+              Quantidade total de pacientes atendidos no modo rotineiro: {{qta_atendimento_rotineiro}}
+              
+             
+          </p>
+        </div>
+      </div>
+      <div class="linha"></div>
+    
+      <div class="row">
+        <div class="col-md-3">
+            <p class="paragrafo">
+              Quantidade total de pacientes atendidos no modo eventual: {{qta_atendimento_eventual}}
+              
+             
+          </p>
+        </div>
+      </div>
+     
+     
+      <div class="linha"></div>
+
+      <div class="row">
+        <div class="col-md-3">
+            <p class="paragrafo">
+              Quantidade de pacientes que não compareceu na consulta: {{qta_paciente_nao_foi_consulta}}
+              
+             
+          </p>
+        </div>
+      </div>
+     
+     
+      <div class="linha"></div>
+      
+  <div class="pt">
+    <br>
+    <table border=" 1">
+      <thead>
+        <tr>
+          <th>Descrição</th>
+          <th>Pacientes</th>
+          <th>Acompanhantes</th>
+          <th>Total</th>
+        
+          
+        
+        </tr>
+      </thead>
+      <tbody>
+       
+        <tr>
+
+          <td>Quantidade de pacientes e acompanhantes atendidos com veículos próprios:</td>
+          <td class="title_center">{{qta_atend_carro_proprio_paciente}}</td>
+          <td class="title_center">{{qta_atend_carro_proprio_acompanhante}}</td>
+          <th class="title_center">{{total_atend_carro_propio}}</th>
+        </tr>
+        <tr>
+
+          <td>Quantidade de pacientes e acompanhantes atendidos com veículos do consórcio:</td>
+          <td class="title_center">{{qta_atend_carro_consorcio_paciente}}</td>
+          <td class="title_center">{{qta_atend_carro_consorcio_acompanhante}}</td>
+          <th class="title_center">{{total_atend_carro_consorcio}}</th>
+         
+        </tr>
+        <tr>
+
+          <td>Quantidade de procedimento realizado para pacientes e acompanhantes:</td>
+          <td class="title_center">{{qta_proced_paciente}}</td>
+          <td class="title_center">{{qta_proced_acompanhante}}</td>
+          <td class="title_center">{{total_procedimento}}</td>
+         
+        </tr>
+       
+       
+      
+      </tbody>
+      
+    </table>
+  </div>
+ 
+
+
+{% endblock %}
