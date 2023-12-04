@@ -204,9 +204,33 @@
                   </li>
                   <li class="nav-item">
 
-                    <a href="{% url 'relatorios:relatorio-paciente-especialidade'%}" class="nav-link link-houver">
+                    <a href="{% url 'relatorios:relatorio-recibo-passagem'%}" class="nav-link link-houver">
       
                       <p class=" text-sm text-muted">Recibo de Passagem </p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                 
+                  <p class="text-sm text-muted">
+                    Transportes
+                    <i class="right fas fa-angle-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview ">
+                  <li class="nav-item">
+
+                    <a href="{% url 'relatorios:relatorio-registro-transporte'%}" target="_blank" class="nav-link link-houver">
+                      <p class=" text-sm text-muted">Registro Transportes</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+
+                    <a href="{% url 'relatorios:relatorio-viagem'%}" class="nav-link link-houver">
+      
+                      <p class=" text-sm text-muted">Viagens </p>
                     </a>
                   </li>
                 </ul>
