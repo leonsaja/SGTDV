@@ -26,7 +26,6 @@ class RegistroTransporteListView(ListView):
     context_object_name='transportes'
     paginate_by=10
     
-    
     def get_queryset(self, *args, **kwargs):
         qs = super(RegistroTransporteListView,self).get_queryset(*args, **kwargs)
         qs = qs.select_related('paciente','carro').order_by('-created_at').all()

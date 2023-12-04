@@ -21,6 +21,17 @@ class Viagem(models.Model):
    updated_at = models.DateTimeField(auto_now=True)
 
 
+   def qta_pessoas(self):
+      pessoas=PassageiroViagem.objects.select_related('viagem').filter(viagem=self).all()
+      total=0
+      for p in pessoas:
+            if p.paciente and p.acompanhante:
+               total+=1
+               
+            if p.paciente:
+               total+=1
+      return total
+
 
    def __str__(self):
       return f'{self.destino_viagem}'
