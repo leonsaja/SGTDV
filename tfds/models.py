@@ -139,6 +139,6 @@ class ReciboPassagemTFD(models.Model):
          return resul
       
       else:
-            return resul
+            return self.quant_passagem_paciente
 
 
