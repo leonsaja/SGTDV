@@ -1,7 +1,8 @@
 from django import forms
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta,date
 from cidadao.models import Cidadao
 from django_select2 import forms as s2forms
+from django.core.exceptions import ValidationError
 
 from profissionais.models import Profissional
 
@@ -31,18 +32,53 @@ class RelatorioViagemForm(forms.Form):
 
     status=forms.ChoiceField(label='Status',required=False, widget=forms.RadioSelect,choices=STATUS) 
 
+
+
+    def clean_data_inicial(self):
+        data = self.cleaned_data["data_inicial"]
+        data_atual=date.today().strftime('%Y-%m-%d')
+        
+        if data > data_atual:
+            raise ValidationError('Data inicial é maior que data atual')
+
+        return data
+    
+    def clean_data_final(self):
+        data = self.cleaned_data["data_final"]
+        data_atual=date.today().strftime('%Y-%m-%d')
+        
+        if data > data_atual:
+            raise ValidationError('Data final é maior que data atual')
+
+        return data
+     
+
     def clean(self):
 
         cleaned_data = super().clean()
         inicial = cleaned_data.get("data_inicial")
         final = cleaned_data.get("data_final")
-                    
+
+
         if inicial and final:
+
+           
+
+        
+            if inicial > final:
+                self.add_error('data_inicial', 'Data inicial é maior que Data final ')
+                                                                
             inicial_data=datetime.strptime(inicial,'%Y-%m-%d')
             final_data=datetime.strptime(final,'%Y-%m-%d')
             
-            if inicial > final:
-                self.add_error('data_inicial', 'Data inicial é maior que Data final ')
+            print('tipo',type(inicial))
+            print('tipo2',type(final))
+
+            
+            
+            
+
+
 
             data_limite=timedelta(days=180)
             pesquisado=final_data-inicial_data
@@ -50,3 +86,5 @@ class RelatorioViagemForm(forms.Form):
             if pesquisado > data_limite:
                 self.add_error('data_inicial', 'Periodo maior que 6 meses ')
                 self.add_error('data_final', 'Periodo maior que 6 meses ')
+   
+    

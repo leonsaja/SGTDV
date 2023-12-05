@@ -1,7 +1,8 @@
 from django import forms
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta,date
 from cidadao.models import Cidadao
 from django_select2 import forms as s2forms
+from django.core.exceptions import ValidationError
 
 
 class RelatorioRegistroTransporteForm(forms.Form):
@@ -10,14 +11,11 @@ class RelatorioRegistroTransporteForm(forms.Form):
         format='%Y-%m-%d',
             attrs={
                 'type': 'date',
-            }),
-       
-    )
+            }),)
     data_final= forms.CharField(label='Data Final',required=True,widget=forms.DateInput(format='%Y-%m-%d',
             attrs={
                 'type': 'date',
-            }),
-        )
+            }),)
     pacientes=forms.ModelChoiceField(label='Paciente', queryset=Cidadao.objects.select_related('endereco','microarea').all(),
                                          required=False,  widget=s2forms.Select2Widget())
    
@@ -45,7 +43,26 @@ class RelatorioRegistroTransporteForm(forms.Form):
     acompanhante=forms.ChoiceField(label='Acompanhante ',required=False, widget=forms.RadioSelect,choices=ACOMPANHANTE)
     atend_zona_rural=forms.ChoiceField(label='Atend. Zona Rural ',required=False, widget=forms.RadioSelect,choices=ATEND_ZONA_RURAL)
     tipo_atendimento=forms.ChoiceField(label='Classficação',required=False, widget=forms.RadioSelect,choices=TIPO_ATENDIMENTO)
-    status=forms.ChoiceField(label='Status',required=False, widget=forms.RadioSelect,choices=STATUS_CHOICES) 
+    status=forms.ChoiceField(label='Status',required=False, widget=forms.RadioSelect,choices=STATUS_CHOICES)
+
+
+    def clean_data_inicial(self):
+        data = self.cleaned_data["data_inicial"]
+        data_atual=date.today().strftime('%Y-%m-%d')
+        
+        if data > data_atual:
+            raise ValidationError('Data inicial é maior que data atual')
+
+        return data
+    
+    def clean_data_final(self):
+        data = self.cleaned_data["data_final"]
+        data_atual=date.today().strftime('%Y-%m-%d')
+        
+        if data > data_atual:
+            raise ValidationError('Data final é maior que data atual')
+
+        return data
 
     def clean(self):
 

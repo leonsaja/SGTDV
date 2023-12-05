@@ -32,6 +32,7 @@ def relatorio_viagem_pdf(request,context):
         context['inicial']=datetime.strptime(context['inicial'],'%Y-%m-%d').strftime('%d/%m/%Y')
         context['final']=datetime.strptime(context['final'],'%Y-%m-%d').strftime('%d/%m/%Y')
         context['data']=datetime.today().strftime('%d/%m/%Y')
+        print(type(context['data']))
 
         #total de viagem do periodo
         context['qta_registro_viagens']= viagens.count()

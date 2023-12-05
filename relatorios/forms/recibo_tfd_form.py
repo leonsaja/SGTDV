@@ -1,5 +1,5 @@
 from django import forms
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta,date
 from especialidades.models import Especialidade
 from django.core.exceptions import ValidationError
 from cidadao.models import Cidadao
@@ -23,6 +23,25 @@ class RelatorioReciboTfdsForm(forms.Form):
     pacientes=forms.ModelChoiceField(label='Paciente', queryset=Cidadao.objects.select_related('endereco','microarea').all(),
                                          required=False,  widget=s2forms.Select2Widget())
     
+
+    def clean_data_inicial(self):
+        data = self.cleaned_data["data_inicial"]
+        data_atual=date.today().strftime('%Y-%m-%d')
+        
+        if data > data_atual:
+            raise ValidationError('Data inicial é maior que data atual')
+
+        return data
+    
+    def clean_data_final(self):
+        data = self.cleaned_data["data_final"]
+        data_atual=date.today().strftime('%Y-%m-%d')
+        
+        if data > data_atual:
+            raise ValidationError('Data final é maior que data atual')
+
+        return data
+     
 
     def clean(self):
 

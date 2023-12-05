@@ -1,7 +1,7 @@
 
 from typing import Any
 from django import forms
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta,date
 from profissionais.models import Profissional
 from django.core.exceptions import ValidationError
 
@@ -24,18 +24,23 @@ class RelatorioDiariaForm(forms.Form):
     widget=forms.Select(attrs={'class': 'form-control'}))
    
     def clean_data_inicial(self):
-       data = self.cleaned_data["data_inicial"]
-       if not data:
-           raise ValidationError('Por favor, digite uma data inicial.')
-       return data
-    
+        data = self.cleaned_data["data_inicial"]
+        data_atual=date.today().strftime('%Y-%m-%d')
+        
+        if data > data_atual:
+            raise ValidationError('Data inicial é maior que data atual')
 
+        return data
+    
     def clean_data_final(self):
-       data = self.cleaned_data["data_final"]
-       
-       if not data:
-           raise ValidationError('Por favor, digite uma data final.')
-       return data
+        data = self.cleaned_data["data_final"]
+        data_atual=date.today().strftime('%Y-%m-%d')
+        
+        if data > data_atual:
+            raise ValidationError('Data final é maior que data atual')
+
+        return data
+     
    
 
         

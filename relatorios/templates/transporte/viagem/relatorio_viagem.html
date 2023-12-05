@@ -37,5 +37,13 @@
 </div>
 {% endblock %} 
 
+{% block scripts %}
 
+<script>
+    document.getElementById('id_data_inicial').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+    document.getElementById('id_data_final').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
 
+  
+    
+</script>
+{% endblock %}  
