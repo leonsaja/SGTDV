@@ -82,22 +82,15 @@ def pacienteEspecialidade_search(request,id):
    
     especialidade= get_object_or_404(Especialidade,id=id)
     
-    if buscar and data :
-            pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(\
-                                                            especialidade__id=especialidade.id).filter(Q(paciente__nome_completo__icontains=buscar)|\
-                                                            Q(paciente__cpf__icontains=buscar)).filter(data_pedido__iexact=data).order_by('-created_at')
 
-    elif buscar:             
+    if buscar:             
             pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(\
                                                             especialidade__id=especialidade.id).filter(Q(paciente__nome_completo__icontains=buscar)|\
                                                             Q(paciente__cpf__icontains=buscar)).order_by('-created_at')
-    elif data:
+    if data:
             pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).filter(data_pedido__iexact=data).order_by('-created_at')
         
-    else:
-        pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).order_by('-created_at')
-    
-    
+
     paginator = Paginator(pacientes_especialidade, 10)  
     page_number = request.GET.get("page")
     page_obj= paginator.get_page(page_number)

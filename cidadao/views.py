@@ -97,33 +97,17 @@ class CidadaoSearchListView(ListView):
     def get_queryset(self, *args, **kwargs):
         qs = super(CidadaoSearchListView,self).get_queryset(*args, **kwargs)
 
-        search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
+        search_nome_cpf_cns=self.request.GET.get('search_nome_cpf',None)
         search_nome_mae=self.request.GET.get('search_nome_mae',None)
         search_dt_nascimento=self.request.GET.get('search_dt_nascimento',None)
 
-       
-        if search_nome_cpf and search_nome_mae and search_dt_nascimento:
-            qs=qs.select_related('endereco','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))\
-                .filter(nome_mae__icontains=search_nome_mae)\
-                .filter(dt_nascimento__iexact=search_dt_nascimento)
-            
-        elif search_nome_cpf  and search_dt_nascimento:
-            qs=qs.select_related('endereco','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))\
-                .filter(dt_nascimento__iexact=search_dt_nascimento).order_by('-nome_completo')
-       
+        if search_nome_cpf_cns:
+            qs=qs.select_related('endereco','microarea').filter(Q(nome_completo__icontains=search_nome_cpf_cns)| Q(cpf__icontains=search_nome_cpf_cns)|Q(cns__icontains=search_nome_cpf_cns))
+              
+        if search_nome_mae:
+            qs=qs.select_related('endereco','microarea').filter(nome_mae__icontains=search_nome_mae)
         
-        elif search_nome_mae and search_dt_nascimento:
-            qs=qs.select_related('endereco','microarea')\
-                .filter(nome_mae__icontains=search_nome_mae)\
-                    .filter(dt_nascimento__iexact=search_dt_nascimento)
-            
-        elif search_nome_cpf:
-            qs=qs.select_related('endereco','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))
-            
-        elif search_nome_mae:
-            qs=qs.select_related('endereco','microarea').filter(nome_mae__icontains=search_nome_mae).order_by('-nome_completo')
-           
-        elif search_dt_nascimento:
-            qs=qs.select_related('endereco','microarea').filter(dt_nascimento__iexact=search_dt_nascimento).order_by('-nome_completo')
-      
+        if search_dt_nascimento:
+            qs=qs.select_related('endereco','microarea').filter(dt_nascimento__iexact=search_dt_nascimento)
+
         return qs

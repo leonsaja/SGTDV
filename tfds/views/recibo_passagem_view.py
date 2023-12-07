@@ -54,17 +54,12 @@ class ReciboPassagemSearchListView(ListView):
         search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
         search_data_recibo=self.request.GET.get('data',None)
 
-        if search_nome_cpf and search_data_recibo:
-            qs=qs.select_related('paciente').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))\
-                .filter(data_recibo__iexact=search_data_recibo)
-            
         
-        elif search_nome_cpf:
+        if search_nome_cpf:
             qs=qs.select_related('paciente').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)|\
                 Q(paciente__cpf__icontains=search_nome_cpf))
-          
         
-        elif search_data_recibo:     
+        if search_data_recibo:     
              qs=qs.select_related('paciente').filter(data_recibo__iexact=search_data_recibo)
         
         return qs

@@ -67,17 +67,11 @@ class ReembolsoSearchListView(ListView):
         buscar=self.request.GET.get('buscar',None)
         data=self.request.GET.get('data',None)
         
-        if buscar and data:
+        if buscar:
             qs=qs.select_related('profissional')\
-                .filter(reembolso=1).filter(Q(profissional__nome_completo__icontains=buscar)| Q(profissional__cpf__icontains=buscar))\
-                    .filter(data_diaria__iexact=data).order_by('-created_at')
+                .filter(reembolso=1).filter(Q(profissional__nome_completo__icontains=buscar)| Q(profissional__cpf__icontains=buscar)).order_by('-created_at')
         
-        elif buscar:
-            qs=qs.select_related('profissional').filter(reembolso=1)\
-                .filter(Q(profissional__nome_completo__icontains=buscar)| Q(profissional__cpf__icontains=buscar))\
-                    .order_by('-created_at')
-      
-        elif data:
+        if data:
              qs=qs.select_related('profissional')\
                 .filter(reembolso=1).filter(data_diaria__iexact=data).order_by('-created_at')
             

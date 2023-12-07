@@ -54,17 +54,10 @@ class ProfissionalSearchListView(ListView):
         search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
         search_dt_nascimento=self.request.GET.get('search_dt_nascimento',None)
         
-        
-        if search_nome_cpf and search_dt_nascimento:
-            qs=qs.select_related('estabelecimento','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))\
-                .filter(dt_nascimento__iexact=search_dt_nascimento)
-          
-        
-        elif search_nome_cpf:
+        if search_nome_cpf:
             qs=qs.select_related('estabelecimento','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))
           
-        
-        elif search_dt_nascimento:
+        if search_dt_nascimento:
              qs=qs.select_related('estabelecimento','microarea').filter(dt_nascimento__iexact=search_dt_nascimento)
         
         return qs

@@ -71,16 +71,11 @@ class ReciboTFDSearchListView(ListView):
         search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
         data=self.request.GET.get('data',None)
       
-        if search_nome_cpf and data:
-            qs=qs.select_related('paciente').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))\
-                .filter(data__iexact=data).order_by('-created_at')
-           
-        elif search_nome_cpf:
+        if search_nome_cpf:
             qs=qs.select_related('paciente').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))\
             .order_by('-data')
            
-        
-        elif data:
+        if data:
              qs=qs.select_related('paciente').filter(data__iexact=data).order_by('-created_at')
         
         return qs

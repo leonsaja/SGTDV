@@ -78,37 +78,16 @@ class ViagemSearchListView(ListView):
         placa_carro=self.request.GET.get('placa_carro',None)
         data=self.request.GET.get('data',None)
 
-        if destino_viagem and data and placa_carro:
-            queryset=qs.select_related('motorista','carro').filter(destino_viagem__icontains=destino_viagem).\
-                filter(data_viagem__iexact=data).\
-                    filter(carro__placa__iexact=placa_carro)
+        if destino_viagem:
+            qs=qs.select_related('motorista','carro').filter(destino_viagem__icontains=destino_viagem).order_by('-data_viagem')
                     
-        elif destino_viagem and placa_carro:
-            queryset=qs.select_related('motorista','carro').\
-                filter(destino_viagem__icontains=destino_viagem).\
-                filter(carro__placa__iexact=placa_carro).order_by('-data_viagem')
+        if placa_carro:
+            qs=qs.select_related('motorista','carro').filter(carro__placa__iexact=placa_carro).order_by('-data_viagem')
         
-        elif data and placa_carro:
-            
-             queryset=qs.select_related('motorista','carro').filter(data_viagem__iexact=data)\
-             .filter(carro__placa__iexact=placa_carro).order_by('-data_viagem')
-        
-        elif destino_viagem:
-             queryset=qs.select_related('motorista','carro').\
-                filter(destino_viagem__icontains=destino_viagem).order_by('-data_viagem')
-                
-        elif data:
-            queryset=qs.select_related('motorista','carro').filter(data_viagem__iexact=data).order_by('-data_viagem')
-          
-        
-        elif placa_carro:
-            queryset=qs.select_related('motorista','carro').\
-            filter(carro__placa__iexact=placa_carro).order_by('-data_viagem')
-       
-        else:
-            queryset=qs.select_related('motorista','carro').order_by('-data_viagem')
-            
-        return queryset
+        if data :
+             qs=qs.select_related('motorista','carro').filter(data_viagem__iexact=data).order_by('-data_viagem')
+    
+        return qs
     
 class DetailViagemView(SuccessMessageMixin,DetailView):
     model=Viagem
@@ -130,21 +109,6 @@ class ViagemDeleteView(SuccessMessageMixin,DeleteView):
     def get(self, request,*args, **kwargs):
          return self.post(request, *args, **kwargs)
 
-    
-    
-    """ def viagemDelete(request,id):
-
-    viagem=Viagem.objects.select_related('motorista','carro').get(id=id)
-    
-    if not viagem:
-        raise Http404()
-    try:
-        viagem.delete()
-    except ProtectedError:
-        messages.error(request, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
-    finally:
-        return redirect('profissionais:list-profissional') """
-        
 def viagemPdf(request,id):
     
     viagem=get_object_or_404(Viagem,id=id)
