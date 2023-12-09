@@ -28,7 +28,7 @@
 
 {% include  'includes/cabecalho.html' %}
 <div class="conteudo">
-  <h3 class=" title_center">Relatorio de Diárias</h3>
+  <h3 class=" title_center">Relatório de Diárias</h3>
  
     <div class="row">
       <div class="col-md-5">
@@ -37,9 +37,9 @@
         
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-         
-          
-          <b> Data:</b> {{data}}
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+          &nbsp;&nbsp;&nbsp;
+          <b> Data do relatório:</b> {{data}}
        
             </p>
       </div>
@@ -49,25 +49,24 @@
       <div class="col-md-3">
           <p class="paragrafo">
             <b>Registros identificados: </b>{{qta_diarias}}
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <b>Total  de Diárias: R$ </b>{{total_diarias}}
         </p>
-      </div>
-    </div>
-    <div class="linha"></div>
-    <div class="row">
-      <div class="col-md-3">
-          <p class="paragrafo";>
-            <b>Quantidade de Reembolsos: </b>{{qta_reembolsos}}
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-            <b>Total  de Reembolsos: R$ </b>{{total_reembolsos}}
-        </p>
+        
       </div>
     </div>
     <div class="linha"></div>
     
+          <p class="paragrafo";>
+            <b>Quantidade de Reembolsos: </b>{{qta_reembolsos}}
+           
+        </p>
+    <div class="linha"></div>
+
+    <p class="paragrafo"><b>Total  de Diárias: R$ </b>{{total_diarias}}</p>
+
+     
+    <div class="linha"></div>
+    <p class="paragrafo"><b>Total  de Reembolsos: R$ </b>{{total_reembolsos}}</p>
+
   
   <div class="pt">
     <br>
