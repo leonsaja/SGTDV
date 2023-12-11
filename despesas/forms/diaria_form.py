@@ -1,11 +1,8 @@
 from decimal import Decimal
-
 from django import forms
 from django.core.exceptions import ValidationError
 from django_select2 import forms as s2forms
-
-from ..models import Diaria
-
+from despesas.models import Diaria
 
 class DiariaForm(forms.ModelForm):
 
@@ -54,6 +51,16 @@ class DiariaForm(forms.ModelForm):
                 return data_conta   
             raise ValidationError('Digite a conta corretamente com até 8 digitos.')
         return data_conta
+    
+
+    def clean(self):
+        profissional=self.cleaned_data['profissional']
+        data=self.cleaned_data['data_diaria']
+
+        if Diaria.objects.filter(profissional=profissional).filter(data_diaria=data).exists():
+            self.add_error('data_diaria', 'Já existe uma diaria do profissional com essa data')
+
+        return super().clean()
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
