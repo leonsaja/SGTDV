@@ -1,0 +1,9 @@
+TIPO_USUARIO=(
+        ('1','1-ACS'),
+        ('2','2-Coordenação'),
+        ('3','3-Digitador'),
+        ('4','4-Recepção'),
+        ('5','5-Secretario'),
+        ('6','6-Regulação'),
+       
+      )
