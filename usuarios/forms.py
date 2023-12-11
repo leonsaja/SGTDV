@@ -2,12 +2,11 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import ValidationError
-
 from utils.django_form import validarCpf
 
 
 class CadastroUsuarioForm(UserCreationForm):
-    
+
     dt_nascimento = forms.DateField(
         label='Data de Nascimento',
         widget=forms.DateInput(
@@ -19,7 +18,7 @@ class CadastroUsuarioForm(UserCreationForm):
     )
     class Meta:
         model = get_user_model()
-        fields = ['nome_completo', 'email','cpf','password1', 'password2','dt_nascimento','tipo_usuario',]
+        fields = ['nome_completo', 'email','cpf','password1', 'password2','dt_nascimento','perfil']
        
     
     def clean_cpf(self):
@@ -52,7 +51,7 @@ class EditarUsuarioForm(UserChangeForm):
   
     class Meta:
         model=get_user_model()
-        fields = ['nome_completo','email','cpf','dt_nascimento','tipo_usuario','is_active']
+        fields = ['nome_completo','email','cpf','dt_nascimento','perfil','is_active']
 
 
     def clean_cpf(self):

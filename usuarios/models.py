@@ -5,24 +5,31 @@ from localflavor.br.models import BRCPFField
 from .managers import UsuarioManager
 
 
-class Usuario(AbstractUser):
-     
-     TIPO_USUARIO=(
+class PerfilUsuario(models.Model):
+      TIPO_USUARIO=(
         ('1','1-ACS'),
-        ('2','2-Compras'),
-        ('3','3-Coordenação'),
-        ('4','4-Digitador'),
-        ('5','5-Recepção'),
+        ('2','2-Coordenação'),
+        ('3','3-Digitador'),
+        ('4','4-Recepção'),
+        ('5','5-Secretario'),
         ('6','6-Regulação'),
        
-    )
+      )
+      tipo_usuario=models.CharField(verbose_name='Tipo de Usuario',choices=TIPO_USUARIO, max_length=1, null=True,blank=False)
+
+      def __str__(self):
+        return dict(self.TIPO_USUARIO)[self.tipo_usuario]
+
+class Usuario(AbstractUser):
+     
    
      username = None
      nome_completo=models.CharField(verbose_name='Nome Completo', max_length=200, null=True, blank=False)
      email = models.EmailField(verbose_name='E-mail', null=True, blank=True)
      cpf=BRCPFField(verbose_name='CPF', unique=True, null=True, blank=False)
      dt_nascimento=models.DateField(verbose_name='Data de Nascimento', null=False, blank=False)
-     tipo_usuario=models.CharField(verbose_name='Tipo de Usuario',choices=TIPO_USUARIO, max_length=1, null=True,blank=False)
+     perfil=models.ManyToManyField(PerfilUsuario)
+
      
      USERNAME_FIELD = "cpf"
      REQUIRED_FIELDS = ['nome_completo','tipo_usuario','dt_nascimento']
