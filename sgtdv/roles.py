@@ -23,6 +23,5 @@ class Regulacao(AbstractUserRole):
                            'cadastrar_recibo_passagem':True,'editar_recibo_passagem':True,'buscar_recibo_tfd':True,\
                             'cadastrar_especialidade':True,'editar_especialidade':True,'listar_especialidade':True,\
                                 'emissao_relatorios':True}
-     
 class Secretaria(AbstractUserRole):
      available_permissions={'emissão de relatórios':True}
