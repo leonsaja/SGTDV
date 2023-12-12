@@ -73,7 +73,6 @@ class CidadaoDetailView(DetailView):
         
         return context
 
-
 class CidadaoListView(ListView):
     model=Cidadao
     template_name='cidadao/list_cidadao.html'

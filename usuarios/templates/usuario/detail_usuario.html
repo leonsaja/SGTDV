@@ -34,19 +34,27 @@
         <br />
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label for="id_cpf" class="form-label">CPF:</label>
                 <h6 id='rg' class="text-muted">{{usuario.formt_cpf}}</h6>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label for="id_dt_nascimento" class="form-label">Data Nascimento:</label>
                 <h6 id='cpf' class="text-muted">{{usuario.dt_nascimento|date:"d/m/Y"|default:'---'}}</h6>
             </div>
-            <div class="col-md-4">
-                <label for="id_tipo_usuario" class="form-label">Tipo de  Usuario:</label>
+            <div class="col-md-3">
+                <label for="id_tipo_usuario" class="form-label">Perfil:</label>
                 {%for p in usuario.perfil.all %}
                     <h6 class="text-muted">{{p}}</h6>
                 {%endfor %}
+            </div>
+            <div class="col-md-3">
+                <label for="id_check" class="form-label"> Cadastro:</label>
+                {%if usuario.is_active%}
+                    <h6 class="text-muted">Ativado</h6>
+                {%else%}
+                    <h6 class="text-muted">Desativado</h6>
+                {% endif %}
             </div>
         </div>
         <br />
