@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from django.forms.forms import BaseForm
+from django.http.response import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -14,6 +16,11 @@ class UsuarioCreateView(SuccessMessageMixin,CreateView):
     context_object_name='form'
     success_url=reverse_lazy('usuarios:list-usuario')
     success_message='Cadastro realizado com sucesso'
+    
+    
+    """ def form_valid(self,form):
+        
+        return super().form_valid(form) """
 
 class UsuarioUpdateView(SuccessMessageMixin,UpdateView):
     
@@ -49,26 +56,16 @@ class UsuarioSearchListView(ListView):
         search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
         data=self.request.GET.get('data',None)
         desativado=self.request.GET.get('check',None)
-        print('user', self.request.GET)
-
-        if search_nome_cpf and data:
-            qs=qs.filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))\
-                .filter(dt_nascimento__iexact=data).order_by('-nome_completo')
-           
-        elif search_nome_cpf and desativado:
-             qs=qs.filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))\
-                .filter(is_active=False).filter(is_staff=False).order_by('-nome_completo')
-
-        elif search_nome_cpf:
-            qs=qs.filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf)).filter(is_staff=False).order_by('nome_completo')
-        
-        elif data:
-             qs=qs.filter(dt_nascimento__iexact=data).filter(is_staff=False).order_by('nome_completo')
-        
-        elif desativado:
-              print('teste')
-              qs=qs.filter(is_active=False).filter(is_staff=False).order_by('nome_completo')
        
+        if search_nome_cpf:
+            qs=qs.filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf)).order_by('-nome_completo')
+        
+        if data:
+             qs=qs.filter(dt_nascimento__iexact=data).filter(is_staff=False).order_by('-nome_completo')
+         
+        if desativado:
+             qs=qs.filter(is_active=False).filter(is_staff=False).order_by('-nome_completo')
+   
         return qs
 
 class UsuarioDetailView(DetailView):
@@ -76,3 +73,4 @@ class UsuarioDetailView(DetailView):
     model=User
     template_name='usuario/detail_usuario.html'
     context_object_name='usuario'
+    

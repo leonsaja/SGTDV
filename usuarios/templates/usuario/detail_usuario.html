@@ -44,7 +44,9 @@
             </div>
             <div class="col-md-4">
                 <label for="id_tipo_usuario" class="form-label">Tipo de  Usuario:</label>
-                <h6 class="text-muted">{{usuario.get_tipo_usuario_display}}</h6>
+                {%for p in usuario.perfil.all %}
+                    <h6 class="text-muted">{{p}}</h6>
+                {%endfor %}
             </div>
         </div>
         <br />

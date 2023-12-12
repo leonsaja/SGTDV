@@ -6,19 +6,19 @@ from .managers import UsuarioManager
 
 
 class PerfilUsuario(models.Model):
-      TIPO_USUARIO=(
+      TIPO_PERFIL=(
         ('1','1-ACS'),
-        ('2','2-Coordenação'),
+        ('2','2-Coordenador'),
         ('3','3-Digitador'),
         ('4','4-Recepção'),
         ('5','5-Secretario'),
         ('6','6-Regulação'),
        
       )
-      tipo_usuario=models.CharField(verbose_name='Tipo de Usuario',choices=TIPO_USUARIO, max_length=1, null=True,blank=False)
+      perfil=models.CharField(verbose_name='Tipo de perfil',choices=TIPO_PERFIL, max_length=1, null=True,blank=False)
 
       def __str__(self):
-        return dict(self.TIPO_USUARIO)[self.tipo_usuario]
+        return dict(self.TIPO_PERFIL)[self.perfil]
 
 class Usuario(AbstractUser):
      
