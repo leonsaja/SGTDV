@@ -5,42 +5,47 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from weasyprint import HTML
-
+from rolepermissions.mixins import HasRoleMixin
+from rolepermissions.decorators import has_role_decorator
 from despesas.forms.diaria_form import DiariaForm
 from django.contrib.messages.views import SuccessMessageMixin
 from ..models import Diaria, Reembolso
 from django.contrib.messages import constants
 from django.contrib import messages
 
-class DiariaCreateView(SuccessMessageMixin,CreateView):
+class DiariaCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
    model=Diaria
    form_class=DiariaForm 
    template_name='diaria/form_diaria.html'
    success_url=reverse_lazy('despesas:list-diaria')
    success_message='Cadastro realizado com sucesso'
+   allowed_roles=['digitador']
 
-class DiariaUpdateView(SuccessMessageMixin,UpdateView):
+class DiariaUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
 
     model=Diaria             
     form_class=DiariaForm
     template_name='diaria/form_diaria.html'
     success_url=reverse_lazy('despesas:list-diaria')
     success_message='Dados atualizado com sucesso'
-    
-class DiariaListView(ListView):
+    allowed_roles=['digitador']
+
+class DiariaListView(HasRoleMixin,ListView):
     
     model=Diaria
     template_name='diaria/list_diaria.html'
     context_object_name='diarias'
     paginate_by=10
     queryset=Diaria.objects.select_related('profissional').order_by('-created_at')
-    
-class DiariaSearchListView(ListView):
+    allowed_roles=['digitador','coordenador']
+  
+class DiariaSearchListView(HasRoleMixin,ListView):
 
     model=Diaria
     template_name='diaria/list_diaria.html'
     context_object_name='diarias'
     paginate_by=10
+    allowed_roles=['digitador','coordenador']
 
     def get_queryset(self, *args, **kwargs):
         qs = super(DiariaSearchListView,self).get_queryset(*args, **kwargs)
@@ -57,9 +62,10 @@ class DiariaSearchListView(ListView):
     
         return qs
 
-class DiariaDetailView(DetailView):
+class DiariaDetailView(HasRoleMixin,DetailView):
     model=Diaria
     template_name='diaria/detail_diaria.html'
+    allowed_roles=['digitador','coordenador']
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -69,6 +75,7 @@ class DiariaDetailView(DetailView):
         
         return context
 
+@has_role_decorator(['coordenador'])
 def diaria_delete(request, id):
     diaria=get_object_or_404(Diaria,id=id)
     
@@ -79,7 +86,8 @@ def diaria_delete(request, id):
         messages.add_message(request, constants.ERROR, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
     finally:
         return redirect('despesas:list-diaria')
-    
+
+@has_role_decorator(['digitador','coordenador'])
 def diaria_pdf(request,id):
    
     diaria=get_object_or_404(Diaria,id=id)
