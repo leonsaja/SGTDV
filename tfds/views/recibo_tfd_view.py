@@ -12,7 +12,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
-
+from rolepermissions.mixins import HasRoleMixin
+from rolepermissions.decorators import has_role_decorator
+has_role_decorator(['regulacao'])
 def reciboTFD_create(request):
     tfd=ReciboTFD()
     if request.method == 'POST':
@@ -29,7 +31,8 @@ def reciboTFD_create(request):
     formset=ProcedimentoSet(request.POST or None,instance=tfd,prefix='procedimento')
     
     return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset})
-    
+
+has_role_decorator(['regulacao'])  
 def reciboTFD_update(request,id):
     recibo_tfd=get_object_or_404(ReciboTFD, pk=id)
 
@@ -46,24 +49,27 @@ def reciboTFD_update(request,id):
     formset=ProcedimentoSet(request.POST or None, instance=recibo_tfd,prefix='procedimento')
     return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset,'recibo_tfd':recibo_tfd})
 
-class ReciboTFDListView(ListView):
+class ReciboTFDListView(HasRoleMixin,ListView):
 
     model=ReciboTFD
     template_name='recibo_tfd/list_recibos_tfds.html'
     context_object_name='recibos_tfds'
     paginate_by=10
-    
+    allowed_roles=['regulacao','secretario','coordenador']
+
     def get_queryset(self, *args, **kwargs):
         qs = super(ReciboTFDListView,self).get_queryset(*args, **kwargs)
         qs=qs.select_related('paciente').order_by('-created_at')
         return qs
     
-class ReciboTFDSearchListView(ListView):
+class ReciboTFDSearchListView(HasRoleMixin,ListView):
    
     model=ReciboTFD
     template_name='recibo_tfd/list_recibos_tfds.html'
     context_object_name='recibos_tfds'
     paginate_by=10
+    allowed_roles=['regulacao','secretario','coordenador']
+
     
     def get_queryset(self, *args, **kwargs):
         qs = super(ReciboTFDSearchListView,self).get_queryset(*args, **kwargs)
@@ -80,10 +86,13 @@ class ReciboTFDSearchListView(ListView):
         
         return qs
 
-class ReciboTFDDetailView(DetailView):
+class ReciboTFDDetailView(HasRoleMixin,DetailView):
 
     model=ReciboTFD
     template_name='recibo_tfd/detail_recibo_tfd.html'
+    allowed_roles=['regulacao','secretario','coordenador']
+
+
     
     def get_context_data(self,*args, **kwargs):
         context=super().get_context_data(*args, **kwargs)
@@ -91,19 +100,21 @@ class ReciboTFDDetailView(DetailView):
         
         context['recibo_tfd']=recibo_tfd
         context['procedimentos']=ProcedimentoSia.objects.select_related('recibo_tfd','codigosia').filter(recibo_tfd__id=recibo_tfd.id)
-        procedimentos=recibo_tfd.procedimento_recibo_tfd.all()
-        print('dados32323232',procedimentos)
+        
         return context
 
-class ReciboTFDDeleteView(SuccessMessageMixin, DeleteView):
+class ReciboTFDDeleteView(HasRoleMixin,SuccessMessageMixin, DeleteView):
 
     model=ReciboTFD
     success_url=reverse_lazy('tfds:list-recibo_tfd')
     success_message='Registro excluido com sucesso '
+    allowed_roles=['coordenador']
+
 
     def get(self, request, *args, **kwargs):
         return self.post().get(request, *args, **kwargs)
 
+has_role_decorator(['regulacao','coordenador','secretario'])  
 def reciboTFD_pdf(request,id):
     recibo_pdf=get_object_or_404(ReciboTFD,id=id)
     context={}

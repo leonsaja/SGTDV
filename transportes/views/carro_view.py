@@ -7,9 +7,11 @@ from django.db.models import ProtectedError
 from ..forms.carro_form import CarroForm
 from ..models import Carro
 from django.contrib.messages.views import SuccessMessageMixin
+from rolepermissions.mixins import HasRoleMixin
+from rolepermissions.decorators import has_role_decorator
 
 
-class CarroCreateView(SuccessMessageMixin,CreateView):
+class CarroCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
 
     model=Carro
     form_class=CarroForm
@@ -17,8 +19,9 @@ class CarroCreateView(SuccessMessageMixin,CreateView):
     context_object_name='form'
     success_url=reverse_lazy('transportes:list-carro')
     success_message='Cadastro realizado com sucesso'
+    allowed_roles=['coordenador','recepcao']
 
-class CarroUpdateView(SuccessMessageMixin,UpdateView):  
+class CarroUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):  
 
     model=Carro
     form_class=CarroForm
@@ -26,18 +29,26 @@ class CarroUpdateView(SuccessMessageMixin,UpdateView):
     context_object_name='form'
     success_url=reverse_lazy('transportes:list-carro')
     success_message='Dados atualizado com sucesso'
+    allowed_roles=['coordenador','recepcao']
 
-class ListCarroView(ListView):
+
+class ListCarroView(HasRoleMixin,ListView):
     model=Carro
     template_name='carro/list_carros.html'
     context_object_name='carros'
     ordering='-created_at'
+    allowed_roles=['coordenador','secretario','regulacao','recepcao']
 
-class DetailCarraView(DetailView):
+
+class DetailCarraView(HasRoleMixin,DetailView):
     model=Carro
     template_name='carro/detail_carro.html'
     context_object_name='carro'
+    allowed_roles=['coordenador','secretario','regulacao','recepcao']
 
+
+
+has_role_decorator(['coordenador'])
 def carroDelete(request, id):
 
     carro=get_object_or_404(Carro,id=id)

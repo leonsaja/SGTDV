@@ -1,7 +1,12 @@
-{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+{% extends 'base.html' %} 
+
+{% load permission_tags %}
+
+{% load bootstrap5 %} {% block content %}
 
 <div class="container-fluid">
     {% include 'estabelecimento/abas_estabelecimento.html' %}
+    {% if user|has_role:'coordenador' %}
 
     <div class="row m-2">
         <div class="col-md-12">
@@ -14,6 +19,7 @@
         </div>
 
     </div>
+    {%endif%}
 
 
 
@@ -90,6 +96,12 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12 mb-5">
+                <a href="{% url 'estabelecimentos:list-estabelecimento' %}" class="btn btn-outline-primary mr-2">Voltar</a>
+                               
+            </div>
+          </div>
     </div>
 </div>
 

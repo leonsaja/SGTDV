@@ -173,6 +173,10 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+SESSION_COOKIE_AGE = 1800
+SESSION_SAVE_EVERY_REQUEST = True
+
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     'static'
@@ -210,6 +214,8 @@ MESSAGE_TAGS = {
     constants.SUCCESS: 'alert-success',
     constants.INFO: 'alert-info',
 }
+
+ROLEPERMISSIONS_REDIRECT_TO_LOGIN = True
 
 AUTH_USER_MODEL = "usuarios.Usuario"
 LOGIN_URL= 'usuarios:login_usuario'

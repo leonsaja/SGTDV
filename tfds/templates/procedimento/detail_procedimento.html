@@ -1,8 +1,10 @@
-{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+{% extends 'base.html' %} {% load permission_tags %}
+{% load bootstrap5 %} {% block content %}
 
 <div class="descricaoiner-fluid">
     {% include 'procedimento/abas_procedimento.html' %}
 
+    {% if user|has_role:'regulacao' %}
 
     <div class="row m-2">
 
@@ -14,7 +16,7 @@
         </div>
 
     </div>
-
+    {%endif%}
     <div class="col-md-12 px-4">
         <br />
         <div class="row">
@@ -44,22 +46,29 @@
         <div class="row d-flex justify-content-start">
             <div class="col-md-4">
                 <label for="id_valor_unitario" class="form-label">Valor : </label>
-                    <h6 class="text-muted">{{procedimento.valor_unitario}}</h6>
+                    <h6 class="text-muted">R$ {{procedimento.valor_unitario}}</h6>
 
             </div>
             <div class="col-md-4">
                 <label for="id_valor_contrapartida" class="form-label">Valor de Contra Partida: </label>
-                    <h6 class="text-muted">{{procedimento.valor_contrapartida}}</h6>
+                    <h6 class="text-muted">R$ {{procedimento.valor_contrapartida}}</h6>
 
             </div>
             <div class="col-md-4">
                 <label for="id_subtotal" class="form-label">Total: </label>
-                    <h6 class="text-muted">{{procedimento.subtotal}}</h6>
+                    <h6 class="text-muted">R$ {{procedimento.subtotal}}</h6>
 
             </div>
             
         </div>
         <br>
+
+        <div class="row">
+            <div class="col-md-12 mb-5">
+                <a href="{% url 'tfds:list-procedimento' %}" class="btn btn-outline-primary">Voltar</a>
+                               
+            </div>
+          </div>
 
     </div>
 </div>

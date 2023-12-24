@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load permission_tags %}
 
 {% block content %}
 
@@ -6,6 +7,7 @@
 <div class="container-fluid">
     {% include 'especialidade/abas_especialidade.html' %}
     {% include 'includes/mensagens.html'%}
+    {% if user|has_role:'recepcao,regulacao' %}
 
     <div class="row">
         <div class="col-md-12">
@@ -16,6 +18,7 @@
             </div>
         </div>
     </div>
+    {%endif%}
 
 
     <div class="row row justify-content-center">
@@ -128,14 +131,20 @@
                                         <a href="{% url 'especialidades:detail-paciente-especialidade' especialidade.id%}"
                                             class="pr-1"><i class="fas fa-solid fa-eye"></i></a>
 
+                                        {% if user|has_role:'recepcao,regulacao' %}
                                         <a href="{% url 'especialidades:edit-paciente-especialidade' especialidade.id%}"
                                             class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
+                                        
+                                            {%endif%}
+                                        
+                                        {% if user|has_role:'coordenador' %}                                                                                                                                                                                
 
-                                        <a href="#modal--{{especialidade.id}}" data-bs-toggle="modal"
-                                            data-bs-target="#modal--{{especialidade.id}}" class="pr-2 text-danger">
+                                            <a href="#modal--{{especialidade.id}}" data-bs-toggle="modal"
+                                                data-bs-target="#modal--{{especialidade.id}}" class="pr-2 text-danger">
 
-                                            <i class="fas fa-solid fa-trash-can"></i>
-                                        </a>
+                                                <i class="fas fa-solid fa-trash-can"></i>
+                                            </a>
+                                        {%endif%}
                                     </td>
                                 </tr>
                                 {% include 'paciente_especialidade/modal_delete_paciente_especialidade.html'%}

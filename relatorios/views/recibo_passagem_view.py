@@ -5,6 +5,7 @@ from django.http import  HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from datetime import datetime
+from rolepermissions.decorators import has_role_decorator
 
 
 def relatorio_recibo_passagem_pdf(request,context):
@@ -41,6 +42,7 @@ def relatorio_recibo_passagem_pdf(request,context):
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
     return response
 
+has_role_decorator(['coordenador','regulacao','secretario'])
 def relatorio_recibo_passagem(request):
     context={}
     

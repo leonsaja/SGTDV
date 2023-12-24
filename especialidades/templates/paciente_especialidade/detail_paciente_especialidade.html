@@ -1,8 +1,10 @@
-{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+{% extends 'base.html' %}{% load permission_tags %}
+{% load bootstrap5 %} {% block content %}
 
 <div class="container-fluid">
     {% include 'paciente_especialidade/abas_paciente_especialidade.html' %}
 
+    {% if user|has_role:'recepcao,regulacao' %}
 
     <div class="row">
         <div class="col-md-12">
@@ -12,11 +14,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class=" col-md-6 mt-3">
-
-        </div>
-    </div>
+    {%endif%}
 
 
     <br />
@@ -76,6 +74,12 @@
             <br />
 
         </fieldset>
+        <div class="row">
+            <div class="col-md-12 mb-5">
+                <a href="{% url 'especialidades:detail-especialidade'  especialiadade.id%}" class="btn btn-outline-primary mr-2">Voltar</a>
+                               
+            </div>
+          </div>
     </div>
 
     <br />

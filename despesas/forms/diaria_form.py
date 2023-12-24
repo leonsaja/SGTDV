@@ -58,7 +58,7 @@ class DiariaForm(forms.ModelForm):
         data=self.cleaned_data['data_diaria']
 
         if Diaria.objects.filter(profissional=profissional).filter(data_diaria=data).exists():
-            self.add_error('data_diaria', 'Já existe uma diaria do profissional com essa data')
+            self.add_error('data_diaria', 'Profissional já tem uma diaria com essa data')
 
         return super().clean()
     

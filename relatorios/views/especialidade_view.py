@@ -6,10 +6,10 @@ from reportlab.lib.pagesizes import A4
 from especialidades.models import Especialidade
 from relatorios.forms.especialidade_form import RelatorioEspecialidadeForm
 from datetime import datetime
+from rolepermissions.decorators import has_role_decorator
 
-def relatorio_especialidade_pdf(request,context):
-    pass
-   
+
+has_role_decorator(['regulacao','coordenador','secretario'])
 
 def relatorio_especialidade(request):
     context={}

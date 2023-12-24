@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load permission_tags %}
 
 {% block content %}
 <div class="container-fluid">
@@ -11,11 +12,13 @@
 
   <div class="row">
     <div class="col-md-12">
+      {% if user|has_role:'digitador' %}
 
       <div class="text-right">
         <a href="{% url 'despesas:add-diaria' %}" class="btn btn-primary"><b>Cadastrar Diária</b>
         </a>
       </div>
+      {%endif%}
     </div>
   </div>
 
@@ -112,15 +115,18 @@
 
                     <a href="{% url 'despesas:detail-diaria' diaria.id%}" class="pr-1"><i
                         class="fas fa-solid fa-eye"></i></a>
+                    {% if user|has_role:'digitador' %}
 
                     <a href="{% url 'despesas:edit-diaria' diaria.id%}" class="pr-1 text-warning"><i
                         class="fas fa-edit"></i></a>
+                    {%endif%}
 
+                    {% if user|has_role:'coordenador' %}
                     <a href="#modal--{{diaria.id}}" data-bs-toggle="modal" data-bs-target="#modal--{{diaria.id}}"
                       class="pr-2 text-danger">
-
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>
+                    {%endif%}
                     <a href="{% url 'despesas:pdf-diaria' diaria.id %}"  target="_blank">
                       <i class='fas fa-print'></i>
                     </a>

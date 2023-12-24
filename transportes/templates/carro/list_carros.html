@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load permission_tags %}
 
 {% block content %}
 
@@ -17,6 +18,7 @@
             <br />
             
             <br>
+            {% if user|has_role:'recepcao' %}
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-right">
@@ -26,9 +28,11 @@
                     </div>
                 </div>
             </div>
+            
+            {%endif%}
+            <br>
+            <br>
         
-            <br>
-            <br>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -64,15 +68,19 @@
         
                                                 <a href="{% url 'transportes:detail-carro' carro.id%}"
                                                     class="pr-1"><i class="fas fa-solid fa-eye"></i></a>
-        
+                                                
+                                                    {% if user|has_role:'recepcao' %}
                                                 <a href="{% url 'transportes:edit-carro' carro.id%}"
                                                     class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
-        
-                                                <a href="#modal--{{carro.id}}" data-bs-toggle="modal"
+                                                {%endif%}
+                                                
+                                                {% if user|has_role:'coordenador' %}
+                                                    <a href="#modal--{{carro.id}}" data-bs-toggle="modal"
                                                     data-bs-target="#modal--{{carro.id}}" class="pr-2 text-danger">
         
                                                     <i class="fas fa-solid fa-trash-can"></i>
                                                 </a>
+                                                {%endif%}
                                             </td>
                                         </tr>
                                        {% include 'carro/modal_delete_carro.html'%} 

@@ -1,10 +1,11 @@
 from django import forms
 from transportes.models import RegistroTransporte
+from django_select2 import forms as s2forms
 
 
 class RegistroTransporteForm(forms.ModelForm):
     dt_atendimento = forms.DateField(
-        label='Data de Atendimento',
+        label='Data do Atendimento',
         widget=forms.DateInput(
             format='%Y-%m-%d',
             attrs={
@@ -40,4 +41,8 @@ class RegistroTransporteForm(forms.ModelForm):
     class Meta:
         model=RegistroTransporte
         fields='__all__'
+        widgets = {
+            'paciente':s2forms.Select2Widget(),
+           
+        }
         

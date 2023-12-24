@@ -1,5 +1,3 @@
-
-
 from django.template.loader import render_to_string
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -11,8 +9,10 @@ from ..models import Viagem
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.contrib.messages import constants
+from rolepermissions.mixins import HasRoleMixin
+from rolepermissions.decorators import has_role_decorator
 
-
+has_role_decorator(['recepcao'])
 def viagemCreate(request):
     viagem=Viagem()
     if request.method == 'POST':
@@ -31,6 +31,7 @@ def viagemCreate(request):
     
     return render(request, 'viagem/form_viagem.html', {'form': form,'formset':formset})
 
+has_role_decorator(['recepcao'])
 def viagemUpdate(request,id):
 
     viagem=Viagem.objects.get(id=id)
@@ -53,23 +54,27 @@ def viagemUpdate(request,id):
     
     return render(request, 'viagem/form_viagem.html', {'form': form,'formset':formset})
 
-class ViagemListView(ListView): 
+
+class ViagemListView(HasRoleMixin,ListView): 
     model=Viagem
     template_name='viagem/list_viagens.html'
     context_object_name='viagens'
     paginate_by=10
+    allowed_roles=['acs','digitador','recepcao','regulacao','secretario','coordenador']
 
     def get_queryset(self, *args, **kwargs):
         qs =super(ViagemListView,self).get_queryset(*args, **kwargs)
         qs=qs.select_related('carro','motorista').order_by('-data_viagem')
         return qs
     
-class ViagemSearchListView(ListView):
+class ViagemSearchListView(HasRoleMixin,ListView):
 
     model=Viagem
     template_name='viagem/list_viagens.html'
     context_object_name='viagens'
     paginate_by=10
+    allowed_roles=['acs','recepcao','secretario','regulacao','coordenador']
+
 
     def get_queryset(self, *args, **kwargs):
         qs = super(ViagemSearchListView,self).get_queryset(*args, **kwargs)
@@ -80,19 +85,17 @@ class ViagemSearchListView(ListView):
 
         if destino_viagem:
             qs=qs.select_related('motorista','carro').filter(destino_viagem__icontains=destino_viagem).order_by('-data_viagem')
-                    
         if placa_carro:
-            qs=qs.select_related('motorista','carro').filter(carro__placa__iexact=placa_carro).order_by('-data_viagem')
-        
+            qs=qs.select_related('motorista','carro').filter(carro__placa__iexact=placa_carro).order_by('-data_viagem')       
         if data :
              qs=qs.select_related('motorista','carro').filter(data_viagem__iexact=data).order_by('-data_viagem')
-    
         return qs
     
-class DetailViagemView(SuccessMessageMixin,DetailView):
+class DetailViagemView(HasRoleMixin,SuccessMessageMixin,DetailView):
     model=Viagem
     template_name='viagem/detail_viagem.html'
-    
+    allowed_roles=['acs','digitador','secretario','recepcao','regulacao','coordenador']
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -100,15 +103,17 @@ class DetailViagemView(SuccessMessageMixin,DetailView):
         context['viagem']=viagem
         return context
 
-class ViagemDeleteView(SuccessMessageMixin,DeleteView):
+class ViagemDeleteView(HasRoleMixin,SuccessMessageMixin,DeleteView):
 
     model=Viagem
     success_url=reverse_lazy('transportes:list-viagem')
     success_message='Registro excluido com sucesso'
+    allowed_roles=['coordenador']
         
     def get(self, request,*args, **kwargs):
          return self.post(request, *args, **kwargs)
 
+has_role_decorator(['recepcao','regulacao'])
 def viagemPdf(request,id):
     
     viagem=get_object_or_404(Viagem,id=id)
@@ -118,5 +123,4 @@ def viagemPdf(request,id):
     
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
 
-   
     return response

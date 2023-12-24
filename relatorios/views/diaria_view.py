@@ -7,6 +7,7 @@ from reportlab.lib.pagesizes import A4
 from despesas.models import Diaria
 from relatorios.forms.diaria_form import RelatorioDiariaForm
 from datetime import datetime
+from rolepermissions.decorators import has_role_decorator
 
 def relatorio_diaria_pdf(request,context):
     
@@ -50,7 +51,7 @@ def relatorio_diaria_pdf(request,context):
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
     return response
 
-
+@has_role_decorator(['secretario','digitador','coordenador'])
 def relatorio_diaria(request):
     context={}
     if request.method == 'POST':

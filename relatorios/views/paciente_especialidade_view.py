@@ -8,6 +8,8 @@ from relatorios.forms.paciente_especialidade_form import RelatorioPacienteEspeci
 from especialidades.models import PacienteEspecialidade
 from django.db.models import Q
 from datetime import datetime
+from rolepermissions.decorators import has_role_decorator
+
 
 def relatorio_paciente_especialidade_pdf(request,context):
     paciente_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').all()
@@ -46,6 +48,7 @@ def relatorio_paciente_especialidade_pdf(request,context):
     
     return response
 
+has_role_decorator(['regulacao','coordenador','secretario'])
 def relatorio_pacientes_especialidade(request):
     
     context={}

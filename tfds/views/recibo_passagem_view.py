@@ -1,29 +1,28 @@
 
 from django.db.models import Q
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
-
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView, UpdateView)
 from django.contrib.messages.views import SuccessMessageMixin
-
 from tfds.forms.form_recibo_passagem_tfd import ReciboPassagemTFDForm
 from tfds.models import ReciboPassagemTFD
-
-from django.http import FileResponse, HttpResponse
+from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
+from rolepermissions.mixins import HasRoleMixin
+from rolepermissions.decorators import has_role_decorator
 
-class ReciboPassagemCreateView(SuccessMessageMixin,CreateView):
+class ReciboPassagemCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
     
     model=ReciboPassagemTFD
     form_class=ReciboPassagemTFDForm
     template_name='recibo_passagem_tfd/form_recibo_passagem.html'
     success_url=reverse_lazy('tfds:list-recibo_passagem')
     success_message='Cadastro realizado com sucesso'
+    allowed_roles=['regulacao']
 
-class ReciboPassagemUpdateView(SuccessMessageMixin,UpdateView):
+class ReciboPassagemUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
     
     model=ReciboPassagemTFD
     form_class=ReciboPassagemTFDForm
@@ -31,8 +30,9 @@ class ReciboPassagemUpdateView(SuccessMessageMixin,UpdateView):
     success_url=reverse_lazy('tfds:list-recibo_passagem')
     context_object_name='recibo_passagem'
     success_message='Dados atualizado com sucesso'
-    
-class ReciboPassagemListView(ListView):
+    allowed_roles=['regulacao']
+  
+class ReciboPassagemListView(HasRoleMixin,ListView):
 
     model=ReciboPassagemTFD
     template_name='recibo_passagem_tfd/list_recibos_passagens.html'
@@ -40,13 +40,16 @@ class ReciboPassagemListView(ListView):
     ordering='-created_at'
     paginate_by=10
     queryset=ReciboPassagemTFD.objects.select_related('paciente').all()
+    allowed_roles=['coordenador','regulacao','secretario']
    
-class ReciboPassagemSearchListView(ListView):
+class ReciboPassagemSearchListView(HasRoleMixin,ListView):
     
     model=ReciboPassagemTFD
     template_name='recibo_passagem_tfd/list_recibos_passagens.html'
     context_object_name='recibos'
     paginate_by=10
+    allowed_roles=['regulacao','coordenador','secretario']
+
     
     def get_queryset(self, *args, **kwargs):
         qs = super(ReciboPassagemSearchListView,self).get_queryset(*args, **kwargs)
@@ -64,10 +67,10 @@ class ReciboPassagemSearchListView(ListView):
         
         return qs
         
-class ReciboPassagemDetailView(DetailView):
+class ReciboPassagemDetailView(HasRoleMixin,DetailView):
     model=ReciboPassagemTFD
     template_name='recibo_passagem_tfd/detail_recibo_passagem.html'
-
+    allowed_roles=['regulacao','coordenador','secretario']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -75,15 +78,16 @@ class ReciboPassagemDetailView(DetailView):
        
         return context
 
-class ReciboPassagemDeleteView(SuccessMessageMixin,DeleteView):
+class ReciboPassagemDeleteView(HasRoleMixin,SuccessMessageMixin,DeleteView):
     model=ReciboPassagemTFD
     success_url=reverse_lazy('tfds:list-recibo_passagem')
     success_message='Registro excluido com sucesso'
+    allowed_roles=['coordenador']   
 
     def get(self, request, *args, **kwargs):
         return self.post().get(request, *args, **kwargs)
 
-                                                                                                                                                                                                                                                 
+has_role_decorator(['coordenador','regulacao','secretario'])                                                                                                                                                                                                                                                
 def reciboPassagemPdf(request,id):
 
     recibo_passagem=get_object_or_404(ReciboPassagemTFD,id=id)

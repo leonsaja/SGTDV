@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}{% load permission_tags %}
+
+{% block content %}
 <div class="container-fluid">
    {% include 'procedimento/abas_procedimento.html' %}
 
@@ -7,7 +9,7 @@
         {% include 'includes/mensagens.html'%}
     </div>
   </div>
-
+  {% if user|has_role:'regulacao' %}
   <div class="row">
 
     <div class="col-md-12">
@@ -18,6 +20,7 @@
     </div>
 
   </div>
+  {%endif%}
   <div class="row justify-content-center ">
     <div class="col-md-8 ">
       
@@ -79,8 +82,8 @@
                   <th style="width: 10px">#</th>
                   <th>Código</th>
                   <th>Descrição</th>
-                  <th>Valor Unitario</th>
-                  <th>Contra Partida</th>
+                  <th>Valor Unitario (R$)</th>
+                  <th>Contra Partida (R$)</th>
                   <th>Total (R$)</th>
                   <th>Ação</th>
                 </tr>
@@ -102,13 +105,18 @@
                   <td>
                     <a href="{% url 'tfds:detail-procedimento' p.id%}" class="pr-2"><i
                         class="fas fa-solid fa-eye"></i></a>
+
+                               
+                    {% if user|has_role:'regulacao' %}
                     <a href="{% url 'tfds:edit-procedimento' p.id%}" class="pr-1 text-warning"><i
                         class="fas fa-edit"></i></a>
+                        {%endif%}
+                  {% if user|has_role:'coordenador' %}
                     <a type="button" data-bs-toggle="modal" data-bs-target="#modal--{{p.id}}"
                       class="pr-2 text-danger">
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>
-                  
+                  {%endif%}
                   </td>
                 </tr>
                 {% include  'procedimento/modal_delete_procedimento.html' %}

@@ -6,37 +6,39 @@ from django.db.models import ProtectedError
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, ListView,
-                                  UpdateView)
-
+from django.views.generic import (CreateView, ListView,UpdateView)
+from rolepermissions.mixins import HasRoleMixin
+from rolepermissions.decorators import has_role_decorator
 from django.contrib.messages.views import SuccessMessageMixin
-
 from especialidades.forms.form_especialidade import EspecialidadeForm
 from especialidades.models import Especialidade, PacienteEspecialidade
 
 
-class EspecialidadeCreateView(SuccessMessageMixin,CreateView):
+class EspecialidadeCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
     model=Especialidade
     form_class=EspecialidadeForm
     success_url=reverse_lazy('especialidades:list-especialidade')
     template_name='especialidade/form_especialidade.html' 
     context_object_name='form'
     success_message='Cadastro realizado com sucesso'
+    allowed_roles=['regulacao']
 
-class EspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
+class EspecialidadeUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
     model=Especialidade
     form_class=EspecialidadeForm
     template_name='especialidade/form_especialidade.html'
     success_url=reverse_lazy('especialidades:list-especialidade')
     context_object_name='form'
     success_message='Dados atualizado com sucesso'
+    allowed_roles=['regulacao']
 
-class EspecialidadeListView(ListView):
+class EspecialidadeListView(HasRoleMixin,ListView):
 
     model=Especialidade
     template_name='especialidade/list_especialidades.html'
     context_object_name='especialidades'
     paginate_by=10
+    allowed_roles=['regulacao','recepcao','coordenador','acs']
 
     def get_queryset(self):
         qs=super(EspecialidadeListView,self).get_queryset()
@@ -50,6 +52,7 @@ class EspecialidadeListView(ListView):
         
         return qs
 
+@has_role_decorator(['regulacao','coordenador','acs'])
 def especialidadeDetail(request,id):
     context={}
     template='especialidade/detail_especialidade.html'
@@ -63,6 +66,7 @@ def especialidadeDetail(request,id):
     context['page_obj']= paginator.get_page(page_number)
     return render(request,template, context)
      
+@has_role_decorator(['coordenador'])
 def especialidadeDelete(request, id):
     especialidade=Especialidade.objects.get(id=id)
     

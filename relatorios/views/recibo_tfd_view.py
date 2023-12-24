@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from weasyprint import HTML
 from datetime import datetime
 from django.db import connection
+from rolepermissions.decorators import has_role_decorator
 
 def relatorio_recibo_tfd_pdf(request,context):
     recibo_tfds=ReciboTFD.objects.select_related('paciente').prefetch_related('procedimento_recibo_tfd').all()
@@ -38,6 +39,7 @@ def relatorio_recibo_tfd_pdf(request,context):
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
     return response
 
+has_role_decorator(['coordenador','secretario','recepcao'])
 def relatorio_recibo_tfd(request):
     context={}
     

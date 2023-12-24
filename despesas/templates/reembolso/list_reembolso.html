@@ -1,77 +1,83 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% load permission_tags %} {% block content %}
 <div class="container-fluid">
   {% include 'reembolso/abas_reembolso.html' %}
   <div class="row">
-    <div class="col-md-12">
-        {% include 'includes/mensagens.html'%}
-    </div>
-</div>
+    <div class="col-md-12">{% include 'includes/mensagens.html'%}</div>
+  </div>
+  {% if user|has_role:'digitador' %}
 
-  <div class="row ">
-
+  <div class="row">
     <div class="col-md-12">
       <div class="text-right">
-        <a href="{% url 'despesas:add-diaria' %}" class="btn btn-primary"><b>Cadastrar Diária</b>
+        <a href="{% url 'despesas:add-diaria' %}" class="btn btn-primary"
+          ><b>Cadastrar Diária</b>
         </a>
       </div>
     </div>
-
   </div>
+  {%endif%}
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <h4 class=" text-primary"><strong>Reembolsos</strong> </h4>
+      <h4 class="text-primary"><strong>Reembolsos</strong></h4>
     </div>
   </div>
-  <br>
+  <br />
   <div class="row">
     <div class="container">
-      <div class="row justify-content-center ">
-
-        <form class="col-md-8 needs-validation" action="{% url 'despesas:search-reembolso'%}" method="GET"
-          id="validar-form">
-
+      <div class="row justify-content-center">
+        <form
+          class="col-md-8 needs-validation"
+          action="{% url 'despesas:search-reembolso'%}"
+          method="GET"
+          id="validar-form"
+        >
           <div class="row">
             <div class="col-md-12">
               <div class="alert alert-danger d-none" role="alert">
                 Insira algum filtro para realizar a busca.
               </div>
             </div>
-
           </div>
           <div class="row">
             <div class="col-md-12">
               <label for="buscar"><strong> Busque pelo Nome/CPF</strong></label>
-              <input type="search" name="buscar" class="form-control" value="{{request.GET.buscar}}" id="buscar">
-
+              <input
+                type="search"
+                name="buscar"
+                class="form-control"
+                value="{{request.GET.buscar}}"
+                id="buscar"
+              />
             </div>
           </div>
           <div class="row">
-
             <div class="col-md-4 pt-2">
               <label for="id_data">Data da Diária</label>
-              <input type="date" name="data" class="form-control" id="id_data" value="{{request.GET.data}}">
+              <input
+                type="date"
+                name="data"
+                class="form-control"
+                id="id_data"
+                value="{{request.GET.data}}"
+              />
             </div>
-            <div class="col-md-8 mt-3   ">
-              <br>
+            <div class="col-md-8 mt-3">
+              <br />
               <div class="float-right">
-                <a class="btn mr-2" href="{% url 'despesas:list-reembolso'%}" style="background-color:#DADADA;"> Limpar
-                  Filtros</a>
-                <button type="submit" class=" btn btn-primary ">Buscar</button>
-
+                <a
+                  class="btn mr-2"
+                  href="{% url 'despesas:list-reembolso'%}"
+                  style="background-color: #dadada"
+                >
+                  Limpar Filtros</a
+                >
+                <button type="submit" class="btn btn-primary">Buscar</button>
               </div>
-
             </div>
           </div>
-
-
         </form>
-
       </div>
-
     </div>
-
   </div>
 
   <div class="row">
@@ -79,7 +85,6 @@
       <div class="card">
         <div class="card-header">
           <h3 class="logo"><strong>Reembolsos</strong></h3>
-
         </div>
         <!-- /.card-header -->
         <div class="table-responsive-md">
@@ -98,7 +103,6 @@
               <tbody>
                 {%for diaria in diarias %}
 
-
                 <tr>
                   <td>{{diaria.id}}</td>
                   <td>{{diaria.profissional.nome_completo}}</td>
@@ -108,28 +112,40 @@
                   <td>{{diaria.profissional.cns}}</td>
                   <td>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</td>
                   <td>
+                    {% if user|has_role:'digitador' %}
 
-                    <a href="{% url 'despesas:add-reembolso' diaria.id%}" class="pr-1 text-success"><i
-                        class="fa fa-plus" aria-hidden="true"></i></a>
+                    <a
+                      href="{% url 'despesas:add-reembolso' diaria.id%}"
+                      class="pr-1 text-success"
+                      ><i class="fa fa-plus" aria-hidden="true"></i
+                    ></a>
+                    {%endif%}
 
+                    <a
+                      href="{% url 'despesas:detail-reembolso' diaria.id%}"
+                      class="pr-2"
+                      ><i class="fas fa-solid fa-eye"></i
+                    ></a>
 
-                    <a href="{% url 'despesas:detail-reembolso' diaria.id%}" class="pr-2"><i
-                        class="fas fa-solid fa-eye"></i></a>
-                        <a href="{% url 'despesas:edit-reembolso' diaria.id%}" class="pr-1 text-warning"><i
-                          class="fas fa-edit"></i></a>
+                    {% if user|has_role:'digitador' %}
 
+                    <a
+                      href="{% url 'despesas:edit-reembolso' diaria.id%}"
+                      class="pr-1 text-warning"
+                      ><i class="fas fa-edit"></i
+                    ></a>
+                    {%endif%}
 
-                        <a href="{% url 'despesas:pdf-reembolso' diaria.id %}"  target="_blank">
-                          <i class='fas fa-print'></i>
-                        </a>
-
+                    <a
+                      href="{% url 'despesas:pdf-reembolso' diaria.id %}"
+                      target="_blank"
+                    >
+                      <i class="fas fa-print"></i>
+                    </a>
                   </td>
                 </tr>
 
-
                 {%endfor%}
-
-
               </tbody>
             </table>
             <br />

@@ -1,9 +1,12 @@
-{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+{% extends 'base.html' %} {% load bootstrap5 %} {% load permission_tags %}
+{% block content %}
 {% include 'carro/abas_carro.html' %}
 
     {% include 'includes/mensagens.html'%}
 <div class="descricaoiner-fluid">
     <br />
+
+    {% if user|has_role:'recepcao' %}
 
     <div class="row m-2">
 
@@ -15,6 +18,7 @@
         </div>
 
     </div>
+    {%endif%}
 
     <div class="col-md-12 px-4">
         <br />
@@ -72,7 +76,14 @@
          
         </div>
         <br>
+        <div class="row">
+            <div class="col-md-12 mb-5">
+                <a href="{% url 'transportes:list-carro' %}" class="btn btn-outline-primary mr-2">Voltar</a>
+                               
+            </div>
+          </div>
      
     </div>
+    
 </div>
 {% endblock content %}

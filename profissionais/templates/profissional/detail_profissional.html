@@ -1,4 +1,8 @@
-{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+{% extends 'base.html' %}
+
+{% load permission_tags %}
+{% load bootstrap5 %} {% block content %}
+
 
 <div class="container-fluid">
  {% include 'profissional/abas_profissional.html' %}
@@ -7,12 +11,14 @@
     <div class=" col-md-6">
       <h4 class=" text-primary"><strong>Detalhe do Cadastro</strong></h4>
     </div>
+    {% if user|has_role:'digitador,coordenador' %}
     <div class="col-md-6">
       <div class="text-right">
         <a href="{% url 'profissionais:edit-profissional' profissional.id %}" class="btn btn-primary"><b>Editar
             Cadastro</b> </a>
       </div>
     </div>
+    {%endif%}
   </div>
 
   <div class="col-md-12 px-4">
@@ -73,6 +79,12 @@
 
       </div>
       <br />
+      <div class="row">
+        <div class="col-md-12 mb-5">
+            <a href="{% url 'profissionais:list-profissional' %}" class="btn btn-outline-primary mr-2">Voltar</a>
+                           
+        </div>
+      </div>
      
   </div>
   <br /><br /><br />

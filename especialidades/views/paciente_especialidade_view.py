@@ -9,8 +9,10 @@ from especialidades.models import Especialidade, PacienteEspecialidade
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.views.generic import DetailView
+from rolepermissions.decorators import has_role_decorator
+from rolepermissions.mixins import HasRoleMixin
 
-
+@has_role_decorator(['recepcao','regulacao'])
 def pacienteEspecialidade_create(request,id):
     
     especialidade=get_object_or_404(Especialidade,id=id)
@@ -35,6 +37,7 @@ def pacienteEspecialidade_create(request,id):
     } 
     return render(request,'paciente_especialidade/form_paciente_especialidade.html',context)
 
+@has_role_decorator(['recepcao','regulacao'])
 def pacienteEspecialidade_update(request,id):
     paciente_especialidade=get_object_or_404(PacienteEspecialidade,id=id)
   
@@ -59,6 +62,7 @@ def pacienteEspecialidade_update(request,id):
     } 
     return render(request,'paciente_especialidade/form_paciente_especialidade.html',context)
 
+@has_role_decorator(['secretario','coordenador'])
 def pacienteEspecialidade_delete(request,id):
 
     paciente_especialidade=get_object_or_404(PacienteEspecialidade,id=id)
@@ -72,6 +76,7 @@ def pacienteEspecialidade_delete(request,id):
     finally:
         return redirect('especialidades:detail-especialidade', especialidade.id)    
 
+@has_role_decorator(['recepcao','regulacao','coordenador','acs'])
 def pacienteEspecialidade_search(request,id):
     
     template_name='especialidade/detail_especialidade.html'
@@ -102,11 +107,11 @@ def pacienteEspecialidade_search(request,id):
     
     return render(request,template_name,context)
 
-class PacienteEspecialidadeDetailView(DetailView):
+class PacienteEspecialidadeDetailView(HasRoleMixin,DetailView):
 
     model=PacienteEspecialidade
     template_name='paciente_especialidade/detail_paciente_especialidade.html'
- 
+    allowed_roles=['recepcao','coordenador','acs']
     
     def get_context_data(self, *args, **kwargs):
         context= super().get_context_data(*args, **kwargs)

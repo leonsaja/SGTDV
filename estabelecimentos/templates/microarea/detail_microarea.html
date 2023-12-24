@@ -1,4 +1,8 @@
-{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+{% extends 'base.html' %} 
+
+{% load permission_tags %}
+
+{% load bootstrap5 %} {% block content %}
 
 <div class="descricaoiner-fluid">
     {% include 'microarea/abas_microarea.html' %}
@@ -9,6 +13,8 @@
             <h4 class=" text-primary"><b>Microárea</b> </h4>
 
         </div>
+        {% if user|has_role:'coordenador' %}
+
         <div class="col-md-6">
             <div class="text-right">
                 <a href="{% url 'estabelecimentos:edit-microarea' microarea.id %}"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
@@ -16,6 +22,7 @@
                 </a>
             </div>
         </div>
+        {%endif%}
     </div>
 
     <div class="col-md-12 px-4">
@@ -32,53 +39,13 @@
                     <label for="id_cnes" class="form-label">CNES:
                         <h6 class="text-muted">{{microarea.estabelecimento}}</h6>
                 </div>
-{% comment %} 
-                <fieldset>
-                    <br>
-                    <legend>Profissionais</legend>
-                    <div class="row">
-                        <div class="card-body">
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Profissional</th>
-                                        <th class="text-center">Cargo</th>
-                                        <th class="text-center">Micro Área</th>
-                                        <th class="text-center">Opção</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for p in microarea.profissional_microarea.all%}
-                                    <div class="table-responsive-md">
 
-                                        <tr>
-                                            <td>{{p.nome_completo}}</td>
-
-                                            <td class="text-center">{{p.get_cargo_display}}</td>
-
-
-                                            <td class="text-center">
-                                                {%if p.microarea %}
-                                                {{p.microarea}}
-                                                {%else%}
-                                                -
-                                                {%endif%}
-
-                                            </td>
-                                            <td class='text-center'>
-                                                <a href="{% url 'profissionais:detail-profissional' p.id %}"
-                                                    class="pr-2"><i class="fas fa-solid fa-eye"></i></a>
-                                            </td>
-                                        </tr>
-
-
-                                        {%endfor%}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-            </div>
-        </fieldset> {% endcomment %}
 
     </div>
+    <div class="row">
+        <div class="col-md-12 mb-5">
+            <a href="{% url 'estabelecimentos:list-microarea' %}" class="btn btn-outline-primary mr-2">Voltar</a>
+                           
+        </div>
+      </div>
     {% endblock content %}

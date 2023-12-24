@@ -1,20 +1,21 @@
 {% extends 'base.html' %} {% block content %}
+{% load permission_tags %}
+
 <div class="container-fluid">
   {% include 'recibo_passagem_tfd/abas_recibo_passagem.html' %}
 
 
   {% include 'includes/mensagens.html'%}
-
+  {% if user|has_role:'regulacao' %}
   <div class="row">
-
     <div class="col-md-12">
       <div class="text-right">
         <a href="{% url 'tfds:add-recibo_passagem' %}" class="btn btn-primary"><b>Cadastrar Recibo de Passagem</b>
         </a>
       </div>
     </div>
-
   </div>
+  {%endif%}
   <div class="row justify-content-center ">
     <div class="col-md-8 pt-3 ">
       <h4 class=" text-primary"><strong>Recibos de Passagens</strong> </h4>
@@ -100,14 +101,21 @@
                   <td>
                     <a href="{% url 'tfds:detail-recibo_passagem' r.id %}" class="pr-2"><i
                         class="fas fa-solid fa-eye"></i></a>
+                    {% if user|has_role:'regulacao' %}
                     <a href="{% url 'tfds:edit-recibo_passagem' r.id %}" class="pr-1 text-warning"><i
                         class="fas fa-edit"></i></a>
+
+                      {%endif%}
+                    {% if user|has_role:'coordenador' %}
                     <a type="button" data-bs-toggle="modal" data-bs-target="#modal--{{r.id}}"
                       class="pr-2 text-danger">
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>
+                    {%endif%}
+                    {% if user|has_role:'regulacao,coordenador,secretario' %}
                     <a href="{% url 'tfds:pdf-recibo_passagem' r.id%}"  target="_blank" class="pr-2">
-                      <i class='fas fa-print'></i>
+                      <i class='fas fa-print'></i></a>
+                    {%endif%}
                   </td>
                 </tr>
                 {% include  'recibo_passagem_tfd/modal_delete_recibo_passagem.html'%}

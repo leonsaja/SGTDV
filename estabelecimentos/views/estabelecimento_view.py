@@ -7,16 +7,20 @@ from django.db.models import ProtectedError
 from ..forms.form_estabelecimento import EstabelecimentoForm
 from ..models import Estabelecimento
 from django.contrib.messages.views import SuccessMessageMixin
+from rolepermissions.mixins import HasRoleMixin
+from rolepermissions.decorators import has_role_decorator
 
-class EstabelecimentoCreateView(SuccessMessageMixin, CreateView):
+
+class EstabelecimentoCreateView(HasRoleMixin,SuccessMessageMixin, CreateView):
     model=Estabelecimento
     form_class=EstabelecimentoForm
     context_object_name='form'
     template_name='estabelecimento/form_estabelecimento.html'
     success_url=reverse_lazy('estabelecimentos:list-estabelecimento')
     success_message='Cadastro realizado com sucesso'
+    allowed_roles=['coordenador']
     
-class EstabelecimentoUpdateView(SuccessMessageMixin,UpdateView):
+class EstabelecimentoUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
    
     model=Estabelecimento
     form_class=EstabelecimentoForm
@@ -24,19 +28,23 @@ class EstabelecimentoUpdateView(SuccessMessageMixin,UpdateView):
     context_object_name='form'
     success_url=reverse_lazy('estabelecimentos:list-estabelecimento')
     success_message='Dados atualizado com  sucesso'
-        
-class EstabelecimentoDetailView(DetailView):
+    allowed_roles=['coordenador']
+            
+class EstabelecimentoDetailView(HasRoleMixin,DetailView):
     model=Estabelecimento
     template_name='estabelecimento/detail_estabelecimento.html'
     context_object_name='estabelecimento'
-
-class EstabelecimentoListView(ListView):
+    allowed_roles=['coordenador','secretario']
+    
+class EstabelecimentoListView(HasRoleMixin,ListView):
     model=Estabelecimento
     template_name='estabelecimento/list_estabelecimento.html'
     context_object_name='estabelecimentos'
     paginate_by=10
     ordering='nome'
-                                                                                                                                                                                                                                                                          
+    allowed_roles=['coordenador','secretario']
+
+@has_role_decorator(['coordenador'])                                                                                                                                                                                                            
 def estabelecimento_delete(request,id):
    
     estabelecimento=get_object_or_404(Estabelecimento,id=id)

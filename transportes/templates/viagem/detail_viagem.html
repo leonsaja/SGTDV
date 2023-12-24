@@ -1,7 +1,14 @@
-{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+{% extends 'base.html' %} 
+{% load permission_tags %}
+
+
+{% load bootstrap5 %} {% block content %}
 
 <div class="container-fluid">
     {% include 'viagem/abas_viagem.html' %}
+
+
+    {% if user|has_role:'recepcao' %}
 
     <div class="row m-2">
 
@@ -13,6 +20,7 @@
         </div>
 
     </div>
+    {%endif%}
 
     <div class="col-md-12 px-4">
         <br />
@@ -130,12 +138,21 @@
                                 </tbody>
                                
                             </table>
+                          
 
                         </div>
+                      
                     </div>
+                   
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12 mb-5">
+                <a href="{% url 'transportes:list-viagem' %}" class="btn btn-outline-primary mr-2">Voltar</a>
+                               
+            </div>
+          </div>
     </div>
 </div>
 {% endblock content %}

@@ -1,9 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from localflavor.br.models import BRCPFField
-
 from .managers import UsuarioManager
-
 
 class PerfilUsuario(models.Model):
       TIPO_PERFIL=(
@@ -15,17 +13,19 @@ class PerfilUsuario(models.Model):
         ('6','6-Regulação'),
        
       )
-      perfil=models.CharField(verbose_name='Tipo de perfil',choices=TIPO_PERFIL, max_length=1, null=True,blank=False)
+      perfil=models.CharField(verbose_name='Tipo de perfil',choices=TIPO_PERFIL,unique=True, max_length=1, null=True,blank=False)
+
+      class Meta:
+         ordering = ["perfil"]
 
       def __str__(self):
-        return dict(self.TIPO_PERFIL)[self.perfil]
+          return  self.get_perfil_display()
 
 class Usuario(AbstractUser):
      
-   
      username = None
      nome_completo=models.CharField(verbose_name='Nome Completo', max_length=200, null=True, blank=False)
-     email = models.EmailField(verbose_name='E-mail', null=True, blank=True)
+     email = models.EmailField(verbose_name='E-mail', null=True, blank=False,unique=True)
      cpf=BRCPFField(verbose_name='CPF', unique=True, null=True, blank=False)
      dt_nascimento=models.DateField(verbose_name='Data de Nascimento', null=False, blank=False)
      perfil=models.ManyToManyField(PerfilUsuario)

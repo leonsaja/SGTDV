@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load permission_tags %}
+
 {% block content %}
 <div class="container-fluid">
  {% include 'microarea/abas_microarea.html' %}
@@ -7,6 +9,8 @@
       {% include 'includes/mensagens.html'%}
   </div>
 </div>
+{% if user|has_role:'coordenador' %}
+
   <div class="row mb-3">
             
     <div class="col-md-12">
@@ -17,6 +21,7 @@
     </div>
     
   </div>
+{%endif%}
   <div class="row">
                                                                                                                                                                                                                                                                                                                        <div class="col-md-12">
       <div class="card">
@@ -44,6 +49,7 @@
                   <td>
                     <a href="{% url 'estabelecimentos:detail-microarea' microarea.id%}" class="pr-2"><i
                         class="fas fa-solid fa-eye"></i></a>
+                        {% if user|has_role:'coordenador' %}
                     <a href="{% url 'estabelecimentos:edit-microarea' microarea.id%}" class="pr-1 text-warning"><i
                         class="fas fa-edit"></i></a>
                         <a
@@ -54,6 +60,7 @@
                       >
                         <i class="fas fa-solid fa-trash-can"></i>
                       </a>
+                      {%endif%}
                   </td>
                 </tr>
                 {% include 'microarea/modal_delete_microarea.html'%}

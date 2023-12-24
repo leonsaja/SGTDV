@@ -8,6 +8,7 @@ from datetime import datetime
 from django.db.models import Count
 from django.contrib.messages import constants
 from django.contrib import messages
+from rolepermissions.decorators import has_role_decorator
 
 from django.db import connection
 
@@ -72,7 +73,7 @@ def relatorio_registro_transporte_pdf(request,context):
         messages.add_message(request,constants.ERROR,'Data inicial e Data final são Campos o obrigatório')
         return render(request,'transporte/registro_transporte/relatorio_registro_transporte.html',context)
         
-
+has_role_decorator(['coordenador','secretario','regulacao'])
 def relatorio_registro_transporte(request):
     context={}
     

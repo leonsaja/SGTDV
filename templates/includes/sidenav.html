@@ -1,7 +1,7 @@
+{% load permission_tags %}
+
 <aside class="main-sidebar  sidebar-menu elevation-6">
-
-  <!-- Brand Logo -->
-
+  
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'core:home'%}">
       <img src="/static/img/logo.jpg" alt="Logo" width="60" height="60" class="d-inline-block ">
@@ -12,15 +12,14 @@
 
   <!-- Sidebar -->
   <div class="sidebar">
-    <!-- Sidebar user panel (optional) -->
-
-    <!-- Sidebar Menu -->
+  
     <nav class="mt-2">
       <hr>
       <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu"
         data-accordion="false">
 
-
+        <!-- DESPESAS -->
+        {% if user|has_role:'digitador,coordenador,secretario' %}
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="  nav-icon fas fa-copy text-primary "></i>
@@ -45,6 +44,10 @@
 
           </ul>
         </li>
+        {%endif%}
+
+        <!-- ESPECIALIDADES -->
+        {% if user|has_role:'recepcao,coordenador,acs' %}
         <li class="nav-item">
           <a href="#" class="nav-link ">
             <i class="text-primary nav-icon fas fa fa-user-md" aria-hidden="true"></i>
@@ -55,12 +58,7 @@
             </p>
           </a>
           <ul class="nav nav-treeview ">
-            {% comment %} <li class="nav-item">
-              <a href="% url 'especialidades:add_paciente_atend'%}" class="nav-link link-houver">
-
-                <p class="text-sm text-muted"> Atend. de Especialidade</p>
-              </a>
-            </li> {% endcomment %}
+       
         
             <li class="nav-item">
               <a href="{% url 'especialidades:list-especialidade'%}" class="nav-link link-houver">
@@ -71,8 +69,10 @@
 
           </ul>
         </li>
+        {%endif%}
 
-
+        <!-- ESTABELECIMENTOS -->
+        {% if user|has_role:'coordenador,secretario' %}
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="text-primary  nav-icon fas fa-hospital"></i>
@@ -98,6 +98,10 @@
 
           </ul>
         </li>
+        {%endif%}
+
+        <!-- CIDADAO -->
+        {% if user|has_role:'coordenador,recepcao,regulacao,acs' %}
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class=" text-primary  nav-icon fas fa-solid fa-user"></i>
@@ -107,12 +111,6 @@
             </p>
           </a>
           <ul class="nav nav-treeview ">
-            {% comment %} <li class="nav-item">
-              <a href="{% url 'cidadao:add-cidadao'%}" class="nav-link link-houver">
-
-                <p class=" text-sm text-muted"> Cadastrar Cidadão</p>
-              </a>
-            </li> {% endcomment %}
             <li class="nav-item">
               <a href="{% url 'cidadao:list-cidadao'%}" class="nav-link link-houver">
 
@@ -122,6 +120,10 @@
 
           </ul>
         </li>
+        {%endif%}
+
+        <!-- PROFISSIONAIS -->
+        {% if user|has_role:'coordenador,digitador,secretario' %}
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class=" text-primary nav-icon fas fa-solid fa-user-tie"></i>
@@ -146,6 +148,10 @@
 
           </ul>
         </li>
+        {%endif%}
+
+           <!-- RELATORIOS -->
+        {% if user|has_role:'coordenador,regulacao,digitador,secretario' %}
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class=" nav-icon fas fa-copy text-primary"></i>
@@ -155,12 +161,16 @@
             </p>
           </a>
           <ul class="nav nav-treeview ">
+            {% if user|has_role:'coordenador,digitador,secretario' %}
+
             <li class="nav-item">
               <a href="{% url 'relatorios:relatorio-diaria'%}" class="nav-link link-houver">
 
                 <p class="text-sm text-muted"> Diária</p>
               </a>
             </li>
+            {%endif%}
+            {% if user|has_role:'coordenador,regulacao,secretario' %}
               <li class="nav-item">
                 <a href="#" class="nav-link">
                  
@@ -186,6 +196,8 @@
                   </li>
                 </ul>
               </li>
+              {%endif%}
+              {% if user|has_role:'coordenador,regulacao,secretario' %}
               <li class="nav-item">
                 <a href="#" class="nav-link">
                  
@@ -197,7 +209,7 @@
                 <ul class="nav nav-treeview ">
                   <li class="nav-item">
 
-                    <a href="{% url 'relatorios:relatorio-recibo-tfd'%}" target="_blank" class="nav-link link-houver">
+                    <a href="{% url 'relatorios:relatorio-recibo-tfd'%}" class="nav-link link-houver">
       
                       <p class=" text-sm text-muted">Recibo de TFD </p>
                     </a>
@@ -211,6 +223,8 @@
                   </li>
                 </ul>
               </li>
+                {%endif%}
+              {% if user|has_role:'coordenador,regulacao,secretario' %}
               <li class="nav-item">
                 <a href="#" class="nav-link">
                  
@@ -235,11 +249,13 @@
                   </li>
                 </ul>
               </li>
-
+              {%endif%}
           </ul>
         </li>
+        {%endif%}
 
-        </li>
+        <!-- TFDs -->
+        {% if user|has_role:'coordenador,regulacao,recepcao,secretario' %}
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class=" text-primary nav-icon fas fa-copy"></i>
@@ -272,7 +288,10 @@
 
           </ul>
         </li>
+        {%endif%}
 
+        <!-- USUARIOS -->
+        {% if user|has_role:'coordenador' %}
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class=" text-primary nav-icon fas fa-thin fa-users"></i>
@@ -283,12 +302,7 @@
             </p>
           </a>
           <ul class="nav nav-treeview ">
-            {% comment %} <li class="nav-item">
-              <a href="{% url 'usuarios:add-usuario'%}" class="nav-link link-houver">
-
-                <p class="text-sm text-muted"> Cadastrar Usuário</p>
-              </a>
-            </li> {% endcomment %}
+           
             <li class="nav-item">
               <a href="{% url 'usuarios:list-usuario'%}" class="nav-link link-houver">
 
@@ -298,6 +312,9 @@
 
           </ul>
         </li>
+        {%endif%}
+        <!-- TRANSPORTES -->
+        {% if user|has_role:'coordenador,acs,regulacao,recepcao,digitador,secretario' %}
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class=" text-primary nav-icon fas a-sharp fa-solid fa-car"></i>
@@ -308,38 +325,35 @@
           </a>
          
           <ul class="nav nav-treeview ">
+            {% if user|has_role:'coordenador,regulacao,recepcao,secretario' %}
             <li class="nav-item">
               <a href="{% url 'transportes:list-regis-transporte'%}" class="nav-link link-houver">
 
                 <p class="text-sm text-muted"> Registro de Transportes</p>
               </a>
             </li>
+            {%endif%}
             <li class="nav-item">
               <a href="{% url 'transportes:list-viagem'%}" class="nav-link link-houver">
 
                 <p class="text-sm text-muted"> Viagens</p>
               </a>
             </li>
+            {% if user|has_role:'coordenador,regulacao,recepcao,secretario' %}
             <li class="nav-item">
               <a href="{% url 'transportes:list-carro'%}" class="nav-link link-houver">
 
                 <p class="text-sm text-muted">Carros </p>
               </a>
             </li>
-
+            {%endif%}
           </ul>
         </li>
-
+        {%endif%}
+        
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
   </div>
-  {% comment %}
-  <div class="row mt-1">
-
-    <div class="col-12 p-3">
-      <p class=" brand-text text-center text-sm"><b>Sistema de gerenciamento Diaria,TFD e Viagem-SGDTV </b></p>
-    </div>
-  </div> {% endcomment %}
-  <!-- /.sidebar -->
+ 
 </aside>

@@ -1,4 +1,7 @@
-{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+{% extends 'base.html' %}
+
+{% load permission_tags %}
+{% load bootstrap5 %} {% block content %}
 
 <div class="container-fluid">
 
@@ -11,6 +14,9 @@
 
 
     <div class="col-md-12 px-4">
+
+        {% if user|has_role:'digitador,coordenador' %}
+
         <div class="row">
 
             <div class="col-md-12">
@@ -21,6 +27,7 @@
                 </div>
             </div>
         </div>
+        {%endif%}
         <fieldset>
             <legend>
                 <h4 class=" text-primary"><strong>Detalhes da Diária</strong> </h4>
@@ -114,9 +121,15 @@
                     <h6 class="text-muted"> {{diaria.viagem_dest|upper}}</h6>
                 </div>
             </div>
-    </div>
+   
     </fieldset>
     <br>
+    <div class="row">
+        <div class="col-md-12 mb-5">
+            <a href="{% url 'despesas:list-diaria' %}" class="btn btn-outline-primary mr-2">Voltar</a>
+                           
+        </div>
+      </div>
     {% if reembolsos %}
     <div class="row mb-3">
 
@@ -231,7 +244,7 @@
         </div>
     </div>
     {% endif %}
-
+    
 </div>
 </div>
 

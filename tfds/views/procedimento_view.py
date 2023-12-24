@@ -7,34 +7,40 @@ from tfds.models import CodigoSIA
 from django.shortcuts import get_object_or_404,redirect
 from django.contrib import messages
 from django.contrib.messages import constants
+from rolepermissions.mixins import HasRoleMixin
+from rolepermissions.decorators import has_role_decorator
 
-class ProcedimentoCreateView(SuccessMessageMixin,CreateView):
+class ProcedimentoCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
     model=CodigoSIA
     form_class=CodigoSiaForm
     template_name='procedimento/form_procedimento.html'
     context_object_name='form'
     success_url=reverse_lazy('tfds:list-procedimento')
     success_message='Cadastrado com sucesso'
-    
-class ProcedimentoUpdateView( SuccessMessageMixin,UpdateView):
+    allowed_roles=['coordenador','regulacao']  
+
+class ProcedimentoUpdateView(HasRoleMixin, SuccessMessageMixin,UpdateView):
     model=CodigoSIA
     form_class=CodigoSiaForm
     template_name='procedimento/form_procedimento.html'
     context_object_name='form'
     success_url=reverse_lazy('tfds:list-procedimento')
     success_message='Dados atualizado com sucesso'
+    allowed_roles=['coordenador','regulacao'] 
 
-class ProcedimentosListView(ListView):
+class ProcedimentosListView(HasRoleMixin,ListView):
     model=CodigoSIA
     template_name='procedimento/list_procedimento.html'
     context_object_name='procedimentos'
     ordering='-created_at'
-    
-class ProcedimentoSearchListView(ListView):
+    allowed_roles=['coordenador','regulacao','secretario']  
+
+class ProcedimentoSearchListView(HasRoleMixin,ListView):
     model=CodigoSIA
     template_name='procedimento/list_procedimento.html'
     context_object_name='procedimentos'
     paginate_by=1
+    allowed_roles=['coordenador','regulacao','secretario'] 
     
     def get_queryset(self,*args, **kwargs):
         qs= super(ProcedimentoSearchListView,self).get_queryset(*args, **kwargs)
@@ -45,13 +51,14 @@ class ProcedimentoSearchListView(ListView):
 
         return qs
     
-class ProcedimentosDetailView(DetailView):
+class ProcedimentosDetailView(HasRoleMixin,DetailView):
     model=CodigoSIA
     template_name='procedimento/detail_procedimento.html'
     context_object_name='procedimento'
+    allowed_roles=['coordenador','regulacao','secretario'] 
 
+has_role_decorator(['coordenador'])
 def procedimentosDelete(request,id):
-    
     
     codigo=get_object_or_404(CodigoSIA,id=id)
 

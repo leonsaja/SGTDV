@@ -62,8 +62,11 @@
     <div class="linha"></div>
     
           <p class="paragrafo";>
-            <b>Total  de Recibo:  </b>R$ {{total_recibo}}
-           
+            {%if total_recibo%}
+            <b>Valor Total:  </b>R$ {{total_recibo}}
+            {%else%}
+            <b>Valor Total:  </b> R$ 0,00
+            {%endif%}
         </p>
     <div class="linha"></div>
     

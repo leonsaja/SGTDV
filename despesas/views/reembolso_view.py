@@ -10,8 +10,10 @@ from despesas.forms.reembolso_form import ReembolFormSet
 from despesas.models import Diaria, Reembolso
 from django.contrib.messages import constants
 from django.contrib import messages
+from rolepermissions.decorators import has_role_decorator
+from rolepermissions.mixins import HasRoleMixin
 
-
+@has_role_decorator(['digitador','coordenador'])
 def reembolso_create(request,id):
     diaria=get_object_or_404(Diaria,id=id)
 
@@ -29,6 +31,7 @@ def reembolso_create(request,id):
     
     return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset})
 
+@has_role_decorator(['digitador','coordenador'])
 def reembolso_update(request, id):
    diaria=get_object_or_404(Diaria,id=id)
     
@@ -47,7 +50,7 @@ def reembolso_update(request, id):
     
    return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset})
 
-class ReembolsoListView(ListView):
+class ReembolsoListView(HasRoleMixin,ListView):
    
    model=Diaria
    template_name='reembolso/list_reembolso.html'
@@ -55,13 +58,15 @@ class ReembolsoListView(ListView):
    queryset=Diaria.objects.select_related('profissional').filter(reembolso=1)
    ordering='-created_at'
    paginate_by=10
+   allowed_roles=['digitador','coordenador','secretario']
    
-class ReembolsoSearchListView(ListView):
+class ReembolsoSearchListView(HasRoleMixin,ListView):
    model=Diaria
    template_name='reembolso/list_reembolso.html'
    context_object_name='diarias'
    paginate_by=10
-   
+   allowed_roles=['digitador','coordenador','secretario']
+
    def get_queryset(self, *args, **kwargs):
         qs = super(ReembolsoSearchListView,self).get_queryset(*args, **kwargs)
         buscar=self.request.GET.get('buscar',None)
@@ -77,10 +82,11 @@ class ReembolsoSearchListView(ListView):
             
         return qs 
 
-class ReembolsoDetailView(DetailView):
+class ReembolsoDetailView(HasRoleMixin,DetailView):
     model=Diaria
     template_name='reembolso/detail_reembolso.html'
-   
+    allowed_roles=['digitador','coordenador','secretario']
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         diaria=Diaria.objects.select_related('profissional').get(id=self.kwargs['pk'])
@@ -89,6 +95,7 @@ class ReembolsoDetailView(DetailView):
         
         return context
 
+@has_role_decorator(['digitador','coordenador','secretario'])
 def reembolso_pdf(request,id):
 
     diaria=get_object_or_404(Diaria,id=id)

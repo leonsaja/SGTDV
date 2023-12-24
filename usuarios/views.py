@@ -1,14 +1,15 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from django.forms.forms import BaseForm
-from django.http.response import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
 from usuarios.forms import CadastroUsuarioForm, EditarUsuarioForm
+from rolepermissions.roles import assign_role
+from rolepermissions.mixins import HasRoleMixin
 
 
-class UsuarioCreateView(SuccessMessageMixin,CreateView):
+class UsuarioCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
+            
     User=get_user_model()
     model=User
     form_class=CadastroUsuarioForm
@@ -16,13 +17,28 @@ class UsuarioCreateView(SuccessMessageMixin,CreateView):
     context_object_name='form'
     success_url=reverse_lazy('usuarios:list-usuario')
     success_message='Cadastro realizado com sucesso'
+    allowed_roles = ['secretario','coordenador']
     
-    
-    """ def form_valid(self,form):
-        
-        return super().form_valid(form) """
 
-class UsuarioUpdateView(SuccessMessageMixin,UpdateView):
+    def form_valid(self, form):
+        user=form.save()
+        for u in user.perfil.all():
+            if u.perfil =='1':
+                print('teste')
+                assign_role(user,'acs')
+            if u.perfil == '2':
+                assign_role(user,'coordenador')
+            if u.perfil =='3':
+                assign_role(user,'digitador')
+            if u.perfil== '4':
+                assign_role(user,'recepcao')
+            if u.perfil=='5':
+                assign_role(user,'secretario')
+            if u.perfil =='6':
+                assign_role(user,'regulacao')
+        return super().form_valid(form)
+    
+class UsuarioUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
     
     User=get_user_model()
     model=User
@@ -31,8 +47,28 @@ class UsuarioUpdateView(SuccessMessageMixin,UpdateView):
     context_object_name='form'
     success_url=reverse_lazy('usuarios:list-usuario')
     success_message='Dados atualizado com sucesso'
+    allowed_roles = ['acs','secretario','regulcao',]
 
-class UsuarioListView(ListView):
+    def form_valid(self, form):
+        user=form.save()
+      
+        for u in user.perfil.all():
+            if u.perfil =='1':
+                print('teste')
+                assign_role(user,'acs')
+            if u.perfil == '2':
+                assign_role(user,'coordenador')
+            if u.perfil =='3':
+                assign_role(user,'digitador')
+            if u.perfil== '4':
+                assign_role(user,'recepcao')
+            if u.perfil=='5':
+                assign_role(user,'secretario')
+            if u.perfil =='6':
+                assign_role(user,'regulacao')
+        return super().form_valid(form)
+    
+class UsuarioListView(HasRoleMixin,ListView):
    
     User=get_user_model()
     model=User
@@ -41,14 +77,15 @@ class UsuarioListView(ListView):
     paginate_by=10
     queryset=User.objects.filter(is_staff=False).filter(is_active=True)
     ordering='-created_at'
-        
-class UsuarioSearchListView(ListView):
+    allowed_roles = ['secretario','coordenador']
+
+class UsuarioSearchListView(HasRoleMixin,ListView):
     User=get_user_model()
     model=User
     template_name='usuario/list_usuarios.html'
     context_object_name='usuarios'
-    paginate_by=1
-
+    paginate_by=10
+    allowed_roles = ['secretario','coordenador']
     
     def get_queryset(self, *args, **kwargs):
         qs = super(UsuarioSearchListView,self).get_queryset(*args, **kwargs)
@@ -68,9 +105,11 @@ class UsuarioSearchListView(ListView):
    
         return qs
 
-class UsuarioDetailView(DetailView):
+class UsuarioDetailView(HasRoleMixin,DetailView):
     User=get_user_model()
     model=User
     template_name='usuario/detail_usuario.html'
     context_object_name='usuario'
+    allowed_roles = ['secretario','coordenador']
+
     

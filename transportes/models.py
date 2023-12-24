@@ -104,7 +104,7 @@ class RegistroTransporte(models.Model):
   
    paciente=models.ForeignKey(Cidadao,null=False,blank=False,verbose_name='Paciente',on_delete=models.PROTECT)
    status=models.CharField(verbose_name='Transporte Atendido',max_length=1, choices=STATUS_CHOICES)
-   dt_atendimento=models.DateField(verbose_name='Data de Atendimento')
+   dt_atendimento=models.DateField(verbose_name='Data do Atendimento')
    carro=models.ForeignKey(Carro, null=False, blank=False, verbose_name='Carro', related_name='carro_registro_transporte', on_delete=models.PROTECT)
    tipo_atend=models.CharField(verbose_name='Tipo Atendimento',max_length=1, choices=TIPO_ATENDIMENTO, null=False, blank=False)
    acompanhante=models.CharField(verbose_name='Tem Acompanhante',null=False,blank=False,max_length=1,choices=ACOMPANHANTE)

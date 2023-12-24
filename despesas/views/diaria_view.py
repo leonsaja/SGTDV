@@ -20,6 +20,7 @@ class DiariaCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
    success_url=reverse_lazy('despesas:list-diaria')
    success_message='Cadastro realizado com sucesso'
    allowed_roles=['digitador']
+    
 
 class DiariaUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
 
@@ -37,7 +38,7 @@ class DiariaListView(HasRoleMixin,ListView):
     context_object_name='diarias'
     paginate_by=10
     queryset=Diaria.objects.select_related('profissional').order_by('-created_at')
-    allowed_roles=['digitador','coordenador']
+    allowed_roles=['digitador','coordenador','secretario']
   
 class DiariaSearchListView(HasRoleMixin,ListView):
 
@@ -65,7 +66,7 @@ class DiariaSearchListView(HasRoleMixin,ListView):
 class DiariaDetailView(HasRoleMixin,DetailView):
     model=Diaria
     template_name='diaria/detail_diaria.html'
-    allowed_roles=['digitador','coordenador']
+    allowed_roles=['digitador','coordenador','secretario']
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -87,7 +88,7 @@ def diaria_delete(request, id):
     finally:
         return redirect('despesas:list-diaria')
 
-@has_role_decorator(['digitador','coordenador'])
+@has_role_decorator(['digitador','coordenador','secretario'])
 def diaria_pdf(request,id):
    
     diaria=get_object_or_404(Diaria,id=id)

@@ -10,8 +10,11 @@ from django.contrib.messages.views import SuccessMessageMixin
 from .models import Profissional
 from despesas.models import Diaria
 from profissionais.forms.form_profissional import ProfissionalForm
+from rolepermissions.mixins import HasRoleMixin
+from rolepermissions.decorators import has_role_decorator
 
-class ProfissionalCreateView(SuccessMessageMixin,CreateView):
+
+class ProfissionalCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
     
     model=Profissional
     form_class=ProfissionalForm
@@ -19,34 +22,40 @@ class ProfissionalCreateView(SuccessMessageMixin,CreateView):
     template_name='profissional/form_profissional.html'
     success_url=reverse_lazy('profissionais:list-profissional')
     success_message='Cadastro realizado com sucesso'
-    
-class ProfissionalUpdateView(SuccessMessageMixin,UpdateView):
+    allowed_roles=['coordenador','digitador']
+
+class ProfissionalUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
     model=Profissional
     form_class=ProfissionalForm
     context_object_name='form'
     template_name='profissional/form_profissional.html'
     success_url=reverse_lazy('profissionais:list-profissional')
     success_message='Dados atualizados com sucesso'
- 
-class ProfissionalDetailView(DetailView):
+    allowed_roles=['coordenador','digitador']
+
+class ProfissionalDetailView(HasRoleMixin,DetailView):
 
     model=Profissional
     template_name='profissional/detail_profissional.html'
     context_object_name='profissional'
+    allowed_roles=['coordenador','digitador','secretario']
 
-class ProfissionalListView(ListView):
+class ProfissionalListView(HasRoleMixin,ListView):
     model=Profissional
     template_name='profissional/list_profissionais.html'
     context_object_name='profissionais'
     paginate_by=10
     ordering='-nome_completo'
-
-class ProfissionalSearchListView(ListView):
+    allowed_roles=['coordenador','digitador','secretario']
+    
+class ProfissionalSearchListView(HasRoleMixin,ListView):
 
     model=Profissional
     template_name='profissional/list_profissionais.html'
     context_object_name='profissionais'
     paginate_by=10
+    allowed_roles=['coordenador','digitador','secretario']
+
 
     def get_queryset(self, *args, **kwargs):
         qs = super(ProfissionalSearchListView,self).get_queryset(*args, **kwargs)
@@ -62,6 +71,7 @@ class ProfissionalSearchListView(ListView):
         
         return qs
 
+@has_role_decorator(['coordenador'])
 def profissional_delete(request, id):
     profissional=get_object_or_404(Profissional,id=id)
 

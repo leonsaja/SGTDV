@@ -1,4 +1,6 @@
 {% extends 'base.html' %} {% block content %}
+{% load permission_tags %}
+
 <div class="container-fluid">
   {% include 'recibo_tfd/abas_recibo_tfd.html' %}
 
@@ -7,10 +9,9 @@
         {% include 'includes/mensagens.html'%}
     </div>
 </div>
+{% if user|has_role:'regulacao' %}
 
   <div class="row">
-
-
     <div class="col-md-12">
       <div class="text-right">
         <a href="{% url 'tfds:add-recibo_tfd' %}" class="btn btn-primary"><b>Cadastrar Recibo de TFD</b>
@@ -19,6 +20,7 @@
     </div>
 
   </div>
+  {%endif%}
   <div class="row justify-content-center ">
     <div class="col-md-8 ">
       <h4 class=" text-primary"><strong>Recibo de Pagamento de TFDs</strong> </h4>
@@ -104,19 +106,24 @@
                   <td>
                     <a href="{% url 'tfds:detail-recibo_tfd' recibo.id%}" class="pr-2"><i
                         class="fas fa-solid fa-eye"></i></a>
+                    {% if user|has_role:'regulacao' %}
                     <a href="{% url 'tfds:edit-recibo_tfd' recibo.id%}" class="pr-1 text-warning"><i
                         class="fas fa-edit"></i></a>
+                    {%endif%}
+                    
+                    {% if user|has_role:'coordenador' %}
                     <a type="button" data-bs-toggle="modal" data-bs-target="#modal--{{recibo.id}}"
                       class="pr-2 text-danger">
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>
+                    {%endif%}
+
+                    {% if user|has_role:'regulacao,secretario,coordenador' %}
                     <a href="{% url 'tfds:pdf-recibo_tfd' recibo.id%}"  target="_blank" class="pr-2">
                       <i class='fas fa-print'></i>
 
-                    
-              
-
                     </a>
+                    {%endif%}
                   </td>
                 </tr>
                 {% include  'recibo_tfd/modal_delete_recibo_tfd.html'%}
