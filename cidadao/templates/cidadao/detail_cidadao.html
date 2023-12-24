@@ -1,4 +1,8 @@
-{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+{% extends 'base.html' %} 
+{% load permission_tags %}
+
+
+{% load bootstrap5 %} {% block content %}
 
 <div class="container-fluid">
   {% include 'cidadao/abas_cidadao.html' %}
@@ -7,7 +11,7 @@
         {% include 'includes/mensagens.html'%}
     </div>
 </div>
-
+{% if user|has_role:'recepcao,regulacao,acs' %}
   <div class="row">
     <div class="col-md-12">
       <div class="text-right">
@@ -15,6 +19,7 @@
       </div>
     </div>
   </div>
+  {%endif%}
   <div class="row">
     <div class=" col-md-6 ml-4 mt-4">
       <h4 class=" text-primary"><strong>Detalhe do Cadastro</strong></h4>
@@ -142,6 +147,13 @@
         </div>
       </div>
     </fieldset>
+    <br/>
+    <div class="row">
+      <div class="col-md-12 mb-5">
+          <a href="{% url 'cidadao:list-cidadao' %}" class="btn btn-outline-primary mr-2">Voltar</a>
+                         
+      </div>
+    </div>
   </div>
   <br /><br /><br />
 </div>

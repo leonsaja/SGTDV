@@ -10,7 +10,7 @@ from django.contrib import messages
 from rolepermissions.decorators import has_role_decorator
 from rolepermissions.mixins import HasRoleMixin
 
-@has_role_decorator(['acs','recepcao'])
+@has_role_decorator(['acs','recepcao','regulacao'])
 def cidadao_create(request):
     if request.method == 'POST':
         form=CidadaoForm(request.POST or None)
@@ -30,7 +30,7 @@ def cidadao_create(request):
     form_endereco=EnderecoForm(request.POST or None)      
     return render(request,'cidadao/form_cidadao.html',{'form':form,'endereco':form_endereco})
 
-@has_role_decorator(['acs','recepcao'])
+@has_role_decorator(['acs','recepcao','regulacao'])
 def cidadao_update(request,id):
 
     cidadao=get_object_or_404(Cidadao,id=id)
@@ -53,7 +53,7 @@ def cidadao_update(request,id):
 
     return render(request,'cidadao/form_cidadao.html',{'form':form,'endereco':form_endereco})
 
-@has_role_decorator(['secretaria,coordenador'])
+@has_role_decorator(['coordenador'])
 def cidadao_delete(request,id):
 
     cidadao=get_object_or_404(Cidadao,id=id)
@@ -70,7 +70,7 @@ def cidadao_delete(request,id):
 class CidadaoDetailView(HasRoleMixin,DetailView):
     model=Cidadao
     template_name='cidadao/detail_cidadao.html'
-    allowed_roles = ['acs','recepcao']
+    allowed_roles = ['acs','coordenador','regulacao','recepcao']
 
 
     def get_context_data(self, *args, **kwargs):
@@ -84,7 +84,7 @@ class CidadaoListView(HasRoleMixin,ListView):
     template_name='cidadao/list_cidadao.html'
     context_object_name='pacientes'
     paginate_by=10
-    allowed_roles = ['acs','recepcao']
+    allowed_roles = ['acs','coordenador','regulacao','recepcao']
    
 
     def get_queryset(self, *args, **kwargs):
@@ -98,7 +98,7 @@ class CidadaoSearchListView(HasRoleMixin,ListView):
     template_name='cidadao/list_cidadao.html'
     context_object_name='pacientes'
     paginate_by=10
-    allowed_roles = ['acs','recepcao']
+    allowed_roles = ['acs','coordenador','regulacao','recepcao']
 
 
     def get_queryset(self, *args, **kwargs):
