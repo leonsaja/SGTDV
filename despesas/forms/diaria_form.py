@@ -25,7 +25,7 @@ class DiariaForm(forms.ModelForm):
     
     class Meta:
         model=Diaria
-        fields='__all__'
+        exclude=('status',)
         widgets = {
             'profissional':s2forms.Select2Widget(),
            
@@ -54,13 +54,13 @@ class DiariaForm(forms.ModelForm):
     
 
     def clean(self):
-        profissional=self.cleaned_data['profissional']
-        data=self.cleaned_data['data_diaria']
+        cleaned_data = super().clean()
+        profissional=cleaned_data.get('profissional')
+        data=cleaned_data.get('data_diaria')
 
         if Diaria.objects.filter(profissional=profissional).filter(data_diaria=data).exists():
             self.add_error('data_diaria', 'Profissional já tem uma diaria com essa data')
 
-        return super().clean()
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -68,8 +68,13 @@ class DiariaForm(forms.ModelForm):
         self.fields['valor'].widget.attrs.update({'class':'mask-money'})
 
 
-
-
+# Form para aprovar ou reprovar diaria
+class DiariaStatusForm(forms.ModelForm):
+    
+    class Meta:
+        model=Diaria
+        fields=['status']
+        
 
     
 

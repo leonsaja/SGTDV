@@ -2,6 +2,7 @@
 
 {% load permission_tags %}
 {% load bootstrap5 %} {% block content %}
+{% load crispy_forms_tags %}
 
 <div class="container-fluid">
 
@@ -243,7 +244,24 @@
             </div>
         </div>
     </div>
+
+  
     {% endif %}
+    {% if user|has_role:'secretario' %}
+
+        <form action="{% url 'despesas:status-diaria'  diaria.id %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-3">{{form.status  |as_crispy_field }}
+                </div>
+            
+                <div class="col-md-3 mt-4"> <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
+        
+        </form>
+
+    {%endif%}
     
 </div>
 </div>

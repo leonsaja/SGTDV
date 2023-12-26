@@ -3,7 +3,6 @@ from django.db import models
 
 from profissionais.models import Profissional
 
-
 class Diaria(models.Model):
     TIPO_DIARIA=(
         ('','---------'),
@@ -15,6 +14,11 @@ class Diaria(models.Model):
        ('2','NÃO'),
     )
 
+    STATUS=(
+        ('1','AGUARDANDO'),
+        ('2','APROVADO'),
+        ('3','REPROVADO'),
+    )
     profissional=models.ForeignKey(Profissional,on_delete=models.PROTECT,null=False, blank=False, related_name='profissionais')
     descricao=models.TextField(verbose_name='Descrição',null=False,blank=False)
     data_diaria=models.DateField(verbose_name='Data',null=False,blank=False)
@@ -28,10 +32,13 @@ class Diaria(models.Model):
     qta_diaria=models.PositiveBigIntegerField(verbose_name='Quantidade',null=False,blank=False)
     valor=models.CharField(verbose_name='Valor', max_length=50, null=False,blank=False)
     total=models.DecimalField(null=False, blank=False, decimal_places=2, max_digits=10)
-
+   
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+   
+    status=models.CharField(verbose_name='Avaliar Diária',max_length=1,choices=STATUS,default='1')
+    user_create_diaria=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
+    aprovado_diaria=models.CharField(verbose_name='Aprovado por ',max_length=200,null=True,blank=True)
 
     def valor_total(self):
        total=0
@@ -68,9 +75,7 @@ class Diaria(models.Model):
         return total
       
       return ''
-           
-    
-  
+            
 class Reembolso(models.Model):
 
     TIPOS_DESPESAS=(

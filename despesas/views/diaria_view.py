@@ -1,5 +1,5 @@
 from django.db.models import ProtectedError, Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
@@ -7,7 +7,7 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from weasyprint import HTML
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
-from despesas.forms.diaria_form import DiariaForm
+from despesas.forms.diaria_form import DiariaForm,DiariaStatusForm
 from django.contrib.messages.views import SuccessMessageMixin
 from ..models import Diaria, Reembolso
 from django.contrib.messages import constants
@@ -20,8 +20,14 @@ class DiariaCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
    success_url=reverse_lazy('despesas:list-diaria')
    success_message='Cadastro realizado com sucesso'
    allowed_roles=['digitador']
-    
 
+   def form_valid(self, form):
+        
+        self.object = form.save(commit=False)
+        self.object.user_create_diaria = self.request.user.nome_completo
+        self.object.save()
+        return  super().form_valid(form)
+   
 class DiariaUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
 
     model=Diaria             
@@ -30,6 +36,13 @@ class DiariaUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
     success_url=reverse_lazy('despesas:list-diaria')
     success_message='Dados atualizado com sucesso'
     allowed_roles=['digitador']
+
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user_create_diaria = self.request.user.nome_completo
+        self.object.save()
+        return  super().form_valid(form)
 
 class DiariaListView(HasRoleMixin,ListView):
     
@@ -63,6 +76,21 @@ class DiariaSearchListView(HasRoleMixin,ListView):
     
         return qs
 
+class DiariaStatusUpdateView(HasRoleMixin,SuccessMessageMixin, UpdateView):
+    
+   model=Diaria
+   form_class=DiariaStatusForm 
+   template_name='diaria/detail_diaria.html'
+   success_url=reverse_lazy('despesas:list-diaria')
+   success_message='Operação realizado com sucesso'
+   allowed_roles=['secretario']
+
+   def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.aprovado_diaria = self.request.user.nome_completo
+        self.object.save()
+        return  super().form_valid(form)
+    
 class DiariaDetailView(HasRoleMixin,DetailView):
     model=Diaria
     template_name='diaria/detail_diaria.html'
@@ -73,9 +101,9 @@ class DiariaDetailView(HasRoleMixin,DetailView):
         diaria=Diaria.objects.select_related('profissional').get(id=self.kwargs['pk'])
         context['diaria']=diaria
         context['reembolsos'] =Reembolso.objects.select_related('diaria').filter(diaria__id=diaria.id)
-        
+        context['form']=DiariaStatusForm(self.request.POST or None,instance=diaria)
         return context
-
+    
 @has_role_decorator(['coordenador'])
 def diaria_delete(request, id):
     diaria=get_object_or_404(Diaria,id=id)

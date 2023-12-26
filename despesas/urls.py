@@ -10,6 +10,7 @@ urlpatterns = [
     
     #Diária
     path('diaria/create',diaria_view.DiariaCreateView.as_view(),name='add-diaria'),
+    path('diaria/update/<int:pk>/status',diaria_view.DiariaStatusUpdateView.as_view(),name='status-diaria'),
     path('diaria/update/<int:pk>',diaria_view.DiariaUpdateView.as_view(), name='edit-diaria'),
     path('diaria/delete/<int:id>',diaria_view.diaria_delete,name='del-diaria'),
     path('diaria/detail/<int:pk>',diaria_view.DiariaDetailView.as_view(),name='detail-diaria'),
