@@ -29,35 +29,9 @@
       <div class="col-md-3">{{form.codigo_sia_paciente|as_crispy_field }}</div>
       <div class="col-md-3">{{form.valor_paciente_sia|as_crispy_field}}</div>
       <div class="col-md-2">{{form.quant_passagem_paciente|as_crispy_field }}</div>
+      <div class="col-md-3">{{form.tem_acompanhante|as_crispy_field}}</div>
 
-
-      {% if recibo_passagem.acompanhante or recibo_passagem.codigo_sia_acompanhante or  recibo_passagem.valor_acompanhante_sia%}
-
-      <div class="col-md-4">
-        <div class="form-check">
-          <br>
-
-          <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0" checked>
-          <label class="form-check-label" for="ativar_campos">
-            <b> Tem Acompanhante</b>
-          </label>
-        </div>
-      </div>
-    </div>
-    {%else%}
-    <div class="col-md-4">
-      <div class="form-check">
-        <br>
-
-        <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0">
-        <label class="form-check-label" for="ativar_campos">
-          <b> Tem Acompanhante</b>
-        </label>
-      </div>
-    </div>
     
-    </div>
-    {%endif%}
 
     <div class="d-none" id="campos">
       <div class="row">
@@ -111,10 +85,10 @@
 
 $(document).ready(function () {
 
-var checkbox_acompanhante = document.getElementById("ativar_campos")
 var campos=document.getElementById('campos') 
-
-var id_acompanhante=document.getElementById("id_acompanhante")
+var id_tem_acompanhante_0=document.getElementById("id_tem_acompanhante_0")
+var id_tem_acompanhante_1=document.getElementById("id_tem_acompanhante_1")
+var id_acompanhante=document.getElementById('id_acompanhante')
 var cpf_acompanhante=document.getElementById('id_cpf')
 var rg_acompanhante = document.getElementById('id_rg')
 var cns_acompanhante =document.getElementById('id_cns')
@@ -122,24 +96,28 @@ var cns_acompanhante =document.getElementById('id_cns')
 var id_codigo_sia_acompanhante=document.getElementById('id_codigo_sia_acompanhante')
 var id_valor_acompanhante_sia = document.getElementById('id_valor_acompanhante_sia')
 var id_quant_passagem_acompanhante = document.getElementById('id_quant_passagem_acompanhante')
-checkbox_acompanhante.addEventListener('change', ativarCampos);
 
 
-if (checkbox_acompanhante.checked)
+
+
+if (id_tem_acompanhante_0.checked)
 {
   campos.classList.remove('d-none');
-
 }
+
+id_tem_acompanhante_0.addEventListener('change', ativarCampos);
+id_tem_acompanhante_1.addEventListener('change', ativarCampos);
+
 
 function ativarCampos() {
 
-  if (checkbox_acompanhante.checked) {
-    console.log('vdd')
+  if (id_tem_acompanhante_0.checked) {
+
         campos.classList.remove('d-none') 
         id_codigo_sia_acompanhante.value='0803010109'   
   }
   else{
-    console.log('false')
+   
         campos.classList.add('d-none')
         
         id_codigo_sia_acompanhante.value=''

@@ -2,18 +2,21 @@ from django.db.models import  Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView
-from tfds.forms.form_recibo_tfd import ReciboTFDForm
+from tfds.forms.form_recibo_tfd import ReciboTFDForm,ReciboTFDStatusForm
 from tfds.forms.form_procedimento import ProcedimentoSet
 from tfds.models import  ReciboTFD,ProcedimentoSia
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth import get_user_model
 
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
+
+
 has_role_decorator(['regulacao'])
 def reciboTFD_create(request):
     tfd=ReciboTFD()
@@ -22,6 +25,8 @@ def reciboTFD_create(request):
         form = ReciboTFDForm(request.POST,instance=tfd,prefix='recibo' )
         formset=ProcedimentoSet(request.POST,instance=tfd,prefix='procedimento')
         if form.is_valid() and formset.is_valid():
+            form=form.save(commit=False)
+            form.criado_por=request.user.nome_completo
             form.save()
             formset.save()
             messages.add_message(request,constants.SUCCESS,'Cadastro realizado com sucesso')
@@ -40,6 +45,8 @@ def reciboTFD_update(request,id):
         form=ReciboTFDForm(request.POST, instance=recibo_tfd,prefix='recibo')
         formset=ProcedimentoSet(request.POST, instance=recibo_tfd,prefix='procedimento')
         if form.is_valid() and formset.is_valid():
+           form=form.save(commit=False)
+           form.criado_por=request.user.nome_completo
            form.save()
            formset.save()
            messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
@@ -48,6 +55,23 @@ def reciboTFD_update(request,id):
     form=ReciboTFDForm(request.POST or None, instance=recibo_tfd,prefix='recibo')
     formset=ProcedimentoSet(request.POST or None, instance=recibo_tfd,prefix='procedimento')
     return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset,'recibo_tfd':recibo_tfd})
+
+has_role_decorator(['secretario'])  
+def reciboStatusUpdate(request,id):
+    recibo_tfd=get_object_or_404(ReciboTFD, pk=id)
+
+    if request.method =='POST':
+        form=ReciboTFDStatusForm(request.POST, instance=recibo_tfd,prefix='recibo')
+        if form.is_valid():
+           form=form.save(commit=False)
+           form.aprovado_por=request.user.nome_completo
+           form.save()
+           messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
+           return redirect('tfds:list-recibo_tfd')
+
+    form=ReciboTFDStatusForm(request.POST or None, instance=recibo_tfd,prefix='recibo')
+    
+    return render(request, 'recibo_tfd/detail_recibo_tfd.html', {'form': form,'recibo_tfd':recibo_tfd})
 
 class ReciboTFDListView(HasRoleMixin,ListView):
 
@@ -91,16 +115,13 @@ class ReciboTFDDetailView(HasRoleMixin,DetailView):
     model=ReciboTFD
     template_name='recibo_tfd/detail_recibo_tfd.html'
     allowed_roles=['regulacao','secretario','coordenador']
-
-
     
     def get_context_data(self,*args, **kwargs):
         context=super().get_context_data(*args, **kwargs)
         recibo_tfd= ReciboTFD.objects.select_related('paciente').get(id=self.kwargs['pk'])
-        
         context['recibo_tfd']=recibo_tfd
         context['procedimentos']=ProcedimentoSia.objects.select_related('recibo_tfd','codigosia').filter(recibo_tfd__id=recibo_tfd.id)
-        
+        context['form']=ReciboTFDStatusForm(self.request.POST or None, instance=recibo_tfd,prefix='recibo')
         return context
 
 class ReciboTFDDeleteView(HasRoleMixin,SuccessMessageMixin, DeleteView):
@@ -121,7 +142,9 @@ def reciboTFD_pdf(request,id):
 
     context['recibo_tfd']= ReciboTFD.objects.select_related('paciente').get(id=recibo_pdf.id)
     context['procedimentos']=ProcedimentoSia.objects.select_related('recibo_tfd').filter(recibo_tfd__id=context['recibo_tfd'].id)
-
+   
+    User=get_user_model()
+    context['profissional']=User.objects.filter(is_active=True).filter(perfil__perfil='5').first()
     response = HttpResponse(content_type='application/pdf')
     html_string = render_to_string('recibo_tfd/pdf_recibo_tfd.html', context)
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)

@@ -205,6 +205,10 @@
            
           </div>
     </div>
+    <div>
+        <br/>
+        <p> Realizado por {{recibo_passagem.criado_por}} no dia {{recibo_passagem.updated_at|date:"d/m/Y"|default:'---'}} às {{recibo_passagem.updated_at|time:"H:i"|default:'---'}}  </p>
+      </div>
 
 </div>
     {% endblock content %}

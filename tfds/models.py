@@ -4,21 +4,35 @@ from localflavor.br.models import BRCPFField
 
 
 class ReciboTFD(models.Model):
-   
+
+   STATUS=(
+        ('1','AGUARDANDO'),
+        ('2','APROVADO'),
+        ('3','REPROVADO'),
+    )
+   ACOMPANHANTE=(
+      ('1','SIM'),
+      ('2','NÃO'),
+   )
+
    paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='paciente')
-   
-   #Dados para Acompanhante
-   acompanhante=models.CharField(verbose_name='Acompanhante',null=True,blank=True, max_length=200)
-   rg=models.CharField(max_length=10,verbose_name='RG', null=True,blank=True)
-   cpf=BRCPFField(verbose_name='CPF', max_length=11, null=True,blank=True)
-   cns=models.PositiveBigIntegerField(verbose_name='CNS',null=True,blank=True, help_text='Digite o cartão do SUS com 15 digitos')
-   
    municipio_origem=models.CharField(verbose_name='Municipio Origem', max_length=120,null=False,blank=False,default='Santo Antônio do Jacinto-MG')
    municipio_destino=models.CharField(verbose_name='Municipio Destino', max_length=120,null=False,blank=False)
    data=models.DateField(verbose_name='Data')
    grs=models.CharField(verbose_name='GRS',max_length=50,null=False,blank=False,default='Pedra Azul-MG')
    especialidade=models.CharField(verbose_name='Especialidade', max_length=100, null=False, blank=False)
-   
+
+   #Dados para Acompanhante
+   tem_acompanhante=models.CharField(verbose_name='Tem Acompanhante',null=False,blank=False,max_length=1,choices=ACOMPANHANTE)
+   acompanhante=models.CharField(verbose_name='Acompanhante',null=True,blank=True, max_length=200)
+   rg=models.CharField(max_length=10,verbose_name='RG', null=True,blank=True)
+   cpf=BRCPFField(verbose_name='CPF', max_length=11, null=True,blank=True)
+   cns=models.PositiveBigIntegerField(verbose_name='CNS',null=True,blank=True, help_text='Digite o cartão do SUS com 15 digitos')
+
+   status=models.CharField(verbose_name='Avaliar Recibo Pag. de TFD',max_length=1,choices=STATUS,default='1')
+   criado_por=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
+   aprovado_por=models.CharField(verbose_name='Aprovado por ',max_length=200,null=True,blank=True)
+
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
 
@@ -100,9 +114,14 @@ class ReciboPassagemTFD(models.Model):
       ('2','2-AÉREO'),
       ('3','3-OUTROS')
    )
+   ACOMPANHANTE=(
+      ('1','SIM'),
+      ('2','NÃO'),
+   )
 
    paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='recibo_passagem_paciente')
    #Dados para Acompanhante
+   tem_acompanhante=models.CharField(verbose_name='Tem Acompanhante',null=False,blank=False,max_length=1,choices=ACOMPANHANTE)
    acompanhante=models.CharField(verbose_name='Acompanhante',null=True,blank=True, max_length=200)
    rg=models.CharField(max_length=10,verbose_name='RG', null=True,blank=True)
    cpf=BRCPFField(verbose_name='CPF', max_length=11, null=True,blank=True)
@@ -117,6 +136,9 @@ class ReciboPassagemTFD(models.Model):
    valor_paciente_sia=models.DecimalField(verbose_name='Valor', max_digits=8,decimal_places=2,null=False,blank=False)
    valor_acompanhante_sia=models.DecimalField(verbose_name='Valor', max_digits=8,decimal_places=2, null=True,blank=True)
    data_recibo=models.DateField(verbose_name='Data',null=True,blank=False)
+
+   criado_por=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
+
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
 

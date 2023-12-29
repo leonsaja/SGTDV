@@ -22,6 +22,13 @@ class ReciboPassagemCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
     success_message='Cadastro realizado com sucesso'
     allowed_roles=['regulacao']
 
+    def form_valid(self, form):
+        
+        self.object = form.save(commit=False)
+        self.object.criado_por = self.request.user.nome_completo
+        self.object.save()
+        return  super().form_valid(form)
+
 class ReciboPassagemUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
     
     model=ReciboPassagemTFD
@@ -31,7 +38,15 @@ class ReciboPassagemUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
     context_object_name='recibo_passagem'
     success_message='Dados atualizado com sucesso'
     allowed_roles=['regulacao']
-  
+
+
+    def form_valid(self, form):
+        
+        self.object = form.save(commit=False)
+        self.object.criado_por = self.request.user.nome_completo
+        self.object.save()
+        return  super().form_valid(form)
+ 
 class ReciboPassagemListView(HasRoleMixin,ListView):
 
     model=ReciboPassagemTFD

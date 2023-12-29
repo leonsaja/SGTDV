@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load bootstrap5 %} {% block content %}
 {% load permission_tags %}
 
 <div class="descricaoiner-fluid">
@@ -181,12 +183,29 @@
                 </div>
             </div>
         </div>
+        {% if user|has_role:'secretario' %}
+
+            <form action="{% url 'tfds:status-recibo-tfd'  recibo_tfd.id %}" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-3">{{form.status|as_crispy_field }}
+                    </div>
+                
+                    <div class="col-md-3 mt-4"> <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+            
+            </form>
+
+    {%endif%}
         <div class="row">
-            <div class="col-md-12 mb-5">
+            <div class="col-md-12 mb-4">
                 <a href="{% url 'tfds:list-recibo_tfd' %}" class="btn btn-outline-primary">Voltar</a>
                                
             </div>
           </div>
+          <br/>
+          
     </div>
 </div>
 {% endblock content %}

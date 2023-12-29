@@ -10,7 +10,6 @@
         text-align: center;
       }
     
-
 </style>
 
 
@@ -180,7 +179,7 @@
         <tfoot>
         <tr>
                 <td colspan="4" style="text-align: end;"><b>
-                    <p>TOTAL:</p>
+                    <p>TOTAL</p>
                 </b> </td>
 
                 <td style="text-align: end;"><b>
@@ -194,9 +193,14 @@
       <div class="bordas pt">
         <p class="paragrafo title_center"> <b>AUTORIZAÇÃO DA DESPESA</b></p>
         <p class="paragrafo"><b>DATA: </b>{{recibo_tfd.data|date:"d/m/Y"|default:'---'}}</p>
-        <br/><br/><br/>
+        <br/><br/>
         <p class="title_center">______________________________________</p>
-        <p class="paragrafo title_center"><b> VANUSA DIAS COSTA
+        {%if recibo_tfd.status == '2'%}
+        <p class="paragrafo title_center"><b>STATUS: {{recibo_tfd.get_status_display}}</b> 
+        {%elif recibo_tfd.status == '3'%}
+        <p class="paragrafo title_center"><b>STATUS: {{recibo_tfd.get_status_display}}</b> 
+        {%endif%}
+        <p class="paragrafo title_center"><b> {{profissional|upper}}
             <br>
             SECRETARIA MUNICIPAL DE SAÚDE
           </b>
@@ -219,4 +223,8 @@
 
 </div>
 </div>
+<div>
+    <br/>
+    <p> Realizado por {{recibo_tfd.criado_por}} no dia {{recibo_tfd.updated_at|date:"d/m/Y"|default:'---'}} às {{recibo_tfd.updated_at|time:"H:i"|default:'---'}}  </p>
+  </div>
  {% endblock content%}

@@ -8,13 +8,15 @@ app_name='tfds'
 urlpatterns = [
    
      #Recibo de TFDs
-     path("create/recibo-tfd",view_r_t.reciboTFD_create,name='add-recibo_tfd'),
-     path("update/<int:id>/recibo-tfd",view_r_t.reciboTFD_update,name='edit-recibo_tfd'),
-     path("list/recibos-tfds",view_r_t.ReciboTFDListView.as_view(),name='list-recibo_tfd'),
-     path("search/recibo-tfd",view_r_t.ReciboTFDSearchListView.as_view(),name='search-recibo_tfd'),
-     path("detail/<int:pk>/recibo-tfd/",view_r_t.ReciboTFDDetailView.as_view(),name='detail-recibo_tfd'),
-     path("delete/<int:pk>/recibo-tfd",view_r_t.ReciboTFDDeleteView.as_view(),name='del-recibo_tfd'),
-     path("pdf/<int:id>/recibo-tfd",view_r_t.reciboTFD_pdf,name='pdf-recibo_tfd'),
+     path("recibo-tfd/create/recibo-tfd",view_r_t.reciboTFD_create,name='add-recibo_tfd'),
+     path("recibo-tfd/update/<int:id>/recibo-tfd",view_r_t.reciboTFD_update,name='edit-recibo_tfd'),
+     
+     path("recibo-tfd/update/<int:id>/status",view_r_t.reciboStatusUpdate,name='status-recibo-tfd'),
+     path("recibo-tfd/list/recibos-tfds",view_r_t.ReciboTFDListView.as_view(),name='list-recibo_tfd'),
+     path("recibo-tfd/search/recibo-tfd",view_r_t.ReciboTFDSearchListView.as_view(),name='search-recibo_tfd'),
+     path("recibo-tfd/detail/<int:pk>/recibo-tfd/",view_r_t.ReciboTFDDetailView.as_view(),name='detail-recibo_tfd'),
+     path("recibo-tfd/delete/<int:pk>/recibo-tfd",view_r_t.ReciboTFDDeleteView.as_view(),name='del-recibo_tfd'),
+     path("recibo-tfd/pdf/<int:id>/recibo-tfd",view_r_t.reciboTFD_pdf,name='pdf-recibo_tfd'),
 
      #Recibo de Passagens TFDs
 

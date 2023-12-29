@@ -29,12 +29,15 @@
         <div class="col-md-6">{{form.paciente|as_crispy_field }}
         </div>
         <div class="col-md-3">{{form.data|as_crispy_field }}</div>
-
+        <div class="col-md-3">{{form.tem_acompanhante|as_crispy_field}}</div>
+       
+       
+        {% comment %} 
         {% if recibo_tfd.acompanhante  or recibo_tfd.rg or recibo_tfd.cpf or recibo_tfd.cns%}
         <div class="col-md-3">
           <div class="form-check">
             <br>
-            <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0" checked>
+            <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0" checked disabled>
             <label class="form-check-label" for="ativar_campos">
               <b> Tem Acompanhante</b>
             </label>
@@ -50,7 +53,7 @@
             </label>
           </div>
         </div>
-        {%endif%}
+        {%endif%} {% endcomment %}
       </div>
       <div class="d-none" id="campos">
         <div class="row">
@@ -149,39 +152,46 @@
   
 $(document).ready(function () {
 
-var checkbox_acompanhante = document.getElementById("ativar_campos")
-var campos=document.getElementById('campos') 
-var id_acompanhante=document.getElementById("id_recibo-acompanhante")
-var cpf_acompanhante=document.getElementById('id_recibo-cpf')
-var rg_acompanhante = document.getElementById('id_recibo-rg')
-var cns_acompanhante =document.getElementById('id_recibo-cns')
 
-var id_quant_passagem_acompanhante = document.getElementById('id_quant_passagem_acompanhante')
-
-checkbox_acompanhante.addEventListener('change', ativarCampos);
-console.log('teste10002')
-
-if (checkbox_acompanhante.checked)
-{
-  campos.classList.remove('d-none');
-
-}
-
-function ativarCampos() {
-
-  if (checkbox_acompanhante.checked) {
-        campos.classList.remove('d-none') 
+  var campos=document.getElementById('campos') 
+  var id_tem_acompanhante_0=document.getElementById("id_recibo-tem_acompanhante_0")
+  var id_tem_acompanhante_1=document.getElementById("id_recibo-tem_acompanhante_1")
+  var id_acompanhante=document.getElementById('id_recibo-acompanhante')
+  var cpf_acompanhante=document.getElementById('id_recibo-cpf')
+  var rg_acompanhante = document.getElementById('id_recibo-rg')
+  var cns_acompanhante =document.getElementById('id_recibo-cns')
+  
+  
+  
+  console.log('teste10000000')
+  
+  if (id_tem_acompanhante_0.checked)
+  {
+    campos.classList.remove('d-none');
   }
-  else{
+  
+  id_tem_acompanhante_0.addEventListener('change', ativarCampos);
+  id_tem_acompanhante_1.addEventListener('change', ativarCampos);
+  
+  
+  function ativarCampos() {
+  
 
-        campos.classList.add('d-none')
-        id_acompanhante.value=''
-        cpf_acompanhante.value=''
-        cns_acompanhante.value=''
-        rg_acompanhante.value=''  
-        cns_acompanhante.classList.remove('is-invalid')
+    
+    if (id_tem_acompanhante_0.checked) {
+         campos.classList.remove('d-none') 
+    }
+    else{
+
+          console.log('gteste')
+          campos.classList.add('d-none')
+      
+          id_acompanhante.value=''
+          cpf_acompanhante.value=''
+          cns_acompanhante.value=''
+          rg_acompanhante.value='' 
+    }
   }
-}
 });
 
  $('table.form tr').formset({
