@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.contrib.auth import get_user_model
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView
@@ -13,7 +14,7 @@ from django.contrib import messages
 from rolepermissions.decorators import has_role_decorator
 from rolepermissions.mixins import HasRoleMixin
 
-@has_role_decorator(['digitador','coordenador'])
+@has_role_decorator(['digitador'])
 def reembolso_create(request,id):
     diaria=get_object_or_404(Diaria,id=id)
 
@@ -31,7 +32,7 @@ def reembolso_create(request,id):
     
     return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset})
 
-@has_role_decorator(['digitador','coordenador'])
+@has_role_decorator(['digitador'])
 def reembolso_update(request, id):
    diaria=get_object_or_404(Diaria,id=id)
     
@@ -103,7 +104,8 @@ def reembolso_pdf(request,id):
     context['diaria']=diaria
     context['reembolsos'] =Reembolso.objects.select_related('diaria').filter(diaria__id=diaria.id)
     response = HttpResponse(content_type='application/pdf')
-
+    User=get_user_model()
+    context['profissional']=User.objects.filter(is_active=True).filter(perfil__perfil='5').first()
     
     context['movimentacao']=Reembolso.objects.select_related('diaria').filter(diaria__id=diaria.id).filter(Q(movimentacao=1)|Q(movimentacao=2)|Q(movimentacao=3)|Q(movimentacao=4)|Q(movimentacao=5)|Q(movimentacao=6)).exists()
     html_string = render_to_string('reembolso/pdf_reembolso.html', context)

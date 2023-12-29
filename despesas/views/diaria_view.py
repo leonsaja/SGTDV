@@ -12,6 +12,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from ..models import Diaria, Reembolso
 from django.contrib.messages import constants
 from django.contrib import messages
+from django.contrib.auth import get_user_model
+
 
 class DiariaCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
    model=Diaria
@@ -24,7 +26,7 @@ class DiariaCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
    def form_valid(self, form):
         
         self.object = form.save(commit=False)
-        self.object.user_create_diaria = self.request.user.nome_completo
+        self.object.criado_por = self.request.user.nome_completo
         self.object.save()
         return  super().form_valid(form)
    
@@ -40,7 +42,7 @@ class DiariaUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.user_create_diaria = self.request.user.nome_completo
+        self.object.criado_por = self.request.user.nome_completo
         self.object.save()
         return  super().form_valid(form)
 
@@ -87,7 +89,7 @@ class DiariaStatusUpdateView(HasRoleMixin,SuccessMessageMixin, UpdateView):
 
    def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.aprovado_diaria = self.request.user.nome_completo
+        self.object.aprovado_por = self.request.user.nome_completo
         self.object.save()
         return  super().form_valid(form)
     
@@ -120,9 +122,13 @@ def diaria_delete(request, id):
 def diaria_pdf(request,id):
    
     diaria=get_object_or_404(Diaria,id=id)
+    User=get_user_model()
+    profissional=User.objects.filter(is_active=True).filter(perfil__perfil='5').first()
+
+
     
     response = HttpResponse(content_type='application/pdf')
-    html_string = render_to_string('diaria/pdf_diaria.html',{'diaria':diaria})
+    html_string = render_to_string('diaria/pdf_diaria.html',{'diaria':diaria,'profissional':profissional})
     
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
 

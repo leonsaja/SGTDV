@@ -8,24 +8,17 @@ class DiariaForm(forms.ModelForm):
 
     descricao=forms.CharField(label='Descrição', widget=forms.Textarea( attrs={'placeholder':'Digite a descrição da viagem...','rows':3,'cols':10}))
     obs=forms.CharField(label='Observação', required=False, widget=forms.Textarea( attrs={'rows':3,'cols':10}))
-    data_diaria = forms.DateField(
-        label='Data',
-        widget=forms.DateInput(
-            format='%Y-%m-%d',
-            attrs={
-                'type': 'date',
-            }),
-        input_formats=('%Y-%m-%d',),
-    )
-    valor = forms.CharField(
-        label='Valor',widget=forms.TextInput(attrs={'placeholder':"R$ 0,00"}))
+    data_diaria = forms.DateField(label='Data',widget=forms.DateInput( \
+        format='%Y-%m-%d',attrs={ 'type': 'date',}),input_formats=('%Y-%m-%d',), )
+    
+    valor = forms.CharField(label='Valor',widget=forms.TextInput(attrs={'placeholder':"R$ 0,00"}))
 
-    total = forms.CharField(
-        label='Subtotal',widget=forms.TextInput(attrs={'placeholder':'R$ 0,00','class':'money'}))
+    total = forms.CharField(label='Subtotal',widget=forms.TextInput(attrs={'placeholder':'R$ 0,00','class':'money'}))
+    
     
     class Meta:
         model=Diaria
-        exclude=('status',)
+        exclude=('status','aprovado_por',)
         widgets = {
             'profissional':s2forms.Select2Widget(),
            
@@ -52,19 +45,32 @@ class DiariaForm(forms.ModelForm):
             raise ValidationError('Digite a conta corretamente com até 8 digitos.')
         return data_conta
     
-
+    
     def clean(self):
         cleaned_data = super().clean()
         profissional=cleaned_data.get('profissional')
         data=cleaned_data.get('data_diaria')
+        insert = self.instance.pk == None
 
-        if Diaria.objects.filter(profissional=profissional).filter(data_diaria=data).exists():
-            self.add_error('data_diaria', 'Profissional já tem uma diaria com essa data')
+        data_diaria=self.instance.data_diaria
+       
+        diaria=Diaria.objects.select_related('profissional').filter(profissional=profissional).filter(data_diaria=data)
+        
+        if self.instance.pk:
+            profissional_diaria=self.instance.profissional
 
-    
+            if data_diaria != data or profissional_diaria != profissional:
+                 if diaria.exists():
+                     self.add_error('data_diaria', 'Profissional já tem uma diaria com essa data')
+
+        elif insert:
+             if diaria.exists():
+                self.add_error('data_diaria', 'Profissional já tem uma diaria com essa data')
+
+        
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-       
         self.fields['valor'].widget.attrs.update({'class':'mask-money'})
 
 

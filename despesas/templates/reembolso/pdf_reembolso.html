@@ -189,7 +189,16 @@
     <p class="paragrafo title_center"> <b>AUTORIZAÇÃO DA DESPESA</b></p>
     <p class="paragrafo"><b>DATA: </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
     <p class="title_center">______________________________________</p>
-    <p class="paragrafo title_center"><b> VANUSA DIAS COSTA
+    {%if diaria.status == '2'%}
+    <p class="paragrafo title_center"><b>STATUS: {{diaria.get_status_display}}</b> 
+
+    {%elif diaria.status == '3' %}
+    <p class="paragrafo title_center"><b>STATUS: {{diaria.get_status_display}}</b> 
+      
+    {%else%}
+    <p class="paragrafo title_center"><b>STATUS: {{diaria.get_status_display}}</b> 
+    {%endif%}
+    <p class="paragrafo title_center"><b> {{profissional|upper}}
         <br>
         SECRETARIA MUNICIPAL DE SAÚDE
       </b>

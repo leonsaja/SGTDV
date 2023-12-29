@@ -37,8 +37,8 @@ class Diaria(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
    
     status=models.CharField(verbose_name='Avaliar Diária',max_length=1,choices=STATUS,default='1')
-    user_create_diaria=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
-    aprovado_diaria=models.CharField(verbose_name='Aprovado por ',max_length=200,null=True,blank=True)
+    criado_por=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
+    aprovado_por=models.CharField(verbose_name='Aprovado por ',max_length=200,null=True,blank=True)
 
     def valor_total(self):
        total=0
