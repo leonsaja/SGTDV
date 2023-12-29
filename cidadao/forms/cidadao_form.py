@@ -17,10 +17,6 @@ class CidadaoForm(forms.ModelForm):
             }),
         input_formats=('%Y-%m-%d',),
     )
-    telefone = forms.CharField(
-        label='Telefone',required=False, widget=forms.TextInput(attrs={'placeholder':"(xx) xxxxx-xxxx"}))
-    telefone1 = forms.CharField(
-        label='Celular',widget=forms.TextInput(attrs={'placeholder':"(xx) xxxxx-xxxx"}))
    
     
     class Meta:
@@ -29,7 +25,6 @@ class CidadaoForm(forms.ModelForm):
        
     def clean_cpf(self):
         data_cpf=self.cleaned_data.get('cpf')
-      
         if data_cpf:
             data=validarCpf(data_cpf)
             if data:
@@ -48,9 +43,10 @@ class CidadaoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['cpf'].widget.attrs.update({'class':'mask-cpf'})
-        """ self.fields['dt_nascimento'].widget.attrs.update({'class':'mask-data'}) """
         self.fields['telefone'].widget.attrs.update({'class':'mask-telefone'})
-        self.fields['telefone1'].widget.attrs.update({'class':'mask-celular'})
+        self.fields['telefone1'].widget.attrs.update({'class':'mask-telefone'})
+        if self.instance.cpf:
+            self.fields['cpf'].widget.attrs['readonly'] = True
                
 class EnderecoForm(forms.ModelForm):
     cep = forms.CharField(

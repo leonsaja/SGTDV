@@ -17,7 +17,6 @@ class Profissional(models.Model):
         ('2','DESATIVADO'),
     )
     TIPO_CARGO = (
-        ('','-----------'),
         ('1','ACS'),
         ('2','COORDENADOR(A)'),
         ('3','DIGITADOR'),
@@ -26,9 +25,10 @@ class Profissional(models.Model):
         ('6','MÉDICO'),
         ('7','MOTORISTA'),
         ('8','RECEPCIONISTA'),
-        ('9','TEC.ENFERMAGEM'),
-        ('10','DENTISTA'),
-        ('11','Outros'),
+        ('9','SECRETARIO'),
+        ('10','TEC.ENFERMAGEM'),
+        ('11','DENTISTA'),
+        ('12','Outros'),
     
     )
     nome_completo = models.CharField(verbose_name='Nome Completo',max_length=120, null=False, blank=False)
