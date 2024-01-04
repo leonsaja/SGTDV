@@ -102,10 +102,17 @@
   {%elif diaria.status == '3' %}
     <p class="paragrafo title_center"><b>STATUS: {{diaria.get_status_display}}</b>  
   {%endif%}
+  {%if profissional %}
   <p class="paragrafo title_center"><b>{{profissional|upper}}
       <br>
       SECRETARIA MUNICIPAL DE SAÚDE
     </b> </p>
+    {%else%}
+    <p class="paragrafo title_center"><b>Secretário(a)
+      <br>
+      SECRETARIA MUNICIPAL DE SAÚDE
+    </b> </p>
+    {%endif%}
 
 </div>
 
@@ -119,10 +126,17 @@
     <p class="paragrafo title_center"><b>STATUS: {{diaria.get_status_display}}</b> 
  
   {%endif%}
+  {%if profissional %}
   <p class="paragrafo title_center"><b>{{profissional|upper}}
       <br>
       SECRETARIA MUNICIPAL DE SAÚDE
     </b> </p>
+    {%else%}
+    <p class="paragrafo title_center"><b>Secretário(a)
+      <br>
+      SECRETARIA MUNICIPAL DE SAÚDE
+    </b> </p>
+    {%endif%}
 </div>
 
 
