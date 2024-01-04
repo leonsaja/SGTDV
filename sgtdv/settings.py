@@ -11,8 +11,12 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
-
+import environ
 from django.contrib.messages import constants
+
+# Criando arquivos de ambiente
+env=environ.Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,10 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-dxva1vkzrowv3n6a)kvacv@(5)u74@)p%*_hp*zx2g_g-c%)u&'
+SECRET_KEY=env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -33,6 +37,20 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
+
+    #app
+    'usuarios',
+    'cidadao',
+    'despesas',
+    'transportes',
+    'core',
+    'profissionais',
+    'tfds',
+    'estabelecimentos',
+    'especialidades',
+    'relatorios',
+
     #Pacote
    
     'bootstrap5',
@@ -46,7 +64,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'rolepermissions',
+    
     
     
     #pacote
@@ -54,19 +73,8 @@ INSTALLED_APPS = [
     "debug_toolbar",
     
    
-    #app
-    'cidadao',
-    'usuarios',
-    'despesas',
-    'transportes',
-    'core',
-    'profissionais',
-    'tfds',
-    'estabelecimentos',
-    'especialidades',
-    'relatorios',
-    'rolepermissions',
     
+   
     
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -98,7 +106,7 @@ ROOT_URLCONF = 'sgtdv.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/'templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,16 +125,7 @@ WSGI_APPLICATION = 'sgtdv.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-""" DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sgdtv',
-        'USER': 'root',
-        'PASSWORD': 'saja1212',
-        'HOST':'127.0.0.1',
-        'PORT':'3306',
-    }
-} """
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -222,6 +221,15 @@ LOGIN_URL= 'usuarios:login_usuario'
 LOGIN_REDIRECT_URL = "core:home"
 LOGOUT_REDIRECT_URL = 'usuarios:login_usuario'
 
+
+#Configuracao do servidor de email
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 INTERNAL_IPS = [
     # ...
