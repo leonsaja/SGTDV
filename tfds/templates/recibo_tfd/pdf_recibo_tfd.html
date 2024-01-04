@@ -200,12 +200,17 @@
         {%elif recibo_tfd.status == '3'%}
         <p class="paragrafo title_center"><b>STATUS: {{recibo_tfd.get_status_display}}</b> 
         {%endif%}
-        <p class="paragrafo title_center"><b> {{profissional|upper}}
+        {%if profissional %}
+        <p class="paragrafo title_center"><b>{{profissional|upper}}
             <br>
             SECRETARIA MUNICIPAL DE SAÚDE
-          </b>
-    
-        </p>
+          </b> </p>
+          {%else%}
+          <p class="paragrafo title_center"><b>Secretário(a)
+            <br>
+            SECRETARIA MUNICIPAL DE SAÚDE
+          </b> </p>
+          {%endif%}
       </div>
       <div class="bordas">
         <p class="paragrafo title_center"><b> COMPROVANTE DE RECECIMENTO</b></p>

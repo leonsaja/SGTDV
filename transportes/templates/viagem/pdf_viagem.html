@@ -11,6 +11,12 @@
 }
 </style> {% endcomment %}
 
+<style>
+  table,th,td {
+    padding: 8px;
+  }
+</style>
+
 {% endblock%}
 {% block content %}
 {% include  'includes/cabecalho.html' %}
@@ -28,7 +34,7 @@
   </div>
   <div class="imagem">
     <img src="{{ viagem.carro.foto.url}}" alt="">
-    <p class="title_center"><b>PLACA: </b>{{viagem.carro.placa}}
+    <p class="title_center"><b>PLACA: </b>{{viagem.carro.placa|upper}}
 
   </div>
 
