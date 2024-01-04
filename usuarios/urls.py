@@ -1,5 +1,7 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
+from django.contrib.auth import views as auth_views
+from django.urls import path, reverse_lazy
 
 from usuarios import views
 
@@ -16,6 +18,11 @@ urlpatterns = [
 
         path('autenticacao/login', auth_views.LoginView.as_view(),name='login_usuario'),
         path('autenticacao/logout', auth_views.LogoutView.as_view(),name='deslogar_usuario'),
-
+        path('alterar_senha/usuario', views.PasswordChange.as_view(), name='alterar_senha'),
+        
+        path('resetar_senha',auth_views.PasswordResetView.as_view(success_url=reverse_lazy('usuarios:password_reset_done')),name='resetar_senha'),
+        path('resetar_senha/sucesso',auth_views.PasswordResetCompleteView.as_view(), name='resetar_senha_sucesso'),
+        path('resetar_senha/<str:uidb64>/<str:token>',auth_views.PasswordResetConfirmView.as_view(success_url=reverse_lazy('usuarios:resetar_senha_sucesso')),name='password_reset_confirm'),
+        path('resetar_senha/feito',auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
 
 ]

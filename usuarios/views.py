@@ -6,6 +6,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 from usuarios.forms import CadastroUsuarioForm, EditarUsuarioForm
 from rolepermissions.roles import assign_role
 from rolepermissions.mixins import HasRoleMixin
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 class UsuarioCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
@@ -112,4 +115,9 @@ class UsuarioDetailView(HasRoleMixin,DetailView):
     context_object_name='usuario'
     allowed_roles = ['secretario','coordenador']
 
-    
+
+class PasswordChange(SuccessMessageMixin,LoginRequiredMixin,PasswordChangeView):
+     form_class = PasswordChangeForm
+     template_name='registration/alterar_senha.html'
+     success_url=reverse_lazy('core:home')
+     success_message='Senha alterado com sucesso'
