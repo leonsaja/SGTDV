@@ -67,6 +67,8 @@ class Carro(models.Model):
    placa=models.CharField(verbose_name='Placa do Carro', max_length=7,unique=True, help_text='Sem caracteres especiais(-)')
    foto=models.ImageField(verbose_name='Foto do carro', upload_to='media/carros', null=False, blank=False, default='')
    tipo_transporte=models.CharField(verbose_name='Tipo de Transporte',max_length=1,choices=CHOICES_TIPO_TRANSPORTE, null=True,blank=False)
+   cor=models.CharField(verbose_name='Cor do Carro',max_length=100, null=True,blank=False)
+   ano_fabricacao=models.IntegerField(verbose_name='Ano de Fabricacao',null=True, blank=False)
    forma_atend=models.CharField(verbose_name='Forma de Atendimento',max_length=1,choices=CHOICES_FORMA_ATEND, null=True,blank=False)
    ano_fabricacao=models.IntegerField(verbose_name='Ano de Fabricacao',null=True, blank=False)
    fabricante=models.CharField(verbose_name='Fabricante', max_length=100,null=True,blank=False)

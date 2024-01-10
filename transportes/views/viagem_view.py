@@ -54,7 +54,6 @@ def viagemUpdate(request,id):
     
     return render(request, 'viagem/form_viagem.html', {'form': form,'formset':formset})
 
-
 class ViagemListView(HasRoleMixin,ListView): 
     model=Viagem
     template_name='viagem/list_viagens.html'
