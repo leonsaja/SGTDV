@@ -34,6 +34,57 @@
       </div>
     </div>
   </form>
+  <div class="row">
+    <div class="col-md-12 mt-4">
+        {% if viagens %}
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="logo"><strong>Viagens</strong></h3>
+
+            </div>
+            <!-- /.card-header -->
+            <div class="table-responsive-md">
+                <div class="card-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Carro</th>
+                                <th>Placa</th>
+                                <th>Destino</th>
+                                <th>Motorista</th>
+                                <th>Data Viagem</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%for viagem in viagens %}
+                            <tr>
+                                <td>{{viagem.carro.nome}}</td>
+                                <td>{{viagem.carro.placa|upper}}</td>
+                                <td>{{viagem.destino_viagem}}</td>
+                                <td>{{viagem.motorista.nome_completo}}</td>
+                                <td>{{viagem.data_viagem|date:"d/m/Y"|default:'---'}}</td>
+
+
+                            </tr>
+                           
+
+                            {%endfor%}
+
+                        </tbody>
+                    </table>
+                    <br>
+                    {% include 'viagem/paginacao_viagem.html'%}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <h5 class="text-center pt-4">Nenhuma Viagem foi encontrada.
+        </h5>
+        {%endif %}
+    </div>
+</div>
 </div>
 {% endblock %} 
 

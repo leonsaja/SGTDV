@@ -10,7 +10,6 @@ from datetime import datetime
 from rolepermissions.decorators import has_role_decorator
 
 def relatorio_diaria_pdf(request,context):
-    
     response = HttpResponse(content_type='application/pdf')
     
     if context['profissional']:
@@ -54,6 +53,8 @@ def relatorio_diaria_pdf(request,context):
 @has_role_decorator(['secretario','digitador','coordenador'])
 def relatorio_diaria(request):
     context={}
+    diarias=Diaria.objects.select_related('profissional').order_by('-created_at')
+
     if request.method == 'POST':
         form=RelatorioDiariaForm(request.POST or None)
 
@@ -67,4 +68,4 @@ def relatorio_diaria(request):
     else:
         form=RelatorioDiariaForm(request.POST or None)    
         
-    return render(request,'diaria/relatorio_diaria.html',{'form':form})           
+    return render(request,'diaria/relatorio_diaria.html',{'form':form,'diarias':diarias})           

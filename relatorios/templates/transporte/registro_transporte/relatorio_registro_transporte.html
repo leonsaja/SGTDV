@@ -31,8 +31,69 @@
       </div>
     </div>
   </form>
+  <div class="row">
+    <div class="col-md-12 mt-4">
+        {% if transportes %}
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="logo"><strong>Viagens</strong></h3>
+
+            </div>
+            <!-- /.card-header -->
+            <div class="table-responsive-md">
+                <div class="card-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Paciente</th>
+                                <th>Data de Atendimento</th>
+                                <th>status</th>
+                                <th>Placa do Carro</th>
+                              
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%for transporte in transportes %}
+                            <tr>
+                                <td>{{transporte.paciente.nome_completo}}</td>
+                                <td>{{transporte.dt_atendimento|date:"d/m/Y"|default:'---'}}</td>
+                                <td>{{transporte.get_status_display }}</td>
+                                <td>{{transporte.carro.placa}}</td>
+
+
+                              
+                            </tr>
+
+                            {%endfor%}
+
+                        </tbody>
+                    </table>
+                    <br>
+                    {% include 'registro_transporte/paginacao_registro_transporte.html'%}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <h5 class="text-center pt-4">Nenhum registro de transporte foi encontrada.
+        </h5>
+        {%endif %}
+    </div>
+</div>
+
 </div>
 {% endblock %} 
 
 
 
+
+{% block scripts %}
+
+<script>
+    document.getElementById('id_data_inicial').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+    document.getElementById('id_data_final').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+
+  
+    
+</script>
+{% endblock %}

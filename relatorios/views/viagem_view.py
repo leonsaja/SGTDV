@@ -51,7 +51,7 @@ def relatorio_viagem_pdf(request,context):
 has_role_decorator(['regulacao','coordenador','secretario'])
 def relatorio_viagem(request):
     context={}
-    
+    viagens=Viagem.objects.select_related('carro','motorista').all().order_by('-data_viagem')
     
     if request.method == 'POST':
         form=RelatorioViagemForm(request.POST or None)
@@ -68,4 +68,4 @@ def relatorio_viagem(request):
     else:
         form=RelatorioViagemForm(request.POST or None)
 
-    return render(request,'transporte/viagem/relatorio_viagem.html',{'form':form})
+    return render(request,'transporte/viagem/relatorio_viagem.html',{'form':form,'viagens':viagens})

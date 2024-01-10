@@ -45,7 +45,7 @@ def relatorio_recibo_passagem_pdf(request,context):
 has_role_decorator(['coordenador','regulacao','secretario'])
 def relatorio_recibo_passagem(request):
     context={}
-    
+    recibos=ReciboPassagemTFD.objects.select_related('paciente').all()
     if request.method == 'POST':
         form=RelatorioReciboPassagemForm(request.POST or None)
 
@@ -59,4 +59,4 @@ def relatorio_recibo_passagem(request):
     else:
         form=RelatorioReciboPassagemForm(request.POST or None)
 
-    return render(request,'tfds/recibo_passagem/relatorio_recibo_passagem.html',{'form':form})
+    return render(request,'tfds/recibo_passagem/relatorio_recibo_passagem.html',{'form':form,'recibos':recibos})

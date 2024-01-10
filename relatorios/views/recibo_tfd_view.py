@@ -43,6 +43,7 @@ has_role_decorator(['coordenador','secretario','recepcao'])
 def relatorio_recibo_tfd(request):
     context={}
     
+    recibos_tfds=ReciboTFD.objects.select_related('paciente').all().order_by('-created_at')
     
     if request.method == 'POST':
         form=RelatorioReciboTfdsForm(request.POST or None)
@@ -57,4 +58,4 @@ def relatorio_recibo_tfd(request):
     else:
         form=RelatorioReciboTfdsForm(request.POST or None)
 
-    return render(request,'tfds/recibo_tfd/relatorio_recibo_tfd.html',{'form':form})
+    return render(request,'tfds/recibo_tfd/relatorio_recibo_tfd.html',{'form':form,'recibos_tfds':recibos_tfds})

@@ -33,6 +33,52 @@
       </div>
     </div>
   </form>
+  <div class="row">
+    <div class="col-md-12 mt-4">
+      {% if recibos %}
+      <div class="card">
+        <div class="card-header">
+          <h3 class="logo">Recibos de Passagens</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="table-responsive-md">
+          <div class="card-body">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th style="width: 10px">#</th>
+                  <th>Nome Completo</th>
+                  <th>CPF</th>
+                  <th>CNS</th>
+                  <th>Data Recibo</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%for r in recibos %}
+                <tr>
+                  <td>{{r.id}}</td>
+                  <td>{{r.paciente.nome_completo}}</td>
+                  <td>{{r.paciente.formt_cpf}}</td>
+
+                  <td>{{r.paciente.cns}}</td>
+                  <td>{{r.data_recibo|date:"d/m/Y"|default:'---'}}</td>
+                  
+                {%endfor%}
+              </tbody>
+            </table>
+            <br />
+            {% include 'paginacao_tfd.html'%}
+          </div>
+        </div>
+      </div>
+      {%else%}
+      <hr>
+      <h5 class="text-center pt-4">Nenhum Recibo de Passagem foi encontrado com dados informado.
+      </h5>
+      {% endif %}
+    </div>
+  </div>
 </div>
 {% endblock %} {% block scripts %}
 <script>

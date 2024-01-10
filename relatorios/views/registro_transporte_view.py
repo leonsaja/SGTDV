@@ -76,7 +76,7 @@ def relatorio_registro_transporte_pdf(request,context):
 has_role_decorator(['coordenador','secretario','regulacao'])
 def relatorio_registro_transporte(request):
     context={}
-    
+    transportes= RegistroTransporte.objects.select_related('paciente','carro').order_by('-created_at').all()
     
     if request.method == 'POST':
         form=RelatorioRegistroTransporteForm(request.POST or None)
@@ -95,4 +95,4 @@ def relatorio_registro_transporte(request):
     else:
         form=RelatorioRegistroTransporteForm(request.POST or None)
 
-    return render(request,'transporte/registro_transporte/relatorio_registro_transporte.html',{'form':form})
+    return render(request,'transporte/registro_transporte/relatorio_registro_transporte.html',{'form':form,'transportes':transportes})
