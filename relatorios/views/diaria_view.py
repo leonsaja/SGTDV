@@ -58,6 +58,9 @@ def relatorio_diaria(request):
     if request.method == 'POST':
         form=RelatorioDiariaForm(request.POST or None)
 
+
+        print('data_final',request.GET.get('data_final'))
+
         if form.is_valid():
           context['inicial']=form.cleaned_data.get('data_inicial')
           context['final']=form.cleaned_data.get('data_final')

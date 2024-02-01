@@ -13,7 +13,8 @@ class RelatorioDiariaForm(forms.Form):
             }),
        
     )
-    data_final= forms.CharField(label='Data Final', required=True,widget=forms.DateInput(format='%Y-%m-%d',
+    data_final= forms.CharField(label='Data Final', required=True,widget=forms.DateInput(
+        format='%Y-%m-%d',
             attrs={
                 'type': 'date',
             }),
@@ -35,7 +36,6 @@ class RelatorioDiariaForm(forms.Form):
     def clean_data_final(self):
         data = self.cleaned_data["data_final"]
         data_atual=date.today().strftime('%Y-%m-%d')
-        
         if data > data_atual:
             raise ValidationError('Data final é maior que data atual')
 
@@ -49,7 +49,7 @@ class RelatorioDiariaForm(forms.Form):
         cleaned_data = super().clean()
         inicial = cleaned_data.get("data_inicial")
         final = cleaned_data.get("data_final")
-                    
+        
         if inicial and final:
             inicial_data=datetime.strptime(inicial,'%Y-%m-%d')
             final_data=datetime.strptime(final,'%Y-%m-%d')
