@@ -24,7 +24,7 @@ def home(request):
 
    return render(request,'home.html',context)
 
-def relatorio_despesas(request):
+""" def relatorio_despesas(request):
     d = Diaria.objects.all()
     
     meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
@@ -52,5 +52,5 @@ def relatorio_despesas(request):
         cont += 1
 
     data_json = {'data': data[::-1], 'labels': labels[::-1]}
-    print('data',data_json)
-    return JsonResponse(data_json)
+    
+    return JsonResponse(data_json) """
