@@ -24,7 +24,7 @@
         <div class="col-md-4">
             <p class="paragrafo tfd" ><b>NOME DO PACIENTE: </b>
                 <br>{{recibo_tfd.paciente.nome_completo|upper}}
-                &nbsp; &nbsp;&nbsp;&nbsp;
+                &nbsp; &nbsp;
             </p>
         </div>
         <div class="col-md-5">
@@ -200,17 +200,17 @@
         {%elif recibo_tfd.status == '3'%}
         <p class="paragrafo title_center"><b>STATUS: {{recibo_tfd.get_status_display}}</b> 
         {%endif%}
-        {%if profissional %}
-        <p class="paragrafo title_center"><b>{{profissional|upper}}
+        {%if recibo_tfd.aprovado_por %}
+        <p class="paragrafo title_center"><b>{{recibo_tfd.aprovado_por|upper}}
             <br>
-            SECRETARIA MUNICIPAL DE SAÚDE
+            SECRETÁRIO MUNICIPAL DE SAÚDE
           </b> </p>
-          {%else%}
-          <p class="paragrafo title_center"><b>Secretário(a)
-            <br>
-            SECRETARIA MUNICIPAL DE SAÚDE
-          </b> </p>
-          {%endif%}
+     {%else%}
+      <p class="paragrafo title_center"> {{profissional.nome_completo|upper}}
+        <br><b>
+        SECRETÁRIO MUNICIPAL DE SAÚDE
+      </b> </p>
+    {%endif%}
       </div>
       <div class="bordas">
         <p class="paragrafo title_center"><b> COMPROVANTE DE RECECIMENTO</b></p>

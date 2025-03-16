@@ -31,7 +31,7 @@ class DiariaForm(forms.ModelForm):
     def clean_qta_diaria(self):
         data = self.cleaned_data["qta_diaria"]
         if data==0:
-            raise ValidationError('Digite um numero acima de 0')
+            raise ValidationError('Digite um numero acima de 0.')
         
         return data
     
@@ -61,11 +61,11 @@ class DiariaForm(forms.ModelForm):
 
             if data_diaria != data or profissional_diaria != profissional:
                  if diaria.exists():
-                     self.add_error('data_diaria', 'Profissional já tem uma diaria com essa data')
+                     self.add_error('data_diaria', 'Profissional já tem uma diaria com essa data.')
 
         elif insert:
              if diaria.exists():
-                self.add_error('data_diaria', 'Profissional já tem uma diaria com essa data')
+                self.add_error('data_diaria', 'Profissional já tem uma diaria com essa data.')
 
         
 

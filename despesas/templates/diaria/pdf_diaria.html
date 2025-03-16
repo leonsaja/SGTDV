@@ -79,10 +79,11 @@
     <tr>
       <td>01</td>
       <td>
-        <p>
-          Origem: {{diaria.viagem_orig}}
+        <p style="margin: 10px;">
+         <b> Origem:</b> {{diaria.viagem_orig|upper}}
+          
           <br>
-          Destino: {{diaria.viagem_dest}}
+         <b> Destino:</b> {{diaria.viagem_dest|upper}}
         </p>
       </td>
       <td>{{diaria.get_tipo_diaria_display}}</td>
@@ -100,18 +101,18 @@
   {%if diaria.status == '2'%}
   <p class="paragrafo title_center"><b>STATUS: {{diaria.get_status_display}}</b> 
   {%elif diaria.status == '3' %}
-    <p class="paragrafo title_center"><b>STATUS: {{diaria.get_status_display}}</b>  
+    <p class="paragrafo title_center"><b>STATUS:</b>   {{diaria.get_status_display}}
   {%endif%}
-  {%if profissional %}
-  <p class="paragrafo title_center"><b>{{profissional|upper}}
-      <br>
-      SECRETARIA MUNICIPAL DE SAÚDE
-    </b> </p>
-    {%else%}
-    <p class="paragrafo title_center"><b>Secretário(a)
-      <br>
-      SECRETARIA MUNICIPAL DE SAÚDE
-    </b> </p>
+  {%if diaria.aprovado_por %}
+        <p class="paragrafo title_center"><b>{{diaria.aprovado_por|upper}}
+            <br>
+            SECRETÁRIO MUNICIPAL DE SAÚDE
+          </b> </p>
+     {%else%}
+      <p class="paragrafo title_center"> {{profissional.nome_completo|upper}}
+        <br><b>
+        SECRETÁRIO MUNICIPAL DE SAÚDE
+      </b> </p>
     {%endif%}
 
 </div>
@@ -121,22 +122,24 @@
   <p class="paragrafo"><b>DATA: </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
   <p class="paragrafo title_center">______________________________________</p>
   {%if diaria.status == '2'%}
-  <p class="paragrafo title_center"><b>STATUS: {{diaria.get_status_display}}</b> 
+  <p class="paragrafo title_center"><b>STATUS:</b>  {{diaria.get_status_display}}
   {%elif diaria.status == '3' %}
-    <p class="paragrafo title_center"><b>STATUS: {{diaria.get_status_display}}</b> 
+    <p class="paragrafo title_center"><b>STATUS:</b> {{diaria.get_status_display}}
  
   {%endif%}
-  {%if profissional %}
-  <p class="paragrafo title_center"><b>{{profissional|upper}}
-      <br>
-      SECRETARIA MUNICIPAL DE SAÚDE
-    </b> </p>
-    {%else%}
-    <p class="paragrafo title_center"><b>Secretário(a)
-      <br>
-      SECRETARIA MUNICIPAL DE SAÚDE
-    </b> </p>
+      {%if diaria.aprovado_por %}
+        <p class="paragrafo title_center"><b>{{diaria.aprovado_por|upper}}
+            <br>
+            SECRETÁRIO MUNICIPAL DE SAÚDE
+          </b> </p>
+     {%else%}
+      <p class="paragrafo title_center"> {{profissional.nome_completo|upper}}
+        <br><b>
+        SECRETÁRIO MUNICIPAL DE SAÚDE
+      </b> </p>
     {%endif%}
+
+    
 </div>
 
 
@@ -159,7 +162,7 @@
 
 <div>
   <br/>
-  <p> Realizado por {{diaria.criado_por}} no dia {{diaria.updated_at|date:"d/m/Y"|default:'---'}} às {{diaria.updated_at|time:"H:i"|default:'---'}}  </p>
+  <p> Realizado por {{diaria.criado_por}} no dia {{diaria.updated_at|date:"d/m/Y"|default:'---'}} às {{diaria.created_at|time:"H:i"|default:'---'}}  </p>
 </div>
 
 {% endblock %}
