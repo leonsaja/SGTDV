@@ -35,8 +35,9 @@ class Especialidade(models.Model):
 class PacienteEspecialidade(models.Model):
 
     TIPO_CLASSIFICACAO=(
-        ('1','NORMAL'),
-        ('2','URGÊNCIA'),
+        ('1','ELETIVO'),
+        ('2','PRIORIDADE'),
+        ('3','URGÊNCIA'),
     )
     TIPO_ATENDIMENTO=(
         ('1','CONSULTA'),
@@ -46,6 +47,8 @@ class PacienteEspecialidade(models.Model):
     STATUS=(
         ('1','AGUARDANDO'),
         ('2','CONCLUÍDO'),
+        ('3','CANCELADO'),
+
     )
     
     paciente=models.ForeignKey(Cidadao,verbose_name='Paciente', on_delete=models.PROTECT)

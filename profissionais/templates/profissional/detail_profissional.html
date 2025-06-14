@@ -27,13 +27,17 @@
 
       <hr>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <label for="id_profissional" class="form-label">Nome Completo:</label>
           <h6 class="text-muted">{{profissional.nome_completo}}</h6>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
           <label for="id_email" class="form-label">E-mail:</label>
           <h6 id='email' class="text-muted">{{profissional.email}}</h6>
+        </div>
+         <div class="col-md-4">
+          <label for="id_email" class="form-label">Cargo:</label>
+          <h6 id='email' class="text-muted">{{profissional.get_cargo_display}}</h6>
         </div>
       </div>
 
