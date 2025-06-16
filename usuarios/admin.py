@@ -5,7 +5,6 @@ from django.contrib.auth.admin import UserAdmin
 from .forms import CadastroUsuarioForm, EditarUsuarioForm
 from .models import Usuario, PerfilUsuario
 
-
 class CustomUserAdmin(UserAdmin):
     add_form = CadastroUsuarioForm
     form = EditarUsuarioForm
@@ -13,14 +12,14 @@ class CustomUserAdmin(UserAdmin):
     list_display = ('cpf',"nome_completo", "is_staff", "is_active",)
     list_filter = ("email", "is_staff", "is_active",)
     fieldsets = (
-        (None, {"fields": ("email", "password","nome_completo","cpf","dt_nascimento",)}),
+        (None, {"fields": ("email", "password","nome_completo","cpf","dt_nascimento","perfil",)}),
         ("Permissions", {"fields": ("is_staff", "is_active", "groups", "user_permissions")}),
     )
     add_fieldsets = (
         (None, {
             "classes": ("wide",),
             "fields": (
-                "email", "password1", "password2","nome_completo","cpf","dt_nascimento", "is_staff",
+                "email", "password1", "password2","nome_completo","cpf","dt_nascimento", "is_staff","perfil",
                 "is_active", "groups", "user_permissions"
             )}
         ),
@@ -31,4 +30,3 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(Usuario, CustomUserAdmin)
-admin.site.register(PerfilUsuario)

@@ -3,7 +3,9 @@ from django.db import models
 from localflavor.br.models import BRCPFField
 from .managers import UsuarioManager
 
-class PerfilUsuario(models.Model):
+
+
+"""class PerfilUsuario(models.Model):
       TIPO_PERFIL=(
         ('1','1-ACS'),
         ('2','2-Coordenador'),
@@ -19,20 +21,32 @@ class PerfilUsuario(models.Model):
          ordering = ["perfil"]
 
       def __str__(self):
-          return  self.get_perfil_display()
+          return  self.get_perfil_display()"""
 
 class Usuario(AbstractUser):
+     
+
+     TIPO_PERFIL=(
+        ('','-----------'),
+        ('1','1-ACS'),
+        ('2','2-Coordenador'),
+        ('3','3-Digitador'),
+        ('4','4-Recepção'),
+        ('5','5-Secretario'),
+        ('6','6-Regulação'),
+       
+      )
      
      username = None
      nome_completo=models.CharField(verbose_name='Nome Completo', max_length=200, null=True, blank=False)
      email = models.EmailField(verbose_name='E-mail', null=True, blank=False,unique=True)
      cpf=BRCPFField(verbose_name='CPF', unique=True, null=True, blank=False)
      dt_nascimento=models.DateField(verbose_name='Data de Nascimento', null=False, blank=False)
-     perfil=models.ManyToManyField(PerfilUsuario)
+     perfil=models.CharField(verbose_name='Perfil',max_length=1,choices=TIPO_PERFIL, null=False, blank=False,default='')
 
      
      USERNAME_FIELD = "cpf"
-     REQUIRED_FIELDS = ['nome_completo','tipo_usuario','dt_nascimento']
+     REQUIRED_FIELDS = ['nome_completo','dt_nascimento']
 
      objects = UsuarioManager()
      
@@ -50,3 +64,4 @@ class Usuario(AbstractUser):
 
      def __str__(self):
         return f'{self.nome_completo}'
+
