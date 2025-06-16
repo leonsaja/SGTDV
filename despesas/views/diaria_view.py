@@ -130,7 +130,7 @@ def diaria_pdf(request,id):
    
     diaria=get_object_or_404(Diaria,id=id)
     User=get_user_model()
-    profissional=User.objects.filter(is_active=True).filter(perfil__perfil='5').first()
+    profissional=User.objects.filter(is_active=True).filter(perfil='5').first()
 
 
     

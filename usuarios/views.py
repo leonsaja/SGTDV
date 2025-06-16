@@ -25,19 +25,17 @@ class UsuarioCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
 
     def form_valid(self, form):
         user=form.save()
-        for u in user.perfil.all():
-            if u.perfil =='1':
-                print('teste')
-                assign_role(user,'acs')
-            if u.perfil == '2':
-                assign_role(user,'coordenador')
-            if u.perfil =='3':
-                assign_role(user,'digitador')
-            if u.perfil== '4':
-                assign_role(user,'recepcao')
-            if u.perfil=='5':
-                assign_role(user,'secretario')
-            if u.perfil =='6':
+        if user.perfil =='1':
+            assign_role(user,'acs')
+        elif user.perfil == '2':
+            assign_role(user,'coordenador')
+        elif user.perfil =='3':
+            assign_role(user,'digitador')
+        elif user.perfil== '4':
+            assign_role(user,'recepcao')
+        elif user.perfil=='5':
+            assign_role(user,'secretario')
+        elif user.perfil =='6':
                 assign_role(user,'regulacao')
         return super().form_valid(form)
     
@@ -54,20 +52,18 @@ class UsuarioUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
 
     def form_valid(self, form):
         user=form.save()
-      
-        for u in user.perfil.all():
-            if u.perfil =='1':
-                print('teste')
-                assign_role(user,'acs')
-            if u.perfil == '2':
-                assign_role(user,'coordenador')
-            if u.perfil =='3':
-                assign_role(user,'digitador')
-            if u.perfil== '4':
-                assign_role(user,'recepcao')
-            if u.perfil=='5':
-                assign_role(user,'secretario')
-            if u.perfil =='6':
+    
+        if user.perfil =='1':
+            assign_role(user,'acs')
+        elif user.perfil == '2':
+            assign_role(user,'coordenador')
+        elif user.perfil =='3':
+            assign_role(user,'digitador')
+        elif user.perfil== '4':
+            assign_role(user,'recepcao')
+        elif user.perfil=='5':
+            assign_role(user,'secretario')
+        elif user.perfil =='6':
                 assign_role(user,'regulacao')
         return super().form_valid(form)
     
