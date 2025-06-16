@@ -1,9 +1,12 @@
-{% extends 'base.html' %} {% load bootstrap5 %} {% block content %}
+{% extends 'base.html' %} 
+{% load permission_tags %}
+
+{% load bootstrap5 %} {% block content %}
 
 <div class="descricaoiner-fluid">
     {% include 'recibo_passagem_tfd/abas_recibo_passagem.html' %}
 
-
+    {% if user|has_role:'regulacao' %}
     <div class="row m-2">
 
         <div class="col-md-12">
@@ -15,6 +18,7 @@
         </div>
 
     </div>
+    {%endif%}
 
     <div class="col-md-12 px-4">
         <br />
@@ -157,6 +161,13 @@
             </div>
 
         </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <a href="{% url 'tfds:list-recibo_passagem' %}" class="btn btn-outline-primary">Voltar</a>
+                               
+            </div>
+          </div>
         <br>
 
     </div>

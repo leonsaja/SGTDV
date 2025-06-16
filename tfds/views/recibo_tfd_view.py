@@ -144,7 +144,7 @@ def reciboTFD_pdf(request,id):
     context['procedimentos']=ProcedimentoSia.objects.select_related('recibo_tfd').filter(recibo_tfd__id=context['recibo_tfd'].id)
    
     User=get_user_model()
-    context['profissional']=User.objects.filter(is_active=True).filter(perfil__perfil='5').first()
+    context['profissional']=User.objects.filter(is_active=True).filter(perfil='5').first()
     response = HttpResponse(content_type='application/pdf')
     html_string = render_to_string('recibo_tfd/pdf_recibo_tfd.html', context)
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)

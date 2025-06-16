@@ -10,7 +10,7 @@
         {% include 'includes/mensagens.html'%}
     </div>
 </div>
-{% if user|has_role:'recepcao,regulacao' %}
+{% if user|has_role:'regulacao' %}
 
   <div class="row ">
     <div class="col-md-12">
@@ -101,7 +101,7 @@
                     <a href="{% url 'especialidades:detail-especialidade' especialidade.id%}" class="pr-1"><i
                         class="fas fa-solid fa-eye"></i></a>
 
-                    {% if user|has_role:'recepcao,regulacao' %}
+                    {% if user|has_role:'regulacao' %}
 
                     <a href="{% url 'especialidades:edit-especialidade' especialidade.id%}" class="pr-1 text-warning"><i
                         class="fas fa-edit"></i></a>

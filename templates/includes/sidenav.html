@@ -47,7 +47,7 @@
         {%endif%}
 
         <!-- ESPECIALIDADES -->
-        {% if user|has_role:'recepcao,coordenador,acs' %}
+        {% if user|has_role:'regulacao,secretario,recepcao,coordenador,acs' %}
         <li class="nav-item">
           <a href="#" class="nav-link ">
             <i class="text-primary nav-icon fas fa fa-user-md" aria-hidden="true"></i>
@@ -255,7 +255,7 @@
         {%endif%}
 
         <!-- TFDs -->
-        {% if user|has_role:'coordenador,regulacao,recepcao,secretario' %}
+        {% if user|has_role:'coordenador,regulacao,secretario' %}
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class=" text-primary nav-icon fas fa-copy"></i>
@@ -339,7 +339,7 @@
                 <p class="text-sm text-muted"> Viagens</p>
               </a>
             </li>
-            {% if user|has_role:'coordenador,regulacao,recepcao,secretario' %}
+            {% if user|has_role:'coordenador,regulacao,secretario,digitador' %}
             <li class="nav-item">
               <a href="{% url 'transportes:list-carro'%}" class="nav-link link-houver">
 

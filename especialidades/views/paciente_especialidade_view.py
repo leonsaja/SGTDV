@@ -12,7 +12,7 @@ from django.views.generic import DetailView
 from rolepermissions.decorators import has_role_decorator
 from rolepermissions.mixins import HasRoleMixin
 
-@has_role_decorator(['recepcao','regulacao'])
+@has_role_decorator(['recepcao','secretario','regulacao'])
 def pacienteEspecialidade_create(request,id):
     
     especialidade=get_object_or_404(Especialidade,id=id)
@@ -76,7 +76,7 @@ def pacienteEspecialidade_delete(request,id):
     finally:
         return redirect('especialidades:detail-especialidade', especialidade.id)    
 
-@has_role_decorator(['recepcao','regulacao','coordenador','acs'])
+@has_role_decorator(['recepcao','secretario','regulacao','coordenador','acs'])
 def pacienteEspecialidade_search(request,id):
     
     template_name='especialidade/detail_especialidade.html'
@@ -111,7 +111,7 @@ class PacienteEspecialidadeDetailView(HasRoleMixin,DetailView):
 
     model=PacienteEspecialidade
     template_name='paciente_especialidade/detail_paciente_especialidade.html'
-    allowed_roles=['recepcao','coordenador','acs']
+    allowed_roles=['recepcao','secretario','regulacao','coordenador','acs']
     
     def get_context_data(self, *args, **kwargs):
         context= super().get_context_data(*args, **kwargs)

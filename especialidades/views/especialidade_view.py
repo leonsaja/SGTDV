@@ -38,7 +38,7 @@ class EspecialidadeListView(HasRoleMixin,ListView):
     template_name='especialidade/list_especialidades.html'
     context_object_name='especialidades'
     paginate_by=10
-    allowed_roles=['regulacao','recepcao','coordenador','acs']
+    allowed_roles=['regulacao','secretario','recepcao','coordenador','acs']
 
     def get_queryset(self):
         qs=super(EspecialidadeListView,self).get_queryset()
@@ -52,7 +52,7 @@ class EspecialidadeListView(HasRoleMixin,ListView):
         
         return qs
 
-@has_role_decorator(['regulacao','coordenador','acs'])
+@has_role_decorator(['regulacao','secretario','recepcao','coordenador','acs'])
 def especialidadeDetail(request,id):
     context={}
     template='especialidade/detail_especialidade.html'
