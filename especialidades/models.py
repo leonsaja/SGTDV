@@ -67,11 +67,25 @@ class PacienteEspecialidade(models.Model):
     def __str__(self):
         return f'{self.paciente.nome_completo}'
         
-    
-   
+
+class AtendimentoEspecialidade(models.Model):
+    ATEND_VIA=(
+            ('1','CIMBAJE'),
+            ('2','CEAE'),
+            ('3','RECURSO PRÓPRIO'),
+            ('4','SUS'),
+
+        )
+
+    especialidade=models.ForeignKey(Especialidade,verbose_name='Especialidade',on_delete=models.PROTECT)
+    data=models.DateField(verbose_name='Data')
+    local_atendimento=models.CharField(max_length=1, choices=ATEND_VIA,  verbose_name='Tipo de Atendimento')
+
 
     
-
+class PacienteSia(models.Model):
+    paciente=models.ForeignKey(PacienteEspecialidade,verbose_name='Especialidade',on_delete=models.PROTECT)
+    atendimento_paciente=models.ForeignKey(AtendimentoEspecialidade,on_delete=models.CASCADE,related_name='atend_paciente_especialidade')
 
 
     
