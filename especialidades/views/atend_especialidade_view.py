@@ -7,14 +7,12 @@ from django.contrib.messages.views import SuccessMessageMixin
 from especialidades.forms.form_paciente import AtendPacienteSet
 
 def atend_especialidade_create(request,id):
-    especialidade=get_object_or_404(Especialidade,id=id)
-    paciente_especialidade=PacienteEspecialidade.objects.filter(especialidade__id=id)
-    print('paciente')
-    atend_especialidade=AtendimentoEspecialidade()
     
+    atend_especialidade=AtendimentoEspecialidade()
+   
     if request.method == 'POST':
 
-        form = AtendimentoEspecialidadeForm(request.POST,instance=especialidade,prefix='atendimento' )
+        form = AtendimentoEspecialidadeForm(request.POST,instance=atend_especialidade,prefix='atendimento' )
         formset=AtendPacienteSet(request.POST,instance=atend_especialidade,prefix='paciente')
         if form.is_valid() and formset.is_valid():
             
@@ -23,7 +21,7 @@ def atend_especialidade_create(request,id):
             messages.add_message(request,constants.SUCCESS,'Cadastro realizado com sucesso')
             return redirect('tfds:list-recibo_tfd')
 
-    form = AtendimentoEspecialidadeForm(request.POST or None,instance=especialidade,prefix='atendimento')
+    form = AtendimentoEspecialidadeForm(request.POST or None,instance=atend_especialidade,prefix='atendimento')
     formset=AtendPacienteSet(request.POST or None,instance=atend_especialidade,prefix='paciente')
     
-    return render(request, 'atendimento_especialidade/form_atend_especialidade.html', {'form': form,'especialidade':especialidade,'formset':formset})
+    return render(request, 'atendimento_especialidade/form_atend_especialidade.html', {'form': form,'formset':formset})

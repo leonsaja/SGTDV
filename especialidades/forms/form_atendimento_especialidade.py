@@ -6,15 +6,16 @@ from especialidades.models import AtendimentoEspecialidade
 
 class AtendimentoEspecialidadeForm(forms.ModelForm):
 
-    data = forms.DateField(
-        label='Data',
-        widget=forms.DateInput(
-            format='%Y-%m-%d',
+    data_hora_atendimento = forms.DateTimeField(
+        label='Data/Hora',
+        widget=forms.DateTimeInput(
+            format='%Y-%m-%dT%H:%M',
             attrs={
-                'type': 'date',
+                'type': 'datetime-local',
             }),
-        input_formats=('%Y-%m-%d',),
+        input_formats=('%Y-%m-%dT%H:%M',)
     )
+   
     
     class Meta:
         

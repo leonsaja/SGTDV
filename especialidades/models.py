@@ -78,13 +78,13 @@ class AtendimentoEspecialidade(models.Model):
         )
 
     especialidade=models.ForeignKey(Especialidade,verbose_name='Especialidade',on_delete=models.PROTECT)
-    data=models.DateField(verbose_name='Data')
-    atendimento_via=models.CharField(max_length=1, choices=ATEND_VIA,  verbose_name=' ATENDIMENTO VIA',null=False, blank=False)
-    local_atendimento=models.CharField(max_length=255,verbose_name='LOCAL DE ATENDIMENTO',null=False, blank=False)
+    data_hora_atendimento=models.DateTimeField(verbose_name='Data/Hora',null=True,blank=False)
+    atendimento_via=models.CharField(max_length=1, choices=ATEND_VIA,  verbose_name=' Atendimento VIA',null=False, blank=False)
+    local_atendimento=models.CharField(max_length=255,verbose_name='Local do Atendimento',null=False, blank=False)
 
-    
+  
 class PacienteSia(models.Model):
-    paciente=models.ForeignKey(PacienteEspecialidade,verbose_name='Especialidade',on_delete=models.PROTECT)
+    paciente=models.ForeignKey(PacienteEspecialidade,verbose_name='Paciente',on_delete=models.PROTECT)
     atendimento_paciente=models.ForeignKey(AtendimentoEspecialidade,on_delete=models.CASCADE,related_name='atend_paciente_especialidade')
 
 

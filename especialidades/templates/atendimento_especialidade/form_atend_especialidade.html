@@ -12,7 +12,7 @@
     <br /> <br> <br>
     <div class="row  justify-content-center ">
         <div class="col-md-6">
-            <h4 class="text-primary"><strong>Atendimento Especialidade</strong> </h4>
+            <h4 class="text-primary"><strong>ATENDIMENTO</strong> </h4>
         </div>
  
         <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 mt-2 needs-validation" novalidate>
@@ -20,13 +20,13 @@
            
             <div class="row  justify-content-center">
                  <div class="row mt-2 justify-content-center">
-                        <div class="col-md-6 "><h4><b>{{especialidade}}</b></h4>
+                        <div class="col-md-6 ">{{form.especialidade  |as_crispy_field }}
                         </div>
                         
 
                     </div>
                     <div class="row justify-content-center">
-                        <div class="col-md-3">{{form.data  |as_crispy_field }}</div>
+                        <div class="col-md-3">{{form.data_hora_atendimento  |as_crispy_field }}</div>
                         <div class="col-md-3">{{form.atendimento_via |as_crispy_field }}</div>
                        
                     </div>
@@ -50,7 +50,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="logo"><strong>Código SIA/SUS</strong></h4>
+            <h3 class="logo"><strong></strong></h4>
           </div>
           <!-- /.card-header -->
           <div class="table-responsive-md">
@@ -92,7 +92,14 @@
       </div>
     </div>
 
-
+        <div class="row">
+              <div class="col-md-12 mb-5">
+                <div class="text-right">
+                  
+                  <button id="submit" class="btn btn-primary">Salvar</button>
+                </div>
+              </div>
+            </div>
             
 
             
