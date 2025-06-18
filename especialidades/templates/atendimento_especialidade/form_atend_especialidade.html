@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container-fluid  ">
+    
+    <div class="row">
+        <div class="col-md-12">
+            {% include 'includes/mensagens.html'%}
+        </div>
+    </div>
+    <br /> <br> <br>
+    <div class="row  justify-content-center ">
+        <div class="col-md-6">
+            <h4 class="text-primary"><strong>Atendimento Especialidade</strong> </h4>
+        </div>
+ 
+        <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 mt-2 needs-validation" novalidate>
+            {% csrf_token %}
+           
+            <div class="row  justify-content-center">
+                 <div class="row mt-2 justify-content-center">
+                        <div class="col-md-6 "><h4><b>{{especialidade}}</b></h4>
+                        </div>
+                        
+
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-md-3">{{form.data  |as_crispy_field }}</div>
+                        <div class="col-md-3">{{form.atendimento_via |as_crispy_field }}</div>
+                       
+                    </div>
+                    <div class="row justify-content-center">
+                          <div class="col-md-6">{{form.local_atendimento |as_crispy_field }}</div>
+                        
+                    </div>
+                   
+             </div>
+            <br>
+            
+        <br>
+        <div class="row">
+      <div class="col-sm-12">
+    
+                                                                                                                                                                                                                                                                                                                       
+    {{formset.management_form}}
+    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="logo"><strong>Código SIA/SUS</strong></h4>
+          </div>
+          <!-- /.card-header -->
+          <div class="table-responsive-md">
+            <div class="card-body">
+              <table class="form table table-bordered">
+                {% for forms in formset %}
+                {% if forloop.first %}
+                <thead>
+                  <tr>
+                    {% for field in forms.visible_fields %}
+                    <th>{{ field.label|capfirst }}</th>
+                    {% endfor %}
+                  </tr>
+                </thead>
+                {% endif %}
+                <tbody>
+                  <tr class="{% cycle 'row1' 'row2' %}">
+                    {% for field in forms.visible_fields %}
+                    <td>
+                      {% if forloop.first %}
+                      {% for hidden in forms.hidden_fields %}
+                      {{ hidden }}
+                      {% endfor %}
+                      {% endif %}
+                      {{ field }}
+                      {{ field.errors.as_ul }}
+                    </td>
+                    {% endfor %}
+                  </tr>
+                </tbody>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        
+      </div>
+    </div>
+
+
+            
+
+            
+        </form>
+
+    </div>
+</div>
+
+
+{% endblock %}
+
+{%block scripts %}
+
+<script src='/static/utils/jquery.formset.min.js'></script>
+<script>
+     $('table.form tr').formset({
+    prefix: '{{ formset.prefix }}',
+    addText: "<div><i class='fas fa-plus'></i></div>",
+    deleteText: 'Remover'
+  });
+
+</script>
+{% endblock scripts %}

@@ -1,17 +1,21 @@
-from especialidades.models import AtendimentoEspecialidade, PacienteSia
+from especialidades.models import AtendimentoEspecialidade, PacienteSia,Especialidade,PacienteEspecialidade
 from especialidades.forms.form_atendimento_especialidade import AtendimentoEspecialidadeForm
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.messages import constants
 from django.contrib.messages.views import SuccessMessageMixin
-from especialidades.forms.form_atendimento_especialidade import AtendPacienteSet
+from especialidades.forms.form_paciente import AtendPacienteSet
 
-def atendi_especialidade_create(request):
+def atend_especialidade_create(request,id):
+    especialidade=get_object_or_404(Especialidade,id=id)
+    paciente_especialidade=PacienteEspecialidade.objects.filter(especialidade__id=id)
+    print('paciente')
     atend_especialidade=AtendimentoEspecialidade()
+    
     if request.method == 'POST':
 
-        form = AtendimentoEspecialidadeForm(request.POST,instance=atend_especialidade,prefix='atendimento' )
-        formset=PacienteSia(request.POST,instance=atend_especialidade,prefix='paciente')
+        form = AtendimentoEspecialidadeForm(request.POST,instance=especialidade,prefix='atendimento' )
+        formset=AtendPacienteSet(request.POST,instance=atend_especialidade,prefix='paciente')
         if form.is_valid() and formset.is_valid():
             
             form.save()
@@ -19,7 +23,7 @@ def atendi_especialidade_create(request):
             messages.add_message(request,constants.SUCCESS,'Cadastro realizado com sucesso')
             return redirect('tfds:list-recibo_tfd')
 
-    form = AtendimentoEspecialidadeForm(request.POST or None,instance=atend_especialidade,prefix='atendimento')
-    formset=PacienteSia(request.POST or None,instance=atend_especialidade,prefix='paciente')
+    form = AtendimentoEspecialidadeForm(request.POST or None,instance=especialidade,prefix='atendimento')
+    formset=AtendPacienteSet(request.POST or None,instance=atend_especialidade,prefix='paciente')
     
-    return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset})
+    return render(request, 'atendimento_especialidade/form_atend_especialidade.html', {'form': form,'especialidade':especialidade,'formset':formset})

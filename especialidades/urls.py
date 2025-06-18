@@ -29,7 +29,7 @@ urlpatterns = [
 
     #Atendimento Paciente especialidade
 
-    path('<int:id>/create/atendimento', atend_especialidade_view.atendi_especialidade_create, name='add-atend_especialidade' )
+    path('<int:id>/create/atendimento', atend_especialidade_view.atend_especialidade_create, name='add-atend_especialidade' )
 
 
 ]   

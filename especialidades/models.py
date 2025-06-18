@@ -79,8 +79,8 @@ class AtendimentoEspecialidade(models.Model):
 
     especialidade=models.ForeignKey(Especialidade,verbose_name='Especialidade',on_delete=models.PROTECT)
     data=models.DateField(verbose_name='Data')
-    local_atendimento=models.CharField(max_length=1, choices=ATEND_VIA,  verbose_name='Tipo de Atendimento')
-
+    atendimento_via=models.CharField(max_length=1, choices=ATEND_VIA,  verbose_name=' ATENDIMENTO VIA',null=False, blank=False)
+    local_atendimento=models.CharField(max_length=255,verbose_name='LOCAL DE ATENDIMENTO',null=False, blank=False)
 
     
 class PacienteSia(models.Model):

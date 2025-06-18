@@ -8,7 +8,7 @@ class PacienteSiaForm(forms.ModelForm):
      class Meta:
         
         model=PacienteSia
-        fields=('paciente')
+        fields=('paciente',)
 
     
      def __init__(self, *args, **kwargs):
