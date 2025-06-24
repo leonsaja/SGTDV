@@ -3,102 +3,117 @@
 {% block title %}Viagem{% endblock %}
 
 {% block head%}
-{% comment %} <style>
-  @page {
-  size: A4 landscape;
-  margin: 1.0cm 1.5cm 3.5cm 1.5cm;
-  
-}
-</style> {% endcomment %}
-
 <style>
-  table,th,td {
-    padding: 8px;
-  }
+  body{
+
+        font-size: 16px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      td{
+      padding-right: 8px;
+      padding: 8px;
+      text-align:center
+      }
+      th{
+        padding: 8px;
+        text-align: center;
+      }
+      table{
+
+        font-size: 13px;
+      }
 </style>
+
 
 {% endblock%}
 {% block content %}
-{% include  'includes/cabecalho.html' %}
+{% include 'includes/cabecalho.html' %}
 
-<h3 class="title_center"> VIAGEM</h3>
+<h3 class="text-center"> <b>VIAGEM</b></h3>
+  <br>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4">
+      <p class=""> <b>MOTORISTA: </b>{{viagem.motorista.nome_completo|upper}}</p>
 
-<div class="conteudo2">
+    
+    <div class="col-md-12">
+      <p class=""><b>DESTINO: </b>VITORIA DA CONQUISTA  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-  <div class="texto">
-   <p class="paragrafo">   <b>MOTORISTA: </b>{{viagem.motorista.nome_completo|upper}}</p>
-   <br>
-   <p class="paragrafo"><b>DESTINO: </b>{{viagem.destino_viagem}}</p>
-   <br>
-   <p class="paragrafo">  <b>DATA: </b>{{viagem.data_viagem|date:"d/m/Y"|default:'---'}} &nbsp; &nbsp;  <b>HORARIO: </b>{{viagem.horario_saida}}    </p>
+        <b>DATA: </b>{{viagem.data_viagem|date:"d/m/Y"|default:'---'}}
+        &nbsp;&nbsp;&nbsp;
+        <b>HORÁRIO: </b>{{viagem.horario_saida}}
+       </p>
+       
+    </div>
+      <div class="col-md-12 text-center">
+         <img style="width: 8cm;" src="{{ viagem.carro.foto.url}}" alt="">
+         <p class="text-center pt-1"><b>PLACA: </b>{{viagem.carro.placa|upper}}
+      </div>
+ 
+ 
+    </div>
+     
   </div>
-  <div class="imagem">
-    <img src="{{ viagem.carro.foto.url}}" alt="">
-    <p class="title_center"><b>PLACA: </b>{{viagem.carro.placa|upper}}
-
-  </div>
-
+ 
+</div>
 </div>
 
-<br>
-
-
-<table class="table-bordered table-viagem ">
+<table class="table">
   <thead>
-  <tr>
-    <th>N°</th>
-    <th>PACIENTE</th>
-    <th>ACOMPANHANTE</th>
-    <th>LOCAL DE EXAME</th>
-    <th>LOCAL DE ESPERA </th>
-    <th>TELEFONE</th>
-  </tr>
-</thead>
+    <tr>
+      <th>N°</th>
+      <th>PACIENTE</th>
+      <th>ACOMPANHANTE</th>
+      <th>LOCAL DE EXAME</th>
+      <th>LOCAL DE ESPERA </th>
+      <th>TELEFONE</th>
+    </tr>
+  </thead>
   <tbody>
     {% for p in viagem.passageiros_viagens.all %}
-  
+
     <tr>
-      <td class="title_center ">{{ forloop.counter }} </td>
+      <td>{{ forloop.counter }} </td>
       <td>{{p.paciente}}</td>
 
       {% if p.acompanhante %}
-          <td >{{p.acompanhante}}</td>
+      <td>{{p.acompanhante}}</td>
       {% else %}
-           <td >-</td>
+      <td>-</td>
       {%endif%}
-      
+
 
       {% if p.local_exame %}
       <td>
-          {{p.local_exame}}
+        {{p.local_exame}}
       </td>
       {% else %}
-          <td>-</td>
+      <td>-</td>
       {%endif%}
 
 
 
       {% if p.local_espera %}
-          <td>{{p.local_espera}}</td>
-     
+      <td>{{p.local_espera}}</td>
+
       {%else%}
       <td>-</td>
       {%endif%}
 
       {% if p.telefone %}
       <td>
-        {{  p.telefone}}
+        {{ p.telefone}}
       </td>
       {%else%}
       <td>-</td>
       {%endif%}
 
-  </tr>
-  
-  {%endfor%}
-</tbody>
-</table>
+    </tr>
 
+    {%endfor%}
+  </tbody>
+</table>
 
 
 

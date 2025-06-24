@@ -51,6 +51,7 @@ body {
 .imagem{
   display: table-cell;
   padding-left: 40px;
+  margin-top: 15px;
 
   
 }
@@ -58,7 +59,7 @@ body {
 .texto{
   display: table-cell;
   float: left;
-  margin-top: -100px;
+  margin-top: -50px;
   font-size: 14px;
 }
 .linha{

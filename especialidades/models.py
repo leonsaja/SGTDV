@@ -17,7 +17,7 @@ class Especialidade(models.Model):
        return self.nome
     
     def qta_pessoas_especialidade(self):
-        pacientes=self.paciente_especialidades.count()
+        pacientes=self.paciente_especialidades.filter().count()
         return pacientes
     
     def qta_pessoas_aguardando_especialidade(self):
@@ -31,6 +31,9 @@ class Especialidade(models.Model):
     def qta_pessoas_urgencia_especialidade(self):
         pacientes=self.paciente_especialidades.filter(classificacao='2').count()
         return pacientes
+    
+    class Meta:
+        ordering = ["nome"]
 
 class PacienteEspecialidade(models.Model):
 
@@ -66,6 +69,9 @@ class PacienteEspecialidade(models.Model):
 
     def __str__(self):
         return f'{self.paciente.nome_completo}'
+    
+    class Meta:
+        ordering = ["-paciente"]
         
 
 class AtendimentoEspecialidade(models.Model):
@@ -78,14 +84,31 @@ class AtendimentoEspecialidade(models.Model):
         )
 
     especialidade=models.ForeignKey(Especialidade,verbose_name='Especialidade',on_delete=models.PROTECT)
-    data_hora_atendimento=models.DateTimeField(verbose_name='Data/Hora',null=True,blank=False)
-    atendimento_via=models.CharField(max_length=1, choices=ATEND_VIA,  verbose_name=' Atendimento VIA',null=False, blank=False)
+    data=models.DateField(verbose_name='Data do Atendimento',null=True,blank=False)
+    atendimento_via=models.CharField(max_length=1, choices=ATEND_VIA,  verbose_name=' Atendimento Via',null=False, blank=False)
     local_atendimento=models.CharField(max_length=255,verbose_name='Local do Atendimento',null=False, blank=False)
+    observacao=models.TextField(verbose_name='Observação',null=True,blank=True)
+    hora=models.TimeField(verbose_name='Horário do Atendimento',null=True,blank=False)
 
+
+    created_at = models.DateTimeField(auto_now_add=True,null=True)
+    updated_at = models.DateTimeField(auto_now=True,null=True)
+
+
+class ProcedimentosEspecialidade(models.Model):
+    nome_procedimento=models.CharField(max_length=255,verbose_name='Procedimento',null=True,blank=False)
+
+    def __str__(self):
+        return f'{self.nome_procedimento}'
   
 class PacienteSia(models.Model):
-    paciente=models.ForeignKey(PacienteEspecialidade,verbose_name='Paciente',on_delete=models.PROTECT)
+    paciente=models.ForeignKey(Cidadao,verbose_name='Paciente',on_delete=models.PROTECT)
     atendimento_paciente=models.ForeignKey(AtendimentoEspecialidade,on_delete=models.CASCADE,related_name='atend_paciente_especialidade')
+    procedimento=models.ForeignKey(ProcedimentosEspecialidade,verbose_name='Procedimento',on_delete=models.PROTECT)
+    hora=models.TimeField(verbose_name='Horário',null=True,blank=True)
 
 
-    
+
+
+
+

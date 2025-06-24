@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load permission_tags %}
+
+{% block content %}
+<div class="container-fluid">
+  {% include 'procedimento_especialidade/abas_proced_especialidade.html' %}
+
+  <div class="row">
+    <div class="col-md-12">
+        {% include 'includes/mensagens.html'%}
+    </div>
+</div>
+{% if user|has_role:'regulacao' %}
+
+  <div class="row ">
+    <div class="col-md-12">
+      <div class="text-right">
+        <a href="{% url 'especialidades:add-proced_especialidade' %}" class="btn btn-primary"><b>Cadastrar Procedimento</b>
+        </a>
+      </div>
+    </div>
+  </div>
+  {%endif%}
+  <div class="row justify-content-center ">
+    <div class="col-md-8  ">
+      <h4 class=" text-primary"><strong>Procedimentos</strong> </h4>
+    </div>
+  </div>
+  <br>
+  <div class="row ">
+    <div class="container">
+      <div class="row justify-content-center">
+        <form class="col-md-8   needs-validation" action="{% url 'especialidades:list-proced_especialidade'%}" method="GET"
+          id="validar-form">
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="alert alert-danger d-none" role="alert">
+                Digite alguma coisa para realizar a busca.
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label for="buscar"><strong> Busque pelo Nome:</strong></label>
+              <input type="search" name="buscar" class="form-control" value="{{request.GET.buscar}}"
+                id="buscar">
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 mt-3">
+              <div class="float-right">
+                <a class="btn mr-2" href="{% url 'especialidades:list-proced_especialidade'%}"
+                  style="background-color:#DADADA;">
+                  Limpar
+                  Filtro</a>
+                <button type="submit" class=" btn btn-primary ">Buscar</button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="logo pt-2">Procedimento</h3>
+
+        </div>
+        <!-- /.card-header -->
+        <div class="table-responsive-md">
+          <div class="card-body">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th style="width: 10px">id</th>
+                  <th>Nome do Procedimento</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%for procedimento in procedimentos %}
+                <tr>
+                  <td>{{procedimento.id}}</td>
+                  <td>{{procedimento.nome_procedimento|upper}}</td>
+
+                  <td>
+
+                    <a href="{% url 'especialidades:detail-proced_especialidade' procedimento.id%}" class="pr-1"><i
+                        class="fas fa-solid fa-eye"></i></a>
+
+                    {% if user|has_role:'regulacao' %}
+
+                    <a href="{% url 'especialidades:edit-proced_especialidade' procedimento.id%}" class="pr-1 text-warning"><i
+                        class="fas fa-edit"></i></a>
+                    {%endif%}
+                    {% if user|has_role:'coordenador' %}
+                    <a href="#modal--{{procedimento.id}}" data-bs-toggle="modal"
+                      data-bs-target="#modal--{{procedimento.id}}" class="pr-2 text-danger">
+
+                      <i class="fas fa-solid fa-trash-can"></i>
+                    </a>
+                    {%endif%}
+                   
+
+                  </td>
+                </tr>
+                {% include 'procedimento_especialidade/modal_delete_proced_especialidade.html'%}
+                {%endfor%}
+
+              </tbody>
+            </table>
+            <br>
+            {% include 'includes/paginacao.html'%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% include 'includes/modal_delete.html'%}
+<!-- Button trigger modal -->
+{% endblock content %} {% block scripts %}
+<script>
+  $('#validar-form').submit(function () {
+    let nome = $('#buscar')
+    let erro = $('.alert')
+
+    if (nome.val() == '') {
+      erro.removeClass('d-none')
+      nome.addClass('is-invalid')
+      return false
+    }
+
+    return true
+  })
+</script>
+{% endblock scripts %}

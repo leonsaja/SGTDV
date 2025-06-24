@@ -87,11 +87,6 @@ class CidadaoListView(HasRoleMixin,ListView):
     allowed_roles = ['acs','coordenador','regulacao','recepcao']
    
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super(CidadaoListView,self).get_queryset(*args, **kwargs)
-        qs=qs.select_related('endereco','microarea').order_by('nome_completo')
-        return qs
-
 class CidadaoSearchListView(HasRoleMixin,ListView):
     
     model=Cidadao

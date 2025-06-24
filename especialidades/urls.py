@@ -5,6 +5,7 @@ from especialidades.views import \
 
 from .views import especialidade_view as view_especialidade
 from especialidades.views import atend_especialidade_view 
+from especialidades.views import proced_especialidade_view as view_procedimento
 
 app_name='especialidades'
 
@@ -29,7 +30,22 @@ urlpatterns = [
 
     #Atendimento Paciente especialidade
 
-    path('<int:id>/create/atendimento', atend_especialidade_view.atend_especialidade_create, name='add-atend_especialidade' )
+    path('create/atendimento', atend_especialidade_view.atend_especialidade_create, name='add-atend_especialidade' ),
+    path('update/<int:id>/atendimento', atend_especialidade_view.atend_especialidade_update, name='edit-atend_especialidade' ),
+    path('list/atendimentos', atend_especialidade_view.AtendEspecialidadeListView.as_view(), name='list-atend_especialidade' ),
+    path('detail/<int:pk>/atendimento', atend_especialidade_view.AtendEspecialidadeDetailView.as_view(), name='detail-atend_especialidade' ),
+    path('delete/<int:pk>/atendimento', atend_especialidade_view.AtendEspecialidadeDeleteView.as_view(), name='del-atend-especialidade' ),  
+    path("pdf/<int:id>/atendimento",atend_especialidade_view.atend_especialidade_pdf,name='pdf-atend_especialidade'),
 
+
+
+
+    #Procedimento de Especialidades
+
+    path('create/procedimento', view_procedimento.ProcedEspecialidadeCreateView.as_view(), name='add-proced_especialidade' ),
+    path('update/<int:pk>/procedimento',view_procedimento.ProcedEspecialidadeUpdateView .as_view(), name='edit-proced_especialidade' ),
+    path('list/procedimentos/',view_procedimento.ProcedEspecialidadeListView .as_view(), name='list-proced_especialidade' ),
+    path('detail/<int:pk>/procedimento',view_procedimento.ProcedEspecialidadeDetail .as_view(), name='detail-proced_especialidade' ),
+    path('delete/<int:id>/procedimento/',  view_procedimento.especialidadeDelete, name='del-proced_especialidade' ),  
 
 ]   

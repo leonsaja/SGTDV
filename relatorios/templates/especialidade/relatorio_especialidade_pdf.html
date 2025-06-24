@@ -2,36 +2,46 @@
 {% load static %}
 {% block title %}Relatorio{% endblock %}
 
-{% block head%} 
+{% block head%}
 <style>
-      body{
+    body {
 
-        font-size: 15px;
+        font-size: 14px;
         font-family: Arial, Helvetica, sans-serif;
-      }
-      td{
-      padding-right: 8px;
-      padding: 8px;
-      text-align:center
-      }
-      th{
-        padding: 8px;
-        text-align: center;
-      }
-    
+    }
 
+    td {
+
+        padding: 2px;
+        text-align: center
+    }
+
+    th {
+        padding: 2px;
+        text-align: center;
+    }
+
+    table {
+
+        font-size: 13px;
+    }
+
+    p {
+        margin: 0;
+    }
 </style>
 
 
-{%endblock head%}
+{% endblock%}
 {% block content %}
 
 {% include  'includes/cabecalho.html' %}
-<div class="conteudo">
-  <h3 class=" title_center">Relatório de Especialidades</h3>
+<div class="container-fluid">
+  <h3 class=" text-center "><b>Relatório de Especialidades</b></h3>
   <br/>
-      <div class="col-md-3">
-          <p class="paragrafo";>
+     <div class="row">
+       <div class="col-md-12 m-2">
+          <p class="p-1";>
             <b>Registros identificados: </b>{{qta_especialidade}}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -39,11 +49,12 @@
             <b>Data: {{data}}</b> 
         </p>
       </div>
+     </div>
       <div class="linha"></div>
-  <br/>  <br/>
-  <div class="pt">
+  <br/>
+ 
     
-    <table border=" 1" class="">
+    <table border=" 1" class="table">
       <thead>
         <tr>
           <th>Itens</th>
@@ -74,7 +85,7 @@
       </tbody>
       
     </table>
-  </div>
+ 
  
 </div>
 

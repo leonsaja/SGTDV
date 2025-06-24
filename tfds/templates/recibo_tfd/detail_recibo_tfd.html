@@ -131,8 +131,10 @@
                                     <tr>
 
                                         <th class="text-center">Código</th>
-                                        <th class="text-center">Valor</th>
                                         <th class="text-center">Quantidade</th>
+                                        <th class="text-center">VLR UNIT. T.SIGTAP</th>
+                                        <th class="text-center">VLR TOTAL T.SIGTAP</th>
+                                        <th class="text-center">VLR COMP. MUNICIPAL</th>
                                         <th class="text-center">Valor Total</th>
                                     </tr>
                                 </thead>
@@ -142,14 +144,24 @@
 
                                         <tr>
                                             <td>{{r.codigosia.codigo}}</td>
-
-                                            <td class="text-center">{{r.codigosia.subtotal}}</td>
-
-
-                                            <td class="text-center">
+                                             <td class="text-center">
                                                 {{r.qtd_procedimento}}
 
                                             </td>
+
+                                            <td class="text-center">{{r.codigosia.valor_unitario}}</td>
+                                             <td class="text-center">
+                                                {{r.codigosia.valor_total_sigtap}}
+                                                
+                                            </td>
+                                             <td class="text-center">
+                                                {{r.codigosia.valor_comp_mun}}
+                                                        
+                                            </td>   
+
+                                           
+
+                                           
                                             <td class="text-center">
                                                 {{r.soma}}
 
@@ -167,11 +179,11 @@
                                     <tr>
                                         <td></td>
                                         <td></td>
-                                        <td colspan="1" class="text-end"><b>
-                                                <h6>Total:</h6>
+                                        <td colspan="3" class="text-end"><b>
+                                                <h6><b>Total</b>:</h6>
                                             </b> </td>
                                         <td class="text-center"><b>
-                                                <h6>R$ {{recibo_tfd.total_pag}}</h6>
+                                                <h6><b>R$ {{recibo_tfd.total_pag}}</b></h6>
                                             </b> </td>
                                     </tr>
 

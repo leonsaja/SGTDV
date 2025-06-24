@@ -1,0 +1,62 @@
+<div class="row mt-2 ">
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'core:home'%}">
+                <i class="fa fa-home" aria-hidden="true"></i>
+
+            </a>
+        </li>
+        <li class="nav-item pt-2">
+            <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
+
+        </li>
+        <li class="nav-item">
+            {% if  request.resolver_match.url_name == 'list-atend_especialidade' %} 
+                 <p class="nav-link text-muted"> Lista de Atendimentos</p>
+            {%else%}
+            <a class="nav-link" href="{% url 'especialidades:list-atend_especialidade'%}">Lista de Atendimento</a>
+            {%endif%}
+            
+        </li>
+        {% if request.resolver_match.url_name == 'add-atend_especialidade' %}
+        <li class="nav-item pt-2">
+            <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
+
+        </li>
+        <li class="nav-item">
+            <p class="nav-link text-muted"> Cadastro </p>
+        </li>
+        
+        {% endif %}
+        
+        {% if request.resolver_match.url_name == 'edit-atend_especialidade' %}
+        <li class="nav-item pt-2">
+            <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
+
+        </li>
+        <li class="nav-item">
+            <p class="nav-link text-muted"> Edição</p>
+        </li>
+        
+        {% endif %}
+        
+        
+        {% if  request.resolver_match.url_name == 'detail-atend_especialidade' %} 
+        
+            <li class="nav-item pt-2">
+                <p class="nav-link  text-muted" style="padding: 0px;"><i class="right fas fa-angle-right"></i></p>
+
+            </li>
+
+            <li class="nav-item">
+                
+                    <p class="nav-link text-muted">Detalhes</p>
+            </li>
+                    
+        {%endif%}
+        
+                
+        
+       
+    </ul>
+</div>

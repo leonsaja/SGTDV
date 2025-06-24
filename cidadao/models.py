@@ -30,7 +30,7 @@ class Cidadao(models.Model):
 
     def __str__(self):
         if self.cpf:
-             return f'{self.nome_completo}, CPF:   {self.formt_cpf()}'  
+             return f'{self.nome_completo}, CNS:   {self.cns}'  
         
         return f'{self.nome_completo}' 
        
@@ -43,6 +43,8 @@ class Cidadao(models.Model):
         
         return ''
         
+    class Meta:
+        ordering = ["nome_completo"]
     
 class Endereco(models.Model):
 

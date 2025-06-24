@@ -13,7 +13,7 @@ class Viagem(models.Model):
 
    data_viagem=models.DateField(verbose_name='Data da Viagem', null=False,blank=False)
    destino_viagem=models.CharField(verbose_name='Destino', max_length=180,null=False, blank=False)
-   horario_saida=models.TimeField(verbose_name='Horario de Viagem')
+   horario_saida=models.TimeField(verbose_name='Horário de Viagem')
    motorista=models.ForeignKey( Profissional, verbose_name='Motorista', on_delete=models.PROTECT)
    status=models.CharField(verbose_name='Status da Viagem',max_length=1, choices=STATUS_VIAGEM, null=False, blank=False, default=1)
    carro=models.ForeignKey('Carro',related_name='carro_viagens', on_delete=models.PROTECT)
@@ -40,8 +40,8 @@ class PassageiroViagem(models.Model):
    
    paciente=models.CharField(verbose_name='Nome do Paciente', max_length=255,null=False, blank=False)
    acompanhante=models.CharField(null=True,blank=True, max_length=255, verbose_name='Acompanhante')
-   local_exame=models.CharField(verbose_name='Local do Exame', max_length=150, null=True, blank=True)
-   local_espera=models.CharField(verbose_name='Local de Espera', max_length=150,null=True, blank=True)
+   local_exame=models.CharField(verbose_name='Local do Exame', max_length=150, null=True, blank=False)
+   local_espera=models.CharField(verbose_name='Local de Espera', max_length=150,null=True, blank=False)
    viagem=models.ForeignKey("Viagem",on_delete=models.CASCADE, related_name='passageiros_viagens')
    telefone=models.CharField(verbose_name='telefone', blank=True, null=True, max_length=15, help_text='Sem caracteres especiais') 
    created_at = models.DateTimeField(auto_now_add=True)
@@ -68,10 +68,10 @@ class Carro(models.Model):
    foto=models.ImageField(verbose_name='Foto do carro', upload_to='media/carros', null=False, blank=False, default='')
    tipo_transporte=models.CharField(verbose_name='Tipo de Transporte',max_length=1,choices=CHOICES_TIPO_TRANSPORTE, null=True,blank=False)
    cor=models.CharField(verbose_name='Cor do Carro',max_length=100, null=True,blank=False)
-   ano_fabricacao=models.IntegerField(verbose_name='Ano de Fabricacao',null=True, blank=False)
+   ano_fabricacao=models.IntegerField(verbose_name='Ano de Fabricação',null=True, blank=False)
    forma_atend=models.CharField(verbose_name='Forma de Atendimento',max_length=1,choices=CHOICES_FORMA_ATEND, null=True,blank=False)
-   ano_fabricacao=models.IntegerField(verbose_name='Ano de Fabricacao',null=True, blank=False)
    fabricante=models.CharField(verbose_name='Fabricante', max_length=100,null=True,blank=False)
+   qta_passageiro=models.IntegerField(verbose_name='Qta. Passageiro', null=True,blank=False)
 
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)

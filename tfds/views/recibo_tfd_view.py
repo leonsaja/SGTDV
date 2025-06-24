@@ -51,7 +51,7 @@ def reciboTFD_update(request,id):
            formset.save()
            messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
            return redirect('tfds:list-recibo_tfd')
-
+        print('POST')    
     form=ReciboTFDForm(request.POST or None, instance=recibo_tfd,prefix='recibo')
     formset=ProcedimentoSet(request.POST or None, instance=recibo_tfd,prefix='procedimento')
     return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset,'recibo_tfd':recibo_tfd})

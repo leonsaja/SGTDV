@@ -40,11 +40,22 @@ class PassageiroViagemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['paciente'].widget.attrs.update({'class':'form-control'})
-        self.fields['paciente'].widget.attrs.update({'class':'form-control'})
         self.fields['acompanhante'].widget.attrs.update({'class':'form-control'})
         self.fields['local_exame'].widget.attrs.update({'class':'form-control'})
         self.fields['local_espera'].widget.attrs.update({'class':'form-control'})
         self.fields['telefone'].widget.attrs.update({'class':'form-control'})
+
+
+"""    def clean(self):
+        cleaned_data = super().clean()
+        paciente = cleaned_data.get('paciente')
+        campo_relacionado = cleaned_data.get('viagem')
+        acompanhante=cleaned_data.get('acompanhante')
+        total=0
+        for form in cleaned_data:
+            print('TIPO',form)
+"""
+        
 
 PassageiroViagemSet=inlineformset_factory(Viagem,PassageiroViagem,form=PassageiroViagemForm, extra=1, min_num=1,validate_min=True)
 

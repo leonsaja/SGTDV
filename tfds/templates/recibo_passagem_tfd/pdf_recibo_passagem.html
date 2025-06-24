@@ -1,127 +1,114 @@
 {% extends 'relatorio.html' %}
 {% load static %}
 {% block title %} RECIBO DE PASSAGEM DO TFD{% endblock %}
+{% block head%}
+<style>
+    body {
+
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    td {
+
+        padding: 2px;
+        text-align: center
+    }
+
+    th {
+        padding: 2px;
+        text-align: center;
+    }
+
+    table {
+
+        font-size: 13px;
+    }
+
+    p {
+        margin: 0;
+    }
+</style>
+
+
+{% endblock%}
 {% block content %}
 
 {% include  'includes/cabecalho.html' %}
 
-<h3 class="title_center"> DECLARAÇÃO DE RECEBIMENTO DE AUTORIZAÇÃO DE PASSAGEM</h3>
-<div class="conteudo-tfd">
+<h3 class="text-center"> <b>DECLARAÇÃO DE RECEBIMENTO DE AUTORIZAÇÃO DE PASSAGEM</b></h3>
+<div class="container-fluid">
     <div class="bordas">
          <!-- PACIENTE -->
-        
          <div class="row ">
-            <div class="col-md-4">
-                <p class="paragrafo tfd" ><b>NOME DO PACIENTE: </b>
-                    <br>{{recibo_passagem.paciente.nome_completo|upper}}
-                    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="col-md-6 p-2">
+                <p><b>NOME DO PACIENTE: </b>
+                   {{recibo_passagem.paciente.nome_completo|upper}}
+                    &nbsp; &nbsp;
                 </p>
-            </div>
-            <div class="col-md-5">
-                {% if recibo_passagem.paciente.rg %}
-                <p class="paragrafo tfd">
-                    <b>RG: </b><br>{{recibo_passagem.paciente.rg}}
-                    &nbsp; &nbsp;&nbsp;&nbsp;
-                </p>
-                {%else%}
-                <p class="paragrafo tfd">
-                   
-                    <b>RG: </b><br>-
-                    &nbsp; &nbsp;&nbsp;&nbsp;
-                    &nbsp; &nbsp;&nbsp;&nbsp;
-                    &nbsp; &nbsp;&nbsp;&nbsp;
+               
+                <p class="pt-1"><b>CPF: </b>{{recibo_passagem.paciente.formt_cpf|upper}}
 
-                    &nbsp; &nbsp;&nbsp;&nbsp;
-
+                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                     <b>CNS: </b>{{recibo_passagem.paciente.cns|upper}}
+                    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                     {% if recibo_passagem.paciente.rg %}
+                        <b>RG: </b>{{recibo_passagem.paciente.rg|upper}}
+                     {%else%}
+                         <b>RG: - </b>
+                      {%endif%}
                 </p>
-                {% endif%}
+            
             </div>
-            <div class="col-md-2">
-                <p class="paragrafo tfd "><b>CPF: </b><br>{{recibo_passagem.paciente.formt_cpf}}
-                    &nbsp; &nbsp;&nbsp;&nbsp;
-                </p>
-            </div>
-            <div class="col-md-2">
-                <p class="paragrafo tfd "><b>CNS: </b><br>{{recibo_passagem.paciente.cns}}
-                   
-                </p>
-              
-            </div>
-    
-        </div>
-
         <div class="linha"></div>
          <!-- ACOMPANHANTE  -->
          <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6 p-2">
                 {%if recibo_passagem.acompanhante%}
-                <p class="paragrafo tfd "><b>NOME DO ACOMPANHANTE: </b>
-                    <br>{{recibo_passagem.acompanhante|upper}}
-    
-                    &nbsp; &nbsp;&nbsp;&nbsp;
+                <p class="p-1"><b>NOME DO ACOMPANHANTE: </b>
+                    {{recibo_passagem.acompanhante|upper}}
                 </p>
                 {% else %}
-                <p class="paragrafo tfd "><b>NOME DO ACOMPANHANTE: </b>
-                    <br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
-    
-                    &nbsp; &nbsp;&nbsp;&nbsp;
+                <p class="p-1"><b>NOME DO ACOMPANHANTE: </b>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
                 </p>
                 {% endif %}
-            </div>
-            <div class="col-md-5">
-    
+                {% if recibo_passagem.cpf  %}
+                <p class="p-1"><b>CPF: </b>{{recibo_passagem.cpf|upper}}
+                {% else %}
+                <p class="p-1"><b>CPF:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
+                {% endif %}
+                 {% if recibo_passagem.cns %}
+                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                    <b>CNS: </b>{{recibo_passagem.cns|upper}}
+                {% else %}
+                    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                     <b>CNS:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -</b>
+                {% endif %}
                 {% if recibo_passagem.rg %}
-                <p class="paragrafo tfd">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>RG: </b><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{recibo_passagem.rg|upper}}
+                    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                   <b>RG:</b>{{recibo_passagem.rg|upper}}
                 </p>
                 {%else %}
-                <p class="paragrafo tfd">
-                    &nbsp;  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
-    
-                    <b>RG: </b><br>  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp;-
+                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                    <b>RG: </b>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
                 
                 </p>
                 {%endif%}
             </div>
-            <div class="col-md-2">
-                {% if recibo_passagem.cpf  %}
-                <p class="paragrafo  tfd">  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>CPF: </b><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;{{recibo_passagem.cpf|upper}}</p>
-                {% else %}
-                    <p class="paragrafo  tfd">  &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
-                        <b>CPF: </b><br>&nbsp; &nbsp;
-                        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp;-</p>
-                {% endif %}
-                
-            </div>
-            <div class="col-md-2">
-                {% if recibo_passagem.cns %}
-                <p class="paragrafo tfd ">
-                    <b>CNS: </b><br>{{recibo_passagem.cns|upper}}</p>
-                {% else %}
-                
-                <p class="paragrafo tfd ">
-                  &nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp;
-    
-                    <b>CNS: </b><br> &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp;
-                                   &nbsp;&nbsp;  &nbsp; &nbsp;
-                    -</p>
-                {% endif %}
-              
-            </div>
+           
     
         </div>
+    </div>
         <div class="linha"></div>
 
-        <!-- MEIO DE TRANSPORTE -->
         <div>
-            <br>
-        <p style="text-align: center;" class="paragrafo"><b>MEIO DE TRANSPORTE</b></p>
+
+        <p class="text-center p-3"><b>MEIO DE TRANSPORTE</b></p>
             
         <div class="row">
-            <div class="col-md-12">
-                <p class="paragrafo tfd title_center">
+            <div class="col-md-12 m-0">
+                <p class="text-center">
                    {{recibo_passagem.get_meio_transporte_display}}
                 </p>
             </div>
@@ -131,7 +118,7 @@
         </div>
         <br>
 
-        <table border=" 1" class="table-bordered table-tfd ">
+        <table class="table ">
        
             <thead>
             <tr>
@@ -189,19 +176,20 @@
         </table>
         
         <div class="bordas">
-            <p class="paragrafo title_center"><b> COMPROVANTE DE RECECIMENTO</b></p>
-            <p class="paragrafo">
-                     Declaro que recebi autorização de passagens da empresa____________________________________,<br> para viagem no dia ___/___/_____ .
+            <p class="text-center p-2"><b> COMPROVANTE DE RECEBIMENTO</b></p>
+            <p class="text-start p-2">
+                     Declaro que recebi autorização de passagens da empresa________________________________, para viagem no dia ___/___/_____ .
                      
               </p>
-              <p class="paragrafo">
+              <p style=" text-align: justify;" class="p-2">
                 Afirmo ainda, que estou ciente de que ao retornar a este município de SANTO ANTÔNIO DO JACINTO, terei o prazo maximo de 03 (três) dias para entregar na Secretaria Municipal de Saúde o 
                  Relatorio de Atendimento, conforme Anexo II do Manual  de Procedimentos de TFD.
 
               </p>
               <br>
-              <p class="title_center">___________________________________________________________</p>
-              <p class="paragrafo title_center"><b>ASSINATURA DO PACIENTE OU RESPONSÁVEL LEGAL</b></p>
+              <p class="text-center p-2">___________________________________________________________</p>
+              <p class="text-center"><b>ASSINATURA DO PACIENTE OU RESPONSÁVEL LEGAL</b></p>
+              <br>
            
           </div>
     </div>

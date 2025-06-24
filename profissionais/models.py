@@ -41,8 +41,7 @@ class Profissional(models.Model):
     dt_nascimento=models.DateField(verbose_name='Data de Nascimento', null=False,blank=False)
     telefone=models.CharField(verbose_name='Telefone', max_length=15,null=False,blank=False)
     estabelecimento=models.ForeignKey(Estabelecimento, verbose_name=('Estabelecimento'), on_delete=models.SET_NULL,null=True, related_name='profissional_estabelecimento')
-    microarea=models.ForeignKey(MicroArea,on_delete=models.SET_NULL, null=True, blank=True,verbose_name='Micro área',help_text='Campo somente para ACS',related_name='profissional_microarea')
-
+    endereco=models.ForeignKey('cidadao.Endereco',verbose_name='Endereço',on_delete=models.CASCADE,null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -58,3 +57,5 @@ class Profissional(models.Model):
                 return ('{}.{}.{}-{}'.format( cpf[:3], cpf[3:6], cpf[6:9], cpf[9:]))
         return cpf
  
+    def acs(self):    
+        return self.nome_completo.split()[0]

@@ -20,7 +20,7 @@ class RelatorioDiariaForm(forms.Form):
             }),
         )
     
-    profissionais=forms.ModelChoiceField(label='Profissional', queryset=Profissional.objects.select_related('estabelecimento','microarea').all(),
+    profissionais=forms.ModelChoiceField(label='Profissional', queryset=Profissional.objects.select_related('estabelecimento').all(),
                                          required=False,  
     widget=forms.Select(attrs={'class': 'form-control'}))
    

@@ -58,12 +58,23 @@
             </p>
           </a>
           <ul class="nav nav-treeview ">
-       
+            <li class="nav-item">
+              <a href="{% url 'especialidades:list-atend_especialidade'%}" class="nav-link link-houver">
+
+                <p class=" text-sm text-muted">Atendimentos</p>
+              </a>
+            </li>
         
             <li class="nav-item">
               <a href="{% url 'especialidades:list-especialidade'%}" class="nav-link link-houver">
 
-                <p class=" text-sm text-muted">Listar Especialidades</p>
+                <p class=" text-sm text-muted">Especialidades</p>
+              </a>
+            </li>
+             <li class="nav-item">
+              <a href="{% url 'especialidades:list-proced_especialidade'%}" class="nav-link link-houver">
+
+                <p class=" text-sm text-muted">Procedimentos</p>
               </a>
             </li>
 
@@ -114,7 +125,7 @@
             <li class="nav-item">
               <a href="{% url 'cidadao:list-cidadao'%}" class="nav-link link-houver">
 
-                <p class="text-sm text-muted">Listar Cidadãos</p>
+                <p class="text-sm text-muted">Cidadãos</p>
               </a>
             </li>
 
@@ -132,17 +143,11 @@
               <i class="right fas fa-angle-right"></i>
             </p>
           </a>
-          <ul class="nav nav-treeview ">
-            {% comment %} <li class="nav-item">
-              <a href="{% url 'profissionais:add-profissional'%}" class="nav-link link-houver">
-
-                <p class="text-sm text-muted"> Cadastrar Profissional</p>
-              </a>
-            </li> {% endcomment %}
+          <ul class="nav nav-treeview "
             <li class="nav-item">
               <a href="{% url 'profissionais:list-profissional'%}" class="nav-link link-houver">
 
-                <p class=" text-sm text-muted">Listar Profissionais </p>
+                <p class=" text-sm text-muted">Profissionais </p>
               </a>
             </li>
 

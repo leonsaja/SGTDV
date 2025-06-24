@@ -17,6 +17,8 @@ class EspecialidadeForm(forms.ModelForm):
         
         if Especialidade.objects.filter(nome=data).exists():
             raise ValidationError('Já existe especialidade com esse nome cadastrado')
+        
+        print('data',data)
         return data
     
 

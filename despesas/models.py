@@ -63,6 +63,8 @@ class Diaria(models.Model):
         return total
       return ''
     
+      
+    
     def total_movimento(self):
       items=Reembolso.objects.filter(diaria=self)
       total=0
@@ -103,7 +105,7 @@ class Reembolso(models.Model):
     diaria=models.ForeignKey(Diaria,on_delete=models.PROTECT,related_name='reembolsos',null=False,blank=False)
     movimentacao=models.CharField(verbose_name='Movimentação', choices=MOVIMENTACAO_FINANCEIRO, null=True,blank=True, max_length=1)
     valor_mov=models.DecimalField(max_digits=8,decimal_places=2, verbose_name='Valor',null=True, blank=True,default='')
-    valor_desp=models.DecimalField(max_digits=8,decimal_places=2,verbose_name= 'Valor',null=True,blank=True,default='')
+    valor_desp=models.DecimalField(max_digits=8,decimal_places=2,verbose_name= 'Valor',null=True,blank=False,default='')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

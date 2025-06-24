@@ -2,75 +2,84 @@
 {% load static %}
 {% block title %}Relatorio{% endblock %}
 
-{% block head%} 
+{% block head%}
 <style>
-      body{
+  body {
 
-        font-size: 14px;
-        font-family: Arial, Helvetica, sans-serif;
-      }
-      td{
-      padding-right: 8px;
-      padding: 8px;
-      text-align:center
-      }
-      th{
-        padding: 8px;
-        text-align: center;
-      }
-    
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
 
+  td {
+
+    padding: 2px;
+    text-align: center
+  }
+
+  th {
+    padding: 2px;
+    text-align: center;
+  }
+
+  table {
+
+    font-size: 13px;
+  }
+
+  p {
+    margin: 0;
+  }
 </style>
-
 
 {%endblock head%}
 {% block content %}
 
-{% include  'includes/cabecalho.html' %}
+{% include 'includes/cabecalho.html' %}
 <div class="conteudo">
-  <h3 class=" title_center">Relatório de Diárias</h3>
- 
-    <div class="row">
-      <div class="col-md-5">
-        <p class="paragrafo "><b>Período: </b>{{inicial}}   a {{final}}
+  <h2 class="text-center"> <b>Relatório de Diárias</b></h2>
 
-        
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-          &nbsp;&nbsp;&nbsp;
-          <b> Data do relatório:</b> {{data}}
-       
-            </p>
-      </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p class="p-1"><b>Período: </b>{{inicial}} a {{final}}
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;
+        <b> Data do relatório:</b> {{data}}
+
+      </p>
     </div>
-    <div class="linha"></div>
-    <div class="row">
-      <div class="col-md-3">
-          <p class="paragrafo">
-            <b>Registros identificados: </b>{{qta_diarias}}
-        </p>
-        
-      </div>
+
+    <div class="col-md-12 pt-1">
+      <p class="p-1">
+        <b>Registros identificados: </b>{{qta_diarias}}
+      </p>
+
     </div>
-    <div class="linha"></div>
-    
-          <p class="paragrafo";>
-            <b>Reembolsos: </b>{{qta_reembolsos}}
-           
-        </p>
-    <div class="linha"></div>
-
-    <p class="paragrafo"><b>Total  de Diárias: R$ </b>{{total_diarias}}</p>
-
-     
-    <div class="linha"></div>
-    <p class="paragrafo"><b>Total  de Reembolsos: R$ </b>{{total_reembolsos}}</p>
-
   
-  <div class="pt">
+
+<div class="col-md-12 pt-1">
+  <p class="p-1" ;>
+    <b>Reembolsos: </b>{{qta_reembolsos}}
+
+  </p>
+</div>
+  <div class="col-md-12 pt-1">
+    <p class="p-1"><b>Total de Diárias:  </b>R$ {{total_diarias}}</p>
+  </div>
+ <div class="col-md-12 pt-1">
+    <p class="p-1"><b>Total de Reembolsos:  </b>R$ {{total_reembolsos}}</p>
+  </div>
+ 
+</div>
+  
+
     <br>
-    <table border=" 1" class="">
+    <table class="table">
       <thead>
         <tr>
           <th>ITENS</th>
@@ -79,30 +88,26 @@
           <th>Data da Diária</th>
           <th>Quantidade</th>
 
-
-
         </tr>
       </thead>
       <tbody>
         {% for d in diarias %}
-        
+
         <tr>
 
           <td>{{ forloop.counter }}</td>
           <td>{{d.profissional.nome_completo}}</td>
           <td>{{d.profissional.formt_cpf}}</td>
-          
+
           <td>{{d.data_diaria|date:"d/m/Y"|default:'---'}}</td>
           <td>{{d.qta_diaria}}</td>
-        
+
         </tr>
-       
+
         {%endfor%}
       </tbody>
-      
+
     </table>
   </div>
- 
 
-
-{% endblock %}
+  {% endblock %}

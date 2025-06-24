@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% load permission_tags %}
+
+{% load bootstrap5 %} {% block content %}
+
+
+
+<div class="container-fluid">
+
+    {% include 'atendimento_especialidade/abas_atend_especialidade.html' %}
+   <div class="row">
+    <div class="col-md-12">
+        {% include 'includes/mensagens.html'%}
+    </div>
+</div>
+{% if user|has_role:'digitador' %}
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="text-right">
+                <a href="{% url 'especialidades:edit-atend_especialidade' atendimento_especialidade.id %}" class="btn btn-primary"><strong>Editar
+                        Atendimento</strong>
+                </a>
+            </div>
+        </div>
+    </div>
+{%endif%}
+    <div class="col-md-12 px-4">
+       
+            <legend>
+                <h4 class=" text-primary"><strong>Detalhes do Atendimento</strong> </h4>
+            </legend>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="id_profissional" class="form-label">Especialidade:</label>
+                    <h6 class="text-muted">{{atendimento_especialidade.especialidade|upper}}</h6>
+                </div>
+
+                <div class="col-md-3 ">
+                    <label for="id_cpf" class="form-label">Data do Atendimento:</label>
+                    <h6 class="text-muted">{{atendimento_especialidade.data|date:"d/m/Y"|default:'---'}}</h6>
+                    
+                </div>
+                <div class="col-md-3 ">
+                    <label for="id_cpf" class="form-label">Horário do Atendimento:</label>
+                    <h6 class="text-muted">{{atendimento_especialidade.hora|time:"H:i"|default:'---'}}</h6>
+                </div>
+                
+            </div>
+
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <label for="id_sus" class="form-label">Atendimento Via:</label>
+                    <h6 class="text-muted">{{atendimento_especialidade.get_atendimento_via_display}}</h6>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="id_reembolso" class="form-label">Local Atendimento:</label>
+                    <h6 class="text-muted">{{atendimento_especialidade.local_atendimento}}</h6>
+                </div>
+            </div>
+            <div class="row">
+
+            
+                <div class="col-md-12">
+                    <label for="id_conta" class="form-label">Observação:</label>
+                    <h6 class="text-muted">{{atendimento_especialidade.observacao}}</h6>
+                </div>
+            </div>
+
+        
+        <br>
+        
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="text-primary"> <strong>Pacientes </strong> </h5>
+                        </div>
+                        <div class="table-responsive-md">
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">N°</th>
+                                            <th class="text-left">Horario</th>
+                                            <th class="text-left">Paciente</th>
+                                            <th class="text-left">Procedimento</th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for p in pacientes_set%}
+                                        <div class="table-responsive-md">
+
+                                            <tr>
+                                                <td class="tex4">{{ forloop.counter }}</td>
+                            
+                                                {%if p.hora%}
+                                                <td class="text-left">
+                                                    {{p.hora}}
+                                                </td>
+                                                {%else%}
+                                                     <td class="text-left">
+                                                    ----
+                                                </td>
+                                                {%endif%}
+                                              
+                                                <td class="text-left">
+                                                   {{p.paciente}}
+                                                </td>
+                                                <td class="text-left">
+                                                     {{p.procedimento}}
+                                                </td>
+                                              
+
+
+
+                                            </tr>
+
+                                        </div>
+
+                                            {%endfor%}
+
+                                    </tbody>
+                                   
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-5">
+                    <a href="{% url 'especialidades:list-atend_especialidade' %}" class="btn btn-outline-primary mr-2">Voltar</a>
+                                   
+                </div>
+              </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

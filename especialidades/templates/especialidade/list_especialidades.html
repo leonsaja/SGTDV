@@ -85,16 +85,16 @@
             <table class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th style="width: 10px">id</th>
-                  <th>Nome da Especialidade</th>
+                  <th style="width: 10px">N°</th>
+                  <th>Nome</th>
                   <th>Ação</th>
                 </tr>
               </thead>
               <tbody>
                 {%for especialidade in especialidades %}
                 <tr>
-                  <td>{{especialidade.id}}</td>
-                  <td>{{especialidade.nome|upper}}</td>
+                 <td> {{ forloop.counter }}</td>
+                  <td>{{especialidade.nome}}</td>
 
                   <td>
 

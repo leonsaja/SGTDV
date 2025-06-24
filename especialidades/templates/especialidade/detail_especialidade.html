@@ -9,15 +9,7 @@
     {% include 'includes/mensagens.html'%}
     {% if user|has_role:'recepcao,regulacao' %}
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="text-right">
-                <a href="{% url 'especialidades:add-atend_especialidade' especialidade.id %}"
-                    class="btn btn-info"><b>Atendimento</b>
-                </a>
-            </div>
-        </div>
-    </div>
+    
     {%endif%}
 
 

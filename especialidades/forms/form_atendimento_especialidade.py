@@ -3,28 +3,32 @@ from django import forms
 from django.forms import ValidationError, inlineformset_factory
 from especialidades.models import AtendimentoEspecialidade
 
-
 class AtendimentoEspecialidadeForm(forms.ModelForm):
 
-    data_hora_atendimento = forms.DateTimeField(
-        label='Data/Hora',
-        widget=forms.DateTimeInput(
-            format='%Y-%m-%dT%H:%M',
+    data = forms.DateTimeField(
+        label='Data',
+        widget=forms.DateInput(
+            format='%Y-%m-%d',
             attrs={
-                'type': 'datetime-local',
+                'type': 'date',
             }),
-        input_formats=('%Y-%m-%dT%H:%M',)
+        input_formats=('%Y-%m-%d',),
     )
+    observacao=forms.CharField(label='Observação', required=False, widget=forms.Textarea( attrs={'rows':3,'cols':10}))
+
    
-    
     class Meta:
         
         model=AtendimentoEspecialidade
         fields='__all__'
 
-   
     
-   
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['hora'].widget.attrs.update({'class':'mask-hora'})
+      
+  
 
+ 
 
        

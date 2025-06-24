@@ -44,10 +44,11 @@ class ReciboTFD(models.Model):
 
       total=0
       for item in items:
+      
             total+=item.codigosia.subtotal*item.qtd_procedimento
            
       return total
-      
+  
 class ProcedimentoSia(models.Model):
    
    qtd_procedimento=models.PositiveBigIntegerField(verbose_name='Quantidade',null=False,blank=False)
@@ -92,17 +93,54 @@ class CodigoSIA(models.Model):
            
       return super().save(*args, **kwargs)
    
-   def total(self):
+   """ def total(self):
       items=ProcedimentoSia.objects.filter(codigosia=self)
       total=0
             
       for item in items:
+             
+             print('destino', item.recibo_tfd.municipio_destino)
              total=0
              print('dados',self.subtotal,item.qtd_procedimento)
              total=self.subtotal * item.qtd_procedimento
              print('total',total)
-      return total
+      return total"""
+   
+   def valor_total_sigtap(self):
+      items=ProcedimentoSia.objects.filter(codigosia=self)
+      total=0
+      
+      for item in items:
+         if self.codigo=='0803010125':
+            if item.qtd_procedimento==1:
+               total+=self.valor_unitario*16
+            elif item.qtd_procedimento>1: 
+               total+=(item.qtd_procedimento*16)*item.codigosia.valor_unitario
 
+         elif self.codigo=='0803010109':
+            if item.qtd_procedimento==1:
+               total+=self.valor_unitario*16
+            elif item.qtd_procedimento>1: 
+                total+=(item.qtd_procedimento*16)*item.codigosia.valor_unitario
+
+         else:
+            total+=item.qtd_procedimento*self.valor_unitario
+            
+         return total  
+      
+   def valor_comp_mun(self):
+       items=ProcedimentoSia.objects.filter(codigosia=self)
+       vlr_comp=0
+       total=0
+       for item in items:
+         vlr_comp=item.qtd_procedimento*self.subtotal
+         total=vlr_comp-self.valor_total_sigtap()
+         
+       
+       return total
+
+
+      
      
    def __str__(self):
       return str(self.codigo)

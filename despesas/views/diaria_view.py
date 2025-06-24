@@ -1,5 +1,5 @@
 from django.db.models import ProtectedError, Q
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
@@ -132,8 +132,6 @@ def diaria_pdf(request,id):
     User=get_user_model()
     profissional=User.objects.filter(is_active=True).filter(perfil='5').first()
 
-
-    
     response = HttpResponse(content_type='application/pdf')
     html_string = render_to_string('diaria/pdf_diaria.html',{'diaria':diaria,'profissional':profissional})
     
