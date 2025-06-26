@@ -2,7 +2,6 @@
 
 {% load crispy_forms_tags %}
 
-
 {% block content %}
 
 <div class="container-fluid">
@@ -10,51 +9,30 @@
 
   <div class="row">
     <div class="col-md-12">
-        {% include 'includes/mensagens.html'%}
+      {% include 'includes/mensagens.html'%}
     </div>
-</div>
-
+  </div>
 
   <div class="col-12 m-2 pl-3">
     <h4 class=" text-primary"><b>Tratamento Fora do Domicílio-TFD</b> </h4>
   </div>
   <br>
-  <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 px-4 needs-validation" novalidate>
+  <form method="POST" enctype="multipart/form-data" autocomplete="off"
+    class="col-12 px-4 needs-validation" novalidate>
     {% csrf_token %}
     <fieldset>
       <legend class="text-primary"><b>Dados Recibo do TFD</b> </legend>
       <hr>
       <br>
       <div class="row mt-2">
-        <div class="col-md-6">{{form.paciente|as_crispy_field }}
+        <div class="col-md-4">{{form.paciente|as_crispy_field }}
         </div>
-        <div class="col-md-3">{{form.data|as_crispy_field }}</div>
-        <div class="col-md-3">{{form.tem_acompanhante|as_crispy_field}}</div>
-       
-       
-        {% comment %} 
-        {% if recibo_tfd.acompanhante  or recibo_tfd.rg or recibo_tfd.cpf or recibo_tfd.cns%}
-        <div class="col-md-3">
-          <div class="form-check">
-            <br>
-            <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0" checked disabled>
-            <label class="form-check-label" for="ativar_campos">
-              <b> Tem Acompanhante</b>
-            </label>
-          </div>
-        </div>
-        {%else%}
-        <div class="col-md-3">
-          <div class="form-check">
-            <br>
-            <input class="form-check-input" val type="checkbox" id="ativar_campos" value="0">
-            <label class="form-check-label" for="ativar_campos">
-              <b> Tem Acompanhante</b>
-            </label>
-          </div>
-        </div>
-        {%endif%} {% endcomment %}
+        <div class="col-md-2">{{form.data|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.tem_acompanhante|as_crispy_field}}</div>
+        <div class="col-md-2"> {{form.pagamento_por|as_crispy_field}}</div>
+
       </div>
+
       <div class="d-none" id="campos">
         <div class="row">
           <legend class="text-primary"><b>Dados do acompanhante</b> </legend>
@@ -64,90 +42,105 @@
           <div class="col-md-3">{{form.cns|as_crispy_field }}</div>
         </div>
       </div>
-        <div class="row mt-2">
-          <div class="col-md-3">{{form.municipio_origem|as_crispy_field }}
-          </div>
-          <div class="col-md-3">{{form.municipio_destino|as_crispy_field }}</div>
-          <div class="col-md-3">{{form.grs|as_crispy_field }}</div>
-          <div class="col-md-3">{{form.especialidade|as_crispy_field }}</div>
-          
-        <div class="row mt-2">
-        
+      <div class="row mt-2">
+        <div class="col-md-2">{{form.municipio_origem|as_crispy_field }}
         </div>
+        <div class="col-md-3">{{form.municipio_destino|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.grs|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.especialidade|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.unid_assistencial|as_crispy_field }}</div>
+
+      </div>
+      <div class="row mt-2">
+
+        <div class="d-none" id="campos_conta">
+          <div class="row">
+            <legend class="text-primary"><b>Dados Bancários </b> </legend>
+            <div class="col-md-2">{{form.agencia|as_crispy_field }}</div>
+            <div class="col-md-2">{{form.conta|as_crispy_field }}</div>
+          </div>
+
+        </div>
+
+        <div class="d-none" id="campos_pix">
+          <div class="row">
+            <legend class="text-primary"><b>Dados Bancários </b> </legend>
+            <div class="col-md-3">{{form.pix|as_crispy_field }}</div>
+          </div>
+        </div>
+      </div>
     </fieldset>
 
     <div class="row">
       <div class="col-sm-12">
         <br>
-                                                                                                                                                                                                                                                                                                                       
-    {{formset.management_form}}
-    
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="logo"><strong>Código SIA/SUS</strong></h4>
-          </div>
-          <!-- /.card-header -->
-          <div class="table-responsive-md">
-            <div class="card-body">
-              <table class="form table table-bordered">
-                {% for forms in formset %}
-                {% if forloop.first %}
-                <thead>
-                  <tr>
-                    {% for field in forms.visible_fields %}
-                    <th>{{ field.label|capfirst }}</th>
+
+        {{formset.management_form}}
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="logo"><strong>Código SIA/SUS</strong></h4>
+              </div>
+              <!-- /.card-header -->
+              <div class="table-responsive-md">
+                <div class="card-body">
+                  <table class="form table table-bordered">
+                    {% for forms in formset %}
+                    {% if forloop.first %}
+                    <thead>
+                      <tr>
+                        {% for field in forms.visible_fields %}
+                        <th>{{ field.label|capfirst }}</th>
+                        {% endfor %}
+                      </tr>
+                    </thead>
+                    {% endif %}
+                    <tbody>
+                      <tr class="{% cycle 'row1' 'row2' %}">
+                        {% for field in forms.visible_fields %}
+                        <td>
+                          {% if forloop.first %}
+                          {% for hidden in forms.hidden_fields %}
+                          {{ hidden }}
+                          {% endfor %}
+                          {% endif %}
+                          {{ field }}
+                          {{ field.errors.as_ul }}
+                        </td>
+                        {% endfor %}
+                      </tr>
+                    </tbody>
                     {% endfor %}
-                  </tr>
-                </thead>
-                {% endif %}
-                <tbody>
-                  <tr class="{% cycle 'row1' 'row2' %}">
-                    {% for field in forms.visible_fields %}
-                    <td>
-                      {% if forloop.first %}
-                      {% for hidden in forms.hidden_fields %}
-                      {{ hidden }}
-                      {% endfor %}
-                      {% endif %}
-                      {{ field }}
-                      {{ field.errors.as_ul }}
-                    </td>
-                    {% endfor %}
-                  </tr>
-                </tbody>
-                {% endfor %}
-              </table>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
+
         </div>
       </div>
 
-        
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col-md-12 mb-5">
-        <div class="text-right">
-          <a href="{% url 'tfds:list-recibo_tfd'%}" class="btn btn-outline-danger mr-2">Cancelar</a>
-          <button id="submit" class="btn btn-primary">Salvar</button>
+      <div class="row">
+        <div class="col-md-12 mb-5">
+          <div class="text-right">
+            <a href="{% url 'tfds:list-recibo_tfd'%}"
+              class="btn btn-outline-danger mr-2">Cancelar</a>
+            <button id="submit" class="btn btn-primary">Salvar</button>
+          </div>
         </div>
       </div>
-    </div>
 
-  </form>
-</div>
+    </form>
+  </div>
 
-{% endblock content%}
+  {% endblock content%}
 
-{%block scripts %}
+  {%block scripts %}
 
-<script src='/static/utils/jquery.formset.min.js'></script>
-<script>
+  <script src='/static/utils/jquery.formset.min.js'></script>
+  <script>
 
   
 $(document).ready(function () {
@@ -160,11 +153,49 @@ $(document).ready(function () {
   var cpf_acompanhante=document.getElementById('id_recibo-cpf')
   var rg_acompanhante = document.getElementById('id_recibo-rg')
   var cns_acompanhante =document.getElementById('id_recibo-cns')
+
+
+  var pagamento_por_0=document.getElementById("id_recibo-pagamento_por_0")
+  var pagamento_por_1=document.getElementById("id_recibo-pagamento_por_1")
+
+
+  var campos_conta=document.getElementById("campos_conta")
+  var campos_pix=document.getElementById("campos_pix")
+  var agencia=document.getElementById("id_recibo-agencia")
+  var conta=document.getElementById("id_recibo-conta")
+  var pix= document.getElementById("id_recibo-pix")
+
+ 
+  if (pagamento_por_0.checked){
+     campos_pix.classList.remove('d-none');
+
+  }else if (pagamento_por_1.checked){
+    campos_conta.classList.remove('d-none');
+  }
   
-  
-  
-  console.log('teste10000000')
-  
+  pagamento_por_0.addEventListener('change', ativarCampos_pix);
+  pagamento_por_1.addEventListener('change', ativarCampos_pix);
+
+  function ativarCampos_pix() {
+    
+
+      
+      if (pagamento_por_0.checked) {
+          campos_pix.classList.remove('d-none') 
+          campos_conta.classList.add('d-none')
+          agencia.value=""
+          conta.value=""
+      }
+      else if(pagamento_por_1.checked){
+
+            
+            campos_conta.classList.remove('d-none')
+            campos_pix.classList.add('d-none')     
+            pix.value=''
+           
+      }
+    }
+
   if (id_tem_acompanhante_0.checked)
   {
     campos.classList.remove('d-none');
@@ -183,7 +214,7 @@ $(document).ready(function () {
     }
     else{
 
-          console.log('gteste')
+          
           campos.classList.add('d-none')
       
           id_acompanhante.value=''
@@ -192,12 +223,14 @@ $(document).ready(function () {
           rg_acompanhante.value='' 
     }
   }
-});
+
+  });
+
 
  $('table.form tr').formset({
   prefix: '{{ formset.prefix }}',
   addText: "<div><i class='fas fa-plus'></i></div>",
-  deleteText: 'Remover'
+  deleteText:"<div class='btn btn-danger btn-circle'><i class='fas fa-trash'></i></div>",
  });
 </script>
-{% endblock scripts %}
+  {% endblock scripts %}

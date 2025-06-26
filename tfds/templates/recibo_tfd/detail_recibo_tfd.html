@@ -36,13 +36,13 @@
                 <h6 class="text-muted">{{recibo_tfd.paciente.nome_completo|upper}}</h6>
 
             </div>
-            <div class="col-md-3">
-                <label for="id_cpf" class="form-label">CPF do Paciente:
+            <div class="col-md-2">
+                <label for="id_cpf" class="form-label">CPF:
                     <h6 class="text-muted" id="id_cpf">{{recibo_tfd.paciente.formt_cpf}}</h6>
 
             </div>      
-            <div class="col-md-3">
-                <label for="id_cns" class="form-label">CNS do Paciente:
+            <div class="col-md-2">
+                <label for="id_cns" class="form-label">CNS:
                     <h6 class="text-muted" id="id_cns">{{recibo_tfd.paciente.cns}}</h6>
 
             </div>      
@@ -54,7 +54,7 @@
         </div>
         <br>
         <hr>
-        <legend class="text-primary"><b>Dados do acompanhante</b></legend>
+        <legend class="text-primary"><b>Dados do Acompanhante</b></legend>
         <div class="row">
            
             <div class="col-md-4">
@@ -67,7 +67,7 @@
     
             </div>
             <div class="col-md-3">
-                <label for="id_cpf" class="form-label">CPF do acompanhante:
+                <label for="id_cpf" class="form-label">CPF:
                     {% if recibo_tfd.cpf%}
                     <h6 class="text-muted">{{recibo_tfd.cpf}}</h6>
                     {%else%}
@@ -75,7 +75,7 @@
                     {%endif%}
             </div>
             <div class="col-md-3">
-                <label for="id_cns" class="form-label">CNS do acompanhante:
+                <label for="id_cns" class="form-label">CNS:
                     {% if recibo_tfd.cns%}
                     <h6 class="text-muted">{{recibo_tfd.cns}}</h6>
                     {%else%}
@@ -83,7 +83,7 @@
                     {%endif%}
             </div>
             <div class="col-md-2">
-                <label for="id_cns" class="form-label">RG do acompanhante:
+                <label for="id_cns" class="form-label">RG :
                     {% if recibo_tfd.rg%}
                     <h6 class="text-muted">{{recibo_tfd.rg}}</h6>
                     {%else%}
@@ -93,7 +93,9 @@
         </div>
         <br>
         <hr>
-        <legend class="text-primary"><b>Dados do recibo</b></legend>
+       
+    
+        <legend class="text-primary"><b>Dados do Recibo</b></legend>
         <div class="row mt-2">
             <div class="col-md-3">
                 <label for="id_grs" class="form-label">GRS:
@@ -116,6 +118,37 @@
                 <h6 class="text-muted">{{recibo_tfd.municipio_destino|upper}}</h6>
 
             </div>
+        </div>
+         <hr>
+        <legend class="text-primary"><b> Dados do Bancários</b></legend>
+        <div class="row mt-2">
+
+            {%if recibo_tfd.pagamento_por == "1"%}
+            <div class="col-md-3">
+                <label for="id_grs" class="form-label">PIX:
+                    <h6 class="text-muted">{{recibo_tfd.pix|upper}}</h6>
+
+            </div>
+            {%else%}
+            <div class="col-md-3">
+                <label for="id_grs" class="form-label">AGÊNCIA:
+                    <h6 class="text-muted">{{recibo_tfd.agencia|upper}}</h6>
+
+            </div>
+            <div class="col-md-3">
+                <label for="id_grs" class="form-label">CONTA:
+                    <h6 class="text-muted">{{recibo_tfd.conta|upper}}</h6>
+
+            </div>
+        
+
+            {%endif%}
+           
+        </div>
+        <br>
+        <hr>
+        
+        
         </div>
         <br>
         <div class="row">
@@ -149,7 +182,7 @@
 
                                             </td>
 
-                                            <td class="text-center">{{r.codigosia.valor_unitario}}</td>
+                                            <td class="text-center">{{r.codigosia.valor_unid_sigtap}}</td>
                                              <td class="text-center">
                                                 {{r.codigosia.valor_total_sigtap}}
                                                 

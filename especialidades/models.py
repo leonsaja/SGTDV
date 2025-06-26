@@ -20,16 +20,19 @@ class Especialidade(models.Model):
         pacientes=self.paciente_especialidades.filter().count()
         return pacientes
     
-    def qta_pessoas_aguardando_especialidade(self):
-        pacientes=self.paciente_especialidades.filter(status='1').count()
+    def qta_pessoas_eletivo_especialidade(self):
+        pacientes=self.paciente_especialidades.filter(classificacao='1').count()
         return pacientes
     
     def qta_pessoas_concluido_especialidade(self):
         pacientes=self.paciente_especialidades.filter(status='2').count()
         return pacientes
     
-    def qta_pessoas_urgencia_especialidade(self):
+    def qta_pessoas_prioridade_especialidade(self):
         pacientes=self.paciente_especialidades.filter(classificacao='2').count()
+        return pacientes
+    def qta_pessoas_urgencia_especialidade(self):
+        pacientes=self.paciente_especialidades.filter(classificacao='3').count()
         return pacientes
     
     class Meta:
@@ -106,6 +109,11 @@ class PacienteSia(models.Model):
     atendimento_paciente=models.ForeignKey(AtendimentoEspecialidade,on_delete=models.CASCADE,related_name='atend_paciente_especialidade')
     procedimento=models.ForeignKey(ProcedimentosEspecialidade,verbose_name='Procedimento',on_delete=models.PROTECT)
     hora=models.TimeField(verbose_name='Horário',null=True,blank=True)
+
+
+
+    class Meta:
+        ordering = ["paciente"]
 
 
 

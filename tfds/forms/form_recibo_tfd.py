@@ -13,6 +13,11 @@ class ReciboTFDForm(forms.ModelForm):
       ('1','SIM'),
       ('2','NÃO'),
      )
+    PAGAMENTO_POR=(
+      ('1','PIX'),
+      ('2','CONTA'),
+      
+   )
     
     data = forms.DateField(
         label='Data',
@@ -23,7 +28,8 @@ class ReciboTFDForm(forms.ModelForm):
             }),
         input_formats=('%Y-%m-%d',),
     )
-    tem_acompanhante=forms.ChoiceField(label='Tem Acompanhante', widget=forms.RadioSelect,choices=ACOMPANHANTE)
+    tem_acompanhante=tem_acompanhante=forms.ChoiceField(label='Tem Acompanhante', widget=forms.RadioSelect,choices=ACOMPANHANTE)
+    pagamento_por=forms.ChoiceField(label='PAGAMENTO POR', widget=forms.RadioSelect,choices=PAGAMENTO_POR)
 
     class Meta:
         model=ReciboTFD
@@ -43,6 +49,7 @@ class ReciboTFDForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         tem_acompanhante=cleaned_data.get('tem_acompanhante')
+        pagamento_por=cleaned_data.get('pagamento_por')
     
         if tem_acompanhante == '1':
             acompanhante=cleaned_data.get('acompanhante')
@@ -62,7 +69,21 @@ class ReciboTFDForm(forms.ModelForm):
             if not cns:
                  self.add_error('cns', 'Este campo é obrigatório.')
             
+        if pagamento_por =='1':
+            pix=cleaned_data.get('pix')
 
+            if not pix:
+                 self.add_error('pix', 'Este campo é obrigatório.')
+
+        if pagamento_por == '2':
+            agencia=cleaned_data.get('agencia')
+            conta=cleaned_data.get('conta')
+
+            if not agencia:
+                 self.add_error('agencia', 'Este campo é obrigatório.')
+
+            if not conta:
+                 self.add_error('conta', 'Este campo é obrigatório.')
            
    
     def __init__(self, *args, **kwargs):

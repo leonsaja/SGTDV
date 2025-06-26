@@ -15,19 +15,33 @@ class ReciboTFD(models.Model):
       ('2','NÃO'),
    )
 
+   PAGAMENTO_POR=(
+      ('1','PIX'),
+      ('2','CONTA'),
+      
+   )
+
    paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='paciente')
    municipio_origem=models.CharField(verbose_name='Municipio Origem', max_length=120,null=False,blank=False,default='Santo Antônio do Jacinto-MG')
    municipio_destino=models.CharField(verbose_name='Municipio Destino', max_length=120,null=False,blank=False)
    data=models.DateField(verbose_name='Data')
    grs=models.CharField(verbose_name='GRS',max_length=50,null=False,blank=False,default='Pedra Azul-MG')
    especialidade=models.CharField(verbose_name='Especialidade', max_length=100, null=False, blank=False)
-
+   unid_assistencial=models.CharField(verbose_name='Unidade Assistencial',null=True, blank=True,max_length=240)
    #Dados para Acompanhante
    tem_acompanhante=models.CharField(verbose_name='Tem Acompanhante',null=False,blank=False,max_length=1,choices=ACOMPANHANTE)
    acompanhante=models.CharField(verbose_name='Acompanhante',null=True,blank=True, max_length=200)
    rg=models.CharField(max_length=10,verbose_name='RG', null=True,blank=True)
    cpf=BRCPFField(verbose_name='CPF', max_length=11, null=True,blank=True)
    cns=models.PositiveBigIntegerField(verbose_name='CNS',null=True,blank=True, help_text='Digite o cartão do SUS com 15 digitos')
+   
+   
+   pagamento_por=models.CharField(verbose_name='PAGAMENTO POR',null=True,blank=False,max_length=1,choices=PAGAMENTO_POR)
+   agencia=models.CharField(max_length=20, verbose_name='AGENCIA',null=True,blank=True)
+   conta=models.CharField(max_length=20, verbose_name='CONTA',null=True,blank=True)
+   pix=models.CharField(max_length=50, verbose_name='PIX',null=True,blank=True)
+
+
 
    status=models.CharField(verbose_name='Avaliar Recibo Pag. de TFD',max_length=1,choices=STATUS,default='1')
    criado_por=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
@@ -92,20 +106,7 @@ class CodigoSIA(models.Model):
            self.subtotal=self.valor_unitario
            
       return super().save(*args, **kwargs)
-   
-   """ def total(self):
-      items=ProcedimentoSia.objects.filter(codigosia=self)
-      total=0
-            
-      for item in items:
-             
-             print('destino', item.recibo_tfd.municipio_destino)
-             total=0
-             print('dados',self.subtotal,item.qtd_procedimento)
-             total=self.subtotal * item.qtd_procedimento
-             print('total',total)
-      return total"""
-   
+     
    def valor_total_sigtap(self):
       items=ProcedimentoSia.objects.filter(codigosia=self)
       total=0
@@ -139,11 +140,22 @@ class CodigoSIA(models.Model):
        
        return total
 
-
+   def valor_unid_sigtap(self):
+      items=ProcedimentoSia.objects.filter(codigosia=self)
+      total=0
       
+      for item in items:
+         if self.codigo=='0803010125':
+               total+=self.valor_unitario*16
+         elif self.codigo=='0803010109':
+               total+=self.valor_unitario*16
+         else:
+            total+=self.valor_unitario
+
+         return total
      
    def __str__(self):
-      return str(self.codigo)
+      return str("("+self.codigo +")" + " "+ self.nome_proced)
    
 class ReciboPassagemTFD(models.Model):
 
