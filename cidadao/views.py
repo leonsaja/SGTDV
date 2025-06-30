@@ -1,10 +1,13 @@
 from django.contrib import messages
 from django.db.models import ProtectedError, Q
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views import View
 from django.views.generic import DetailView, ListView
+import pandas as pd
 
 from cidadao.forms.cidadao_form import CidadaoForm, EnderecoForm
-from cidadao.models import Cidadao
+from cidadao.forms.dados import ImportarDadosForm
+from cidadao.models import Cidadao, Endereco
 from django.contrib.messages import constants
 from django.contrib import messages
 from rolepermissions.decorators import has_role_decorator
@@ -83,7 +86,7 @@ class CidadaoListView(HasRoleMixin,ListView):
     model=Cidadao
     template_name='cidadao/list_cidadao.html'
     context_object_name='pacientes'
-    paginate_by=10
+    paginate_by=15
     allowed_roles = ['acs','coordenador','regulacao','recepcao']
    
 
@@ -113,3 +116,78 @@ class CidadaoSearchListView(HasRoleMixin,ListView):
             qs=qs.select_related('endereco','microarea').filter(dt_nascimento__iexact=search_dt_nascimento)
 
         return qs
+
+"""
+class ImportDadosView(View):
+    template_name='cidadao/importar_dados.html'
+
+    def get(self, request):
+        cidadao = Cidadao.objects.all()
+        form = ImportarDadosForm()
+        return render(request, self.template_name, {
+            'form': form,
+            'clientes': cidadao
+        })
+    
+    def post(self, request):
+        form = ImportarDadosForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            arquivo = request.FILES['arquivo']
+            df = pd.read_excel(arquivo)
+
+            for _, row in df.iterrows():
+                # Itera sobre as linhas do DataFrame lido do arquivo Excel 
+                self.criar_cidadao_e_endereco(row)
+
+            return redirect('cidadao:list-cidadao')
+
+        return render(request, self.template_name, {'form': form})
+
+    def criar_cidadao_e_endereco(self, row):
+
+         if row['ENDEREÇO']:
+
+         
+            # Cria o endereço associado ao cliente
+            if row['NÚMERO']:
+                endereco=Endereco.objects.create(
+                    cod_logradouro=row['CÓD. LOGRADOURO'],
+                    logradouro=row['ENDEREÇO'],
+                    cep=row['CEP'],
+                    bairro=row['BAIRRO'],
+                    complemento=row['COMPLEMENTO'],
+                    numero=row['NÚMERO'],
+                    estado='MG',
+                    cidade='SANTO ANTÔNIO DO JACINTO',
+                )
+            
+            
+
+        # Use get_or_create para evitar a necessidade de verificar a existência antes de criar
+                if row['SEXO'] =='F':
+                    cliente, criado = Cidadao.objects.get_or_create(
+                    cns=row['CNS'],
+                    defaults={
+                        'nome_completo': row['NOME'],
+                        'sexo': 'F',
+                        'dt_nascimento': row['DATA DE NASCIMENTO'],
+                        'telefone1':'00000000000',
+                        'endereco':endereco,
+
+                    }
+                )
+                else:
+                    cliente, criado = Cidadao.objects.get_or_create(
+                    cns=row['CNS'],
+                    defaults={
+                    'nome_completo': row['NOME'],
+                    'sexo':'M',
+                    'dt_nascimento': row['DATA DE NASCIMENTO'],
+                    'telefone1':'00000000000',
+                    'endereco':endereco,
+
+                    })
+        
+           
+           """

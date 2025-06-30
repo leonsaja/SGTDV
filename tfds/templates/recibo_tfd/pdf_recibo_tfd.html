@@ -48,10 +48,14 @@
                     &nbsp; &nbsp;
                 </p>
 
-                <p class><b>CPF: </b>{{recibo_tfd.paciente.formt_cpf|upper}}
+                <p class><b>CPF: </b>&nbsp{{recibo_tfd.paciente.formt_cpf|upper}}
 
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-                    <b>RG: </b>{{recibo_tfd.paciente.rg|upper}}
+                    {% if recibo_tfd.rg %}
+                        <b>RG: </b>{{recibo_tfd.paciente.rg|upper}}
+                    {%else%}
+                        <b>RG: </b> &nbsp; &nbsp;-
+                    {%endif%}
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
                     <b>CNS: </b>{{recibo_tfd.paciente.cns|upper}}
                 </p>
@@ -117,7 +121,7 @@
         <div class="linha"></div>
         <div class="row">
             <div class="col-md-6 m-2">
-                <p><b>DADOS BANCÁRIOS:</b>
+                <p><b>DADOS BANCÁRIO:</b>
                     <br>
 
                     {%if recibo_tfd.pagamento_por == '1'%}

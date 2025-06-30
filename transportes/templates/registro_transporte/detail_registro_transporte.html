@@ -91,7 +91,11 @@
                  </div>
                 <div class="col-md-4">
                     <label for="id_quant_proced_acompanhante" class="form-label">Quant. Procedimento 08.03.01.010-9:</label>
-                    <h6 class="text-muted">{{transporte.quant_proced_acompanhante }}</h6>
+                    {%if transporte.quant_proced_acompanhante %}
+                        <h6 class="text-muted">{{transporte.quant_proced_acompanhante }}</h6>
+                        {%else%}
+                        <h6 class="text-muted">-</h6>
+                        {%endif%}
                 </div>
             </div>
         </fieldset>

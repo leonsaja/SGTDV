@@ -18,10 +18,10 @@ class Cidadao(models.Model):
     cns=models.PositiveBigIntegerField(verbose_name='CNS', unique=True, null=False,blank=False, help_text='Digite o cartão do SUS com 15 digitos')
     sexo=models.CharField(verbose_name='Sexo:',max_length=1,choices=SEXO, null=False, blank=False)
     dt_nascimento=models.DateField(verbose_name='Data de Nascimento', null=False,blank=False)
-    nome_mae=models.CharField(verbose_name='Nome da Mãe', max_length=150, null=False,blank=False)
+    nome_mae=models.CharField(verbose_name='Nome da Mãe', max_length=150, null=True,blank=False)
     nome_pai=models.CharField(verbose_name='Nome do  Pai', max_length=150, null=True,blank=True)
     telefone=models.CharField(verbose_name='Telefone', max_length=15, null=True,blank=True)
-    telefone1=models.CharField(verbose_name='Celular ', max_length=15,unique=True,null=False,blank=False)
+    telefone1=models.CharField(verbose_name='Celular ', max_length=15,null=False,blank=False)
     endereco=models.ForeignKey("Endereco",on_delete=models.SET_NULL, null=True, blank=False)
     microarea=models.ForeignKey(MicroArea,null=True,blank=False,on_delete=models.PROTECT, related_name='microarea_cidadao',verbose_name='Micro Área')
     
@@ -30,9 +30,9 @@ class Cidadao(models.Model):
 
     def __str__(self):
         if self.cpf:
-             return f'{self.nome_completo}, CNS:   {self.cns}'  
+             return f'{self.nome_completo}, CNS:   {self.cpf}'  
         
-        return f'{self.nome_completo}' 
+        return f'{self.nome_completo}  CNS:   {self.cns}' 
        
     def formt_cpf(self):
         
@@ -41,7 +41,7 @@ class Cidadao(models.Model):
             if len(cpf) == 11:
                 return ('{}.{}.{}-{}'.format( cpf[:3], cpf[3:6], cpf[6:9], cpf[9:]))
         
-        return ''
+        return '-'
         
     class Meta:
         ordering = ["nome_completo"]
@@ -49,10 +49,20 @@ class Cidadao(models.Model):
 class Endereco(models.Model):
 
    ZONA=(
-        ('1','Urbana'),
-        ('2','Rural'),
+        ('1','---'),
+        ('2','Urbana'),
+        ('3','Rural'),
     )
+   COD_LOGRADOURO=(
+       ('1','---'),
+       ('2','RUA'),
+       ('3', 'FAZENDA'),
+       ('4','PRACA'),
+       ('5','TRAVESSA'),
 
+   )
+
+   cod_logradouro=models.CharField(verbose_name="CÓD. LOGRADOURO", max_length=1,null=True,blank=False,choices=COD_LOGRADOURO,default='')
    logradouro = models.CharField(max_length=60, null=False, blank=False)
    numero = models.CharField(max_length=10, null=False, blank=False)
    bairro = models.CharField(max_length=30, null=False, blank=False)

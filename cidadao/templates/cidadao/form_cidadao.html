@@ -56,11 +56,12 @@
       <legend class="text-primary"><b>Endereço</b> </legend>
       <hr>
       <div class="row">
+        <div class="col-md-2">{{endereco.cod_logradouro|as_crispy_field }}</div>
         <div class="col-md-4">{{endereco.logradouro|as_crispy_field }}</div>
-        <div class="col-md-2">{{endereco.numero|as_crispy_field }}</div>
+        <div class="col-md-1">{{endereco.numero|as_crispy_field }}</div>
 
-        <div class="col-md-3">{{endereco.bairro|as_crispy_field }}</div>
-        <div class="col-md-3">{{endereco.complemento|as_crispy_field }}</div>
+        <div class="col-md-2">{{endereco.bairro|as_crispy_field }}</div>
+        <div class="col-md-2">{{endereco.complemento|as_crispy_field }}</div>
       </div>
       <div class="row">
         <div class="col-md-3">{{endereco.cep   |as_crispy_field }}</div>

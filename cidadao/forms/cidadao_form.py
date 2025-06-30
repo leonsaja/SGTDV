@@ -22,6 +22,11 @@ class CidadaoForm(forms.ModelForm):
     class Meta:
         model=Cidadao
         exclude=('endereco',)
+
+    def clean_nome_completo(self):
+        data=self.cleaned_data.get('nome_completo')
+        data=data.upper()
+        return data
        
     def clean_cpf(self):
         data_cpf=self.cleaned_data.get('cpf')

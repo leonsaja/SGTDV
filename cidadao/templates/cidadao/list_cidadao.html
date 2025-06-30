@@ -128,7 +128,11 @@
 
                   <td>{{paciente.cns}}</td>
                   <td>{{paciente.dt_nascimento|date:"d/m/Y"|default:'---'}}</td>
+                   {% if paciente.nome_mae%}
                   <td>{{paciente.nome_mae}}</td>
+                  {%else%}
+                    <td></td>
+                  {%endif%}
                   <td>
                     <a href="{% url 'cidadao:detail-cidadao' paciente.id%}" class="pr-2"><i
                         class="fas fa-solid fa-eye"></i></a>

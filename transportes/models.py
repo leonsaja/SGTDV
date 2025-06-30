@@ -38,7 +38,7 @@ class Viagem(models.Model):
 
 class PassageiroViagem(models.Model):
    
-   paciente=models.CharField(verbose_name='Nome do Paciente', max_length=255,null=False, blank=False)
+   paciente=models.CharField(verbose_name='Paciente', max_length=255,null=False, blank=False)
    acompanhante=models.CharField(null=True,blank=True, max_length=255, verbose_name='Acompanhante')
    local_exame=models.CharField(verbose_name='Local do Exame', max_length=150, null=True, blank=False)
    local_espera=models.CharField(verbose_name='Local de Espera', max_length=150,null=True, blank=False)
