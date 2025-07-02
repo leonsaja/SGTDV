@@ -40,15 +40,24 @@
 
 <h2 class="text-center"><b> RECIBO DE PAGAMENTO DE TFD</b></h2>
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6" style="text-align: end;">
+              <p class="m-0">
+               <b>Nº: </b> {{n_tfd}}
+              </p>
+        </div>
+      
+    </div>
     <div class="bordas">
         <div class="row">
             <div class="col-md-6 p-2 ">
-                <p><b>NOME DO PACIENTE: </b>
+                <p class="p-1"><b>NOME DO PACIENTE: </b>
+                    &nbsp;
                     {{recibo_tfd.paciente.nome_completo|upper}}
                     &nbsp; &nbsp;
                 </p>
 
-                <p class><b>CPF: </b>&nbsp{{recibo_tfd.paciente.formt_cpf|upper}}
+                <p class="p-1"><b>CPF: </b>&nbsp{{recibo_tfd.paciente.formt_cpf|upper}}
 
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
                     {% if recibo_tfd.rg %}
@@ -65,13 +74,13 @@
         <div class="row">
             <div class="col-md-6 m-2 ">
                 {%if recibo_tfd.acompanhante%}
-                <p class><b>NOME DO ACOMPANHANTE: </b>
+                <p class="p-1"><b>NOME DO ACOMPANHANTE: </b>
                     {{recibo_tfd.acompanhante|upper}}
 
                     &nbsp; &nbsp;&nbsp;&nbsp;
                 </p>
                 {% else %}
-                <p class><b>NOME DO ACOMPANHANTE: </b>
+                <p class="p-1"><b>NOME DO ACOMPANHANTE: </b>
 
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
 
@@ -79,11 +88,11 @@
                 {% endif %}
 
                 {% if recibo_tfd.cpf %}
-                <p class><b>CPF:
+                <p class="p-1"><b>CPF:
                     </b>{{recibo_tfd.cpf|upper}} &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;
                     {% else %}
-                    <p class>
+                    <p class="p-1">
                         <b>CPF: </b>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
                         &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;

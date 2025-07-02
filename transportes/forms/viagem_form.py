@@ -43,7 +43,7 @@ class PassageiroViagemForm(forms.ModelForm):
         self.fields['acompanhante'].widget.attrs.update({'class':'form-control'})
         self.fields['local_exame'].widget.attrs.update({'class':'form-control'})
         self.fields['local_espera'].widget.attrs.update({'class':'form-control'})
-        self.fields['telefone'].widget.attrs.update({'class':'form-control'})
+        
 
 
 """    def clean(self):

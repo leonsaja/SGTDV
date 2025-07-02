@@ -235,6 +235,7 @@ SECRETÁRIO MUNICIPAL DE SAÚDE
       <b>
         Recebi o valor da importância acima a título de diária para despesas de viagem a serviço da Secretaria
         Municipal de Saúde, no qual dou plena e total quitação.
+      </b>
       
     </p>
   
@@ -242,6 +243,9 @@ SECRETÁRIO MUNICIPAL DE SAÚDE
     <p class="text-center"><b>{{diaria.profissional.nome_completo}}</b></p>
   </div>
 
-
+<div>
+  <br/>
+  <p> Realizado por {{diaria.criado_por}} no dia {{diaria.created_at|date:"d/m/Y"|default:'---'}} às {{diaria.created_at|time:"H:i"|default:'---'}}  </p>
+</div>
 
 {% endblock %}

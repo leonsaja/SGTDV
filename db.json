@@ -1,0 +1,528 @@
+[
+
+{
+  "model": "despesas.diaria",
+  "pk": 1,
+  "fields": {
+    "profissional": 1,
+    "descricao": "adad",
+    "data_diaria": "2022-10-12",
+    "reembolso": "1",
+    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
+    "viagem_dest": "almenara",
+    "conta": 13245,
+    "fonte": 142,
+    "obs": "",
+    "tipo_diaria": "1",
+    "qta_diaria": 3,
+    "valor": "10,00",
+    "total": "30.00",
+    "created_at": "2023-05-21T23:10:08.372Z",
+    "updated_at": "2023-05-21T23:10:08.372Z"
+  }
+},
+{
+  "model": "despesas.diaria",
+  "pk": 2,
+  "fields": {
+    "profissional": 2,
+    "descricao": "mkj",
+    "data_diaria": "2023-05-15",
+    "reembolso": "1",
+    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
+    "viagem_dest": "xfdsgd",
+    "conta": 132785,
+    "fonte": 122,
+    "obs": "",
+    "tipo_diaria": "1",
+    "qta_diaria": 3,
+    "valor": "100,00",
+    "total": "300.00",
+    "created_at": "2023-05-28T11:15:45.596Z",
+    "updated_at": "2023-05-28T11:15:45.596Z"
+  }
+},
+{
+  "model": "despesas.diaria",
+  "pk": 4,
+  "fields": {
+    "profissional": 1,
+    "descricao": "adad",
+    "data_diaria": "2022-12-13",
+    "reembolso": "1",
+    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
+    "viagem_dest": "adda",
+    "conta": 257,
+    "fonte": 114,
+    "obs": "",
+    "tipo_diaria": "1",
+    "qta_diaria": 1,
+    "valor": "150,00",
+    "total": "150.00",
+    "created_at": "2023-05-28T11:39:39.170Z",
+    "updated_at": "2023-10-21T21:43:16.598Z"
+  }
+},
+{
+  "model": "despesas.diaria",
+  "pk": 5,
+  "fields": {
+    "profissional": 3,
+    "descricao": "Viagem para almenara",
+    "data_diaria": "2023-12-12",
+    "reembolso": "1",
+    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
+    "viagem_dest": "ALMENARA",
+    "conta": 13278,
+    "fonte": 123,
+    "obs": "",
+    "tipo_diaria": "1",
+    "qta_diaria": 1,
+    "valor": "90,00",
+    "total": "90.00",
+    "created_at": "2023-10-21T21:06:00.268Z",
+    "updated_at": "2023-10-21T21:18:22.590Z"
+  }
+},
+{
+  "model": "despesas.diaria",
+  "pk": 6,
+  "fields": {
+    "profissional": 5,
+    "descricao": "ADIAIDAIDAOID",
+    "data_diaria": "2023-10-12",
+    "reembolso": "1",
+    "viagem_orig": "SANTO ANTÔNIO DO JACINTO-MG",
+    "viagem_dest": "belo horizonte",
+    "conta": 132281,
+    "fonte": 111,
+    "obs": "",
+    "tipo_diaria": "1",
+    "qta_diaria": 1,
+    "valor": "80,00",
+    "total": "80.00",
+    "created_at": "2023-10-21T21:49:27.255Z",
+    "updated_at": "2023-10-21T21:49:27.255Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 1,
+  "fields": {
+    "descricao": "2",
+    "diaria": 1,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "200.00",
+    "created_at": "2023-05-27T17:00:36.729Z",
+    "updated_at": "2023-05-27T17:00:36.729Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 2,
+  "fields": {
+    "descricao": "8",
+    "diaria": 1,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "300.00",
+    "created_at": "2023-05-27T17:00:36.740Z",
+    "updated_at": "2023-05-27T17:00:36.740Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 3,
+  "fields": {
+    "descricao": "1",
+    "diaria": 1,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "100.00",
+    "created_at": "2023-05-27T17:00:36.758Z",
+    "updated_at": "2023-05-27T17:00:36.759Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 4,
+  "fields": {
+    "descricao": "2",
+    "diaria": 2,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "100.00",
+    "created_at": "2023-05-28T13:23:30.480Z",
+    "updated_at": "2023-05-28T13:23:30.481Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 5,
+  "fields": {
+    "descricao": "3",
+    "diaria": 2,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "300.00",
+    "created_at": "2023-05-28T13:23:30.530Z",
+    "updated_at": "2023-05-28T13:23:30.530Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 6,
+  "fields": {
+    "descricao": "8",
+    "diaria": 2,
+    "movimentacao": "1",
+    "valor_mov": "44.00",
+    "valor_desp": "400.00",
+    "created_at": "2023-05-28T13:23:30.545Z",
+    "updated_at": "2023-10-19T23:58:04.478Z"
+  }
+},
+{
+  "model": "despesas.reembolso",
+  "pk": 7,
+  "fields": {
+    "descricao": "5",
+    "diaria": 5,
+    "movimentacao": null,
+    "valor_mov": null,
+    "valor_desp": "300.00",
+    "created_at": "2023-10-21T21:09:34.013Z",
+    "updated_at": "2023-10-21T21:41:27.194Z"
+  }
+},
+{
+  "model": "transportes.viagem",
+  "pk": 1,
+  "fields": {
+    "data_viagem": "2023-10-12",
+    "destino_viagem": "Almenara",
+    "horario_saida": "13:00:00",
+    "motorista": 2,
+    "status": "1",
+    "carro": 2,
+    "created_at": "2023-09-24T19:32:56.058Z",
+    "updated_at": "2023-10-15T15:21:43.575Z"
+  }
+},
+{
+  "model": "transportes.viagem",
+  "pk": 3,
+  "fields": {
+    "data_viagem": "2023-10-12",
+    "destino_viagem": "ALMENARA",
+    "horario_saida": "10:00:00",
+    "motorista": 3,
+    "status": "1",
+    "carro": 2,
+    "created_at": "2023-10-15T15:17:51.048Z",
+    "updated_at": "2023-10-15T15:20:15.588Z"
+  }
+},
+{
+  "model": "transportes.viagem",
+  "pk": 4,
+  "fields": {
+    "data_viagem": "2023-12-12",
+    "destino_viagem": "BELO HORIZONTE",
+    "horario_saida": "13:00:00",
+    "motorista": 2,
+    "status": "1",
+    "carro": 2,
+    "created_at": "2023-10-22T23:32:38.616Z",
+    "updated_at": "2023-10-22T23:32:38.616Z"
+  }
+},
+{
+  "model": "transportes.passageiroviagem",
+  "pk": 1,
+  "fields": {
+    "paciente": "joao silva",
+    "acompanhante": null,
+    "local_exame": "BJBN",
+    "local_espera": "GK",
+    "viagem": 1,
+    "telefone": "77878787",
+    "created_at": "2023-09-24T19:32:56.066Z",
+    "updated_at": "2023-10-14T16:13:43.348Z"
+  }
+},
+{
+  "model": "transportes.passageiroviagem",
+  "pk": 2,
+  "fields": {
+    "paciente": "andressa",
+    "acompanhante": null,
+    "local_exame": "HJHKH",
+    "local_espera": "KJ",
+    "viagem": 1,
+    "telefone": "87666",
+    "created_at": "2023-09-24T19:32:56.073Z",
+    "updated_at": "2023-10-14T16:13:43.356Z"
+  }
+},
+{
+  "model": "transportes.passageiroviagem",
+  "pk": 5,
+  "fields": {
+    "paciente": "JOAO SILVA",
+    "acompanhante": null,
+    "local_exame": "CLICA BEM VIVE",
+    "local_espera": "PRACA CENTRAL",
+    "viagem": 3,
+    "telefone": "393439493943",
+    "created_at": "2023-10-15T15:17:51.057Z",
+    "updated_at": "2023-10-15T15:17:51.057Z"
+  }
+},
+{
+  "model": "transportes.passageiroviagem",
+  "pk": 6,
+  "fields": {
+    "paciente": "SILVA",
+    "acompanhante": "RAIMUNDO SILVA",
+    "local_exame": "CLICA BEM VIDE",
+    "local_espera": "PRACA CENTRO",
+    "viagem": 3,
+    "telefone": "232323",
+    "created_at": "2023-10-15T15:17:51.068Z",
+    "updated_at": "2023-10-15T15:17:51.068Z"
+  }
+},
+{
+  "model": "transportes.passageiroviagem",
+  "pk": 7,
+  "fields": {
+    "paciente": "DIDA",
+    "acompanhante": null,
+    "local_exame": null,
+    "local_espera": null,
+    "viagem": 4,
+    "telefone": null,
+    "created_at": "2023-10-22T23:32:38.631Z",
+    "updated_at": "2023-10-22T23:32:38.631Z"
+  }
+},
+{
+  "model": "transportes.passageiroviagem",
+  "pk": 8,
+  "fields": {
+    "paciente": "EDIONE",
+    "acompanhante": null,
+    "local_exame": null,
+    "local_espera": null,
+    "viagem": 4,
+    "telefone": null,
+    "created_at": "2023-10-22T23:32:38.637Z",
+    "updated_at": "2023-10-22T23:32:38.637Z"
+  }
+},
+
+{
+  "model": "profissionais.profissional",
+  "pk": 1,
+  "fields": {
+    "nome_completo": "Sara Luna Cavalcanti",
+    "email": null,
+    "cpf": "65561890492",
+    "status": "1",
+    "cns": 884849478630002,
+    "cargo": "1",
+    "sexo": "F",
+    "dt_nascimento": "1996-12-01",
+    "telefone": "(33) 9988-5542",
+    "estabelecimento": 4,
+   
+    "created_at": "2023-05-21T22:55:42.252Z",
+    "updated_at": "2023-10-21T20:29:39.151Z"
+  }
+},
+{
+  "model": "profissionais.profissional",
+  "pk": 2,
+  "fields": {
+    "nome_completo": "Marcelo Enrico Gomes",
+    "email": null,
+    "cpf": "27373624405",
+    "status": "1",
+    "cns": 182197447020001,
+    "cargo": "3",
+    "sexo": "M",
+    "dt_nascimento": "1996-12-01",
+    "telefone": "(33) 8954-2369",
+    "estabelecimento": 4,
+  
+    "created_at": "2023-05-21T22:59:56.676Z",
+    "updated_at": "2023-10-21T20:43:44.165Z"
+  }
+},
+{
+  "model": "profissionais.profissional",
+  "pk": 3,
+  "fields": {
+    "nome_completo": "Kamilly Luna  Viana",
+    "email": null,
+    "cpf": "19211487480",
+    "status": "1",
+    "cns": 255569890460004,
+    "cargo": "4",
+    "sexo": "F",
+    "dt_nascimento": "1996-12-01",
+    "telefone": "(33) 9988-7755",
+    "estabelecimento": 2,
+ 
+    "created_at": "2023-05-21T23:04:25.078Z",
+    "updated_at": "2023-10-21T20:47:24.090Z"
+  }
+},
+{
+  "model": "profissionais.profissional",
+  "pk": 5,
+  "fields": {
+    "nome_completo": "LEONARDO COSTA SILVA",
+    "email": null,
+    "cpf": "42788475055",
+    "status": "1",
+    "cns": 952419854470004,
+    "cargo": "8",
+    "sexo": "M",
+    "dt_nascimento": "2002-09-12",
+    "telefone": "(23) 23232-1333",
+    "estabelecimento": 2,
+    "created_at": "2023-10-21T21:48:42.412Z",
+    "updated_at": "2023-10-21T21:48:42.412Z"
+  }
+},
+
+{
+  "model": "tfds.recibopassagemtfd",
+  "pk": 2,
+  "fields": {
+    "paciente": 3,
+    "acompanhante": null,
+    "rg": null,
+    "cpf": null,
+    "cns": null,
+    "meio_transporte": "1",
+    "quant_passagem_paciente": 2,
+    "quant_passagem_acompanhante": null,
+    "trecho": "800",
+    "codigo_sia_paciente": "0803010125",
+    "codigo_sia_acompanhante": null,
+    "valor_paciente_sia": "300.00",
+    "valor_acompanhante_sia": "0.00",
+    "data_recibo": "2023-09-12",
+    "created_at": "2023-10-15T19:12:06.675Z",
+    "updated_at": "2023-10-21T18:40:03.189Z"
+  }
+},
+
+
+{
+  "model": "especialidades.especialidade",
+  "pk": 1,
+  "fields": {
+    "nome": "CARDIOLOGIA",
+    "created_at": "2023-09-16T16:55:16.814Z",
+    "updated_at": "2023-10-21T22:58:06.513Z"
+  }
+},
+{
+  "model": "especialidades.especialidade",
+  "pk": 2,
+  "fields": {
+    "nome": "Neurologia",
+    "created_at": "2023-09-16T16:55:57.280Z",
+    "updated_at": "2023-09-16T16:55:57.280Z"
+  }
+},
+{
+  "model": "especialidades.especialidade",
+  "pk": 3,
+  "fields": {
+    "nome": "Oftalmologia",
+    "created_at": "2023-09-16T16:56:16.671Z",
+    "updated_at": "2023-09-16T16:56:16.671Z"
+  }
+},
+{
+  "model": "especialidades.especialidade",
+  "pk": 4,
+  "fields": {
+    "nome": "Psiquiatria",
+    "created_at": "2023-09-16T16:56:29.680Z",
+    "updated_at": "2023-09-16T16:56:29.680Z"
+  }
+},
+{
+  "model": "especialidades.especialidade",
+  "pk": 5,
+  "fields": {
+    "nome": "Urologia",
+    "created_at": "2023-09-16T16:56:42.462Z",
+    "updated_at": "2023-09-16T16:56:42.462Z"
+  }
+},
+{
+  "model": "especialidades.especialidade",
+  "pk": 6,
+  "fields": {
+    "nome": "Pneumologia",
+    "created_at": "2023-09-16T16:56:57.339Z",
+    "updated_at": "2023-09-16T16:56:57.339Z"
+  }
+},
+{
+  "model": "especialidades.pacienteespecialidade",
+  "pk": 1,
+  "fields": {
+    "paciente": 1,
+    "especialidade": 1,
+    "data_pedido": "2023-07-12",
+    "profissional": 1,
+    "classificacao": "1",
+    "tipo_atendimento": "1",
+    "observacao": "",
+    "status": "1",
+    "created_at": "2023-09-23T20:41:53.943Z",
+    "updated_at": "2023-09-23T20:41:53.943Z"
+  }
+},
+{
+  "model": "especialidades.pacienteespecialidade",
+  "pk": 2,
+  "fields": {
+    "paciente": 1,
+    "especialidade": 2,
+    "data_pedido": "2023-07-13",
+    "profissional": 2,
+    "classificacao": "1",
+    "tipo_atendimento": "2",
+    "observacao": "",
+    "status": "1",
+    "created_at": "2023-09-23T20:42:31.769Z",
+    "updated_at": "2023-09-23T20:42:31.769Z"
+  }
+},
+{
+  "model": "especialidades.pacienteespecialidade",
+  "pk": 3,
+  "fields": {
+    "paciente": 4,
+    "especialidade": 1,
+    "data_pedido": "2023-01-10",
+    "profissional": 2,
+    "classificacao": "2",
+    "tipo_atendimento": "1",
+    "observacao": "adakjd",
+    "status": "1",
+    "created_at": "2023-10-21T22:56:10.654Z",
+    "updated_at": "2023-10-21T22:56:10.654Z"
+  }
+}
+]

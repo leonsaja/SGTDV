@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.messages import constants
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import get_user_model
-
+import datetime
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
@@ -145,6 +145,7 @@ def reciboTFD_pdf(request,id):
    
     User=get_user_model()
     context['profissional']=User.objects.filter(is_active=True).filter(perfil='5').first()
+    context['n_tfd']=f'{context["recibo_tfd"].id}/{datetime.date.today().year}'
     response = HttpResponse(content_type='application/pdf')
     html_string = render_to_string('recibo_tfd/pdf_recibo_tfd.html', context)
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)

@@ -38,12 +38,11 @@ class Viagem(models.Model):
 
 class PassageiroViagem(models.Model):
    
-   paciente=models.CharField(verbose_name='Paciente', max_length=255,null=False, blank=False)
+   paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT, verbose_name='Passageiro',related_name='passageiro_viagem',null=True)
    acompanhante=models.CharField(null=True,blank=True, max_length=255, verbose_name='Acompanhante')
    local_exame=models.CharField(verbose_name='Local do Exame', max_length=150, null=True, blank=False)
    local_espera=models.CharField(verbose_name='Local de Espera', max_length=150,null=True, blank=False)
    viagem=models.ForeignKey("Viagem",on_delete=models.CASCADE, related_name='passageiros_viagens')
-   telefone=models.CharField(verbose_name='telefone', blank=True, null=True, max_length=15, help_text='Sem caracteres especiais') 
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
 
