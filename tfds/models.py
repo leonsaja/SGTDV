@@ -113,13 +113,13 @@ class CodigoSIA(models.Model):
       for item in items:
          if self.codigo=='0803010125':
             if item.qtd_procedimento==1:
-               total+=self.valor_unitario*16
+               total+=self.valor_unitario*17
             elif item.qtd_procedimento>1: 
                total+=(item.qtd_procedimento*16)*item.codigosia.valor_unitario
 
          elif self.codigo=='0803010109':
             if item.qtd_procedimento==1:
-               total+=self.valor_unitario*16
+               total+=self.valor_unitario*17
             elif item.qtd_procedimento>1: 
                 total+=(item.qtd_procedimento*16)*item.codigosia.valor_unitario
 
@@ -145,9 +145,9 @@ class CodigoSIA(models.Model):
       
       for item in items:
          if self.codigo=='0803010125':
-               total+=self.valor_unitario*16
+               total+=self.valor_unitario*17
          elif self.codigo=='0803010109':
-               total+=self.valor_unitario*16
+               total+=self.valor_unitario*17
          else:
             total+=self.valor_unitario
 

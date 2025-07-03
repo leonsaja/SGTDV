@@ -14,7 +14,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 
-
+has_role_decorator(['regulacao'])  
 def atend_especialidade_create(request):
     
     atend_especialidade=AtendimentoEspecialidade()
