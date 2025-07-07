@@ -1,6 +1,8 @@
+import math
 from django.db import models
 from cidadao.models import Cidadao
 from localflavor.br.models import BRCPFField
+from decimal import Decimal
 
 
 class ReciboTFD(models.Model):
@@ -20,21 +22,29 @@ class ReciboTFD(models.Model):
       ('2','CONTA'),
       
    )
+   FORA_ESTADO=(
+      ('1','SIM'),
+      ('2','NÃO'),
+   )
    paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='paciente')
-   municipio_origem=models.CharField(verbose_name='Municipio Origem', max_length=120,null=False,blank=False,default='Santo Antônio do Jacinto-MG')
-   municipio_destino=models.CharField(verbose_name='Municipio Destino', max_length=120,null=False,blank=False)
+   municipio_origem=models.CharField(verbose_name='Município Origem', max_length=120,null=False,blank=False,default='Santo Antônio do Jacinto-MG')
+   municipio_destino=models.CharField(verbose_name='Município Destino', max_length=120,null=False,blank=False)
    data=models.DateField(verbose_name='Data')
    grs=models.CharField(verbose_name='GRS',max_length=50,null=False,blank=False,default='Pedra Azul-MG')
    especialidade=models.CharField(verbose_name='Especialidade', max_length=100, null=False, blank=False)
-   unid_assistencial=models.CharField(verbose_name='Unidade Assistencial',null=True, blank=True,max_length=240)
+   unid_assistencial=models.CharField(verbose_name='Unidade Assistencial',null=True, blank=False,max_length=240)
+   
    #Dados para Acompanhante
    tem_acompanhante=models.CharField(verbose_name='Tem Acompanhante',null=False,blank=False,max_length=1,choices=ACOMPANHANTE)
-   acompanhante=models.CharField(verbose_name='Acompanhante',null=True,blank=True, max_length=200)
-   rg=models.CharField(max_length=10,verbose_name='RG', null=True,blank=True)
-   cpf=BRCPFField(verbose_name='CPF', max_length=11, null=True,blank=True)
-   cns=models.PositiveBigIntegerField(verbose_name='CNS',null=True,blank=True, help_text='Digite o cartão do SUS com 15 digitos')
+   acompanhante=models.ForeignKey(Cidadao,verbose_name='Acompanhante',null=True,blank=True,on_delete=models.PROTECT)
    
    
+   #Atendimento fora do estado
+   atend_fora_estado=models.CharField(verbose_name='Atendimento fora do estado',null=True,blank=False,max_length=1,choices=FORA_ESTADO)
+   qta_proced=models.PositiveBigIntegerField(verbose_name='Quant. Procedimento',null=True,blank=True)
+   valor_passagem=models.DecimalField(verbose_name='Valor da Passagem', max_digits=8,decimal_places=2,null=True,blank=True)
+   
+   #formato de pagamento pix ou conta
    pagamento_por=models.CharField(verbose_name='PAGAMENTO POR',null=True,blank=False,max_length=1,choices=PAGAMENTO_POR)
    agencia=models.CharField(max_length=20, verbose_name='AGENCIA',null=True,blank=True)
    conta=models.CharField(max_length=20, verbose_name='CONTA',null=True,blank=True)
@@ -58,7 +68,7 @@ class ReciboTFD(models.Model):
       total=0
       for item in items:
       
-            total+=item.codigosia.subtotal*item.qtd_procedimento
+            total+=item.soma()
            
       return total
   
@@ -67,17 +77,85 @@ class ProcedimentoSia(models.Model):
    qtd_procedimento=models.PositiveBigIntegerField(verbose_name='Quantidade',null=False,blank=False)
    recibo_tfd=models.ForeignKey(ReciboTFD,on_delete=models.CASCADE,related_name='procedimento_recibo_tfd')
    codigosia=models.ForeignKey("CodigoSIA",on_delete=models.PROTECT,related_name='procedimento_codigo')
-
-
-
-   def soma(self):
-      total=0
-      total=self.codigosia.subtotal * self.qtd_procedimento
-      return total
-
+   
+   
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
+
+   def valor_unid_sigtap(self):
+      total=0
+      if self.recibo_tfd.atend_fora_estado=='1':
+         if self.codigosia.codigo=='0803010125':
+            total=(self.codigosia.valor_unitario*self.recibo_tfd.qta_proced)
+               
+         elif self.codigosia.codigo=='0803010109':
+            total=(self.codigosia.valor_unitario*self.recibo_tfd.qta_proced)
+         else: 
+            total=(self.codigosia.valor_unitario)
+      
+      elif self.recibo_tfd.atend_fora_estado=='2':
+         if self.codigosia.codigo=='0803010125':
+            total=(self.codigosia.valor_unitario*17)
+               
+         elif self.codigosia.codigo=='0803010109':
+            total=(self.codigosia.valor_unitario*17)   
+         else: 
+            total=(self.codigosia.valor_unitario)
+      return total
    
+   def valor_total_sigtap(self):
+      total=0
+      total=self.qtd_procedimento*self.valor_unid_sigtap()
+      
+      return total
+     
+         
+   def valor_comp_mun(self):
+       total=0
+       if self.recibo_tfd.atend_fora_estado=='1':
+         total=self.soma()-self.valor_total_sigtap()
+         
+       elif self.recibo_tfd.atend_fora_estado=='2':
+         if self.codigosia.codigo=='0803010125':
+            total=self.soma()-self.valor_total_sigtap()
+   
+         elif self.codigosia.codigo=='0803010109':
+              total=self.soma()-self.valor_total_sigtap()
+         else:
+            total=(self.codigosia.subtotal*self.qtd_procedimento)-self.valor_total_sigtap()
+      
+       return total
+    
+    
+   def soma(self):
+      total=0
+      if self.recibo_tfd.atend_fora_estado=='1':
+         if self.codigosia.codigo=='0803010125':
+            total=self.qtd_procedimento*self.recibo_tfd.valor_passagem
+         elif self.codigosia.codigo=='0803010109':
+             total=self.qtd_procedimento*self.recibo_tfd.valor_passagem
+         else:
+            total=self.qtd_procedimento*self.codigosia.subtotal
+            
+      elif self.recibo_tfd.atend_fora_estado=='2':
+         if self.codigosia.codigo=='0803010125':
+                total=self.qtd_procedimento*self.codigosia.valor_passagem
+            
+         elif self.codigosia.codigo=='0803010109':
+              total=self.qtd_procedimento*self.codigosia.valor_passagem
+           
+         else:
+            total=self.codigosia.subtotal*self.qtd_procedimento
+      return total
+
+   
+   def total_pag(self):
+      
+      tota=0
+      total+=self.soma()
+      
+      return total
+           
 class CodigoSIA(models.Model):
 
    codigo=models.CharField(max_length=10, verbose_name='Código',null=False,blank=False,unique=True)
@@ -85,7 +163,7 @@ class CodigoSIA(models.Model):
    valor_unitario=models.DecimalField(verbose_name='Valor Unitário', null=False,blank=False,max_digits=5,decimal_places=2)
    valor_contrapartida=models.DecimalField(verbose_name='Contra Partida', null=True,blank=True,max_digits=5,decimal_places=2)
    subtotal=models.DecimalField(verbose_name='Total',null=True,blank=True,max_digits=5,decimal_places=2 )
-   
+   valor_passagem=models.DecimalField(verbose_name='Valor da Passagem', null=True,blank=True,max_digits=5,decimal_places=2)
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
 
@@ -105,53 +183,7 @@ class CodigoSIA(models.Model):
            self.subtotal=self.valor_unitario
            
       return super().save(*args, **kwargs)
-     
-   def valor_total_sigtap(self):
-      items=ProcedimentoSia.objects.filter(codigosia=self)
-      total=0
-      
-      for item in items:
-         if self.codigo=='0803010125':
-            if item.qtd_procedimento==1:
-               total+=self.valor_unitario*17
-            elif item.qtd_procedimento>1: 
-               total+=(item.qtd_procedimento*16)*item.codigosia.valor_unitario
-
-         elif self.codigo=='0803010109':
-            if item.qtd_procedimento==1:
-               total+=self.valor_unitario*17
-            elif item.qtd_procedimento>1: 
-                total+=(item.qtd_procedimento*16)*item.codigosia.valor_unitario
-
-         else:
-            total+=item.qtd_procedimento*self.valor_unitario
-            
-         return total  
-      
-   def valor_comp_mun(self):
-       items=ProcedimentoSia.objects.filter(codigosia=self)
-       vlr_comp=0
-       total=0
-       for item in items:
-         vlr_comp=item.qtd_procedimento*self.subtotal
-         total=vlr_comp-self.valor_total_sigtap()
-         
-       
-       return total
-
-   def valor_unid_sigtap(self):
-      items=ProcedimentoSia.objects.filter(codigosia=self)
-      total=0
-      
-      for item in items:
-         if self.codigo=='0803010125':
-               total+=self.valor_unitario*17
-         elif self.codigo=='0803010109':
-               total+=self.valor_unitario*17
-         else:
-            total+=self.valor_unitario
-
-         return total
+   
      
    def __str__(self):
       return str("("+self.codigo +")" + " "+ self.nome_proced)

@@ -146,7 +146,7 @@
         <div class="row">
             <div class="col-md-6 m-2">
                 <p>
-                    <b>MUNICIPIO DE ORIGEM :</b>
+                    <b>MUNICÍPIO DE ORIGEM :</b>
                     {{recibo_tfd.municipio_origem|upper}}
                 </p>
                 <p class>
@@ -159,7 +159,7 @@
 
             <div class="col-md-6 m-1">
                 <p>
-                    <b>MUNICIPIO DE DESTINO :</b>
+                    <b>MUNICÍPIO DE DESTINO :</b>
                     {{recibo_tfd.municipio_destino|upper}}
                 </p>
             </div>
@@ -183,7 +183,7 @@
                 <p>
                     
                     <b>UNIDADE ASSISTENCIAL:</b>
-                    <br>
+                    
                     {%if recibo_tfd.unid_assistencial %}
                         {{recibo_tfd.unid_assistencial|upper}}
                     {%else%}
@@ -217,9 +217,9 @@
 
                     <td>{{p.codigosia.codigo}}</td>
                     <td>{{p.qtd_procedimento}}</td>
-                    <td>{{p.codigosia.valor_unid_sigtap}}</td>
-                    <td> {{p.codigosia.valor_total_sigtap}}</td>
-                    <td>{{p.codigosia.valor_comp_mun}}</td>
+                    <td>{{p.valor_unid_sigtap}}</td>
+                    <td> {{p.valor_total_sigtap}}</td>
+                    <td>{{p.valor_comp_mun}}</td>
                     <td>{{p.soma}}</td>
 
                 </tr>

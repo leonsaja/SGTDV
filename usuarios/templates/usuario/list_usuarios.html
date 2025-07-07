@@ -120,9 +120,9 @@
 
                   <td>{{usuario.dt_nascimento|date:"d/m/Y"|default:'---'}}</td>
                   <td>
-                  {%for p in usuario.perfil.all%}
-                   {{p}} &nbsp;
-                  {%endfor%}
+                  
+                   {{usuario.get_perfil_display}}
+                
                 </td>
                   <td>
                     <a href="{% url 'usuarios:detail-usuario' usuario.id%}" class="pr-2"><i

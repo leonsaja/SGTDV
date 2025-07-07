@@ -30,6 +30,7 @@
         <div class="col-md-2">{{form.data|as_crispy_field }}</div>
         <div class="col-md-2">{{form.tem_acompanhante|as_crispy_field}}</div>
         <div class="col-md-2"> {{form.pagamento_por|as_crispy_field}}</div>
+        <div class="col-md-2"> {{form.atend_fora_estado|as_crispy_field}}</div>
 
       </div>
 
@@ -37,9 +38,6 @@
         <div class="row">
           <legend class="text-primary"><b>Dados do acompanhante</b> </legend>
           <div class="col-md-4">{{form.acompanhante|as_crispy_field }}</div>
-          <div class="col-md-3">{{form.cpf|as_crispy_field }}</div>
-          <div class="col-md-2">{{form.rg|as_crispy_field }}</div>
-          <div class="col-md-3">{{form.cns|as_crispy_field }}</div>
         </div>
       </div>
       <div class="row mt-2">
@@ -48,11 +46,18 @@
         <div class="col-md-3">{{form.municipio_destino|as_crispy_field }}</div>
         <div class="col-md-2">{{form.grs|as_crispy_field }}</div>
         <div class="col-md-2">{{form.especialidade|as_crispy_field }}</div>
-          <div class="col-md-3">{{form.unid_assistencial|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.unid_assistencial|as_crispy_field }}</div>
 
       </div>
       <div class="row mt-2">
+        <div class="d-none" id="campos_fora_estado">
+          <div class="row">
+             <legend class="text-primary"><b>Fora do Estado </b> </legend>
+            <div class="col-md-2">{{form.qta_proced|as_crispy_field }}</div>
+            <div class="col-md-2">{{form.valor_passagem|as_crispy_field }}</div>
+          </div>
 
+        </div>
         <div class="d-none" id="campos_conta">
           <div class="row">
             <legend class="text-primary"><b>Dados Bancário </b> </legend>
@@ -144,57 +149,43 @@
 
   
 $(document).ready(function () {
+// FORMADO DE PAGAMENTO 
+var pagamento_por_0=document.getElementById("id_recibo-pagamento_por_0")
+var pagamento_por_1=document.getElementById("id_recibo-pagamento_por_1")
+var campos_conta=document.getElementById("campos_conta")
+var campos_pix=document.getElementById("campos_pix")
+var agencia=document.getElementById("id_recibo-agencia")
+var conta=document.getElementById("id_recibo-conta")
+var pix= document.getElementById("id_recibo-pix")
 
+if (pagamento_por_0.checked){
+   campos_pix.classList.remove('d-none');
+}else if (pagamento_por_1.checked){
+  campos_conta.classList.remove('d-none');
+}
 
-  var campos=document.getElementById('campos') 
-  var id_tem_acompanhante_0=document.getElementById("id_recibo-tem_acompanhante_0")
-  var id_tem_acompanhante_1=document.getElementById("id_recibo-tem_acompanhante_1")
-  var id_acompanhante=document.getElementById('id_recibo-acompanhante')
-  var cpf_acompanhante=document.getElementById('id_recibo-cpf')
-  var rg_acompanhante = document.getElementById('id_recibo-rg')
-  var cns_acompanhante =document.getElementById('id_recibo-cns')
+pagamento_por_0.addEventListener('change', ativarCampos_pix);
+pagamento_por_1.addEventListener('change', ativarCampos_pix);
+function ativarCampos_pix() {
 
-
-  var pagamento_por_0=document.getElementById("id_recibo-pagamento_por_0")
-  var pagamento_por_1=document.getElementById("id_recibo-pagamento_por_1")
-
-
-  var campos_conta=document.getElementById("campos_conta")
-  var campos_pix=document.getElementById("campos_pix")
-  var agencia=document.getElementById("id_recibo-agencia")
-  var conta=document.getElementById("id_recibo-conta")
-  var pix= document.getElementById("id_recibo-pix")
-
- 
-  if (pagamento_por_0.checked){
-     campos_pix.classList.remove('d-none');
-
-  }else if (pagamento_por_1.checked){
-    campos_conta.classList.remove('d-none');
-  }
-  
-  pagamento_por_0.addEventListener('change', ativarCampos_pix);
-  pagamento_por_1.addEventListener('change', ativarCampos_pix);
-
-  function ativarCampos_pix() {
-    
-
-      
-      if (pagamento_por_0.checked) {
-          campos_pix.classList.remove('d-none') 
+    if (pagamento_por_0.checked) {
+        campos_pix.classList.remove('d-none') 
           campos_conta.classList.add('d-none')
           agencia.value=""
           conta.value=""
       }
-      else if(pagamento_por_1.checked){
-
-            
+      else if(pagamento_por_1.checked){ 
             campos_conta.classList.remove('d-none')
             campos_pix.classList.add('d-none')     
             pix.value=''
            
       }
     }
+
+// Campo do acompanhante 'ser tem acompanhante'
+var campos=document.getElementById('campos') 
+var id_tem_acompanhante_0=document.getElementById("id_recibo-tem_acompanhante_0")
+var id_tem_acompanhante_1=document.getElementById("id_recibo-tem_acompanhante_1")
 
   if (id_tem_acompanhante_0.checked)
   {
@@ -205,25 +196,46 @@ $(document).ready(function () {
   id_tem_acompanhante_1.addEventListener('change', ativarCampos);
   
   
-  function ativarCampos() {
-  
-
-    
+  function ativarCampos() {  
     if (id_tem_acompanhante_0.checked) {
          campos.classList.remove('d-none') 
     }
-    else{
-
-          
+    else if (id_tem_acompanhante_1.checked){
           campos.classList.add('d-none')
-      
-          id_acompanhante.value=''
-          cpf_acompanhante.value=''
-          cns_acompanhante.value=''
-          rg_acompanhante.value='' 
+    }
+    
+  }
+  // ATENDIMENTO FORA DO ESTADO
+  var campos_fora_estado=document.getElementById("campos_fora_estado")
+  var atend_fora_estado_0=document.getElementById("id_recibo-atend_fora_estado_0")
+  var atend_fora_estado_1=document.getElementById("id_recibo-atend_fora_estado_1")
+  var id_recibo_qta_proced=document.getElementById('id_recibo-qta_proced')
+  var id_recibo_valor_passagem = document.getElementById('id_recibo-valor_passagem')
+  
+  
+  
+  if (atend_fora_estado_0.checked){
+   campos_fora_estado.classList.remove('d-none');
+  }
+  
+  atend_fora_estado_0.addEventListener('change', ativar_foraEstados);
+  atend_fora_estado_1.addEventListener('change', ativar_foraEstados);
+
+
+
+  function ativar_foraEstados(){
+    if (atend_fora_estado_0.checked)
+    {
+       campos_fora_estado.classList.remove('d-none') 
+    }
+    else if (atend_fora_estado_1.checked)
+    {
+       campos_fora_estado.classList.add('d-none') 
+       id_recibo_qta_proced.value=''
+       id_recibo_valor_passagem.value=''
+  
     }
   }
-
   });
 
 

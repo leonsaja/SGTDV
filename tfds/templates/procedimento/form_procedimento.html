@@ -20,9 +20,44 @@
       
         <div class="row justify-content-center ">
             <div class="col-md-6">
-                {{ form|crispy }}
+              
+                {{form.codigo|as_crispy_field }}
             </div>
 
+        </div>
+         <div class="row justify-content-center ">
+            <div class="col-md-6">
+              
+                {{form.nome_proced|as_crispy_field }}
+            </div>
+
+        </div>
+        <div class="row justify-content-center ">
+            <div class="col-md-6">
+              
+                {{form.valor_unitario|as_crispy_field }}
+            </div>
+
+        </div>
+        <div class="row justify-content-center ">
+            <div class="col-md-6">
+              
+                {{form.valor_contrapartida|as_crispy_field }}
+            </div>
+
+        </div>
+           <div class="row justify-content-center ">
+            
+
+        </div>
+         <div class="d-none" id="campo_passagem">
+         <div class="row justify-content-center ">
+            <div class="col-md-6">
+              
+                {{form.valor_passagem|as_crispy_field }}
+            </div>
+
+        </div>
         </div>
         <br>
 
@@ -46,27 +81,39 @@
 
 {%block scripts %}
 <script src='/static/utils/jquery.formset.js'></script>
-<!-- 
+
 <script>
-$(document).ready(function () {
 
-var valor_contrapartida = document.getElementById("id_valor_contrapartida")
+var campo=document.getElementById('campo_passagem');
+var id_codigo=document.getElementById('id_codigo');
+var id_valor_passagem=document.getElementById("id_valor_passagem")
+id_codigo.addEventListener('change',ativa_campo)
+id_codigo.addEventListener('blur',ativa_campo)
 
-if (valor_contrapartida.value ==='')
+if (id_codigo.value=='0803010125' || id_codigo.value=='0803010109')
 {
-  valor_contrapartida.value='0,00'
+    campo.classList.remove('d-none')
 }
 
+function ativa_campo()
+{
+    console.log('teste1000')
+    if (id_codigo.value=='0803010125')
+    {
+       campo.classList.remove('d-none')
+    }
+    else if(id_codigo.value =='0803010109'){
+        campo.classList.remove('d-none')
+    }
+    else if (id_codigo.value!='0803010125' || id.id_codigo.value!='0803010109' ){
+        console.log('199')
+        campo.classList.add('d-none')
+        id_valor_passagem.value=""
 
-
-
-
-// Configuração para campos de Real.
-
-
-
-});
+    }
+   
+}
 </script>
- -->
+ 
 
 {% endblock scripts %}

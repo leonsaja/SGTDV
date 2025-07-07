@@ -68,24 +68,24 @@
             </div>
             <div class="col-md-3">
                 <label for="id_cpf" class="form-label">CPF:
-                    {% if recibo_tfd.cpf%}
-                    <h6 class="text-muted">{{recibo_tfd.cpf}}</h6>
+                    {% if recibo_tfd.acompanhante.cpf%}
+                    <h6 class="text-muted">{{recibo_tfd.acompanhante.cpf}}</h6>
                     {%else%}
                     <h6 class="text-muted">-</h6>
                     {%endif%}
             </div>
             <div class="col-md-3">
                 <label for="id_cns" class="form-label">CNS:
-                    {% if recibo_tfd.cns%}
-                    <h6 class="text-muted">{{recibo_tfd.cns}}</h6>
+                    {% if recibo_tfd.acompanhante.cns%}
+                    <h6 class="text-muted">{{recibo_tfd.acompanhante.cns}}</h6>
                     {%else%}
                     <h6 class="text-muted">-</h6>
                     {%endif%}
             </div>
             <div class="col-md-2">
                 <label for="id_cns" class="form-label">RG :
-                    {% if recibo_tfd.rg%}
-                    <h6 class="text-muted">{{recibo_tfd.rg}}</h6>
+                    {% if recibo_tfd.acompanhante.rg%}
+                    <h6 class="text-muted">{{recibo_tfd.acompanhante.rg}}</h6>
                     {%else%}
                     <h6 class="text-muted">-</h6>
                     {%endif%}
@@ -109,12 +109,12 @@
             </div>
      
             <div class="col-md-4">
-                <label for="id_municipio_origem" class="form-label">Municipio Origem:</label>
+                <label for="id_municipio_origem" class="form-label">Município Origem:</label>
                 <h6 class="text-muted">{{recibo_tfd.municipio_origem|upper}}</h6>
 
             </div>
             <div class="col-md-3">
-                <label for="id_municipio_destino" class="form-label">Municipio de Destino:</label>
+                <label for="id_municipio_destino" class="form-label">Município de Destino:</label>
                 <h6 class="text-muted">{{recibo_tfd.municipio_destino|upper}}</h6>
 
             </div>
@@ -138,6 +138,11 @@
             <div class="col-md-3">
                 <label for="id_grs" class="form-label">CONTA:
                     <h6 class="text-muted">{{recibo_tfd.conta|upper}}</h6>
+
+            </div>
+            <div class="col-md-3">
+                <label for="id_grs" class="form-label">ATENDIMENTO FORA DO ESTADO:
+                    <h6 class="text-muted">{{recibo_tfd.get_atend_fora_estado_display}}</h6>
 
             </div>
         
@@ -182,13 +187,13 @@
 
                                             </td>
 
-                                            <td class="text-center">{{r.codigosia.valor_unid_sigtap}}</td>
+                                            <td class="text-center">{{r.valor_unid_sigtap}}</td>
                                              <td class="text-center">
-                                                {{r.codigosia.valor_total_sigtap}}
+                                                {{r.valor_total_sigtap}}
                                                 
                                             </td>
                                              <td class="text-center">
-                                                {{r.codigosia.valor_comp_mun}}
+                                                {{r.valor_comp_mun}}
                                                         
                                             </td>   
 

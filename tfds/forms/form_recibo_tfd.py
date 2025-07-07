@@ -18,6 +18,10 @@ class ReciboTFDForm(forms.ModelForm):
       ('2','CONTA'),
       
    )
+    FORA_ESTADO=(
+     ('1','SIM'),
+     ('2','NÃO'),
+   )
     
     data = forms.DateField(
         label='Data',
@@ -30,13 +34,14 @@ class ReciboTFDForm(forms.ModelForm):
     )
     tem_acompanhante=tem_acompanhante=forms.ChoiceField(label='Tem Acompanhante', widget=forms.RadioSelect,choices=ACOMPANHANTE)
     pagamento_por=forms.ChoiceField(label='PAGAMENTO POR', widget=forms.RadioSelect,choices=PAGAMENTO_POR)
+    atend_fora_estado=forms.ChoiceField(label='ATENDIMENTO FORA DO ESTADO', widget=forms.RadioSelect,choices=FORA_ESTADO)
 
     class Meta:
         model=ReciboTFD
         exclude=('status','aprovado_por',)
         widgets = {
             'paciente':s2forms.Select2Widget(),
-           
+            'acompanhante':s2forms.Select2Widget(),
         }
     def clean_cns(self):
         data=self.cleaned_data.get('cns')
@@ -50,24 +55,18 @@ class ReciboTFDForm(forms.ModelForm):
         cleaned_data = super().clean()
         tem_acompanhante=cleaned_data.get('tem_acompanhante')
         pagamento_por=cleaned_data.get('pagamento_por')
+        atend_fora_estado=cleaned_data.get('atend_fora_estado')
+        acompanhante=cleaned_data.get('acompanhante')
     
         if tem_acompanhante == '1':
             acompanhante=cleaned_data.get('acompanhante')
-            rg=cleaned_data.get('rg')
-            cpf=cleaned_data.get('cpf')
-            cns=cleaned_data.get('cns')
+        
             
             if not acompanhante:
                  self.add_error('acompanhante', 'Este campo é obrigatório.')
 
-            if not rg:
-                 self.add_error('rg', 'Este campo é obrigatório.')
-            
-            if not cpf:
-                 self.add_error('cpf', 'Este campo é obrigatório.')
-
-            if not cns:
-                 self.add_error('cns', 'Este campo é obrigatório.')
+        if  tem_acompanhante =='2':
+            acompanhante=''
             
         if pagamento_por =='1':
             pix=cleaned_data.get('pix')
@@ -84,11 +83,20 @@ class ReciboTFDForm(forms.ModelForm):
 
             if not conta:
                  self.add_error('conta', 'Este campo é obrigatório.')
-           
+
+        if atend_fora_estado == '1':
+            qta_proced=cleaned_data.get('qta_proced')
+            valor_passagem=cleaned_data.get('valor_passagem')
+            if not qta_proced:
+                  self.add_error('qta_proced', 'Este campo é obrigatório.')
    
+            if not valor_passagem:
+                self.add_error('valor_passagem', 'Este campo é obrigatório.')
+                
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['cpf'].widget.attrs.update({'class':'mask-cpf'})
+        
 
 class ReciboTFDStatusForm(forms.ModelForm):
     

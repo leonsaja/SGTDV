@@ -141,7 +141,7 @@ def reciboTFD_pdf(request,id):
     context={}
 
     context['recibo_tfd']= ReciboTFD.objects.select_related('paciente').get(id=recibo_pdf.id)
-    context['procedimentos']=ProcedimentoSia.objects.select_related('recibo_tfd').filter(recibo_tfd__id=context['recibo_tfd'].id)
+    context['procedimentos']=ProcedimentoSia.objects.select_related('recibo_tfd','codigosia').filter(recibo_tfd__id=context['recibo_tfd'].id)
    
     User=get_user_model()
     context['profissional']=User.objects.filter(is_active=True).filter(perfil='5').first()

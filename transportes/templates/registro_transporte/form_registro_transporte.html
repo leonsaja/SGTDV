@@ -94,13 +94,13 @@
    
       if (percorrida.value && acompanhante_sim.checked) {
 
-          qta=Math.trunc(percorrida.value/50)
+          qta=Math.round(percorrida.value/50)
           proced_paciente.value=qta
           proced_acompanhante.value=qta
       }
       else if ( percorrida.value && acompanhante_nao.checked)
       {
-        qta=Math.trunc(percorrida.value/50)
+        qta=Math.round(percorrida.value/50)
         proced_paciente.value=qta
         proced_acompanhante.value=''
  

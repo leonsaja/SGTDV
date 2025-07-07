@@ -46,7 +46,7 @@
 
     
     <div class="col-md-12">
-      <p class=""><b>DESTINO: </b>VITORIA DA CONQUISTA  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <p class=""><b>DESTINO: </b>{{viagem.destino_viagem}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         <b>DATA: </b>{{viagem.data_viagem|date:"d/m/Y"|default:'---'}}
         &nbsp;&nbsp;&nbsp;
@@ -83,7 +83,7 @@
 
     <tr>
       <td>{{ forloop.counter }} </td>
-      <td>{{p.paciente}}</td>
+      <td>{{p.paciente.nome_completo}}</td>
 
       {% if p.acompanhante %}
       <td>{{p.acompanhante}}</td>
@@ -109,9 +109,9 @@
       <td>-</td>
       {%endif%}
 
-      {% if p.telefone %}
+      {% if p.paciente.telefone1 %}
       <td>
-        {{ p.telefone}}
+        {{ p.telefone1}}
       </td>
       {%else%}
       <td>-</td>
