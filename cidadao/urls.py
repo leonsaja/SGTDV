@@ -11,7 +11,7 @@ urlpatterns = [
     path('search/cidadao', view_cidadao.CidadaoSearchListView.as_view(), name='search-cidadao'),
     path('detail/<int:pk>/cidadao', view_cidadao.CidadaoDetailView.as_view(), name='detail-cidadao' ),
     path('delete/<int:id>/cidadao', view_cidadao.cidadao_delete , name='del-cidadao' ),
-    #path('importacao dados/cidadao', view_cidadao.ImportDadosView.as_view() , name='importar-dados-cidadao' )""
+    path('importacao dados/cidadao', view_cidadao.ImportDadosView.as_view() , name='importar-dados-cidadao' ),
     
     
     

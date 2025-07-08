@@ -117,7 +117,7 @@ class CidadaoSearchListView(HasRoleMixin,ListView):
 
         return qs
 
-"""
+
 class ImportDadosView(View):
     template_name='cidadao/importar_dados.html'
 
@@ -146,13 +146,13 @@ class ImportDadosView(View):
 
     def criar_cidadao_e_endereco(self, row):
 
-         if row['ENDEREÇO']:
+        if row['ENDEREÇO']:
 
          
             # Cria o endereço associado ao cliente
-            if row['NÚMERO']:
-                endereco=Endereco.objects.create(
-                    cod_logradouro=row['CÓD. LOGRADOURO'],
+            if row['CÓD. LOGRADOURO']=='RUA' or row['CÓD. LOGRADOURO']=='rua' :
+                endereco=Endereco.objects.get_or_create(
+                    cod_logradouro='2',
                     logradouro=row['ENDEREÇO'],
                     cep=row['CEP'],
                     bairro=row['BAIRRO'],
@@ -161,33 +161,169 @@ class ImportDadosView(View):
                     estado='MG',
                     cidade='SANTO ANTÔNIO DO JACINTO',
                 )
-            
-            
-
-        # Use get_or_create para evitar a necessidade de verificar a existência antes de criar
-                if row['SEXO'] =='F':
-                    cliente, criado = Cidadao.objects.get_or_create(
-                    cns=row['CNS'],
-                    defaults={
-                        'nome_completo': row['NOME'],
-                        'sexo': 'F',
-                        'dt_nascimento': row['DATA DE NASCIMENTO'],
-                        'telefone1':'00000000000',
-                        'endereco':endereco,
-
-                    }
+            elif row['CÓD. LOGRADOURO']=='FAZENDA' or row['CÓD. LOGRADOURO']=='fazenda':
+                endereco=Endereco.objects.get_or_create(
+                    cod_logradouro='3',
+                    logradouro=row['ENDEREÇO'],
+                    cep=row['CEP'],
+                    bairro=row['BAIRRO'],
+                    complemento=row['COMPLEMENTO'],
+                    numero=row['NÚMERO'],
+                    estado='MG',
+                    cidade='SANTO ANTÔNIO DO JACINTO',
                 )
-                else:
-                    cliente, criado = Cidadao.objects.get_or_create(
-                    cns=row['CNS'],
-                    defaults={
-                    'nome_completo': row['NOME'],
-                    'sexo':'M',
-                    'dt_nascimento': row['DATA DE NASCIMENTO'],
-                    'telefone1':'00000000000',
-                    'endereco':endereco,
+            elif row['CÓD. LOGRADOURO']=='PRACA'or row['CÓD. LOGRADOURO']=='praca':
+                endereco=Endereco.objects.get_or_create(
+                    cod_logradouro='4',
+                    logradouro=row['ENDEREÇO'],
+                    cep=row['CEP'],
+                    bairro=row['BAIRRO'],
+                    complemento=row['COMPLEMENTO'],
+                    numero=row['NÚMERO'],
+                    estado='MG',
+                    cidade='SANTO ANTÔNIO DO JACINTO',
+                )
+            elif row['CÓD. LOGRADOURO']=='TRAVESSA' or row['CÓD. LOGRADOURO']=='travessa':
+                endereco=Endereco.objects.get_or_create(
+                    cod_logradouro='5',
+                    logradouro=row['ENDEREÇO'],
+                    cep=row['CEP'],
+                    bairro=row['BAIRRO'],
+                    complemento=row['COMPLEMENTO'],
+                    numero=row['NÚMERO'],
+                    estado='MG',
+                    cidade='SANTO ANTÔNIO DO JACINTO',
+                )
 
-                    })
-        
+                """if row['SEXO'] =='F' or row['SEXO']=='f':
+                    print('F')
+                    if row['RAÇA/COR']=='PARDA':
+                        print('PARDA')
+                        cliente, criado = Cidadao.objects.get_or_create(
+                        cns=row['CNS'],
+                        defaults={
+                            'nome_completo': row['NOME'],
+                            'sexo': 'F',
+                            'dt_nascimento': row['DATA DE NASCIMENTO'],
+                            'telefone1':'00000000000',
+                            'endereco':endereco,
+                            'raca':3,
+                            'nacionalidade':row['NACIONALIDADE'],
+                           
+                           
+
+                        })
+                    elif row['RAÇA/COR']=='AMARELA':
+                        print('AMARELA')
+                        cliente, criado = Cidadao.objects.get_or_create(
+                        cns=row['CNS'],
+                        defaults={
+                            'nome_completo': row['NOME'],
+                            'sexo': 'F',
+                            'dt_nascimento': row['DATA DE NASCIMENTO'],
+                            'telefone1':'00000000000',
+                            'endereco':endereco,
+                            'raca':1,
+                            'nacionalidade':row['NACIONALIDADE'],
+                            
+                           
+
+                        })
+                    elif row['RAÇA/COR']=='PRETA':
+                        cliente, criado = Cidadao.objects.get_or_create(
+                        cns=row['CNS'],
+                        defaults={
+                            'nome_completo': row['NOME'],
+                            'sexo': 'F',
+                            'dt_nascimento': row['DATA DE NASCIMENTO'],
+                            'telefone1':'00000000000',
+                            'endereco':endereco,
+                            'raca':4,
+                            'nacionalidade':row['NACIONALIDADE'],
+                           
+                            
+
+                        })
+                    elif row['RAÇA/COR']=='BRANCA':
+                        cliente, criado = Cidadao.objects.get_or_create(
+                        cns=row['CNS'],
+                        defaults={
+                            'nome_completo': row['NOME'],
+                            'sexo': 'F',
+                            'dt_nascimento': row['DATA DE NASCIMENTO'],
+                            'telefone1':'00000000000',
+                            'endereco':endereco,
+                            'raca':2,
+                            'nacionalidade':row['NACIONALIDADE'],
+                           
+                            
+
+                        })
+                
+                elif row['SEXO'] =='M' or row['SEXO']=='m':
+                    if row['RAÇA/COR']=='PARDA':
+                        print('NOME',row['NOME'])
+                        print('parda')
+                        cliente, criado = Cidadao.objects.get_or_create(
+                        cns=row['CNS'],
+                        defaults={
+                            'nome_completo': row['NOME'],
+                             'sexo':'M',
+                            'dt_nascimento': row['DATA DE NASCIMENTO'],
+                            'telefone1':'00000000000',
+                            'endereco':endereco,
+                            'raca':3,
+                            'nacionalidade':row['NACIONALIDADE'],
+                            
+                           
+
+                        })
+                    elif row['RAÇA/COR']=='AMARELA':
+                        cliente, criado = Cidadao.objects.get_or_create(
+                        cns=row['CNS'],
+                        defaults={
+                            'nome_completo': row['NOME'],
+                            'sexo':'M',
+                            'dt_nascimento': row['DATA DE NASCIMENTO'],
+                            'telefone1':'00000000000',
+                            'endereco':endereco,
+                            'raca':1,
+                            'nacionalidade':row['NACIONALIDADE'],
+                            
+                            
+
+                        })
+                    elif row['RAÇA/COR']=='PRETA':
+                        cliente, criado = Cidadao.objects.get_or_create(
+                        cns=row['CNS'],
+                        defaults={
+                            'nome_completo': row['NOME'],
+                             'sexo':'M',
+                            'dt_nascimento': row['DATA DE NASCIMENTO'],
+                            'telefone1':'00000000000',
+                            'endereco':endereco,
+                            'raca':1,
+                            'nacionalidade':1,
+                           
+                           
+
+                        })
+                    elif row['RAÇA/COR']=='BRANCA':
+                        cliente, criado = Cidadao.objects.get_or_create(
+                        cns=row['CNS'],
+                        defaults={
+                            'nome_completo': row['NOME'],
+                             'sexo':'M',
+                            'dt_nascimento': row['DATA DE NASCIMENTO'],
+                            'telefone1':'00000000000',
+                            'endereco':endereco,
+                            'raca':1,
+                            'nacionalidade':2,
+                            
+                            
+
+                        })"""
+
+
            
-           """
+        

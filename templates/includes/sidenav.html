@@ -1,18 +1,18 @@
 {% load permission_tags %}
 
 <aside class="main-sidebar  sidebar-menu elevation-6">
-  
+
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'core:home'%}">
       <img src="/static/img/LOGOSAJA.png" alt="Logo" width="200" height="90" class="d-inline-block ">
-       {% comment %}<span class="brand-text  logo pl-3 "> <b> SGDTV</b> {% endcomment %}
+      {% comment %}<span class="brand-text  logo pl-3 "> <b> SGDTV</b> {% endcomment %}
     </a>
   </div>
 
 
   <!-- Sidebar -->
   <div class="sidebar">
-  
+
     <nav class="mt-2">
       <hr>
       <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu"
@@ -64,14 +64,14 @@
                 <p class=" text-sm text-muted">Atendimentos</p>
               </a>
             </li>
-        
+
             <li class="nav-item">
               <a href="{% url 'especialidades:list-especialidade'%}" class="nav-link link-houver">
 
                 <p class=" text-sm text-muted">Especialidades</p>
               </a>
             </li>
-             <li class="nav-item">
+            <li class="nav-item">
               <a href="{% url 'especialidades:list-proced_especialidade'%}" class="nav-link link-houver">
 
                 <p class=" text-sm text-muted">Procedimentos</p>
@@ -155,7 +155,7 @@
         </li>
         {%endif%}
 
-           <!-- RELATORIOS -->
+        <!-- RELATORIOS -->
         {% if user|has_role:'coordenador,regulacao,digitador,secretario' %}
         <li class="nav-item">
           <a href="#" class="nav-link">
@@ -176,85 +176,86 @@
             </li>
             {%endif%}
             {% if user|has_role:'coordenador,regulacao,secretario' %}
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                 
-                  <p class="text-sm text-muted">
-                    Especialidades
-                    <i class="right fas fa-angle-right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview ">
-                  <li class="nav-item">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
 
-                    <a href="{% url 'relatorios:relatorio-especialidade'%}" target="_blank" class="nav-link link-houver">
-      
-                      <p class=" text-sm text-muted">Especialidades </p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
+                <p class="text-sm text-muted">
+                  Especialidades
+                  <i class="right fas fa-angle-right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview ">
+                <li class="nav-item">
 
-                    <a href="{% url 'relatorios:relatorio-paciente-especialidade'%}" class="nav-link link-houver">
-      
-                      <p class=" text-sm text-muted">Pacientes </p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              {%endif%}
-              {% if user|has_role:'coordenador,regulacao,secretario' %}
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                 
-                  <p class="text-sm text-muted">
-                    TFDs
-                    <i class="right fas fa-angle-right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview ">
-                  <li class="nav-item">
+                  <a href="{% url 'relatorios:relatorio-especialidade'%}" target="_blank" class="nav-link link-houver">
 
-                    <a href="{% url 'relatorios:relatorio-recibo-tfd'%}" class="nav-link link-houver">
-      
-                      <p class=" text-sm text-muted">Recibo de TFD </p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
+                    <p class=" text-sm text-muted">Especialidades </p>
+                  </a>
+                </li>
+                <li class="nav-item">
 
-                    <a href="{% url 'relatorios:relatorio-recibo-passagem'%}" class="nav-link link-houver">
-      
-                      <p class=" text-sm text-muted">Recibo de Passagem </p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-                {%endif%}
-              {% if user|has_role:'coordenador,regulacao,secretario' %}
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                 
-                  <p class="text-sm text-muted">
-                    Transportes
-                    <i class="right fas fa-angle-right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview ">
-                  <li class="nav-item">
+                  <a href="{% url 'relatorios:relatorio-paciente-especialidade'%}" class="nav-link link-houver">
 
-                    <a href="{% url 'relatorios:relatorio-registro-transporte'%}" target="_blank" class="nav-link link-houver">
-                      <p class=" text-sm text-muted">Registro Transportes</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
+                    <p class=" text-sm text-muted">Pacientes </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            {%endif%}
+            {% if user|has_role:'coordenador,regulacao,secretario' %}
+            <li class="nav-item">
+              <a href="#" class="nav-link">
 
-                    <a href="{% url 'relatorios:relatorio-viagem'%}" class="nav-link link-houver">
-      
-                      <p class=" text-sm text-muted">Viagens </p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              {%endif%}
+                <p class="text-sm text-muted">
+                  TFDs
+                  <i class="right fas fa-angle-right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview ">
+                <li class="nav-item">
+
+                  <a href="{% url 'relatorios:relatorio-recibo-tfd'%}" class="nav-link link-houver">
+
+                    <p class=" text-sm text-muted">Recibo de TFD </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+
+                  <a href="{% url 'relatorios:relatorio-recibo-passagem'%}" class="nav-link link-houver">
+
+                    <p class=" text-sm text-muted">Recibo de Passagem </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            {%endif%}
+            {% if user|has_role:'coordenador,regulacao,secretario' %}
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+
+                <p class="text-sm text-muted">
+                  Transportes
+                  <i class="right fas fa-angle-right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview ">
+                <li class="nav-item">
+
+                  <a href="{% url 'relatorios:relatorio-registro-transporte'%}" target="_blank"
+                    class="nav-link link-houver">
+                    <p class=" text-sm text-muted">Registro Transportes</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+
+                  <a href="{% url 'relatorios:relatorio-viagem'%}" class="nav-link link-houver">
+
+                    <p class=" text-sm text-muted">Viagens </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            {%endif%}
           </ul>
         </li>
         {%endif%}
@@ -270,8 +271,8 @@
             </p>
           </a>
           <ul class="nav  nav-treeview">
-           
-          
+
+
             <li class="nav-item">
               <a href="{% url 'tfds:list-recibo_tfd'%}" class="nav-link link-houver">
 
@@ -284,12 +285,12 @@
                 <p class="text-sm text-muted"> Recibos de Passagens</p>
               </a>
             </li>
-              <li class="nav-item">
+            <li class="nav-item">
               <a href="{% url 'tfds:list-procedimento'%}" class="nav-link link-houver">
 
                 <p class="text-sm nav-child-indent text-muted"> Procedimentos</p>
               </a>
-            </li> 
+            </li>
 
           </ul>
         </li>
@@ -307,7 +308,7 @@
             </p>
           </a>
           <ul class="nav nav-treeview ">
-           
+
             <li class="nav-item">
               <a href="{% url 'usuarios:list-usuario'%}" class="nav-link link-houver">
 
@@ -328,7 +329,7 @@
               <i class="right fas fa-angle-right"></i>
             </p>
           </a>
-         
+
           <ul class="nav nav-treeview ">
             {% if user|has_role:'coordenador,regulacao,recepcao,secretario' %}
             <li class="nav-item">
@@ -352,13 +353,34 @@
               </a>
             </li>
             {%endif%}
+
+          
           </ul>
         </li>
         {%endif%}
-          
+          <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class=" text-primary nav-icon fas fa-thin fa-users"></i>
+
+                <p class="text-md text-muted">
+                  Dados
+                  <i class="right fas fa-angle-right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview ">
+
+                <li class="nav-item">
+                  <a href="{% url 'cidadao:importar-dados-cidadao'%}" class="nav-link link-houver">
+
+                    <p class="text-sm text-muted">Importa dados </p>
+                  </a>
+                </li>
+
+              </ul>
+            </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
   </div>
- 
+
 </aside>

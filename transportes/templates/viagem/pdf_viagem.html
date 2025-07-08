@@ -73,6 +73,7 @@
       <th>N°</th>
       <th>PACIENTE</th>
       <th>ACOMPANHANTE</th>
+      <TH>ACS</TH>
       <th>LOCAL DE EXAME</th>
       <th>LOCAL DE ESPERA </th>
       <th>TELEFONE</th>
@@ -90,8 +91,13 @@
       {% else %}
       <td>-</td>
       {%endif%}
-
-
+      
+      {% if p.paciente.microarea.profissional.acs %}
+      <td>{{p.paciente.microarea.profissional.acs}}</td>
+      {% else %}
+      <td>-</td>
+      {%endif%}
+      
       {% if p.local_exame %}
       <td>
         {{p.local_exame}}
@@ -111,7 +117,7 @@
 
       {% if p.paciente.telefone1 %}
       <td>
-        {{ p.telefone1}}
+        {{ p.paciente.telefone1}}
       </td>
       {%else%}
       <td>-</td>

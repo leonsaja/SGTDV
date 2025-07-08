@@ -10,6 +10,13 @@ class Cidadao(models.Model):
         ('F','Feminino'),
         ('M','Masculino'),
     )
+    RACA=(
+        ('1','AMARELA'),
+        ('2','BRANCO'),
+        ('3','PARDA'),
+        ('4','PRETO'),
+       
+    )
    
     nome_completo = models.CharField(verbose_name='Nome Completo',max_length=150, null=False, blank=False)
     email=models.EmailField(verbose_name='E-mail', unique=True,null=True,blank=True)
@@ -20,11 +27,13 @@ class Cidadao(models.Model):
     dt_nascimento=models.DateField(verbose_name='Data de Nascimento', null=False,blank=False)
     nome_mae=models.CharField(verbose_name='Nome da Mãe', max_length=150, null=True,blank=False)
     nome_pai=models.CharField(verbose_name='Nome do  Pai', max_length=150, null=True,blank=True)
-    telefone=models.CharField(verbose_name='Telefone', max_length=15, null=True,blank=True)
-    telefone1=models.CharField(verbose_name='Celular ', max_length=15,null=False,blank=False)
+    telefone=models.CharField(verbose_name='TELEFONE', max_length=15, null=True,blank=True)
+    telefone1=models.CharField(verbose_name='CELULAR ', max_length=15,null=False,blank=False)
     endereco=models.ForeignKey("Endereco",on_delete=models.SET_NULL, null=True, blank=False)
-    microarea=models.ForeignKey(MicroArea,null=True,blank=False,on_delete=models.PROTECT, related_name='microarea_cidadao',verbose_name='Micro Área')
-    
+    microarea=models.ForeignKey(MicroArea,null=True,blank=False,on_delete=models.PROTECT, related_name='microarea_cidadao',verbose_name='MICRO ÁREA')
+    raca=models.CharField(verbose_name='RAÇA/COR',max_length=1, choices=RACA, null=True, blank=False)
+    nacionalidade=models.CharField(verbose_name='Município de nascimento',max_length=120, null=True, blank=False)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -56,7 +65,7 @@ class Endereco(models.Model):
    COD_LOGRADOURO=(
        ('1','---'),
        ('2','RUA'),
-       ('3', 'FAZENDA'),
+       ('3','FAZENDA'),
        ('4','PRACA'),
        ('5','TRAVESSA'),
 
@@ -77,6 +86,6 @@ class Endereco(models.Model):
 
     
    def __str__(self):
-       return f'{self.logradouro}, Nº:{self.numero}, Bairro:{self.bairro}'   
+       return f'{self.id}, {self.get_cod_logradouro_display()}, {self.logradouro}, Nº:{self.numero}, Bairro:{self.bairro}'   
 
 

@@ -19,6 +19,8 @@ class ProcedimentoSiaForm(forms.ModelForm):
         self.fields['codigosia'].widget.attrs.update({'class':'form-control'})
         self.fields['qtd_procedimento'].widget.attrs.update({'class':'form-control'})
         
+    
+
 class CodigoSiaForm(forms.ModelForm):
    
     nome_proced=forms.CharField(label='Nome do Procedimento', widget=forms.Textarea( attrs={'placeholder':'Descrição', 'rows':4,'cols':10}))
