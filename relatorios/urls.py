@@ -10,6 +10,7 @@ from relatorios.views.recibo_tfd_view import relatorio_recibo_tfd
 from relatorios.views.registro_transporte_view import relatorio_registro_transporte
 from relatorios.views.recibo_passagem_view import relatorio_recibo_passagem
 from relatorios.views.viagem_view import relatorio_viagem
+from relatorios.views.atendimento_especialidade import relatorio_atendimento_especialidade
 app_name='relatorios'
 
 urlpatterns = [ 
@@ -22,6 +23,9 @@ urlpatterns = [
     
     #PacienteEspecialidade
     path('pacientes-especialidade/relatorio/',relatorio_pacientes_especialidade,name='relatorio-paciente-especialidade'),
+    
+    #Atendimento
+    path('atendimento-especialidade/relatorio/',relatorio_atendimento_especialidade,name='relatorio-atendimento-especialidade'),
 
     #Recibo de Tfd
     path('recibo-tfd/relatorio/',relatorio_recibo_tfd,name='relatorio-recibo-tfd'),

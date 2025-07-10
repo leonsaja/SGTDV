@@ -1,0 +1,69 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %}
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      {% include 'includes/mensagens.html' %}
+    </div>
+  </div>
+
+  <br /><br />
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <h4 class="text-primary"><strong>Relátorio de Atendimento</strong></h4>
+    </div>
+  </div>
+  
+  <form method="POST" class="needs-validation"  novalidate>
+ {% csrf_token %}
+
+ <div class="row justify-content-center">
+  <div class="col-md-4 mt-3">
+    <h6><b>Período:</b></h6>
+  </div>
+ </div>
+    <div class="row justify-content-center mt-3" >
+      <div class="col-md-2 ">
+        {{form.data_inicial|as_crispy_field }}
+      
+      </div>
+      
+      <div class="col-md-2">
+        {{form.data_final|as_crispy_field }}
+      </div>
+    </div>
+    <div class="row justify-content-center mt-3" >
+      <div class="col-md-4 ">
+        {{form.especialidade|as_crispy_field }}
+       
+      </div>
+  
+    </div>
+
+    
+
+    <div class="row justify-content-center">
+      <div class="col-md-4 mt-2">
+        <div class="text-right">
+          <a href="{% url 'relatorios:relatorio-diaria'%}" class="btn mr-2" style="background-color:#DADADA;"> Limpar
+            Filtros</a>
+          <button type="submit" class="btn btn-primary" >Gerar Relatório</button>
+        </div>
+      </div>
+    </div>
+  </form>
+ 
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    document.getElementById('id_data_inicial').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+    document.getElementById('id_data_final').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+
+  
+    
+</script>
+{% endblock %}

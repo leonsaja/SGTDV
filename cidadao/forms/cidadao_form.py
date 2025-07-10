@@ -21,7 +21,7 @@ class CidadaoForm(forms.ModelForm):
     
     class Meta:
         model=Cidadao
-        exclude=('endereco',)
+        fields='__all__'
 
     def clean_nome_completo(self):
         data=self.cleaned_data.get('nome_completo')
@@ -59,8 +59,8 @@ class EnderecoForm(forms.ModelForm):
         
     class Meta:
         model=Endereco
-        fields='__all__'
-    
+        exclude=('cidadao',)
+        
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 

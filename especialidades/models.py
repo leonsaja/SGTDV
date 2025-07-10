@@ -96,7 +96,17 @@ class AtendimentoEspecialidade(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True,null=True)
     updated_at = models.DateTimeField(auto_now=True,null=True)
-
+    
+    def __str__(self):
+        return f'{self.especialidade}'
+    
+    
+    
+    
+    def qta_paciente_especialidade(self):
+        total=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).count()
+        return total
+        
 
 class ProcedimentosEspecialidade(models.Model):
     nome_procedimento=models.CharField(max_length=255,verbose_name='Procedimento',null=True,blank=False)

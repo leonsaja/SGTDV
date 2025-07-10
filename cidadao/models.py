@@ -29,7 +29,7 @@ class Cidadao(models.Model):
     nome_pai=models.CharField(verbose_name='Nome do  Pai', max_length=150, null=True,blank=True)
     telefone=models.CharField(verbose_name='TELEFONE', max_length=15, null=True,blank=True)
     telefone1=models.CharField(verbose_name='CELULAR ', max_length=15,null=False,blank=False)
-    endereco=models.ForeignKey("Endereco",on_delete=models.SET_NULL, null=True, blank=False)
+    
     microarea=models.ForeignKey(MicroArea,null=True,blank=False,on_delete=models.PROTECT, related_name='microarea_cidadao',verbose_name='MICRO ÁREA')
     raca=models.CharField(verbose_name='RAÇA/COR',max_length=1, choices=RACA, null=True, blank=False)
     nacionalidade=models.CharField(verbose_name='Município de nascimento',max_length=120, null=True, blank=False)
@@ -70,7 +70,7 @@ class Endereco(models.Model):
        ('5','TRAVESSA'),
 
    )
-
+   cidadao=models.ForeignKey("Cidadao",on_delete=models.CASCADE, related_name='endereco_cidadao', null=True, blank=False)
    cod_logradouro=models.CharField(verbose_name="CÓD. LOGRADOURO", max_length=1,null=True,blank=False,choices=COD_LOGRADOURO,default='')
    logradouro = models.CharField(max_length=60, null=False, blank=False)
    numero = models.CharField(max_length=10, null=False, blank=False)

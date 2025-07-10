@@ -112,7 +112,7 @@
         {%endif%}
 
         <!-- CIDADAO -->
-        {% if user|has_role:'coordenador,recepcao,regulacao,acs' %}
+        {% if user|has_role:'secretario,coordenador,recepcao,regulacao,acs' %}
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class=" text-primary  nav-icon fas fa-solid fa-user"></i>
@@ -185,6 +185,13 @@
                 </p>
               </a>
               <ul class="nav nav-treeview ">
+                <li class="nav-item">
+
+                  <a href="{% url 'relatorios:relatorio-atendimento-especialidade'%}" class="nav-link link-houver">
+
+                    <p class=" text-sm text-muted">Atendimento Especialidade </p>
+                  </a>
+                </li>
                 <li class="nav-item">
 
                   <a href="{% url 'relatorios:relatorio-especialidade'%}" target="_blank" class="nav-link link-houver">

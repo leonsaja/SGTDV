@@ -1,0 +1,96 @@
+{% extends 'relatorio.html' %}
+{% load static %}
+{% block title %}Relatorio{% endblock %}
+
+{% block head%}
+<style>
+  body {
+
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  td {
+
+    padding: 2px;
+    text-align: center
+  }
+
+  th {
+    padding: 2px;
+    text-align: center;
+  }
+
+  table {
+
+    font-size: 13px;
+  }
+
+  p {
+    margin: 0;
+  }
+</style>
+
+{%endblock head%}
+{% block content %}
+
+{% include 'includes/cabecalho.html' %}
+<div class="conteudo">
+  <h2 class="text-center"> <b>Relatório de Atendimentos </b></h2>
+
+  <div class="row">
+    <div class="col-md-12">
+      <p class="p-1"><b>Período: </b>{{inicial}} a {{final}}
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;
+        <b> Data do relatório:</b> {{data}}
+
+      </p>
+    </div>
+
+    <div class="col-md-12 pt-1">
+      <p class="p-1">
+        <b>Registros identificados: </b>{{qta_atendimeento}}
+      </p>
+
+    </div>
+  
+
+ 
+</div>
+  
+
+    <br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ITENS</th>
+          <th>ESPECIALIDADE</th>
+          <th>QUANTIDADE</th>
+        
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in atendimentos %}
+
+        <tr>
+
+          <td>{{ forloop.counter }}</td>
+          <td>{{a.especialidade}}</td>
+          <td>{{a.qta_paciente_especialidade}}</td>
+        </tr>
+
+        {%endfor%}
+      </tbody>
+
+    </table>
+  </div>
+
+  {% endblock %}

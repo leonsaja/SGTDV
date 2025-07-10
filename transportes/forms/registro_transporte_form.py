@@ -45,4 +45,4 @@ class RegistroTransporteForm(forms.ModelForm):
             'paciente':s2forms.Select2Widget(),
            
         }
-        
+    
