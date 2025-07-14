@@ -79,7 +79,7 @@ class Endereco(models.Model):
    cep = models.CharField(verbose_name='CEP', max_length=10, null=False, blank=False)
    cidade = models.CharField(max_length=30, null=False, blank=False)
    estado = models.CharField( verbose_name='UF',max_length=2, null=False, blank=False)
-   localizacao=models.CharField(verbose_name='LOCALIZAÇÃO',max_length=1,choices=ZONA,null=True, blank=False, default='')
+   localizacao=models.CharField(verbose_name='LOCALIZAÇÃO',max_length=1,choices=ZONA,null=True, blank=False)
 
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
