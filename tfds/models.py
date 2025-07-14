@@ -3,7 +3,7 @@ from django.db import models
 from cidadao.models import Cidadao
 from localflavor.br.models import BRCPFField
 from decimal import Decimal
-
+from especialidades.models import Especialidade
 
 class ReciboTFD(models.Model):
 
@@ -31,7 +31,7 @@ class ReciboTFD(models.Model):
    municipio_destino=models.CharField(verbose_name='Município Destino', max_length=120,null=False,blank=False)
    data=models.DateField(verbose_name='Data')
    grs=models.CharField(verbose_name='GRS',max_length=50,null=False,blank=False,default='Pedra Azul-MG')
-   especialidade=models.CharField(verbose_name='Especialidade', max_length=100, null=False, blank=False)
+   especialidade=models.ForeignKey(Especialidade,on_delete=models.PROTECT, verbose_name='Especialidade', null=False, blank=False)
    unid_assistencial=models.CharField(verbose_name='Unidade Assistencial',null=True, blank=False,max_length=240)
    
    #Dados para Acompanhante

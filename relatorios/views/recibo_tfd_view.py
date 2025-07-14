@@ -39,11 +39,11 @@ def relatorio_recibo_tfd_pdf(request,context):
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
     return response
 
-has_role_decorator(['coordenador','secretario','recepcao'])
+@has_role_decorator(['coordenador','secretario','recepcao'])
 def relatorio_recibo_tfd(request):
     context={}
     
-    recibos_tfds=ReciboTFD.objects.select_related('paciente').all().order_by('-created_at')
+    recibos_tfds=ReciboTFD.objects.select_related('paciente','especialidade','acompanhante').all().order_by('-created_at')
     
     if request.method == 'POST':
         form=RelatorioReciboTfdsForm(request.POST or None)

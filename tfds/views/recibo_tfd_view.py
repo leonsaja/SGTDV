@@ -83,7 +83,7 @@ class ReciboTFDListView(HasRoleMixin,ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(ReciboTFDListView,self).get_queryset(*args, **kwargs)
-        qs=qs.select_related('paciente').order_by('-created_at')
+        qs=qs.select_related('paciente','especialidade','acompanhante').order_by('-created_at')
         return qs
     
 class ReciboTFDSearchListView(HasRoleMixin,ListView):
@@ -102,11 +102,11 @@ class ReciboTFDSearchListView(HasRoleMixin,ListView):
         data=self.request.GET.get('data',None)
       
         if search_nome_cpf:
-            qs=qs.select_related('paciente').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))\
+            qs=qs.select_related('paciente','especialidade','acompanhante').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))\
             .order_by('-data')
            
         if data:
-             qs=qs.select_related('paciente').filter(data__iexact=data).order_by('-created_at')
+             qs=qs.select_related('paciente','especialidade','acompanhante').filter(data__iexact=data).order_by('-created_at')
         
         return qs
 
@@ -118,7 +118,7 @@ class ReciboTFDDetailView(HasRoleMixin,DetailView):
     
     def get_context_data(self,*args, **kwargs):
         context=super().get_context_data(*args, **kwargs)
-        recibo_tfd= ReciboTFD.objects.select_related('paciente').get(id=self.kwargs['pk'])
+        recibo_tfd= ReciboTFD.objects.select_related('paciente','especialidade','acompanhante').get(id=self.kwargs['pk'])
         context['recibo_tfd']=recibo_tfd
         context['procedimentos']=ProcedimentoSia.objects.select_related('recibo_tfd','codigosia').filter(recibo_tfd__id=recibo_tfd.id)
         context['form']=ReciboTFDStatusForm(self.request.POST or None, instance=recibo_tfd,prefix='recibo')
@@ -140,7 +140,7 @@ def reciboTFD_pdf(request,id):
     recibo_pdf=get_object_or_404(ReciboTFD,id=id)
     context={}
 
-    context['recibo_tfd']= ReciboTFD.objects.select_related('paciente').get(id=recibo_pdf.id)
+    context['recibo_tfd']= ReciboTFD.objects.select_related('paciente','especialidade','acompanhante').get(id=recibo_pdf.id)
     context['procedimentos']=ProcedimentoSia.objects.select_related('recibo_tfd','codigosia').filter(recibo_tfd__id=context['recibo_tfd'].id)
    
     User=get_user_model()

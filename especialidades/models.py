@@ -82,7 +82,7 @@ class AtendimentoEspecialidade(models.Model):
             ('1','CIMBAJE'),
             ('2','CEAE'),
             ('3','RECURSO PRÓPRIO'),
-            ('4','SUS'),
+            ('4','PPI'),
 
         )
 

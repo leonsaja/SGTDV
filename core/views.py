@@ -15,7 +15,7 @@ from datetime import datetime
 def home(request):
    context={}
    context['qta_cidadao']=Cidadao.objects.select_related('endereco','microarea').count()
-   context['qta_diaria']=Diaria.objects.select_related('profissional').count()
+   context['qta_diaria']=Diaria.objects.select_related('profissionals').count()
    context['qta_viagens']=Viagem.objects.select_related('carro','motorista').count()
    context['qta_recibo_tfd']=ReciboTFD.objects.select_related('paciente').count()
    context['qta_registro_transporte']=RegistroTransporte.objects.select_related('paciente','carro').count()

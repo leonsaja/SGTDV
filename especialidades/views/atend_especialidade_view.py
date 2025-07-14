@@ -7,14 +7,15 @@ from django.contrib.messages.views import SuccessMessageMixin
 from especialidades.forms.form_paciente_set import AtendPacienteSet
 from rolepermissions.mixins import HasRoleMixin
 from django.views.generic import DetailView, ListView,DeleteView
-from rolepermissions.decorators import has_role_decorator
+
 from django.urls import reverse_lazy
+from rolepermissions.decorators import has_role_decorator
 
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 
-has_role_decorator(['regulacao'])  
+@has_role_decorator(['regulacao'])   
 def atend_especialidade_create(request):
     
     atend_especialidade=AtendimentoEspecialidade()
@@ -35,7 +36,7 @@ def atend_especialidade_create(request):
     
     return render(request, 'atendimento_especialidade/form_atend_especialidade.html', {'form': form,'formset':formset})
 
-has_role_decorator(['regulacao'])  
+@has_role_decorator(['regulacao'])  
 def atend_especialidade_update(request,id):
     
     atend_especialidade=get_object_or_404(AtendimentoEspecialidade,pk=id)
@@ -56,7 +57,6 @@ def atend_especialidade_update(request,id):
     
     return render(request, 'atendimento_especialidade/form_atend_especialidade.html', {'form': form,'formset':formset})
 
-
 class AtendEspecialidadeListView(HasRoleMixin,ListView):
 
 
@@ -71,7 +71,6 @@ class AtendEspecialidadeListView(HasRoleMixin,ListView):
         qs=qs.select_related('especialidade').order_by('-especialidade')
         return qs    
     
-
 class AtendEspecialidadeDetailView(HasRoleMixin,DetailView):
 
 
@@ -99,9 +98,7 @@ class AtendEspecialidadeDeleteView(HasRoleMixin,SuccessMessageMixin, DeleteView)
     def get(self, request, *args, **kwargs):
         return self.post().get(request, *args, **kwargs)
     
-
-
-has_role_decorator(['regulacao','coordenador','secretario'])  
+@has_role_decorator(['regulacao','coordenador','secretario'])  
 def atend_especialidade_pdf(request,id):
     atendimento_especialidade=get_object_or_404(AtendimentoEspecialidade,id=id)
     context={}

@@ -13,7 +13,7 @@ SECRET_KEY=env('SECRET_KEY')
 
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.251','localhost','127.0.0.1',]
 
 
 # Application definition
@@ -220,10 +220,10 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
-INTERNAL_IPS = [
+#INTERNAL_IPS = [
     # ...
-    "127.0.0.1",
+   # "127.0.0.1",
     # ...
-]
+#]
 
 ROLEPERMISSIONS_MODULE = "sgtdv.roles"
