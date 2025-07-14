@@ -75,7 +75,7 @@
             <div class="col-md-6 m-2 ">
                 {%if recibo_tfd.acompanhante%}
                 <p class="p-1"><b>NOME DO ACOMPANHANTE: </b>
-                    {{recibo_tfd.acompanhante|upper}}
+                    {{recibo_tfd.acompanhante.nome_completo|upper}}
 
                     &nbsp; &nbsp;&nbsp;&nbsp;
                 </p>
@@ -87,9 +87,9 @@
                 </p>
                 {% endif %}
 
-                {% if recibo_tfd.cpf %}
+                {% if recibo_tfd.acompanhante.cpf %}
                 <p class="p-1"><b>CPF:
-                    </b>{{recibo_tfd.cpf|upper}} &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                    </b>{{recibo_tfd.acompanhante.cpf}} &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;
                     {% else %}
                     <p class="p-1">
@@ -99,20 +99,20 @@
                         &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
                         {% endif %}
 
-                        {% if recibo_tfd.rg %}
+                        {% if recibo_tfd.acompanhante.rg %}
                         <b>RG:
                         </b>
-                        {{recibo_tfd.rg|upper}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {{recibo_tfd.acompanhante.rg|upper}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
                         {%else %}
 
                         <b>RG: </b> &nbsp; &nbsp; &nbsp;&nbsp;-
 
                         {%endif%}
-                        {% if recibo_tfd.cns %}
+                        {% if recibo_tfd.acompanhante.cns %}
 
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>CNS:
-                        </b>{{recibo_tfd.cns|upper}}
+                        </b>{{recibo_tfd.acompanhante.cns|upper}}
 
                     </p>
                     {% else %}
@@ -221,7 +221,7 @@
                     <td> {{p.valor_total_sigtap}}</td>
                     <td>{{p.valor_comp_mun}}</td>
                     <td>{{p.soma}}</td>
-
+                    
                 </tr>
 
                 {%endfor%}

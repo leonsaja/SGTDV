@@ -19,7 +19,7 @@ urlpatterns = [
 
     path('especialidades/',include('especialidades.urls')),
     path('transportes/',include('transportes.urls')),
-    path('__debug__/', include('debug_toolbar.urls')),
+    #path('__debug__/', include('debug_toolbar.urls')),
    
         
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

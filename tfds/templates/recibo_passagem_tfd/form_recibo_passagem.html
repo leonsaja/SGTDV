@@ -19,14 +19,15 @@
     <hr>
     <br>
     <div class="row mt-2">
-      <div class="col-md-7">{{form.paciente|as_crispy_field }}</div>
+      <div class="col-md-6">{{form.paciente|as_crispy_field }}</div>
       <div class="col-md-3">{{form.data_recibo|as_crispy_field }}</div>
+      <div class="col-md-3">{{form.codigo_sia_paciente|as_crispy_field }}</div>
+
 
     </div>
     <div class="row">
 
 
-      <div class="col-md-3">{{form.codigo_sia_paciente|as_crispy_field }}</div>
       <div class="col-md-3">{{form.valor_paciente_sia|as_crispy_field}}</div>
       <div class="col-md-2">{{form.quant_passagem_paciente|as_crispy_field }}</div>
       <div class="col-md-3">{{form.tem_acompanhante|as_crispy_field}}</div>
@@ -38,16 +39,15 @@
         
         <legend class="text-primary"><b>Dados do acompanhante</b> </legend>
         
-        <div class="col-md-4">{{form.acompanhante|as_crispy_field }}</div>
-        <div class="col-md-3">{{form.cpf|as_crispy_field }}</div>
-        <div class="col-md-2">{{form.rg|as_crispy_field }}</div>
-        <div class="col-md-3">{{form.cns|as_crispy_field }}</div>
+        <div class="col-md-5">{{form.acompanhante|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.codigo_sia_acompanhante|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.valor_acompanhante_sia|as_crispy_field }}</div>
+        <div class="col-md-2">{{form.quant_passagem_acompanhante|as_crispy_field }}</div>
+
       </div>
 
       <div class="row">
-        <div class="col-md-3">{{form.codigo_sia_acompanhante|as_crispy_field }}</div>
-        <div class="col-md-3">{{form.valor_acompanhante_sia|as_crispy_field }}</div>
-        <div class="col-md-3">{{form.quant_passagem_acompanhante|as_crispy_field }}</div>
+       
       </div>
     </div>
 
@@ -109,6 +109,7 @@ id_tem_acompanhante_0.addEventListener('change', ativarCampos);
 id_tem_acompanhante_1.addEventListener('change', ativarCampos);
 
 
+
 function ativarCampos() {
 
   if (id_tem_acompanhante_0.checked) {
@@ -124,10 +125,11 @@ function ativarCampos() {
         id_valor_acompanhante_sia.value=''
         id_quant_passagem_acompanhante.value=''
 
-        id_acompanhante.value=''
-        cpf_acompanhante.value=''
-        cns_acompanhante.value=''
-        rg_acompanhante.value='' 
+        if (id_acompanhante.value)
+          {
+              id_acompanhante.innerHTML=''
+          }
+        
   }
 }
 });

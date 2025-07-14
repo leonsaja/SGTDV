@@ -186,6 +186,7 @@ function ativarCampos_pix() {
 var campos=document.getElementById('campos') 
 var id_tem_acompanhante_0=document.getElementById("id_recibo-tem_acompanhante_0")
 var id_tem_acompanhante_1=document.getElementById("id_recibo-tem_acompanhante_1")
+var id_acompanhante=document.getElementById('id_recibo-acompanhante')
 
   if (id_tem_acompanhante_0.checked)
   {
@@ -202,6 +203,13 @@ var id_tem_acompanhante_1=document.getElementById("id_recibo-tem_acompanhante_1"
     }
     else if (id_tem_acompanhante_1.checked){
           campos.classList.add('d-none')
+
+          if (id_acompanhante.value)
+          {
+              id_acompanhante.innerHTML=''
+          }
+          
+
     }
     
   }

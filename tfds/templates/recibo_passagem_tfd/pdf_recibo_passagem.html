@@ -64,30 +64,30 @@
          <!-- ACOMPANHANTE  -->
          <div class="row">
             <div class="col-md-6 p-2">
-                {%if recibo_passagem.acompanhante%}
+                {%if recibo_passagem.acompanhante.nome_completo%}
                 <p class="p-1"><b>NOME DO ACOMPANHANTE: </b>
-                    {{recibo_passagem.acompanhante|upper}}
+                    {{recibo_passagem.acompanhante.nome_completo|upper}}
                 </p>
                 {% else %}
                 <p class="p-1"><b>NOME DO ACOMPANHANTE: </b>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
                 </p>
                 {% endif %}
-                {% if recibo_passagem.cpf  %}
-                <p class="p-1"><b>CPF: </b>{{recibo_passagem.cpf|upper}}
+                {% if recibo_passagem.acompanhante.cpf  %}
+                <p class="p-1"><b>CPF: </b>{{recibo_passagem.acompanhante.cpf|upper}}
                 {% else %}
-                <p class="p-1"><b>CPF:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
+                <p class="p-1"><b>CPF:</b>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
                 {% endif %}
-                 {% if recibo_passagem.cns %}
+                 {% if recibo_passagem.acompanhante.cns %}
                      &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-                    <b>CNS: </b>{{recibo_passagem.cns|upper}}
+                    <b>CNS: </b>{{recibo_passagem.acompanhante.cns|upper}}
                 {% else %}
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
                      <b>CNS:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -</b>
                 {% endif %}
-                {% if recibo_passagem.rg %}
+                {% if recibo_passagem.acompanhante.rg %}
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-                   <b>RG:</b>{{recibo_passagem.rg|upper}}
+                   <b>RG:</b>{{recibo_passagem.acompanhante.rg|upper}}
                 </p>
                 {%else %}
                      &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
@@ -118,14 +118,14 @@
         </div>
         <br>
 
-        <table class="table ">
+        <table class="table">
        
             <thead>
             <tr>
                 <th></th>
                 <th>Ṇ° PASSAGEM</th>
                 <th>TRECHO</th>
-                <th>CODIGO SIA/SUS</th>
+                <th>CÓD SIA/SUS</th>
                 <th>VALOR</th>
               
             </tr>
@@ -164,13 +164,14 @@
             </tbody>
             <tfoot>
             <tr>
-                    <td colspan="4" style="text-align: end;"><b>
-                        <p>TOTAL:</p>
+                     <td colspan="3" style="text-align: end;"><b>
+                       
                     </b> </td>
-    
-                    <td><b>
-                        <p>R$ {{ recibo_passagem.valor_total_passagem}}</p>
-                    </b> </td>
+                            
+                    <td colspan="2" style="text-align: end;"><b>
+                          TOTAL: &nbsp;&nbsp; R$ {{ recibo_passagem.valor_total_passagem}}
+                         </b>
+                    </td>
                 </tr>
             </tfoot>
         </table>

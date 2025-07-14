@@ -203,11 +203,7 @@ class ReciboPassagemTFD(models.Model):
    paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='recibo_passagem_paciente')
    #Dados para Acompanhante
    tem_acompanhante=models.CharField(verbose_name='Tem Acompanhante',null=False,blank=False,max_length=1,choices=ACOMPANHANTE)
-   acompanhante=models.CharField(verbose_name='Acompanhante',null=True,blank=True, max_length=200)
-   rg=models.CharField(max_length=10,verbose_name='RG', null=True,blank=True)
-   cpf=BRCPFField(verbose_name='CPF', max_length=11, null=True,blank=True)
-   cns=models.PositiveBigIntegerField(verbose_name='CNS', null=True,blank=True, help_text='Digite o cartão do SUS com 15 digitos')
-       
+   acompanhante=models.ForeignKey(Cidadao,verbose_name='Acompanhante',null=True,blank=True,on_delete=models.PROTECT)
    meio_transporte=models.CharField(max_length=1,null=False, blank=False,verbose_name='Meio de Transporte', choices=MEIO_TRANSPORTE)
    quant_passagem_paciente=models.PositiveIntegerField(verbose_name='Qta de Passagem',null=False, blank=False)
    quant_passagem_acompanhante=models.PositiveBigIntegerField(verbose_name='Qta  Passagem',null=True, blank=True)

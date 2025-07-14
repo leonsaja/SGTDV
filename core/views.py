@@ -5,9 +5,10 @@ from cidadao.models import Cidadao
 from despesas.models import Diaria
 from especialidades.models import Especialidade, PacienteEspecialidade
 from tfds.models import ReciboTFD
-from transportes.models import Viagem
+from transportes.models import Viagem,RegistroTransporte
 from rolepermissions.decorators import has_role_decorator
 from django.contrib.auth.decorators import login_required
+from especialidades.models import AtendimentoEspecialidade
 from datetime import datetime
 
 @login_required
@@ -17,10 +18,10 @@ def home(request):
    context['qta_diaria']=Diaria.objects.select_related('profissional').count()
    context['qta_viagens']=Viagem.objects.select_related('carro','motorista').count()
    context['qta_recibo_tfd']=ReciboTFD.objects.select_related('paciente').count()
-
-   especialidade=Especialidade.objects.all()
-
- 
+   context['qta_registro_transporte']=RegistroTransporte.objects.select_related('paciente','carro').count()
+   context['qta_atendimento']=AtendimentoEspecialidade.objects.count()
+   context['especialidades']=Especialidade.objects.all()
+   
 
    return render(request,'home.html',context)
 

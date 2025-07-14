@@ -82,8 +82,8 @@
             <div class="col-md-3">
               
                 <label for="id_acompanhante" class="form-label">Nome do acompanhante:
-                    {% if recibo.acompanhante%}
-                    <h6 class="text-muted">{{recibo.acompanhante|upper}}</h6>
+                    {% if recibo.acompanhante.nome_completo%}
+                    <h6 class="text-muted">{{recibo.acompanhante.nome_completo|upper}}</h6>
                     {%else%}
                     <h6 class="text-muted">-</h6>
                     {%endif%}
@@ -91,16 +91,16 @@
             </div>
             <div class="col-md-3">
                 <label for="id_cpf" class="form-label">CPF do acompanhante:
-                    {% if recibo.cpf%}
-                    <h6 class="text-muted">{{recibo.cpf}}</h6>
+                    {% if recibo.acompanhante.cpf%}
+                    <h6 class="text-muted">{{recibo.acompanhante.cpf}}</h6>
                     {%else%}
                     <h6 class="text-muted">-</h6>
                     {%endif%}
             </div>
             <div class="col-md-3">
                 <label for="id_cns" class="form-label">CNS do acompanhante:
-                    {% if recibo.cns%}
-                    <h6 class="text-muted">{{recibo.cns}}</h6>
+                    {% if recibo.acompanhante.cns%}
+                    <h6 class="text-muted">{{recibo.acompanhante.cns}}</h6>
                     {%else%}
                     <h6 class="text-muted">-</h6>
                     {%endif%}

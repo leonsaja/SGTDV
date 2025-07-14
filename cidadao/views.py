@@ -4,7 +4,6 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.views.generic import DetailView, ListView,CreateView, UpdateView
 import pandas as pd
-
 from cidadao.forms.cidadao_form import CidadaoForm, EnderecoForm
 from cidadao.forms.dados import ImportarDadosForm
 from cidadao.models import Cidadao, Endereco
@@ -12,12 +11,9 @@ from django.contrib.messages import constants
 from django.contrib import messages
 from rolepermissions.decorators import has_role_decorator
 from rolepermissions.mixins import HasRoleMixin
-
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
-from rolepermissions.mixins import HasRoleMixin
 
-from transportes.models import RegistroTransporte
 class CidadaoCreateView(HasRoleMixin,CreateView,SuccessMessageMixin):
     model = Cidadao
     form_class = CidadaoForm
@@ -141,7 +137,7 @@ class CidadaoSearchListView(HasRoleMixin,ListView):
         search_dt_nascimento=self.request.GET.get('search_dt_nascimento',None)
 
         if search_nome_cpf_cns:
-            qs=qs.select_related('microarea').filter(Q(nome_completo__icontains=search_nome_cpf_cns)| Q(cpf__icontains=search_nome_cpf_cns)|Q(cns__icontains=search_nome_cpf_cns))
+            qs=qs.select_related('microarea').filter(Q(nome_completo__iregex=search_nome_cpf_cns)| Q(cpf__icontains=search_nome_cpf_cns)|Q(cns__icontains=search_nome_cpf_cns))
               
         if search_nome_mae:
             qs=qs.select_related('microarea').filter(nome_mae__icontains=search_nome_mae)
@@ -212,6 +208,7 @@ class ImportDadosView(View):
         sexo_final = sexo_map.get(sexo_excel, 'M') # Padrão 'M' ou tratar erro
         raca_final = raca_map.get(raca_excel, 0) # Padrão 0 ou outro valor para "Não especificado"
 
+        
         try:
             cidadao, created = Cidadao.objects.get_or_create(
                 cns=str(row.get('CNS', '')).strip(), # CNS como chave única
@@ -431,96 +428,3 @@ class ImportDadosView(View):
 """
 
            
-
-"""class ImportDadosTransporteView(View):
-    template_name='cidadao/importar_dados.html'
-
-    def get(self, request):
-        registro = RegistroTransporte.objects.all()
-        form = ImportarDadosForm()
-        return render(request, self.template_name, {
-            'form': form,
-            'clientes': registro
-        })
-    
-    def post(self, request):
-        form = ImportarDadosForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            arquivo = request.FILES['arquivo']
-            df = pd.read_excel(arquivo)
-
-            for _, row in df.iterrows():
-                # Itera sobre as linhas do DataFrame lido do arquivo Excel 
-                self.criar_cidadao_e_endereco(row)
-
-            return redirect('cidadao:list-cidadao')
-
-        return render(request, self.template_name, {'form': form})
-
-    def criar_cidadao_e_endereco(self, row):
-        
-        
-        TIPO_ATENDIMENTO_MAP = {
-            'EVENTUAL': '1',
-            'ROTINEIRO': '2',
-           
-        }
-        
-        cod_atendimento_excel = str(row.get('CÓD. LOGRADOURO', '')).upper()
-        
-        # Pega o código mapeado ou '1' (ou outro padrão) se não encontrar
-        cod_logradouro = TIPO_ATENDIMENTO_MAP.get(cod_atendimento_excel , '1') # '1' pode ser para 'OUTROS' ou padrão
-        endereco_obj = None
-        
-        # 2. Obter ou criar o Cidadão
-        # Padroniza SEXO e RAÇA/COR para comparação
-        STATUS_CHOICES=(
-            ('SIM','1'),
-            ('NÃO,PACIENTE UTILIZOU RECURSOS PROPRIO','2'),
-            ('NÃO,PERDEU A CONSULTA','3'),
-            ('NÃO, SEM INFORMAÇÃO',4)
-   )
-
-        
-
-                                                                                                                                                                                                                                                                                                                                                                   
-        try:
-            transporte, created = transporte.objects.get_or_create(
-                cns=str(row.get('CNS', '')).strip(), # CNS como chave única
-                defaults={
-                    'nome_completo': row.get('NOME', '').strip(),
-                    'sexo': sexo_final,
-                    'dt_nascimento': row.get('DATA DE NASCIMENTO'), # Certifique-se de que o formato do Excel é compatível com DateField
-                    'telefone1': str(row.get('TELEFONE1', '00000000000')).strip(),
-                    'raca': raca_final,
-                    'nacionalidade': row.get('NACIONALIDADE', 'Brasileira').strip(),
-                    
-                }
-            )
-        except Exception as e:
-            print(f"Erro ao criar/obter cidadão: {e} - Linha: {row}")
-            # Logue o erro detalhadamente, talvez salve em um arquivo de log para depuração.
-            # Considere retornar False ou levantar uma exceção para o chamador.
-        
-        if row.get('ENDEREÇO'): # Usar .get() para evitar KeyError
-            try:
-                # Usa .get() para valores que podem estar faltando no Excel
-                endereco_obj, created = Endereco.objects.get_or_create(
-                    logradouro=row.get('ENDEREÇO', '').strip(), # .strip() para remover espaços extras
-                    cep=str(row.get('CEP', '')).strip(), # Converte para string para garantir
-                    bairro=str(row.get('BAIRRO', '')).strip(),
-                    numero=str(row.get('NÚMERO', '')).strip(), # Converte para string para garantir
-                    defaults={
-                        'cod_logradouro': cod_logradouro,
-                        'complemento': row.get('COMPLEMENTO', '').strip(),
-                        'estado': 'MG', # Supondo que seja sempre MG
-                        'cidade': 'SANTO ANTÔNIO DO JACINTO', # Supondo que seja sempre esta cidade
-                        'cidadao':cidadao
-                    }
-                )
-            except Exception as e:
-                print(f"Erro ao criar/obter endereço: {e} - Linha: {row}")
-                # Considere logar o erro ou lidar com ele de forma mais robusta
-                
-"""
