@@ -60,7 +60,7 @@
                 <p class="p-1"><b>CPF: </b>&nbsp{{recibo_tfd.paciente.formt_cpf|upper}}
 
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-                    {% if recibo_tfd.rg %}
+                    {% if recibo_tfd.paciente.rg %}
                         <b>RG: </b>{{recibo_tfd.paciente.rg|upper}}
                     {%else%}
                         <b>RG: </b> &nbsp; &nbsp;-
@@ -76,7 +76,6 @@
                 {%if recibo_tfd.acompanhante%}
                 <p class="p-1"><b>NOME DO ACOMPANHANTE: </b>
                     {{recibo_tfd.acompanhante.nome_completo|upper}}
-
                     &nbsp; &nbsp;&nbsp;&nbsp;
                 </p>
                 {% else %}
@@ -97,22 +96,18 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
                         &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
                         &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
-                        {% endif %}
+                {% endif %}
 
-                        {% if recibo_tfd.acompanhante.rg %}
-                        <b>RG:
-                        </b>
-                        {{recibo_tfd.acompanhante.rg|upper}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                        {%else %}
-
-                        <b>RG: </b> &nbsp; &nbsp; &nbsp;&nbsp;-
-
-                        {%endif%}
-                        {% if recibo_tfd.acompanhante.cns %}
-
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>CNS:
-                        </b>{{recibo_tfd.acompanhante.cns|upper}}
+                {% if recibo_tfd.acompanhante.rg %}
+                <b>RG:
+                </b>
+                {{recibo_tfd.acompanhante.rg}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+                {%else %}
+                <b>RG: </b> &nbsp; &nbsp; &nbsp;&nbsp;
+                {%endif%}
+                {% if recibo_tfd.acompanhante.cns %}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>CNS:
+                </b>{{recibo_tfd.acompanhante.cns|upper}}
 
                     </p>
                     {% else %}

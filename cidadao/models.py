@@ -20,7 +20,7 @@ class Cidadao(models.Model):
    
     nome_completo = models.CharField(verbose_name='Nome Completo',max_length=150, null=False, blank=False)
     email=models.EmailField(verbose_name='E-mail', unique=True,null=True,blank=True)
-    rg=models.CharField(max_length=10,verbose_name='RG', null=True,blank=True)
+    rg=models.CharField(max_length=100,verbose_name='RG', null=True,blank=True)
     cpf=BRCPFField(verbose_name='CPF',unique=True, max_length=11, null=True,blank=True)
     cns=models.PositiveBigIntegerField(verbose_name='CNS', unique=True, null=False,blank=False, help_text='Digite o cartão do SUS com 15 digitos')
     sexo=models.CharField(verbose_name='Sexo:',max_length=1,choices=SEXO, null=False, blank=False)
