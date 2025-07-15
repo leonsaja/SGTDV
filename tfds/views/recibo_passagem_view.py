@@ -102,7 +102,7 @@ class ReciboPassagemDeleteView(HasRoleMixin,SuccessMessageMixin,DeleteView):
     def get(self, request, *args, **kwargs):
         return self.post().get(request, *args, **kwargs)
 
-has_role_decorator(['coordenador','regulacao','secretario'])                                                                                                                                                                                                                                                
+@has_role_decorator(['coordenador','regulacao','secretario'])                                                                                                                                                                                                                                                
 def reciboPassagemPdf(request,id):
 
     recibo_passagem=get_object_or_404(ReciboPassagemTFD,id=id)

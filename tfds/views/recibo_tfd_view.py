@@ -135,7 +135,7 @@ class ReciboTFDDeleteView(HasRoleMixin,SuccessMessageMixin, DeleteView):
     def get(self, request, *args, **kwargs):
         return self.post().get(request, *args, **kwargs)
 
-has_role_decorator(['regulacao','coordenador','secretario'])  
+@has_role_decorator(['regulacao','coordenador','secretario'])  
 def reciboTFD_pdf(request,id):
     recibo_pdf=get_object_or_404(ReciboTFD,id=id)
     context={}
