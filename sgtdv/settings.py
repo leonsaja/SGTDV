@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     
     #pacote
     "localflavor",
+    'dbbackup',
    # "debug_toolbar",
     
    
@@ -190,6 +191,8 @@ CACHES = {
 }
 
 
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': '/home/leonardo/Documentos/BACKUP'}
 
 SELECT2_CACHE_BACKEND = "select2"
 
