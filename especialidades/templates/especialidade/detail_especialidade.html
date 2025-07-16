@@ -70,14 +70,18 @@
                 </form>
 
             </div>
-            <div class="row">
-    <div class="col-md-12">
-      <div class="text-right">
-        <a href="{% url 'especialidades:add-paciente-especialidade' especialidade.id %}"
-          class="btn btn-primary"><b>Adicionar Paciente</b>
-        </a>
-      </div>
-    </div>
+            {% if user|has_role:'recepcao,regulacao' %}
+                <div class="row">
+                    <div class="col-md-12">
+                    <div class="text-right">
+                        <a href="{% url 'especialidades:add-paciente-especialidade' especialidade.id %}"
+                        class="btn btn-primary"><b>Adicionar Paciente</b>
+                        </a>
+                    </div>
+                    </div>
+                </div>
+
+            {%endif%}
   </div>
 
         </div>
