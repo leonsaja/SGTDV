@@ -75,7 +75,6 @@ class PacienteEspecialidade(models.Model):
     class Meta:
         ordering = ["-paciente"]
         
-
 class AtendimentoEspecialidade(models.Model):
     ATEND_VIA=(
             ('1','CIMBAJE'),
@@ -106,7 +105,6 @@ class AtendimentoEspecialidade(models.Model):
         total=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).count()
         return total
         
-
 class ProcedimentosEspecialidade(models.Model):
     nome_procedimento=models.CharField(max_length=255,verbose_name='Procedimento',null=True,blank=False)
 

@@ -7,7 +7,7 @@ from weasyprint import HTML
 from django.template.loader import render_to_string
 from django.db.models import Q
 
-from despesas.forms.reembolso_form import ReembolFormSet
+from despesas.forms.reembolso_form import ReembolFormSet,DescricaoReembolsoForm
 from despesas.models import Diaria, Reembolso
 from django.contrib.messages import constants
 from django.contrib import messages
@@ -17,20 +17,24 @@ from rolepermissions.mixins import HasRoleMixin
 @has_role_decorator(['digitador'])
 def reembolso_create(request,id):
     diaria=get_object_or_404(Diaria,id=id)
-
+    
     if not diaria:
         return Http404()
     
     if request.method == 'POST':
         formset=ReembolFormSet(request.POST,instance=diaria,prefix='reembolso')
-        if formset.is_valid():
+        form=DescricaoReembolsoForm(request.POST or None,instance=diaria,prefix='reembolso_diaria')
+
+        if formset.is_valid() and form.is_valid():
+            form.save()
             formset.save()
             messages.add_message(request,constants.SUCCESS,'cadastro realizado com sucesso')
             return redirect('despesas:list-reembolso')
 
     formset=ReembolFormSet(request.POST or None,instance=diaria,prefix='reembolso')
+    form=DescricaoReembolsoForm(request.POST or None,instance=diaria,prefix='reembolso_diaria')
     
-    return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset})
+    return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset,'form':form})
 
 @has_role_decorator(['digitador'])
 def reembolso_update(request, id):
@@ -41,15 +45,19 @@ def reembolso_update(request, id):
     
    if request.method == 'POST':
         formset=ReembolFormSet(request.POST,instance=diaria,prefix='reembolso')
-        if formset.is_valid():
+        form=DescricaoReembolsoForm(request.POST or None,instance=diaria,prefix='reembolso_diaria')
+
+        if formset.is_valid() and form.is_valid():
+            form.save()
             formset.save()
             messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
             return redirect('despesas:list-reembolso')
         
 
    formset=ReembolFormSet(request.POST or None,instance=diaria,prefix='reembolso')
-    
-   return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset})
+   form=DescricaoReembolsoForm(request.POST or None,instance=diaria,prefix='reembolso_diaria')
+
+   return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset,'form':form})
 
 class ReembolsoListView(HasRoleMixin,ListView):
    

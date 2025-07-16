@@ -57,7 +57,7 @@ class ProcedimentosDetailView(HasRoleMixin,DetailView):
     context_object_name='procedimento'
     allowed_roles=['coordenador','regulacao','secretario'] 
 
-has_role_decorator(['coordenador'])
+@has_role_decorator(['coordenador'])
 def procedimentosDelete(request,id):
     
     codigo=get_object_or_404(CodigoSIA,id=id)

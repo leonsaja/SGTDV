@@ -169,7 +169,7 @@ class CodigoSIA(models.Model):
 
 
    def save(self,*args, **kwargs):
-     
+      
       if not self.subtotal:
         if self.valor_contrapartida:
            self.subtotal=self.valor_unitario+self.valor_contrapartida
@@ -225,15 +225,14 @@ class ReciboPassagemTFD(models.Model):
 
    def valor_total_passagem(self):
       total=0
-      if self.valor_acompanhante_sia and self.codigo_sia_acompanhante and self.acompanhante and self.quant_passagem_acompanhante:
-         total+=self.quant_passagem_acompanhante*self.valor_acompanhante_sia
-         return total
-      return self.valor_paciente_sia*self.quant_passagem_paciente
-    
+      if self.tem_acompanhante=='1':
+         return self.valor_paciente_sia*self.quant_passagem_paciente
+      return  self.valor_paciente_sia*self.quant_passagem_paciente
+   
    def qta_passagem(self):
      
       resul=0
-      if self.valor_acompanhante_sia and self.codigo_sia_acompanhante and self.acompanhante and self.quant_passagem_acompanhante:
+      if self.acompanhante_sia and self.codigo_sia_acompanhante and self.acompanhante and self.quant_passagem_acompanhante:
          resul=self.quant_passagem_paciente+self.quant_passagem_acompanhante
          return resul
       
@@ -243,6 +242,6 @@ class ReciboPassagemTFD(models.Model):
 
    def total(self):
       total=0
-      if self.valor_acompanhante_sia and self.codigo_sia_acompanhante and self.acompanhante and self.quant_passagem_acompanhante:
+      if self.tem_acompanhante=='1':
          return (self.quant_passagem_paciente*self.valor_paciente_sia)+(self.valor_acompanhante_sia*self.quant_passagem_acompanhante)
       return self.quant_passagem_paciente*self.valor_paciente_sia

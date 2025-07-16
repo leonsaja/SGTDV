@@ -1,10 +1,15 @@
 from decimal import Decimal
-
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
-
 from ..models import Diaria, Reembolso
+
+class DescricaoReembolsoForm(forms.ModelForm):
+    descricao_reembolso=forms.CharField(label='Descrição', widget=forms.Textarea( attrs={'placeholder':'Digite a descrição da Reemboso...','rows':3,'cols':10}))
+
+    class Meta:
+        model=Diaria
+        fields=['descricao_reembolso']
 
 
 class ReembolsoForm(forms.ModelForm):
@@ -15,17 +20,6 @@ class ReembolsoForm(forms.ModelForm):
         fields=['descricao','valor_desp','movimentacao','valor_mov']
 
 
-    """   def clean_valor_desp(self):
-        data = self.cleaned_data["valor_desp"]
-        print('clean valor desp',type (data))
-
-        if data == :
-            t=0.00
-
-            return t
-        return data """
-    
-    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['descricao'].widget.attrs.update({'class':'form-select'})

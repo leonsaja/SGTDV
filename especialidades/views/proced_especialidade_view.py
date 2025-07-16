@@ -58,8 +58,7 @@ class ProcedEspecialidadeDetail(HasRoleMixin,DetailView):
     template_name='procedimento_especialidade/detail_proced_especialidade.html'
     context_object_name='procedimento'
     allowed_roles=['regulacao']
-
-     
+    
 @has_role_decorator(['coordenador'])
 def especialidadeDelete(request, id):
     procedimento=ProcedimentosEspecialidade.objects.get(id=id)

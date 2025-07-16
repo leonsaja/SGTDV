@@ -17,7 +17,7 @@ from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
 
 
-has_role_decorator(['regulacao'])
+@has_role_decorator(['regulacao'])
 def reciboTFD_create(request):
     tfd=ReciboTFD()
     if request.method == 'POST':
@@ -37,7 +37,7 @@ def reciboTFD_create(request):
     
     return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset})
 
-has_role_decorator(['regulacao'])  
+@has_role_decorator(['regulacao'])  
 def reciboTFD_update(request,id):
     recibo_tfd=get_object_or_404(ReciboTFD, pk=id)
 
@@ -56,7 +56,7 @@ def reciboTFD_update(request,id):
     formset=ProcedimentoSet(request.POST or None, instance=recibo_tfd,prefix='procedimento')
     return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset,'recibo_tfd':recibo_tfd})
 
-has_role_decorator(['secretario'])  
+@has_role_decorator(['secretario'])  
 def reciboStatusUpdate(request,id):
     recibo_tfd=get_object_or_404(ReciboTFD, pk=id)
 

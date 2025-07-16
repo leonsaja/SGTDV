@@ -27,10 +27,10 @@ class DiariaCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
         
         self.object = form.save(commit=False)
         self.object.criado_por = self.request.user.nome_completo
+        print('diaria')
         self.object.save()
         return  super().form_valid(form)
    
-
 class DiariaUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
 
     model=Diaria             
@@ -47,7 +47,6 @@ class DiariaUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
         self.object.save()
         return  super().form_valid(form)
 
-
 class DiariaListView(HasRoleMixin,ListView):
 
     model=Diaria
@@ -56,7 +55,6 @@ class DiariaListView(HasRoleMixin,ListView):
     paginate_by=10
     queryset=Diaria.objects.select_related('profissional').order_by('-created_at')
     allowed_roles=['digitador','coordenador','secretario']
-
 
 class DiariaSearchListView(HasRoleMixin,ListView):
 
@@ -81,7 +79,6 @@ class DiariaSearchListView(HasRoleMixin,ListView):
     
         return qs
 
-
 class DiariaStatusUpdateView(HasRoleMixin,SuccessMessageMixin, UpdateView):
     
    model=Diaria
@@ -97,7 +94,6 @@ class DiariaStatusUpdateView(HasRoleMixin,SuccessMessageMixin, UpdateView):
         self.object.save()
         return  super().form_valid(form)
 
-
 class DiariaDetailView(HasRoleMixin,DetailView):
     model=Diaria
     template_name='diaria/detail_diaria.html'
@@ -111,7 +107,6 @@ class DiariaDetailView(HasRoleMixin,DetailView):
         context['form']=DiariaStatusForm(self.request.POST or None,instance=diaria)
         return context
 
-
 @has_role_decorator(['coordenador'])
 def diaria_delete(request, id):
     diaria=get_object_or_404(Diaria,id=id)
@@ -123,7 +118,6 @@ def diaria_delete(request, id):
         messages.add_message(request, constants.ERROR, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
     finally:
         return redirect('despesas:list-diaria')
-
 
 @has_role_decorator(['digitador','coordenador','secretario'])
 def diaria_pdf(request,id):

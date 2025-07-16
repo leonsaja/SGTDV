@@ -11,23 +11,13 @@ class DiariaForm(forms.ModelForm):
     data_diaria = forms.DateField(label='Data',widget=forms.DateInput( \
         format='%Y-%m-%d',attrs={ 'type': 'date',}),input_formats=('%Y-%m-%d',), )
     
-    valor = forms.CharField(label='Valor',widget=forms.TextInput(attrs={'placeholder':"R$ 0,00"}))
-
-    total = forms.CharField(label='Subtotal',widget=forms.TextInput(attrs={'placeholder':'R$ 0,00','class':'money'}))
-    
-    
     class Meta:
         model=Diaria
-        exclude=('status','aprovado_por',)
+        exclude=('status','aprovado_por','total','descricao_rembolso',)
         widgets = {
             'profissional':s2forms.Select2Widget(),
-           
         }
-    def clean_total(self):
-        data = self.cleaned_data["total"]
-        return Decimal(data.replace(',', '.'))
-       
-    
+
     def clean_qta_diaria(self):
         data = self.cleaned_data["qta_diaria"]
         if data==0:
@@ -53,7 +43,6 @@ class DiariaForm(forms.ModelForm):
         insert = self.instance.pk == None
 
         data_diaria=self.instance.data_diaria
-       
         diaria=Diaria.objects.select_related('profissional').filter(profissional=profissional).filter(data_diaria=data)
         
         if self.instance.pk:
@@ -68,12 +57,6 @@ class DiariaForm(forms.ModelForm):
                 self.add_error('data_diaria', 'Profissional já tem uma diaria com essa data.')
 
         
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['valor'].widget.attrs.update({'class':'mask-money'})
-
-
 # Form para aprovar ou reprovar diaria
 class DiariaStatusForm(forms.ModelForm):
     
@@ -81,6 +64,4 @@ class DiariaStatusForm(forms.ModelForm):
         model=Diaria
         fields=['status']
         
-
-    
 

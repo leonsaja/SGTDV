@@ -120,7 +120,6 @@ class CidadaoListView(HasRoleMixin,ListView):
     paginate_by=15
     allowed_roles = ['acs','coordenador','regulacao','recepcao']
    
-
 class CidadaoSearchListView(HasRoleMixin,ListView):
     
     model=Cidadao
@@ -146,7 +145,6 @@ class CidadaoSearchListView(HasRoleMixin,ListView):
             qs=qs.select_related('microarea').filter(dt_nascimento__iexact=search_dt_nascimento)
 
         return qs
-
 
 class ImportDadosView(View):
     template_name='cidadao/importar_dados.html'

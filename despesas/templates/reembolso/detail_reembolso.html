@@ -115,6 +115,18 @@
                     <h6 class="text-muted"> {{diaria.viagem_dest|upper}}</h6>
                 </div>
             </div>
+            <br>
+            <div class="row">
+            <div class="col-md-6">
+                {%if diaria.descricao_reembolso%}
+                    <label for="id_descricao_reembolso" class="form-label">Descrição do Reembolso:</label>
+                    <h6 class="text-muted"> {{diaria.descricao_reembolso|upper}}</h6>
+                       
+                {%else%}
+                 <h6 class="text-muted">-</h6>
+                {%endif%}
+            </div>
+      </div>
         </fieldset>
         <br>
         {% if user|has_role:'digitador' %}

@@ -2,6 +2,7 @@
 from django.db import models
 
 from profissionais.models import Profissional
+from decimal import Decimal
 
 class Diaria(models.Model):
     TIPO_DIARIA=(
@@ -25,21 +26,21 @@ class Diaria(models.Model):
     reembolso=models.CharField('Reembolso', max_length=1, choices=STATUS_REEMBOLSO)
     viagem_orig=models.CharField(verbose_name='Origem da Viagem',max_length=180,default='SANTO ANTÔNIO DO JACINTO-MG')
     viagem_dest=models.CharField(verbose_name='Destino da Viagem',max_length=200)
-    conta=models.PositiveBigIntegerField(verbose_name='Conta',null=False,blank=False)
-    fonte=models.PositiveIntegerField(verbose_name='Fonte',null=False,blank=False)
+    conta=models.PositiveBigIntegerField(verbose_name='Conta',null=False,blank=False,default=115223)
+    fonte=models.PositiveIntegerField(verbose_name='Fonte',null=False,blank=False,default=15001002)
     obs=models.TextField(verbose_name='Observação',null=True,blank=True)
     tipo_diaria=models.CharField(max_length=1, verbose_name='Tipo de Diária',choices=TIPO_DIARIA,null=False,blank=False,default='')
     qta_diaria=models.PositiveBigIntegerField(verbose_name='Quantidade',null=False,blank=False)
-    valor=models.CharField(verbose_name='Valor', max_length=50, null=False,blank=False)
-    total=models.DecimalField(null=False, blank=False, decimal_places=2, max_digits=10)
-   
+    valor=models.DecimalField(verbose_name='Valor', decimal_places=2, max_digits=10, null=False,blank=False)
+    total=models.DecimalField(null=True, blank=True, decimal_places=2, max_digits=10)
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
    
     status=models.CharField(verbose_name='Avaliar Diária',max_length=1,choices=STATUS,default='1')
     criado_por=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
     aprovado_por=models.CharField(verbose_name='Aprovado por ',max_length=200,null=True,blank=True)
-
+    descricao_reembolso=models.TextField(verbose_name='Descrição Reembolso',null=True,blank=True)
     def valor_total(self):
        total=0
 
@@ -63,6 +64,25 @@ class Diaria(models.Model):
         return total
       return ''
     
+    def save(self,*args, **kwargs):
+      meia=0
+
+      if not self.total:
+         if self.tipo_diaria =='1':
+            self.total=self.qta_diaria*self.valor
+         else:
+            meia=self.valor/2
+            self.total=self.qta_diaria*meia
+      else:
+         if self.tipo_diaria =='1':
+            self.total=self.qta_diaria*self.valor
+            
+         else:
+            meia=self.valor/2
+            self.total=self.qta_diaria*meia
+         
+      return super().save(*args, **kwargs)
+
       
     
     def total_movimento(self):
@@ -100,12 +120,11 @@ class Reembolso(models.Model):
         ('6','6-Valor Dev. pelo Colaborador à Empresa')
 
     )
-
     descricao=models.CharField(verbose_name='Descrição',choices=TIPOS_DESPESAS,null=True,blank=True, max_length=1)
     diaria=models.ForeignKey(Diaria,on_delete=models.PROTECT,related_name='reembolsos',null=False,blank=False)
     movimentacao=models.CharField(verbose_name='Movimentação', choices=MOVIMENTACAO_FINANCEIRO, null=True,blank=True, max_length=1)
-    valor_mov=models.DecimalField(max_digits=8,decimal_places=2, verbose_name='Valor',null=True, blank=True,default='')
-    valor_desp=models.DecimalField(max_digits=8,decimal_places=2,verbose_name= 'Valor',null=True,blank=False,default='')
+    valor_mov=models.DecimalField(max_digits=8,decimal_places=2, verbose_name='Valor2',null=True, blank=True)
+    valor_desp=models.DecimalField(max_digits=8,decimal_places=2,verbose_name= 'Valor2',null=True,blank=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -122,3 +141,4 @@ class Reembolso(models.Model):
 
     def __str__(self):
         return f'{self.id}'
+    

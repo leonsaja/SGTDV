@@ -45,7 +45,7 @@ class ProfissionalListView(HasRoleMixin,ListView):
     template_name='profissional/list_profissionais.html'
     context_object_name='profissionais'
     paginate_by=10
-    ordering='-nome_completo'
+    ordering='nome_completo'
     allowed_roles=['coordenador','digitador','secretario']
     
 class ProfissionalSearchListView(HasRoleMixin,ListView):

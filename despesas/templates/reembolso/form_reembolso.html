@@ -119,6 +119,9 @@
     </div>
     <div class="row">
       <div class="col-md-12">
+        {{form.descricao_reembolso|as_crispy_field}}
+      </div>
+      <div class="col-md-12">
 
 
         <div class="card">
@@ -191,159 +194,6 @@
   });
 
 
-  $('#validar-form').submit(function () {
-
-
-    let descricao_desp = $('#id_reembolso-0-descricao')
-    let valor_desp = $('#id_reembolso-0-valor_desp')
-    let movimentacao = $('#id_reembolso-0-movimentacao')
-    let valor_mov = $('#id_reembolso-0-valor_mov')
-    let erro = $('.alert')
-/* 
-    if (descricao_desp.val() === '' && valor_desp.val() === '') {
-      if (movimentacao.val() &&  valor_mov.val() !== '') {
-        return true
-      }
-      else if(movimentacao.val()==="" && valor_mov.val())
-      {
-
-        valor_desp.removeClass('is-invalid');
-        valor_mov.removeClass('is-invalid');
-        movimentacao.addClass('is-invalid');
-        erro.removeClass('d-none');
-        console.log('teste1')
-        return false
-
-      }else if(movimentacao.val() && valor_mov.val()==="")
-      {
-        
-        valor_desp.removeClass('is-invalid');
-        valor_mov.addClass('is-invalid');
-        movimentacao.removeClass('is-invalid');
-        erro.removeClass('d-none');
-
-      
-       return false
-      }
-      /* 
-      if ((valor_mov.val()==='0.00' || valor_mov.val()==='') && movimentacao.val()){
-        valor_mov.addClass('is-invalid');
-        movimentacao.removeClass('is-invalid');
-        erro.removeClass('d-none');
-        return false
-      }
-      if ((valor_mov.val()!=='0.00' || valor_mov.val()!=='') && movimentacao.val()===''){
-        movimentacao.addClass('is-invalid');
-        valor_mov.removeClass('is-invalid');
-        erro.removeClass('d-none');
-        return false
-      }
-
-      valor_desp.addClass('is-invalid');
-      descricao_desp.addClass('is-invalid');
-      erro.removeClass('d-none');
-
-      console.log('teste1')
-      return false
-    }
-
-     */
-   /*  if ((valor_desp.val() !== '0.00' && valor_desp.val() !== '0.00') && descricao_desp.val() == '') {
-      valor_desp.removeClass('is-invalid');
-      descricao_desp.addClass('is-invalid');
-
-      erro.removeClass('d-none');
-
-      console.log('teste555')
-      return false
-    } else {
-      if (descricao_desp.val() && (valor_desp.val() === '0.00' || valor_desp.val() === '')) {
-        descricao_desp.removeClass('is-invalid');
-
-        valor_desp.addClass('is-invalid');
-        erro.removeClass('d-none');
-
-        console.log('teste3')
-        return false
-      }
-    }
-    if (movimentacao.val() && (valor_mov.val() === '0.00' || valor_mov.val() === '')) {
-      if (descricao_desp.val() == '' && ((valor_desp.val() === '0.00' || valor_desp.val() === ''))) {
-        return true
-      }
-      movimentacao.removeClass('is-invalid');
-
-      valor_mov.addClass('is-invalid');
-      erro.removeClass('d-none');
-      console.log('teste4')
-      return false
-    }
-
-    else {
-      if ((valor_mov.val() !== '0.00' && valor_mov.val() !== '') && movimentacao.val() === '') {
-        valor_mov.removeClass('is-invalid');
-
-        movimentacao.addClass('is-invalid');
-        erro.removeClass('d-none');
-        console.log('teste5')
-        return false
-
-
-      }
-    }
-
- */
-
-
-    /*  if ((! valor_mov.val()!=='0.00' &&  movimentacao.val()) && descricao_desp.val()==='')
-     {
-         descricao_desp.attr('required',false)
-         valor_desp.attr('required',false)
-         return true
-       
-     } 
-     if((valor_desp.val()==='0.00' || valor_desp.val()==='') && descricao_desp.val()===''){
-         valor_desp.addClass('is-invalid');
-         descricao_desp.addClass('is-invalid');
-         erro.removeClass('d-none');
- 
-         console.log('teste1')
-         return false
- 
-     }
-    
-     if(descricao_desp.val() && (valor_desp.val()==='0.00' || valor_desp.val()===''))
-     {
-       valor_desp.addClass('is-invalid');
-       erro.removeClass('d-none');
-               console.log('teste1')
-       return false
-     }
-     if ((descricao_desp.val() && (valor_desp.val()!=='0.00')) && (movimentacao.val()==='' && (valor_mov.val() ==='0.00' || valor_mov.val() ==='')) )
-     {
-       return true
-     }
-     
-     else
-     {
-       if(!valor_mov.val()!=='0.00' && movimentacao.val()===''){
-       movimentacao.addClass('is-invalid');
-       console.log('teste2')
-       return false
-     }
-     }
-     if(movimentacao.val() && (valor_mov.val()==='0.00' || valor_mov.val()===''))
-     {
-       valor_mov.addClass('is-invalid');
-       return false
-     } */
-
-    console.log('teste final ')
-    return true
-
-
-
-  });
 
 
 
