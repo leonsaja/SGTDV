@@ -139,7 +139,7 @@
                 <td>{{recibo_passagem.quant_passagem_paciente}}</td>
                 <td>{{recibo_passagem.trecho}}</td>
                 <td>{{recibo_passagem.codigo_sia_paciente}}</td>
-                <td>{{recibo_passagem.valor_paciente_sia}}</td>
+                <td>{{recibo_passagem.valor_total_passagem}}</td>
                 
                
     
@@ -153,7 +153,7 @@
                 <td>{{recibo_passagem.quant_passagem_acompanhante}}</td>
                 <td>{{recibo_passagem.trecho}}</td>
                 <td>{{recibo_passagem.codigo_sia_acompanhante}}</td>
-                <td>{{recibo_passagem.valor_acompanhante_sia}}</td>
+                <td>{{recibo_passagem.valor_total_passagem}}</td>
                            
     
             </tr>
@@ -169,7 +169,7 @@
                     </b> </td>
                             
                     <td colspan="2" style="text-align: end;"><b>
-                          TOTAL: &nbsp;&nbsp; R$ {{ recibo_passagem.valor_total_passagem}}
+                          TOTAL: &nbsp;&nbsp; R$ {{ recibo_passagem.total}}
                          </b>
                     </td>
                 </tr>

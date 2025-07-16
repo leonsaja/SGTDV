@@ -71,7 +71,7 @@ class ReciboTFD(models.Model):
             total+=item.soma()
            
       return total
-  
+   
 class ProcedimentoSia(models.Model):
    
    qtd_procedimento=models.PositiveBigIntegerField(verbose_name='Quantidade',null=False,blank=False)
@@ -226,10 +226,10 @@ class ReciboPassagemTFD(models.Model):
    def valor_total_passagem(self):
       total=0
       if self.valor_acompanhante_sia and self.codigo_sia_acompanhante and self.acompanhante and self.quant_passagem_acompanhante:
-         total=self.valor_paciente_sia+self.valor_acompanhante_sia
+         total+=self.quant_passagem_acompanhante*self.valor_acompanhante_sia
          return total
-      return self.valor_paciente_sia
-   
+      return self.valor_paciente_sia*self.quant_passagem_paciente
+    
    def qta_passagem(self):
      
       resul=0
@@ -241,3 +241,8 @@ class ReciboPassagemTFD(models.Model):
             return self.quant_passagem_paciente
 
 
+   def total(self):
+      total=0
+      if self.valor_acompanhante_sia and self.codigo_sia_acompanhante and self.acompanhante and self.quant_passagem_acompanhante:
+         return (self.quant_passagem_paciente*self.valor_paciente_sia)+(self.valor_acompanhante_sia*self.quant_passagem_acompanhante)
+      return self.quant_passagem_paciente*self.valor_paciente_sia

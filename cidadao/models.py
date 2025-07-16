@@ -20,7 +20,7 @@ class Cidadao(models.Model):
    
     nome_completo = models.CharField(verbose_name='Nome Completo',max_length=150, null=False, blank=False)
     email=models.EmailField(verbose_name='E-mail', unique=True,null=True,blank=True)
-    rg=models.CharField(max_length=10,verbose_name='RG', null=True,blank=True)
+    rg=models.CharField(max_length=100,verbose_name='RG', null=True,blank=True)
     cpf=BRCPFField(verbose_name='CPF',unique=True, max_length=11, null=True,blank=True)
     cns=models.PositiveBigIntegerField(verbose_name='CNS', unique=True, null=False,blank=False, help_text='Digite o cartão do SUS com 15 digitos')
     sexo=models.CharField(verbose_name='Sexo:',max_length=1,choices=SEXO, null=False, blank=False)
@@ -79,7 +79,7 @@ class Endereco(models.Model):
    cep = models.CharField(verbose_name='CEP', max_length=10, null=False, blank=False)
    cidade = models.CharField(max_length=30, null=False, blank=False)
    estado = models.CharField( verbose_name='UF',max_length=2, null=False, blank=False)
-   localizacao=models.CharField(verbose_name='LOCALIZAÇÃO',max_length=1,choices=ZONA,null=True, blank=False)
+   localizacao=models.CharField(verbose_name='LOCALIZAÇÃO',max_length=1,choices=ZONA,null=True, blank=False,default='')
 
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
