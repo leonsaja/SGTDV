@@ -64,10 +64,10 @@ class ProfissionalSearchListView(HasRoleMixin,ListView):
         search_dt_nascimento=self.request.GET.get('search_dt_nascimento',None)
         
         if search_nome_cpf:
-            qs=qs.select_related('estabelecimento','microarea').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))
+            qs=qs.select_related('estabelecimento').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))
           
         if search_dt_nascimento:
-             qs=qs.select_related('estabelecimento','microarea').filter(dt_nascimento__iexact=search_dt_nascimento)
+             qs=qs.select_related('estabelecimento').filter(dt_nascimento__iexact=search_dt_nascimento)
         
         return qs
 
