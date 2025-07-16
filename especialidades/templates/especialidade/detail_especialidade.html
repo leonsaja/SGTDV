@@ -111,7 +111,7 @@
                                 <tr>
                                     <td>{{especialidade.paciente.nome_completo}}</td>
                                     <td>{{especialidade.paciente.formt_cpf}}</td>
-                                    <td>{{especialidade.profissional.nome_completo}}</td>
+                                    <td>{{especialidade.paciente.microarea.profissional.nome_completo}}</td>
                                     <td>{{especialidade.get_tipo_atendimento_display }}</td>
                                     {% if especialidade.classificacao == '2'%}
                                     <td style="background-color: red; color: white;">

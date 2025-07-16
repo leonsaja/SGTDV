@@ -20,7 +20,6 @@ class PacienteEspecialidadeForm(forms.ModelForm):
         model= PacienteEspecialidade
         exclude=('especialidade',)
         widgets = {
-            'profissional':s2forms.Select2Widget(),
             'paciente':s2forms.Select2Widget(),
            
         }

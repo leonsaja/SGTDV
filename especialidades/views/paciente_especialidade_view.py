@@ -89,11 +89,11 @@ def pacienteEspecialidade_search(request,id):
     
 
     if buscar:             
-            pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(\
+            pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade').filter(\
                                                             especialidade__id=especialidade.id).filter(Q(paciente__nome_completo__icontains=buscar)|\
                                                             Q(paciente__cpf__icontains=buscar)).order_by('-created_at')
     if data:
-            pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').filter(especialidade__id=especialidade.id).filter(data_pedido__iexact=data).order_by('-created_at')
+            pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade').filter(especialidade__id=especialidade.id).filter(data_pedido__iexact=data).order_by('-created_at')
         
 
     paginator = Paginator(pacientes_especialidade, 10)  
@@ -115,7 +115,7 @@ class PacienteEspecialidadeDetailView(HasRoleMixin,DetailView):
     
     def get_context_data(self, *args, **kwargs):
         context= super().get_context_data(*args, **kwargs)
-        paciente_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','profissional').get(id=self.kwargs['pk'])
+        paciente_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade').get(id=self.kwargs['pk'])
         context['especialiadade']=paciente_especialidade.especialidade
         context['paciente_especialidade']=paciente_especialidade
        
