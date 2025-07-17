@@ -20,7 +20,7 @@ class RelatorioReciboPassagemForm(forms.Form):
                 'type': 'date',
             }),
         )
-    pacientes=forms.ModelChoiceField(label='Paciente', queryset=Cidadao.objects.select_related('endereco','microarea').all(),
+    pacientes=forms.ModelChoiceField(label='Paciente', queryset=Cidadao.objects.select_related('microarea').all(),
                                          required=False,  widget=s2forms.Select2Widget()) 
     
     def clean_data_inicial(self):

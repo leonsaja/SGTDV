@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.db.models import ProtectedError, Q
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, redirect, render
-from especialidades.forms.form_paciente_especialidade import PacienteEspecialidadeForm
+from especialidades.forms.form_paciente_especialidade import PacienteEspecialidadeForm,PacienteEspecialidadeUpdateForm
 from especialidades.models import Especialidade, PacienteEspecialidade
 from django.contrib import messages
 from django.contrib.messages import constants
@@ -36,7 +36,7 @@ class PacienteEspecialidadeCreateView(HasRoleMixin,SuccessMessageMixin,CreateVie
     
 class PacienteEspecialidadeUpdateView(HasRoleMixin,UpdateView):
     model = PacienteEspecialidade
-    form_class = PacienteEspecialidadeForm
+    form_class = PacienteEspecialidadeUpdateForm
     template_name = 'paciente_especialidade/form_paciente_especialidade.html'
     pk_url_kwarg = 'id' 
     allowed_roles=['recepcao','regulacao']
