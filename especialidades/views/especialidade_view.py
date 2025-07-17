@@ -53,11 +53,11 @@ class EspecialidadeListView(HasRoleMixin,ListView):
         return qs
 
 @has_role_decorator(['regulacao','secretario','recepcao','coordenador','acs'])
-def especialidadeDetail(request,id):
+def especialidadeDetail(request,pk):
     context={}
     template='especialidade/detail_especialidade.html'
     
-    especialidade=get_object_or_404(Especialidade,id=id)
+    especialidade=get_object_or_404(Especialidade,id=pk)
     context['especialidade']=especialidade
     pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade').filter(especialidade_id=especialidade.id)
     

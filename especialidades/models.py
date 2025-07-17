@@ -45,11 +45,7 @@ class PacienteEspecialidade(models.Model):
         ('2','PRIORIDADE'),
         ('3','URGÊNCIA'),
     )
-    TIPO_ATENDIMENTO=(
-        ('1','CONSULTA'),
-        ('2','RETORNO'),
-        ('3','AVALIAÇÃO'),
-    )
+
     STATUS=(
         ('1','AGUARDANDO'),
         ('2','CONCLUÍDO'),
@@ -61,7 +57,7 @@ class PacienteEspecialidade(models.Model):
     especialidade=models.ForeignKey(Especialidade, on_delete=models.PROTECT, related_name='paciente_especialidades')
     data_pedido=models.DateField(verbose_name='Data do Pedido')
     classificacao=models.CharField(max_length=1, verbose_name='Classificação',choices=TIPO_CLASSIFICACAO, help_text='TIPO DE URGENCIA')
-    tipo_atendimento=models.CharField(max_length=1, choices=TIPO_ATENDIMENTO,  verbose_name='Tipo de Atendimento')
+    procedimento=models.ForeignKey('ProcedimentosEspecialidade',verbose_name='Procedimento',on_delete=models.PROTECT,null=True)
     observacao=models.TextField(verbose_name='Observação',null=True, blank=True)
     status=models.CharField(verbose_name='Status', choices=STATUS, max_length=1,default=1)
 
