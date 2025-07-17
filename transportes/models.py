@@ -14,7 +14,7 @@ class Viagem(models.Model):
    data_viagem=models.DateField(verbose_name='Data da Viagem', null=False,blank=False)
    destino_viagem=models.CharField(verbose_name='Destino', max_length=180,null=False, blank=False)
    horario_saida=models.TimeField(verbose_name='Horário de Viagem')
-   motorista=models.ForeignKey( Profissional, verbose_name='Motorista', on_delete=models.PROTECT)
+   motorista=models.ForeignKey( Profissional, verbose_name='Motorista', on_delete=models.PROTECT,null=True,blank=True)
    status=models.CharField(verbose_name='Status da Viagem',max_length=1, choices=STATUS_VIAGEM, null=False, blank=False, default=1)
    carro=models.ForeignKey('Carro',related_name='carro_viagens', on_delete=models.PROTECT)
    created_at = models.DateTimeField(auto_now_add=True)

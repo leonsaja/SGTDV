@@ -38,7 +38,6 @@ class ReciboTFD(models.Model):
    tem_acompanhante=models.CharField(verbose_name='Tem Acompanhante',null=False,blank=False,max_length=1,choices=ACOMPANHANTE)
    acompanhante=models.ForeignKey(Cidadao,verbose_name='Acompanhante',null=True,blank=True,on_delete=models.PROTECT)
    
-   
    #Atendimento fora do estado
    atend_fora_estado=models.CharField(verbose_name='Atendimento fora do estado',null=True,blank=False,max_length=1,choices=FORA_ESTADO)
    qta_proced=models.PositiveBigIntegerField(verbose_name='Quant. Procedimento',null=True,blank=True)
@@ -49,8 +48,6 @@ class ReciboTFD(models.Model):
    agencia=models.CharField(max_length=20, verbose_name='AGENCIA',null=True,blank=True)
    conta=models.CharField(max_length=20, verbose_name='CONTA',null=True,blank=True)
    pix=models.CharField(max_length=50, verbose_name='PIX',null=True,blank=True)
-
-
 
    status=models.CharField(verbose_name='Avaliar Recibo Pag. de TFD',max_length=1,choices=STATUS,default='1')
    criado_por=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
@@ -108,8 +105,7 @@ class ProcedimentoSia(models.Model):
       total=self.qtd_procedimento*self.valor_unid_sigtap()
       
       return total
-     
-         
+           
    def valor_comp_mun(self):
        total=0
        if self.recibo_tfd.atend_fora_estado=='1':
@@ -125,8 +121,7 @@ class ProcedimentoSia(models.Model):
             total=(self.codigosia.subtotal*self.qtd_procedimento)-self.valor_total_sigtap()
       
        return total
-    
-    
+      
    def soma(self):
       total=0
       if self.recibo_tfd.atend_fora_estado=='1':
@@ -147,8 +142,7 @@ class ProcedimentoSia(models.Model):
          else:
             total=self.codigosia.subtotal*self.qtd_procedimento
       return total
-
-   
+  
    def total_pag(self):
       
       tota=0

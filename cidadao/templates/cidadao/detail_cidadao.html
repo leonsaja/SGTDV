@@ -39,7 +39,12 @@
         </div>
         <div class="col-md-6">
           <label for="id_email" class="form-label">E-mail:</label>
-          <h6 id='email' class="text-muted">{{paciente.email|upper}}</h6>
+          {%if paciente.email %}
+                <h6 id='email' class="text-muted">{{paciente.email|upper}}</h6>
+           {%else%}
+                 <h6 class="text-muted">-</h6>
+           {%endif%}
+         
         </div>
       </div>
 
@@ -89,7 +94,13 @@
         </div>
         <div class="col-md-2">
           <label for="id_microarea" class="form-label">Micro-Área:</label>
-          <h6 class="text-muted">{{paciente.microarea}}</h6>
+          {%if endereco.localizacao %}
+
+            <h6 class="text-muted">{{paciente.microarea}}</h6>
+           {%else%}
+                 <h6 class="text-muted">-</h6>
+           {%endif%}
+
         </div>
       </div>
       <br>
@@ -111,39 +122,54 @@
       <legend class="text-primary"><strong>Endereço</strong></legend>
       <hr>
       <div class="row">
+         <div class="col-md-4">
+          <label for="id_logradouro" class="form-label">CÓD. LOGRADOURO:</label>
+          <h6 class="text-muted"> {{endereco.get_cod_logradouro_display|upper}}</h6>
+        </div>
+
         <div class="col-md-4">
           <label for="id_logradouro" class="form-label">Logradouro:</label>
-          <h6 class="text-muted"> {{paciente.endereco.logradouro|upper}}</h6>
+          <h6 class="text-muted"> {{endereco.logradouro|upper}}</h6>
         </div>
 
         <div class="col-md-2">
           <label for="id_numero" class="form-label">Numero:</label>
-          <h6 class="text-muted"> {{paciente.endereco.numero}}</h6>
+          <h6 class="text-muted"> {{endereco.numero}}</h6>
         </div>
 
         <div class="col-md-3">
           <label for="id_bairro" class="form-label">Bairro:</label>
-          <h6 class="text-muted">{{paciente.endereco.bairro|upper}}</h6>
+          <h6 class="text-muted">{{endereco.bairro|upper}}</h6>
         </div>
 
         <div class="col-md-3">
           <label for="id_complemento" class="form-label">Complemento:</label>
-          <h6 class="text-muted">{{paciente.endereco.complemento|upper}}</h6>
+          <h6 class="text-muted">{{endereco.complemento|upper}}</h6>
         </div>
+         
       </div>
       <br>
       <div class="row">
         <div class="col-md-3">
           <label for="id_cep" class="form-label">CEP:</label>
-          <h6 class="text-muted">{{paciente.endereco.cep}}</h6>
+          <h6 class="text-muted">{{endereco.cep}}</h6>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
           <label for="id_cidade" class="form-label">Cidade:</label>
-          <h6 class="text-muted">{{paciente.endereco.cidade|upper}}</h6>
+          <h6 class="text-muted">{{endereco.cidade|upper}}</h6>
         </div>
         <div class="col-md-3">
           <label for="id_estado" class="form-label">Estado:</label>
-          <h6 class="text-muted"> {{paciente.endereco.estado|upper}}</h6>
+          <h6 class="text-muted"> {{endereco.estado|upper}}</h6>
+        </div>
+        <div class="col-md-3">
+          <label for="id_complemento" class="form-label">LOCALIZAÇÃO:</label>
+          {%if endereco.localizacao %}
+           <h6 class="text-muted">{{endereco.get_localizacao_display|upper}}</h6>
+           {%else%}
+                 <h6 class="text-muted">-</h6>
+           {%endif%}
+
         </div>
       </div>
     </fieldset>

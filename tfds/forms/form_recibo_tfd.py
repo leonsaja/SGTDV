@@ -24,7 +24,7 @@ class ReciboTFDForm(forms.ModelForm):
    )
     
     data = forms.DateField(
-        label='Data',
+        label='Data do Atendimento',
         widget=forms.DateInput(
             format='%Y-%m-%d',
             attrs={

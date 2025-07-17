@@ -14,13 +14,14 @@ from rolepermissions.mixins import HasRoleMixin
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 
-class CidadaoCreateView(HasRoleMixin,CreateView,SuccessMessageMixin):
+class CidadaoCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
     model = Cidadao
     form_class = CidadaoForm
     template_name = 'cidadao/form_cidadao.html'
     success_url = reverse_lazy('cidadao:list-cidadao')
     success_message='Cadastro realizado com sucesso'
     allowed_roles=['acs','recepcao','regulacao']
+    success_message='Cadastro realizado com sucesso'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -35,24 +36,25 @@ class CidadaoCreateView(HasRoleMixin,CreateView,SuccessMessageMixin):
         form_endereco = context['endereco']
 
         if form_endereco.is_valid():
-            self.object = form.save()  # Save the Cidadao instance
-            form_endereco.instance.cidadao = self.object # Assign the saved Cidadao to the Endereco
-            form_endereco.save() # Save the Endereco instance
+            self.object = form.save()  
+            form_endereco.instance.cidadao = self.object 
+            form_endereco.save()
             return super().form_valid(form)
         else:
-            return self.form_invalid(form) # If Endereco form is not valid, re-render the form with errors
+            return self.form_invalid(form)
 
     def form_invalid(self, form):
         context = self.get_context_data()
         return self.render_to_response(context)
 
-
-class CidadaoUpdateView(HasRoleMixin,UpdateView,SuccessMessageMixin):
+class CidadaoUpdateView(SuccessMessageMixin,HasRoleMixin,UpdateView):
     model = Cidadao
     form_class = CidadaoForm
     template_name = 'cidadao/form_cidadao.html' 
     success_url = reverse_lazy('cidadao:list-cidadao')
     allowed_roles=['acs','recepcao','regulacao']
+    success_message='Dados atualizados com sucesso'
+
     def get_object(self, queryset=None):
         return get_object_or_404(Cidadao, pk=self.kwargs['pk'])
 
@@ -78,7 +80,6 @@ class CidadaoUpdateView(HasRoleMixin,UpdateView,SuccessMessageMixin):
             self.object = form.save()
             form_endereco.instance.cidadao = self.object
             form_endereco.save()
-            messages.add_message(self.request, constants.SUCCESS ,"Dados atualizados com sucesso")
             return super().form_valid(form)
         else:
             return self.form_invalid(form)
@@ -109,8 +110,8 @@ class CidadaoDetailView(HasRoleMixin,DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context=super().get_context_data(*args, **kwargs)
-        context[ 'paciente']=Cidadao.objects.select_related('endereco','microarea').get(pk=self.kwargs['pk'])
-        
+        context['paciente']=Cidadao.objects.select_related('microarea').get(pk=self.kwargs['pk'])
+        context['endereco']=Endereco.objects.select_related('cidadao').get(cidadao=context['paciente'])
         return context
 
 class CidadaoListView(HasRoleMixin,ListView):

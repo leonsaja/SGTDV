@@ -7,7 +7,7 @@ from profissionais.models import Profissional
 
 class Especialidade(models.Model):
     
-    nome=models.CharField(max_length=255, verbose_name='Nome da Especialidade', unique=True)
+    nome=models.CharField(max_length=255, verbose_name='Nome', unique=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

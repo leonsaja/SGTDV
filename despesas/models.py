@@ -47,7 +47,13 @@ class Diaria(models.Model):
        if self.total:
           total+=self.total
        return total
+    def form_conta(self):
+       conta=str(self.conta)
+       return ('{}-{}'.format(conta[:],conta[5:]))
     
+    def form_fonte(self):
+       fonte=str(self.fonte)
+       return ('{}-{}'.format(fonte[:4],fonte[4:]))
     
     def __str__(self):
         return f'{self.profissional}'
@@ -83,8 +89,6 @@ class Diaria(models.Model):
          
       return super().save(*args, **kwargs)
 
-      
-    
     def total_movimento(self):
       items=Reembolso.objects.filter(diaria=self)
       total=0
