@@ -10,7 +10,7 @@
             {% include 'includes/mensagens.html'%}
         </div>
     </div>
-    {% if user|has_role:'recepcao' %}
+    {% if user|has_role:'recepcao,regulacao' %}
 
         <div class="row">
             <div class="col-md-12">

@@ -12,7 +12,7 @@ from django.contrib.messages import constants
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
 
-has_role_decorator(['recepcao'])
+has_role_decorator(['recepcao','regulacao'])
 def viagemCreate(request):
     viagem=Viagem()
     if request.method == 'POST':
@@ -31,7 +31,7 @@ def viagemCreate(request):
     
     return render(request, 'viagem/form_viagem.html', {'form': form,'formset':formset})
 
-has_role_decorator(['recepcao'])
+has_role_decorator(['recepcao','regulacao'])
 def viagemUpdate(request,id):
 
     viagem=Viagem.objects.get(id=id)
