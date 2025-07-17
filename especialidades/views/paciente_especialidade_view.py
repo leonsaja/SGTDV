@@ -60,7 +60,7 @@ class PacienteEspecialidadeListView(HasRoleMixin,ListView):
     template_name = 'especialidade/detail_especialidade.html'
     paginate_by = 10
     pk_url_kwarg = 'id'
-    allow_empty=['recepcao','secretario','regulacao','coordenador','acs']
+    allowed_roles=['recepcao','regulacao','secretario','coordenador','acs']
 
     def get_queryset(self):
         especialidade_id = self.kwargs.get(self.pk_url_kwarg)
