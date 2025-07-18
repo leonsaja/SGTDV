@@ -21,7 +21,7 @@ class RelatorioViagemForm(forms.Form):
                 'type': 'date',
             }),
         )
-    profissionais=forms.ModelChoiceField(label='Motorista', queryset=Profissional.objects.select_related('estabelecimento','microarea').all(),
+    profissionais=forms.ModelChoiceField(label='Motorista', queryset=Profissional.objects.select_related('estabelecimento').all(),
                                          required=False,widget=forms.Select(attrs={'class': 'form-control'}))
     
     

@@ -90,3 +90,5 @@ class Endereco(models.Model):
        return f'{self.id}, {self.get_cod_logradouro_display()}, {self.logradouro}, Nº:{self.numero}, Bairro:{self.bairro}'   
 
 
+   class Meta:
+        ordering = ["logradouro"]
