@@ -138,9 +138,9 @@
                         </thead>
                         <tbody>
                             
-                           {%for especialidade in especialidades %}
+                           {%for especialidade in page_obj %}
                                 <tr>
-                                    <td>{{especialidade.nome}}</td>
+                                    <td><a style="text-decoration:none" href="{% url 'especialidades:detail-especialidade' especialidade.id%}"><b>{{especialidade.nome}}</b></a></td>
                                     <td>{{especialidade.qta_pessoas_especialidade}}</td>
                                     <td>{{especialidade.qta_pessoas_eletivo_especialidade}}</td>
                                     <td>{{especialidade.qta_pessoas_concluido_especialidade}}</td>
@@ -150,6 +150,7 @@
                            {%endfor%}
                         </tbody>
                     </table>
+                     {% include 'includes/paginacao.html'%}
                 </div>
             </div>
             <!-- /.card -->

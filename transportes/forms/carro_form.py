@@ -13,9 +13,15 @@ class CarroForm(forms.ModelForm):
       ('1','SERVIÇO PRÓPRIO'),
       ('2','SERVIÇO DO CIS'),
    )
+    STATUS=(
+        ('1','ATIVO'),
+        ('2','DESATIVADO'),
+    )
+   
     tipo_transporte=forms.ChoiceField(label='Tipo de Transporte', widget=forms.RadioSelect,choices=CHOICES_TIPO_TRANSPORTE)
     forma_atend=forms.ChoiceField(label='Forma de Atendimento', widget=forms.RadioSelect,choices=CHOICES_FORMA_ATEND)
-    
+    status=forms.ChoiceField(label='Status', widget=forms.RadioSelect,choices=STATUS)
+
     class Meta:
         model=Carro
         fields='__all__'

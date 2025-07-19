@@ -60,7 +60,10 @@ class Carro(models.Model):
       ('1','SERVIÇO PRÓPRIO'),
       ('2','SERVIÇO DO CIS'),
    )
-   
+   STATUS=(
+        ('1','ATIVO'),
+        ('2','DESATIVADO'),
+    )
    
    nome=models.CharField(verbose_name='Nome do Carro', max_length=180, null=False, blank=False)
    placa=models.CharField(verbose_name='Placa do Carro', max_length=7,unique=True, help_text='Sem caracteres especiais(-)')
@@ -71,6 +74,7 @@ class Carro(models.Model):
    forma_atend=models.CharField(verbose_name='Forma de Atendimento',max_length=1,choices=CHOICES_FORMA_ATEND, null=True,blank=False)
    fabricante=models.CharField(verbose_name='Fabricante', max_length=100,null=True,blank=False)
    qta_passageiro=models.IntegerField(verbose_name='Qta. Passageiro', null=True,blank=False)
+   status=models.CharField(max_length=1, verbose_name='Status',choices=STATUS, default='1')
 
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)

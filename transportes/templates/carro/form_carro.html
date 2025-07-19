@@ -20,23 +20,25 @@
       <legend class="text-primary"> <b> Dados do Carro </b></legend>
       <hr>
       <div class="row mt-2">
-        <div class="col-md-4">{{form.nome|as_crispy_field }}</div>
-        <div class="col-md-4">{{form.placa|as_crispy_field }}</div>
-        <div class="col-md-4">{{form.ano_fabricacao|as_crispy_field }}</div>
-       
+        <div class="col-md-3">{{form.nome|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.placa|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.ano_fabricacao|as_crispy_field }}</div>
+        <div class="col-md-3">{{form.cor|as_crispy_field }}</div>
+
        
       </div>
 
         <div class="row">
-          <div class="col-md-4">{{form.cor|as_crispy_field }}</div>
-          <div class="col-md-4">{{form.fabricante|as_crispy_field }}</div>
-          <div class="col-md-4">{{form.qta_passageiro|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.fabricante|as_crispy_field }}</div>
+          <div class="col-md-3">{{form.qta_passageiro|as_crispy_field }}</div>
+          <div class="col-md-6">{{form.foto|as_crispy_field }}</div>
+
         </div>
       <div class="row mt-2">
-        <div class="col-md-5">{{form.foto|as_crispy_field }}</div>
         <div class="col-md-3">{{form.tipo_transporte|as_crispy_field }}</div>
         <div class="col-md-3">{{form.forma_atend|as_crispy_field }}</div>
-       
+        <div class="col-md-2">{{form.status|as_crispy_field }}</div>
+
       </div>
       <br>
      

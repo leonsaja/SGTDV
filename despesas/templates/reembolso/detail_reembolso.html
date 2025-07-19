@@ -95,7 +95,7 @@
 
             <div class="row mt-2">
                 <div class="col-md-6">
-                    <label for="id_descricao" class="form-label">Descrição:</label>
+                    <label for="id_descricao" class="form-label">Descrição da Diária:</label>
                     <h6 class="text-muted">{{diaria.descricao|upper}}</h6>
                 </div>
                 <div class="col-md-6">
@@ -156,8 +156,8 @@
 
                                             <th class="text-center">Descricao</th>
                                             <th class="text-center">Valor</th>
-                                            <th class="text-center">Movimentação</th>
-                                            <th class="text-center">Valor </th>
+                                            <th class="text-center">Observação</th>
+                                           
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -179,9 +179,9 @@
                                                  {%else%}
                                                  <td class="text-center">-</td>
                                                  {%endif%}
-                                                {% if r.movimentacao %}
+                                                {% if r.obs %}
                                                 <td class="text-center">
-                                                    {{r.get_movimentacao_display}}
+                                                    {{r.obs}}
 
                                                 </td>
                                                 {%else %}
@@ -190,19 +190,7 @@
 
                                                 </td>
                                                 {%endif%}
-                                                {% if r.valor_mov %}
-                                                <td class="text-center">
-                                                    {{r.valor_mov}}
-
-                                                </td>
-                                                {%else %}
-                                                <td class="text-center">
-                                                    -
-                                                </td>
-                                                {%endif%}
-
-
-
+                                            
                                             </tr>
 
 
@@ -220,18 +208,9 @@
                                                     <h6>R$ {{ diaria.total_desp}}</h6>
                                                 </b> </td>
 
-                                                <td class="text-end"><b>
-                                                    <h6>Total:</h6>
-                                                </b> </td>
-                                         
-                                            <td class="text-center"><b>
-                                                {% if diaria.total_movimento%}
-                                                 <h6>{{ diaria.total_movimento}}</h6>
-                                                {% else%}
-                                                <h6>R$  </h6>
-                                                {%endif%}
-                                                  
-                                                </b> </td>
+                                            
+                                
+                                           
                                         </tr>
                                         
 
@@ -250,6 +229,7 @@
                                    
                 </div>
               </div>
+              
 
     </div>
 </div>

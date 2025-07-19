@@ -40,7 +40,7 @@ class Cidadao(models.Model):
 
     def __str__(self):
         if self.cpf:
-             return f'{self.nome_completo}, CNS:   {self.cpf}'  
+             return f'{self.nome_completo}, CPF:   {self.cpf}'  
         
         return f'{self.nome_completo}  CNS:   {self.cns}' 
        

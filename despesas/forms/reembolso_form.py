@@ -17,14 +17,14 @@ class ReembolsoForm(forms.ModelForm):
 
     class Meta:
         model=Reembolso
-        fields=['descricao','valor_desp','movimentacao','valor_mov']
-
+        fields=['descricao','valor_desp','obs']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['descricao'].widget.attrs.update({'class':'form-select'})
-        self.fields['movimentacao'].widget.attrs.update({'class':'form-select'})
+        self.fields['obs'].widget.attrs.update({'class':'form-control'})
         self.fields['valor_desp'].widget.attrs.update({'class':'form-control'})
-        self.fields['valor_mov'].widget.attrs.update({'class':'form-control'})
+        
+
 
 ReembolFormSet=inlineformset_factory(Diaria,Reembolso,form=ReembolsoForm, extra=1)

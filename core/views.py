@@ -10,6 +10,7 @@ from rolepermissions.decorators import has_role_decorator
 from django.contrib.auth.decorators import login_required
 from especialidades.models import AtendimentoEspecialidade
 from datetime import datetime
+from django.core.paginator import Paginator
 
 @login_required
 def home(request):
@@ -20,9 +21,12 @@ def home(request):
    context['qta_recibo_tfd']=ReciboTFD.objects.select_related('paciente').count()
    context['qta_registro_transporte']=RegistroTransporte.objects.select_related('paciente','carro').count()
    context['qta_atendimento']=AtendimentoEspecialidade.objects.count()
-   context['especialidades']=Especialidade.objects.all()
+   especialidades=Especialidade.objects.all()
    
-
+   paginator = Paginator(especialidades,10)  
+   page_number = request.GET.get("page")
+   context['page_obj']= paginator.get_page(page_number)
+ 
    return render(request,'home.html',context)
 
 """ def relatorio_despesas(request):

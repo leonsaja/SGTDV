@@ -94,20 +94,6 @@
 {% comment %} 
 <script>
  
-  
-
-  var verificarCPF = function () {
-    var cpf = document.getElementById("id_cpf");
-    cpf.setAttribute("readonly", "readonly");
-
-    if (cpf.value == '') {
-      cpf.removeAttribute("readonly");
-    }
-    if (cpf.classList.contains('is-invalid')) {
-      cpf.removeAttribute("readonly");
-    }
-  };
-  verificarCPF();
 </script>
 {% endcomment %}
 {% endblock scripts %} 

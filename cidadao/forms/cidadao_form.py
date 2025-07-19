@@ -1,9 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django_select2 import forms as s2forms
-
+from datetime import date
 from utils.django_form import validarCNS, validarCpf
-
 from ..models import Cidadao, Endereco
 
 
@@ -40,6 +39,13 @@ class CidadaoForm(forms.ModelForm):
             return data_cnes    
         raise ValidationError('Digite o cartão do SUS com 15 digitos')
     
+    def clean_dt_nascimento(self):
+        data = self.cleaned_data['dt_nascimento']
+
+        if data > date.today():
+            raise ValidationError("A Data de Nascimento não pode ser futura.")
+        return data
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['cpf'].widget.attrs.update({'class':'mask-cpf'})
@@ -47,6 +53,9 @@ class CidadaoForm(forms.ModelForm):
         self.fields['telefone1'].widget.attrs.update({'class':'mask-telefone'})
         if self.instance.cpf:
             self.fields['cpf'].widget.attrs['readonly'] = True
+        if self.instance.cns:
+            self.fields['cns'].widget.attrs['readonly'] = True
+
                
 class EnderecoForm(forms.ModelForm):
     cep = forms.CharField(

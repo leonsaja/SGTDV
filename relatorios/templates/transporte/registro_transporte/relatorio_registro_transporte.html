@@ -33,7 +33,7 @@
   </form>
   <div class="row">
     <div class="col-md-12 mt-4">
-        {% if transportes %}
+        {% if page_obj %}
 
         <div class="card">
             <div class="card-header">
@@ -54,7 +54,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {%for transporte in transportes %}
+                            {%for transporte in page_obj %}
                             <tr>
                                 <td>{{transporte.paciente.nome_completo}}</td>
                                 <td>{{transporte.dt_atendimento|date:"d/m/Y"|default:'---'}}</td>
@@ -68,6 +68,7 @@
                             {%endfor%}
 
                         </tbody>
+
                     </table>
                     <br>
                     {% include 'registro_transporte/paginacao_registro_transporte.html'%}

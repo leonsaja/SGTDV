@@ -97,12 +97,9 @@
                     <h6 class="text-muted">R$ {{diaria.total}}</h6>
                 </div>
             </div>
-
-
-
             <div class="row mt-2">
                 <div class="col-md-6">
-                    <label for="id_descricao" class="form-label">Descrição:</label>
+                    <label for="id_descricao" class="form-label">Descrição da Diária:</label>
                     <h6 class="text-muted">{{diaria.descricao|upper}}</h6>
                 </div>
                 <div class="col-md-6">
@@ -112,7 +109,7 @@
 
             </div>
 
-            <div class="row mt-2">
+            <div class="row ">
                 <div class="col-md-6">
                     <label for="id_viagem_orig" class="form-label">Origem da Viagem:</label>
                     <h6 class="text-muted">{{diaria.viagem_orig|upper}}</h6>
@@ -124,8 +121,37 @@
             </div>
    
     </fieldset>
-    <br>
-    <div class="row">
+   
+      <div class="row">
+        <hr>
+            <div class="col-md-7">
+                 
+                {%if diaria.descricao_reembolso%}
+                    <label for="id_descricao_reembolso" class="form-label"><h6><b>Descrição do Reembolso:</b></h6></label>
+                    <h6 class="text-muted"> {{diaria.descricao_reembolso|upper}}</h6>
+                       
+                {%else%}
+                 <h6 class="text-muted">-</h6>
+                {%endif%}
+            </div>
+            <div class="col-md-5">
+            {% if user|has_role:'secretario' %}
+
+                <form action="{% url 'despesas:status-diaria'  diaria.id %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-4">{{form.status  |as_crispy_field }}
+                        </div>
+                    
+                        <div class="col-md-4 mt-4"> <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </div>
+                
+                </form>
+            </div>
+            {%endif%}
+        
+        <div class="row">
         <div class="col-md-12 mb-5">
             <a href="{% url 'despesas:list-diaria' %}" class="btn btn-outline-primary mr-2">Voltar</a>
                            
@@ -156,8 +182,7 @@
 
                                     <th class="text-center">Descricao</th>
                                     <th class="text-center">Valor</th>
-                                    <th class="text-center">Movimentação</th>
-                                    <th class="text-center">Valor </th>
+                                    <th class="text-center">Observação</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -180,9 +205,9 @@
                                                  <td class="text-center">-</td>
                                                  {%endif%}
 
-                                        {% if r.movimentacao %}
+                                        {% if r.obs %}
                                         <td class="text-center">
-                                            {{r.get_movimentacao_display}}   
+                                            {{r.obs}}   
                                         </td>
                                         {%else %}
                                         <td class="text-center">
@@ -190,16 +215,7 @@
 
                                         </td>
                                         {%endif%}
-                                        {% if r.valor_mov %}
-                                        <td class="text-center">
-                                            {{r.valor_mov}}
-
-                                        </td>
-                                        {%else %}
-                                        <td class="text-center">
-                                            -
-                                        </td>
-                                        {%endif%}
+                                        
 
 
 
@@ -220,18 +236,7 @@
                                             <h6>R$ {{ diaria.total_desp}}</h6>
                                         </b> </td>
 
-                                        <td class="text-end"><b>
-                                            <h6>Total:</h6>
-                                        </b> </td>
-                                 
-                                    <td class="text-center"><b>
-                                        {% if diaria.total_movimento%}
-                                         <h6>{{ diaria.total_movimento}}</h6>
-                                        {% else%}
-                                        <h6>R$  </h6>
-                                        {%endif%}
-                                          
-                                        </b> </td>
+                                     
                                 </tr>
                                 
 
@@ -247,27 +252,8 @@
 
   
     {% endif %}
-    {% if user|has_role:'secretario' %}
-
-        <form action="{% url 'despesas:status-diaria'  diaria.id %}" method="POST">
-            {% csrf_token %}
-            <div class="row">
-                <div class="col-md-3">{{form.status  |as_crispy_field }}
-                </div>
-            
-                <div class="col-md-3 mt-4"> <button type="submit" class="btn btn-primary">Salvar</button>
-                </div>
-            </div>
-        
-        </form>
-
-    {%endif%}
+    
     
 </div>
-</div>
-
-
-<br />
-
 
 {% endblock %}

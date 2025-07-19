@@ -88,30 +88,18 @@ class CidadaoUpdateView(SuccessMessageMixin,HasRoleMixin,UpdateView):
         context = self.get_context_data()
         return self.render_to_response(context)
 
-@has_role_decorator(['coordenador'])
-def cidadao_delete(request,id):
-
-    cidadao=get_object_or_404(Cidadao,id=id)
-
-    try:
-        cidadao.delete()
-        messages.add_message(request, constants.SUCCESS ,"Registro excluido com sucesso")
-
-    except ProtectedError:
-        messages.add_message(request, constants.ERROR ,"Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
-    finally:
-        return redirect('cidadao:list-cidadao')
-
 class CidadaoDetailView(HasRoleMixin,DetailView):
     model=Cidadao
     template_name='cidadao/detail_cidadao.html'
     allowed_roles = ['acs','coordenador','regulacao','recepcao']
 
-
     def get_context_data(self, *args, **kwargs):
         context=super().get_context_data(*args, **kwargs)
         context['paciente']=Cidadao.objects.select_related('microarea').get(pk=self.kwargs['pk'])
-        context['endereco']=Endereco.objects.select_related('cidadao').get(cidadao=context['paciente'])
+        try:
+            context['endereco']=Endereco.objects.select_related('cidadao').get(cidadao=context['paciente'])
+        except Endereco.DoesNotExist:
+            context['endereco']=Endereco(cidadao=context['paciente'])
         return context
 
 class CidadaoListView(HasRoleMixin,ListView):
@@ -426,4 +414,15 @@ class ImportDadosView(View):
                         })
 """
 
-           
+@has_role_decorator(['coordenador'])
+def cidadao_delete(request,id):
+    cidadao=get_object_or_404(Cidadao,id=id)
+
+    try:
+        cidadao.delete()
+        messages.add_message(request, constants.SUCCESS ,"Registro excluido com sucesso")
+
+    except ProtectedError:
+        messages.add_message(request, constants.ERROR ,"Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
+    finally:
+        return redirect('cidadao:list-cidadao')

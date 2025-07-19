@@ -1,16 +1,14 @@
 from django.shortcuts import render
 from relatorios.forms.registro_transporte_form import RelatorioRegistroTransporteForm
 from transportes.models import RegistroTransporte
-from django.http import FileResponse, HttpResponse
+from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from datetime import datetime
-from django.db.models import Count
 from django.contrib.messages import constants
 from django.contrib import messages
 from rolepermissions.decorators import has_role_decorator
-
-from django.db import connection
+from django.core.paginator import Paginator
 
 def relatorio_registro_transporte_pdf(request,context):
     transportes=RegistroTransporte.objects.select_related('paciente','carro').all()
@@ -94,5 +92,11 @@ def relatorio_registro_transporte(request):
            
     else:
         form=RelatorioRegistroTransporteForm(request.POST or None)
+        
+    paginator = Paginator(transportes,10)  
+    page_number = request.GET.get("page")
+    context['page_obj']= paginator.get_page(page_number)
+    
+    context['form']=form
 
-    return render(request,'transporte/registro_transporte/relatorio_registro_transporte.html',{'form':form,'transportes':transportes})
+    return render(request,'transporte/registro_transporte/relatorio_registro_transporte.html',context)

@@ -21,7 +21,7 @@ class Diaria(models.Model):
         ('3','REPROVADO'),
     )
     profissional=models.ForeignKey(Profissional,on_delete=models.PROTECT,null=False, blank=False, related_name='profissionais')
-    descricao=models.TextField(verbose_name='Descrição',null=False,blank=False)
+    descricao=models.TextField(verbose_name='Descrição ',null=False,blank=False)
     data_diaria=models.DateField(verbose_name='Data',null=False,blank=False)
     reembolso=models.CharField('Reembolso', max_length=1, choices=STATUS_REEMBOLSO)
     viagem_orig=models.CharField(verbose_name='Origem da Viagem',max_length=180,default='SANTO ANTÔNIO DO JACINTO-MG')
@@ -37,7 +37,7 @@ class Diaria(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
    
-    status=models.CharField(verbose_name='Avaliar Diária',max_length=1,choices=STATUS,default='1')
+    status=models.CharField(verbose_name='Avaliar',max_length=1,choices=STATUS,default='1')
     criado_por=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
     aprovado_por=models.CharField(verbose_name='Aprovado por ',max_length=200,null=True,blank=True)
     descricao_reembolso=models.TextField(verbose_name='Descrição Reembolso',null=True,blank=True)
@@ -115,25 +115,18 @@ class Reembolso(models.Model):
         ('8','8-Combustivel'),
         ('9','9-Outros')
     )
-    MOVIMENTACAO_FINANCEIRO=(
-        ('1','1-Valores Adiantados ao Beneficiário'),
-        ('2','2-Total Geral das despesas Comprovadas'),
-        ('3','3-Diferença Apurada: Maior'),
-        ('4','4-Diferença Apurada: Menor'),
-        ('5','5-Valor Reembolsado ao Colaborador' ),
-        ('6','6-Valor Dev. pelo Colaborador à Empresa')
-
+    STATUS=(
+        ('1','AGUARDANDO'),
+        ('2','APROVADO'),
+        ('3','REPROVADO'),
     )
     descricao=models.CharField(verbose_name='Descrição',choices=TIPOS_DESPESAS,null=True,blank=True, max_length=1)
-    diaria=models.ForeignKey(Diaria,on_delete=models.PROTECT,related_name='reembolsos',null=False,blank=False)
-    movimentacao=models.CharField(verbose_name='Movimentação', choices=MOVIMENTACAO_FINANCEIRO, null=True,blank=True, max_length=1)
-    valor_mov=models.DecimalField(max_digits=8,decimal_places=2, verbose_name='Valor',null=True, blank=True)
     valor_desp=models.DecimalField(max_digits=8,decimal_places=2,verbose_name= 'Valor',null=True,blank=False)
-
+    diaria=models.ForeignKey(Diaria,on_delete=models.PROTECT,related_name='reembolsos',null=False,blank=False)
+    obs=models.CharField(verbose_name='OBSERVAÇÃO', null=True,blank=True, max_length=200)
+   
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-
 
     def total_desp(self):
        total=0

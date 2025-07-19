@@ -79,7 +79,7 @@ class DiariaSearchListView(HasRoleMixin,ListView):
     
         return qs
 
-class DiariaStatusUpdateView(HasRoleMixin,SuccessMessageMixin, UpdateView):
+class DiariaStatusUpdateView(SuccessMessageMixin,HasRoleMixin, UpdateView):
     
    model=Diaria
    form_class=DiariaStatusForm 
