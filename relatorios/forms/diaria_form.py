@@ -58,7 +58,7 @@ class RelatorioDiariaForm(forms.Form):
                 """ raise forms.ValidationError("Data inicial é maior que data final ") """
                 self.add_error('data_inicial', 'Data inicial é maior que Data final ')
 
-            data_limite=timedelta(days=180)
+            data_limite=timedelta(days=365)
             pesquisado=final_data-inicial_data
 
             if pesquisado > data_limite:

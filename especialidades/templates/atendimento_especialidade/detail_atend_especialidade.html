@@ -14,7 +14,7 @@
         {% include 'includes/mensagens.html'%}
     </div>
 </div>
-{% if user|has_role:'digitador' %}
+{% if user|has_role:'regulacao,recepcao' %}
 
     <div class="row">
 
@@ -26,7 +26,7 @@
             </div>
         </div>
     </div>
-{%endif%}
+    {%endif%}
     <div class="col-md-12 px-4">
        
             <legend>

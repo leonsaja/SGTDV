@@ -41,7 +41,6 @@ class Profissional(models.Model):
     dt_nascimento=models.DateField(verbose_name='Data de Nascimento', null=False,blank=False)
     telefone=models.CharField(verbose_name='Telefone', max_length=15,null=False,blank=False)
     estabelecimento=models.ForeignKey(Estabelecimento, verbose_name=('Estabelecimento'), on_delete=models.SET_NULL,null=True, related_name='profissional_estabelecimento')
-    endereco=models.ForeignKey('cidadao.Endereco',verbose_name='Endereço',on_delete=models.CASCADE,null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -9,7 +9,7 @@
 
   <br /><br />
   <div class="row justify-content-center">
-    <div class="col-md-4">
+    <div class="col-md-3">
       <h4 class="text-primary"><strong>Relátorio de Atendimento</strong></h4>
     </div>
   </div>
@@ -18,23 +18,28 @@
  {% csrf_token %}
 
  <div class="row justify-content-center">
-  <div class="col-md-4 mt-3">
+  <div class="col-md-6 mt-3">
+    <br>
     <h6><b>Período:</b></h6>
   </div>
  </div>
     <div class="row justify-content-center mt-3" >
-      <div class="col-md-2 ">
+      <div class="col-md-3 ">
         {{form.data_inicial|as_crispy_field }}
       
       </div>
       
-      <div class="col-md-2">
+      <div class="col-md-3">
         {{form.data_final|as_crispy_field }}
       </div>
     </div>
     <div class="row justify-content-center mt-3" >
-      <div class="col-md-4 ">
+      <div class="col-md-3 ">
         {{form.especialidade|as_crispy_field }}
+       
+      </div>
+      <div class="col-md-3 ">
+        {{form.atendimento_via|as_crispy_field }}
        
       </div>
   
@@ -43,9 +48,9 @@
     
 
     <div class="row justify-content-center">
-      <div class="col-md-4 mt-2">
+      <div class="col-md-6 mt-2">
         <div class="text-right">
-          <a href="{% url 'relatorios:relatorio-diaria'%}" class="btn mr-2" style="background-color:#DADADA;"> Limpar
+          <a href="{% url 'relatorios:relatorio-atendimento-especialidade'%}" class="btn mr-2" style="background-color:#DADADA;"> Limpar
             Filtros</a>
           <button type="submit" class="btn btn-primary" >Gerar Relatório</button>
         </div>

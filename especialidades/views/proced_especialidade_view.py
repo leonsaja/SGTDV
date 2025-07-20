@@ -21,7 +21,7 @@ class ProcedEspecialidadeCreateView(HasRoleMixin,SuccessMessageMixin,CreateView)
     template_name='procedimento_especialidade/form_proced_especialidade.html' 
     context_object_name='form'
     success_message='Cadastro realizado com sucesso'
-    allowed_roles=['regulacao']
+    allowed_roles=['regulacao','recepcao']
 
 class ProcedEspecialidadeUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
     model=ProcedimentosEspecialidade
@@ -30,7 +30,7 @@ class ProcedEspecialidadeUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView)
     success_url=reverse_lazy('especialidades:list-proced_especialidade')
     context_object_name='form'
     success_message='Dados atualizado com sucesso'
-    allowed_roles=['regulacao']
+    allowed_roles=['regulacao','recepcao']
 
 class ProcedEspecialidadeListView(HasRoleMixin,ListView):
 
@@ -38,7 +38,7 @@ class ProcedEspecialidadeListView(HasRoleMixin,ListView):
     template_name='procedimento_especialidade/list_proced_especialidade.html'
     context_object_name='procedimentos'
     paginate_by=10
-    allowed_roles=['regulacao']
+    allowed_roles=['regulacao','recepcao']
 
     def get_queryset(self):
         qs=super(ProcedEspecialidadeListView,self).get_queryset()
@@ -57,7 +57,7 @@ class ProcedEspecialidadeDetail(HasRoleMixin,DetailView):
     model=ProcedimentosEspecialidade
     template_name='procedimento_especialidade/detail_proced_especialidade.html'
     context_object_name='procedimento'
-    allowed_roles=['regulacao']
+    allowed_roles=['regulacao','recepcao']
     
 @has_role_decorator(['coordenador'])
 def especialidadeDelete(request, id):

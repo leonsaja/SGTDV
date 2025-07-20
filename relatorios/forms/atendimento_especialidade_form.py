@@ -1,7 +1,7 @@
 from typing import Any
 from django import forms
 from datetime import datetime, timedelta,date
-from especialidades.models import Especialidade
+from especialidades.models import Especialidade,ProcedimentosEspecialidade
 from django.core.exceptions import ValidationError
 
 class RelatorioAtendimentoEspecialidadeForm(forms.Form):
@@ -18,5 +18,15 @@ class RelatorioAtendimentoEspecialidadeForm(forms.Form):
                 'type': 'date',
             }),
         )
+    ATEND_VIA=(
+
+            ('1','CIMBAJE'),
+            ('2','CEAE'),
+            ('3','RECURSO PRÓPRIO'),
+            ('4','PPI'),
+
+        )
+
     especialidade=forms.ModelChoiceField(label='Especialidade', queryset=Especialidade.objects.all(),
                                          required=False,widget=forms.Select(attrs={'class': 'form-control'}))
+    atendimento_via=forms.ChoiceField(label='Classficação',required=False, widget=forms.Select,choices=ATEND_VIA)

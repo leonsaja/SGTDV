@@ -41,7 +41,7 @@ class RegistroTransporteForm(forms.ModelForm):
         model=RegistroTransporte
         fields='__all__'
         widgets = {
-            'paciente':s2forms.Select2Widget(),
+            'paciente':s2forms.Select2Widget,
             'carro':s2forms.Select2Widget(),
            
         }

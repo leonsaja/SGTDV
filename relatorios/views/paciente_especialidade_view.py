@@ -12,25 +12,20 @@ from rolepermissions.decorators import has_role_decorator
 
 
 def relatorio_paciente_especialidade_pdf(request,context):
-    paciente_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade').all()
+    paciente_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').all()
 
     especialidade=context['especialidade']
     profissional=context['profissional']
-    tipo_atendimento=context['tipo_atendimento'] 
+    procedimento=context['procedimento'] 
     classificacao=context['classificacao']
     status=context['status']
 
-
-    """  paciente_especialidade=paciente_especialidade.filter(Q(especialidade=especialidade)| Q(profissional=profissional)|\
-                                                    Q(tipo_atendimento=tipo_atendimento) | Q(classificacao=classificacao) )
-    print('paciente',paciente_especialidade)
-    """  
     if especialidade:
         paciente_especialidade=paciente_especialidade.filter(especialidade=especialidade)   
     if profissional:
         paciente_especialidade=paciente_especialidade.filter(profissional=profissional) 
-    if tipo_atendimento:
-        paciente_especialidade=paciente_especialidade.filter(tipo_atendimento=tipo_atendimento)
+    if procedimento:
+        paciente_especialidade=paciente_especialidade.filter(tipo_atendimento=procedimento)
     if classificacao:
         paciente_especialidade=paciente_especialidade.filter(classificacao=classificacao)
     if status:
@@ -58,7 +53,7 @@ def relatorio_pacientes_especialidade(request):
         if form.is_valid():
             context['especialidade']=form.cleaned_data.get('especialidades')
             context['profissional']=form.cleaned_data.get('profissionais')
-            context['tipo_atendimento']=form.cleaned_data.get('tipo_atendimento')
+            context['procedimento']=form.cleaned_data.get('procedimento')
             context['classificacao']=form.cleaned_data.get('classificacao')
             context['status']=form.cleaned_data.get('status')
 

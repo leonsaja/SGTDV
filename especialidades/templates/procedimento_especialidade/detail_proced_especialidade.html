@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
      {% include 'procedimento_especialidade/abas_proced_especialidade.html' %}
-     {% if user|has_role:'regulacao' %}
+     {% if user|has_role:'regulacao,recepcao' %}
 
     <div class="row m-2">
         <div class="col-md-12">

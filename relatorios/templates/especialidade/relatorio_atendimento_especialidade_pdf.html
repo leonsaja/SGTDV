@@ -60,7 +60,7 @@
       </p>
 
     </div>
-  
+
 
  
 </div>
@@ -73,6 +73,7 @@
           <th>ITENS</th>
           <th>ESPECIALIDADE</th>
           <th>QUANTIDADE</th>
+          <th>Atendimento Via</th>
         
 
         </tr>
@@ -85,6 +86,7 @@
           <td>{{ forloop.counter }}</td>
           <td>{{a.especialidade}}</td>
           <td>{{a.qta_paciente_especialidade}}</td>
+          <td>{{a.get_atendimento_via_display}}</td>
         </tr>
 
         {%endfor%}

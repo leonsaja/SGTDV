@@ -20,7 +20,7 @@ class RelatorioReciboTfdsForm(forms.Form):
                 'type': 'date',
             }),
         )
-    pacientes=forms.ModelChoiceField(label='Paciente', queryset=Cidadao.objects.select_related('endereco','microarea').all(),
+    pacientes=forms.ModelChoiceField(label='Paciente', queryset=Cidadao.objects.select_related('microarea').all(),
                                          required=False,  widget=s2forms.Select2Widget())
     
 
@@ -39,7 +39,6 @@ class RelatorioReciboTfdsForm(forms.Form):
         
         if data > data_atual:
             raise ValidationError('Data final é maior que data atual')
-
         return data
      
 

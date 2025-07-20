@@ -1,48 +1,44 @@
 from datetime import datetime
 from django.shortcuts import render
-
-from django.http import FileResponse, HttpResponse
+from django.http import HttpResponse
 from django.template.loader import render_to_string
-
 from especialidades.models import AtendimentoEspecialidade
 from relatorios.forms.atendimento_especialidade_form import RelatorioAtendimentoEspecialidadeForm
+from weasyprint import HTML
 
 
 
 def relatorio_atendimento_pdf(request,context):
     response = HttpResponse(content_type='application/pdf')
+    atendimentos=AtendimentoEspecialidade.objects.select_related('especialidade').all()
+    especialidade= context['especialidade']
+    data_inicial=context['inicial']
+    data_final=context['final']
+    atendimento_via=context['atendimento_via']
     
-    if context['especialidade']:
-        atendimentos=AtendimentoEspecialidade.objects.select_related('especialidade').filter(especialidade=context['especialidade']).filter(data__gte=context['inicial']).filter(data__lte=context['final'])
-  
-    else:
-        atendimentos=AtendimentoEspecialidade.objects.select_related('especialidade').filter(data__gte=context['inicial']).filter(data__lte=context['final'])
+    if especialidade:                                                                                                                                                                                                                                                   
+        atendimentos=atendimentos.filter(especialidade=especialidade)                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+    if data_inicial and data_final:
+        atendimentos=atendimentos.filter(data__gte=context['inicial']).filter(data__lte=context['final'])
+        
+    if atendimento_via:
+        atendimentos=atendimentos.filter(atendimento_via=atendimento_via)
+
 
     context['qta_atendimeento']= atendimentos.count()
-  
-        
     total=0
-    total_reembolsos=0
-   
 
     context['inicial']=datetime.strptime(context['inicial'],'%Y-%m-%d').strftime('%d/%m/%Y')
     context['final']=datetime.strptime(context['final'],'%Y-%m-%d').strftime('%d/%m/%Y')
-    from weasyprint import HTML
-
     context['data']=datetime.today().strftime('%d/%m/%Y') 
     context['atendimentos']=atendimentos
 
   
     for a in atendimentos:
-       total=a.atend_paciente_especialidade.count()
-
-    print(total)
-
-    
+       total=a.atend_paciente_especialidade.count()    
     context['total']=total
-    context['total_reembolsos']=total_reembolsos
     
-
     html_string = render_to_string('especialidade/relatorio_atendimento_especialidade_pdf.html',context)
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
     return response
@@ -59,7 +55,7 @@ def relatorio_atendimento_especialidade(request):
           context['inicial']=form.cleaned_data.get('data_inicial')
           context['final']=form.cleaned_data.get('data_final')
           context['especialidade']=form.cleaned_data.get('especialidade')
-      
+          context['atendimento_via']=form.cleaned_data.get('atendimento_via')
           return relatorio_atendimento_pdf(request,context)
          
 

@@ -114,49 +114,34 @@
         <!-- CIDADAO -->
         {% if user|has_role:'secretario,coordenador,recepcao,regulacao,acs' %}
         <li class="nav-item">
-          <a href="#" class="nav-link">
+           <a href="{% url 'cidadao:list-cidadao'%}" class="nav-link link-houver">
+
             <i class=" text-primary  nav-icon fas fa-solid fa-user"></i>
             <p class="text-md text-muted">
               Cidadão
               <i class="right fas fa-angle-right"></i>
             </p>
           </a>
-          <ul class="nav nav-treeview ">
-            <li class="nav-item">
-              <a href="{% url 'cidadao:list-cidadao'%}" class="nav-link link-houver">
-
-                <p class="text-sm text-muted">Cidadãos</p>
-              </a>
-            </li>
-
-          </ul>
+        
         </li>
         {%endif%}
 
         <!-- PROFISSIONAIS -->
         {% if user|has_role:'coordenador,digitador,secretario' %}
         <li class="nav-item">
-          <a href="#" class="nav-link">
+           <a href="{% url 'profissionais:list-profissional'%}" class="nav-link link-houver">
             <i class=" text-primary nav-icon fas fa-solid fa-user-tie"></i>
             <p class="text-md text-muted">
               Profissionais
               <i class="right fas fa-angle-right"></i>
             </p>
           </a>
-          <ul class="nav nav-treeview ">
-            <li class="nav-item">
-              <a href="{% url 'profissionais:list-profissional'%}" class="nav-link link-houver">
-
-                <p class=" text-sm text-muted">Profissionais </p>
-              </a>
-            </li>
-
-          </ul>
+          
         </li>
         {%endif%}
 
         <!-- RELATORIOS -->
-        {% if user|has_role:'coordenador,regulacao,digitador,secretario' %}
+        {% if user|has_role:'coordenador,regulacao,digitador,recepcao,secretario' %}
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class=" nav-icon fas fa-copy text-primary"></i>
@@ -175,7 +160,7 @@
               </a>
             </li>
             {%endif%}
-            {% if user|has_role:'coordenador,regulacao,secretario' %}
+            {% if user|has_role:'coordenador,recepcao,regulacao,secretario' %}
             <li class="nav-item">
               <a href="#" class="nav-link">
 
@@ -236,7 +221,7 @@
               </ul>
             </li>
             {%endif%}
-            {% if user|has_role:'coordenador,regulacao,secretario' %}
+            {% if user|has_role:'coordenador,regulacao,secretario,recepcao' %}
             <li class="nav-item">
               <a href="#" class="nav-link">
 
@@ -352,7 +337,7 @@
                 <p class="text-sm text-muted"> Viagens</p>
               </a>
             </li>
-            {% if user|has_role:'coordenador,regulacao,secretario,digitador' %}
+            {% if user|has_role:'coordenador,regulacao,secretario,digitador,recepcao' %}
             <li class="nav-item">
               <a href="{% url 'transportes:list-carro'%}" class="nav-link link-houver">
 

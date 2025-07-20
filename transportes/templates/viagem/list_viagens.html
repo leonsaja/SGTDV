@@ -123,7 +123,7 @@
                                         <a href="{% url 'transportes:detail-viagem' viagem.id%}" class="pr-1"><i
                                                 class="fas fa-solid fa-eye"></i></a>
                                         
-                                        {% if user|has_role:'regulacao,secretario ,coordenador' %}
+                                        {% if user|has_role:'regulacao,recepcao,secretario ,coordenador' %}
 
                                         <a href="{% url 'transportes:edit-viagem' viagem.id%}"
                                             class="pr-1 text-warning"><i class="fas fa-edit"></i></a>

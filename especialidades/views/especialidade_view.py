@@ -21,7 +21,7 @@ class EspecialidadeCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
     template_name='especialidade/form_especialidade.html' 
     context_object_name='form'
     success_message='Cadastro realizado com sucesso'
-    allowed_roles=['regulacao']
+    allowed_roles=['regulacao','recepcao']
 
 class EspecialidadeUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
     model=Especialidade
@@ -30,7 +30,7 @@ class EspecialidadeUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
     success_url=reverse_lazy('especialidades:list-especialidade')
     context_object_name='form'
     success_message='Dados atualizado com sucesso'
-    allowed_roles=['regulacao']
+    allowed_roles=['regulacao','recepcao']
 
 class EspecialidadeListView(HasRoleMixin,ListView):
 
