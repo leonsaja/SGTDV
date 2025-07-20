@@ -115,7 +115,6 @@ def reembolso_pdf(request,id):
     User=get_user_model()
     context['profissional']=User.objects.filter(is_active=True).filter(perfil='5').first()
     
-    context['movimentacao']=Reembolso.objects.select_related('diaria').filter(diaria__id=diaria.id).filter(Q(movimentacao=1)|Q(movimentacao=2)|Q(movimentacao=3)|Q(movimentacao=4)|Q(movimentacao=5)|Q(movimentacao=6)).exists()
     html_string = render_to_string('reembolso/pdf_reembolso.html', context)
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
     return response

@@ -1,3 +1,4 @@
+from datetime import date
 from django import forms
 from django.core.exceptions import ValidationError
 from profissionais.models import Profissional
@@ -23,6 +24,12 @@ class ProfissionalForm(forms.ModelForm):
         model=Profissional
         exclude=('endereco','status',)
         
+    def clean_dt_nascimento(self):
+        data = self.cleaned_data['dt_nascimento']
+
+        if data > date.today():
+            raise ValidationError("A Data de Nascimento não pode ser futura.")
+        return data
     
     def clean_cns(self):
         data_cnes=self.cleaned_data.get('cns')

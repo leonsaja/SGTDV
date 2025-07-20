@@ -1,3 +1,4 @@
+from datetime import date
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
@@ -31,7 +32,13 @@ class CadastroUsuarioForm(UserCreationForm):
                 return data
         
         raise ValidationError('Por favor, digita o  CPF corretamente com 11 digitos.')
-     
+    
+    def clean_dt_nascimento(self):
+        data = self.cleaned_data['dt_nascimento']
+
+        if data > date.today():
+            raise ValidationError("A Data de Nascimento não pode ser futura.")
+        return data
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -64,6 +71,13 @@ class EditarUsuarioForm(UserChangeForm):
                 return data
         
         raise ValidationError('Por favor, digita o  CPF corretamente com 11 digitos.')
+    
+    def clean_dt_nascimento(self):
+        data = self.cleaned_data['dt_nascimento']
+
+        if data > date.today():
+            raise ValidationError("A Data de Nascimento não pode ser futura.")
+        return data
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

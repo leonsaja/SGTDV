@@ -6,7 +6,7 @@ import pandas as pd
 from transportes.forms.dados import ImportarDadosForm
 from cidadao.models import Cidadao
 from transportes.models import RegistroTransporte,Carro
-from transportes.forms.registro_transporte_form import RegistroTransporteForm,RegistroTransporteUpdateForm
+from transportes.forms.registro_transporte_form import RegistroTransporteForm
 from django.contrib.messages.views import SuccessMessageMixin
 from rolepermissions.mixins import HasRoleMixin
 from django.db.models import ProtectedError, Q
@@ -23,7 +23,7 @@ class RegistroTransporteCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
 
 class RegistroTransporteUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
     model =RegistroTransporte
-    form_class=RegistroTransporteUpdateForm
+    form_class=RegistroTransporteForm
     template_name='registro_transporte/form_registro_transporte.html'
     context_object_name='form'
     success_url=reverse_lazy('transportes:list-regis-transporte')

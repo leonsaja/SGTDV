@@ -120,80 +120,21 @@
 
         {%endfor%}
       </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="2" style="text-align: end;"><b>
-              <p>Total:</p>
-            </b> </td>
+            <tfoot>
+              <tr>
+                <td colspan="2" style="text-align: end;"><b>
+                    <p>Total:</p>
+                  </b> </td>
 
-          <td style="text-align: end;"><b>
-              <p>R$ {{ diaria.total_desp}}</p>
-            </b> </td>
-      </tfoot>
+                <td style="text-align: end;"><b>
+                    <p>R$ {{ diaria.total_desp}}</p>
+                  </b> </td>
+            </tfoot>
     </table>
   </div>
-  {% if movimentacao %}
-  <div class="pt">
-    <table border=" 1" class="table-bordered ">
-      <thead>
-        <tr>
-          <th class="title_center">ITENS</th>
-          <th class="title_center">MOVIMENTAÇÃO FINANCEIRA</th>
-          <th>VALORES</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for r in reembolsos %}
-        {% if r.movimentacao %}
-        <tr>
+  
+      
 
-          <td class="title_center">{{ forloop.counter }}</td>
-          {% if r.movimentacao %}
-          <td>{{r.get_movimentacao_display}}</td>
-          {% else %}
-          <td>
-
-            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            &nbsp; &nbsp; &nbsp; &nbsp;-
-          </td>
-          {%endif%}
-          {%if r.valor_mov %}
-          <td style="text-align: end;">R$ {{r.valor_mov}}
-          </td>
-          {%else%}
-          <td class="text-center">
-            -
-          </td>
-
-          {%endif%}
-        </tr>
-        {% endif %}
-        {%endfor%}
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="2" style="text-align: end;"><b>
-              <p>Total:</p>
-            </b> </td>
-          {% if diaria.total_movimento %}
-          <td style="text-align: end;">
-
-            <b>
-              <p>R$ {{ diaria.total_movimento}}</p>
-            </b>
-          </td>
-          {%else%}
-          <td style="text-align: end;">
-            <b>
-              <p>R$ 0,00 </p>
-            </b>
-          </td>
-          {%endif%}
-      </tfoot>
-    </table>
-  </div>
-
-  {%endif%}
   
 <div class="bordas ">
 <p class="text-center pt-2"><b> AUTORIZAÇÃO DA DESPESA</b></p>

@@ -192,7 +192,7 @@ CACHES = {
 
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
-DBBACKUP_STORAGE_OPTIONS = {'location': '/home/leonardo/Documentos/BACKUP'}
+DBBACKUP_STORAGE_OPTIONS = {'location': '/home/servidor-regulacao/Documentos/BACKUP SGTDV'}
 
 SELECT2_CACHE_BACKEND = "select2"
 
