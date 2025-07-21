@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rolepermissions',
+    'django.contrib.humanize',  
+
     
     
     
@@ -146,6 +148,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 LANGUAGE_CODE = 'pt-br'
+
+USE_THOUSAND_SEPARATOR = True
 
 TIME_ZONE = 'America/Sao_Paulo'
 
