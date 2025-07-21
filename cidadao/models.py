@@ -52,6 +52,11 @@ class Cidadao(models.Model):
                 return ('{}.{}.{}-{}'.format( cpf[:3], cpf[3:6], cpf[6:9], cpf[9:]))
         
         return '-'
+    
+
+    def acompanhante(self):    
+        return self.nome_completo.split()[0]
+
         
     class Meta:
         ordering = ["nome_completo"]

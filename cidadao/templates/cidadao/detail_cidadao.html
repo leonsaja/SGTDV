@@ -93,10 +93,10 @@
           <h6 class="text-muted"> {{paciente.telefone1}}</h6>
         </div>
         <div class="col-md-2">
-          <label for="id_microarea" class="form-label">Micro-Área:</label>
-          {%if endereco.localizacao %}
+          <label for="id_microarea" class="form-label text-red">ACS:</label>
+          {%if paciente.microarea %}
 
-            <h6 class="text-muted">{{paciente.microarea}}</h6>
+            <h6 class="text-muted">{{paciente.microarea.profissional.acs}}</h6>
            {%else%}
                  <h6 class="text-muted">-</h6>
            {%endif%}

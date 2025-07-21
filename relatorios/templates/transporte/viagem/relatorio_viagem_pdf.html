@@ -91,7 +91,7 @@
       <tbody>
         {%for v in viagens%}
         <tr>
-         <td>{{v.destino_viagem}}</td>
+         <td>{{v.destino_viagem|upper}}</td>
          <td>{{v.motorista.nome_completo}}</td>
          <td>{{v.carro}}</td>
          <td>{{v.data_viagem|date:"d/m/Y"|default:'---'}}</td>

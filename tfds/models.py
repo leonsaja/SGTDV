@@ -226,7 +226,7 @@ class ReciboPassagemTFD(models.Model):
    def qta_passagem(self):
      
       resul=0
-      if self.acompanhante_sia and self.codigo_sia_acompanhante and self.acompanhante and self.quant_passagem_acompanhante:
+      if self.tem_acompanhante=='1':
          resul=self.quant_passagem_paciente+self.quant_passagem_acompanhante
          return resul
       

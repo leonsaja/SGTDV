@@ -102,7 +102,7 @@
           <td>{{r.paciente.nome_completo|upper}}</td>
           <td>{{r.paciente.formt_cpf}}</td>
           {%if r.acompanhante%}
-            <td>{{r.acompanhante|upper}}</td>
+            <td>{{r.acompanhante.acompanhante|upper}}</td>
           {%else%}
             <td>-</td>
           {%endif%}

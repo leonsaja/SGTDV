@@ -93,7 +93,7 @@
 
           <td>{{ forloop.counter }}</td>
           <td>{{p.paciente.nome_completo|upper}}</td>
-          <td>{{p.profissional.nome_completo|upper}}</td>
+          <td>{{p.paciente.microarea.profissional.acs|upper}}</td>
             {% if  tipo_atendimento%}
             <td>
               {{p.get_tipo_atendimento_display}}
