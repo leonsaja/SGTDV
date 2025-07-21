@@ -118,14 +118,18 @@
                                     <td>{{especialidade.paciente.microarea.profissional.nome_completo}}</td>
                                     <td>{{especialidade.procedimento }}</td>
                                     {% if especialidade.classificacao == '2'%}
-                                    <td style="background-color: red; color: white;">
+                                    <td style="background-color:#FFFF00; color: black;">
                                         {{especialidade.get_classificacao_display}}
 
                                     </td>
-                                    {% else %}
-                                    <td>
+                                    {% elif especialidade.classificacao == '3' %}
+                                    <td style="background-color: red; color: white;">
                                         {{especialidade.get_classificacao_display}}
                                     </td>
+                                    {%else%}
+                                        <td>
+                                            {{especialidade.get_classificacao_display}}
+                                        </td>
                                     {%endif%}
                                     <td>
                                         {{especialidade.data_pedido|date:"d/m/Y"|default:'---'}}

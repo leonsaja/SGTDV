@@ -201,7 +201,7 @@ class ReciboPassagemTFD(models.Model):
    meio_transporte=models.CharField(max_length=1,null=False, blank=False,verbose_name='Meio de Transporte', choices=MEIO_TRANSPORTE)
    quant_passagem_paciente=models.PositiveIntegerField(verbose_name='Qta de Passagem',null=False, blank=False)
    quant_passagem_acompanhante=models.PositiveBigIntegerField(verbose_name='Qta  Passagem',null=True, blank=True)
-   trecho =models.CharField(verbose_name='Trecho', null=False, blank=False, max_length=200 )
+   trecho =models.CharField(verbose_name='Trecho', null=False, blank=False, max_length=200,default='SANTO ANTÔNIO DO JACINTO-MG/BELO HORIZONTE-MG')
    codigo_sia_paciente=models.CharField(verbose_name='Código SIA', max_length=10,null=True, blank=False,default='0803010125')
    codigo_sia_acompanhante=models.CharField(verbose_name='Código SIA', max_length=10, null=True, blank=True)
    valor_paciente_sia=models.DecimalField(verbose_name='Valor', max_digits=8,decimal_places=2,null=False,blank=False)

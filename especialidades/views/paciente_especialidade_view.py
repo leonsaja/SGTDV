@@ -70,7 +70,7 @@ class PacienteEspecialidadeListView(HasRoleMixin,ListView):
 
         queryset = PacienteEspecialidade.objects.select_related(
             'paciente', 'especialidade', 'procedimento'
-        ).filter(especialidade__id=especialidade_id).order_by('-created_at')
+        ).filter(especialidade__id=especialidade_id).order_by('data_pedido')
 
         if buscar:
             queryset = queryset.filter(

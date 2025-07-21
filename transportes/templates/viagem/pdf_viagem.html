@@ -47,15 +47,17 @@
     
     <div class="col-md-12">
       <p class=""><b>DESTINO: </b>{{viagem.destino_viagem}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <b>DATA: </b>{{viagem.data_viagem|date:"d/m/Y"|default:'---'}}
         &nbsp;&nbsp;&nbsp;
         <b>HORÁRIO: </b>{{viagem.horario_saida}}
        </p>
        
     </div>
-      <div class="col-md-12 text-center">
-         <img style="width: 8cm;" src="{{ viagem.carro.foto.url}}" alt="">
+      <div class="col-md-12 text-center m-0">
+         <img style="width: 4cm;" src="{{ viagem.carro.foto.url}}" alt="">
          <p class="text-center pt-1"><b>PLACA: </b>{{viagem.carro.placa|upper}}
       </div>
  

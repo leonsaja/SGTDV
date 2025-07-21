@@ -1,8 +1,6 @@
 from django.db import models
 from localflavor.br.models import BRCPFField
-
 from estabelecimentos.models import MicroArea
-
 
 class Cidadao(models.Model):
     
@@ -12,9 +10,9 @@ class Cidadao(models.Model):
     )
     RACA=(
         ('1','AMARELA'),
-        ('2','BRANCO'),
+        ('2','BRANCA'),
         ('3','PARDA'),
-        ('4','PRETO'),
+        ('4','PRETA'),
         ('5','OUTROS'),
        
     )
