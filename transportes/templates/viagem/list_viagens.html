@@ -137,7 +137,7 @@
                                         </a>
                                         {%endif%}
                                           
-                                        {% if user|has_role:'regulacao,secretario,coordenador' %}
+                                        {% if user|has_role:'regulacao,recepcao,secretario,coordenador' %}
                                         <a href="{% url 'transportes:pdf-viagem' viagem.id %}"  target="_blank">
                                             <i class='fas fa-print'></i>
                                           </a>

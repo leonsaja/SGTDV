@@ -55,7 +55,7 @@
                      {% if recibo_passagem.paciente.rg %}
                         <b>RG: </b>{{recibo_passagem.paciente.rg|upper}}
                      {%else%}
-                         <b>RG: - </b>
+                         <b>RG:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - </b>
                       {%endif%}
                 </p>
             
@@ -74,7 +74,7 @@
                 </p>
                 {% endif %}
                 {% if recibo_passagem.acompanhante.cpf  %}
-                <p class="p-1"><b>CPF: </b>{{recibo_passagem.acompanhante.cpf|upper}}
+                <p class="p-1"><b>CPF: </b>{{recibo_passagem.acompanhante.formt_cpf|upper}}
                 {% else %}
                 <p class="p-1"><b>CPF:</b>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
                 {% endif %}

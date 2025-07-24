@@ -96,7 +96,7 @@
                   <th style="width: 10px">#</th>
                   <th>Nome Profissional</th>
                   <th>CPF</th>
-                  <th>CNS</th>
+                  <th>Destino</th>
                   <th>Data da Diária</th>
                   <th>Ação</th>
                 </tr>
@@ -109,7 +109,7 @@
 
                   <td>{{diaria.profissional.formt_cpf}}</td>
 
-                  <td>{{diaria.profissional.cns}}</td>
+                  <td>{{diaria.viagem_dest|upper}}</td>
                   <td>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</td>
                   <td>
 

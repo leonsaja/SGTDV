@@ -49,7 +49,7 @@ class Diaria(models.Model):
        return total
     def form_conta(self):
        conta=str(self.conta)
-       return ('{}-{}'.format(conta[:],conta[5:]))
+       return ('{}-{}'.format(conta[:5],conta[5:]))
     
     def form_fonte(self):
        fonte=str(self.fonte)

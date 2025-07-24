@@ -33,10 +33,10 @@ class CidadaoForm(forms.ModelForm):
         return data_cpf
         
     def clean_cns(self):
-        data_cnes=self.cleaned_data.get('cns')
+        data_cns=self.cleaned_data.get('cns')
         
-        if validarCNS(data_cnes):
-            return data_cnes    
+        if validarCNS(data_cns):
+            return data_cns    
         raise ValidationError('Digite o cartão do SUS com 15 digitos')
     
     def clean_dt_nascimento(self):

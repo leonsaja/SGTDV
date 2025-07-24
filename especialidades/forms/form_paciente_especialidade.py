@@ -22,6 +22,7 @@ class PacienteEspecialidadeForm(forms.ModelForm):
         exclude=('especialidade',)
         widgets = {
             'paciente':s2forms.Select2Widget(),
+            'procedimento':s2forms.Select2Widget(),
            
         }
     def clean_data_pedido(self):
@@ -34,9 +35,10 @@ class PacienteEspecialidadeForm(forms.ModelForm):
         paciente = self.cleaned_data.get('paciente')
         procedimento = self.cleaned_data.get('procedimento')
         status=self.cleaned_data.get('status')
+        data_pedido=self.cleaned_data.get('data_pedido')
 
         if paciente and status:
-            qs = PacienteEspecialidade.objects.select_related('paciente','procedimento','especialidade').filter(paciente=paciente, status=status,procedimento=procedimento)
+            qs = PacienteEspecialidade.objects.select_related('paciente','procedimento','especialidade').filter(paciente=paciente, status=status,procedimento=procedimento,data_pedido=data_pedido)
 
             if self.instance.pk:
                 qs = qs.exclude(pk=self.instance.pk)

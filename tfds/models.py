@@ -46,8 +46,8 @@ class ReciboTFD(models.Model):
    #formato de pagamento pix ou conta
    pagamento_por=models.CharField(verbose_name='PAGAMENTO POR',null=True,blank=False,max_length=1,choices=PAGAMENTO_POR)
    agencia=models.CharField(max_length=20, verbose_name='AGENCIA',null=True,blank=True)
-   conta=models.CharField(max_length=20, verbose_name='CONTA',null=True,blank=True)
-   pix=models.CharField(max_length=50, verbose_name='PIX',null=True,blank=True)
+   conta=models.CharField(max_length=200, verbose_name='CONTA',null=True,blank=True)
+   pix=models.CharField(max_length=200, verbose_name='PIX',null=True,blank=True)
 
    status=models.CharField(verbose_name='Avaliar Recibo Pag. de TFD',max_length=1,choices=STATUS,default='1')
    criado_por=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
