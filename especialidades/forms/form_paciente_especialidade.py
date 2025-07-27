@@ -31,7 +31,7 @@ class PacienteEspecialidadeForm(forms.ModelForm):
             raise ValidationError("A Data do pedido não pode ser futura.")
         return data
     
-    def clean(self):
+    """def clean(self):
         paciente = self.cleaned_data.get('paciente')
         procedimento = self.cleaned_data.get('procedimento')
         status=self.cleaned_data.get('status')
@@ -43,7 +43,7 @@ class PacienteEspecialidadeForm(forms.ModelForm):
             if self.instance.pk:
                 qs = qs.exclude(pk=self.instance.pk)
             if qs.exists():
-                self.add_error('paciente','Existe Paciente já cadastrado na especialidade com Status: "AGUARDANDO" e com mesmo "PROCEDIMENTO"')
+                self.add_error('paciente','Existe Paciente já cadastrado na especialidade com Status: "AGUARDANDO" e com mesmo "PROCEDIMENTO"')"""
 
         
 class PacienteEspecialidadeUpdateForm(forms.ModelForm):
@@ -66,3 +66,7 @@ class PacienteEspecialidadeUpdateForm(forms.ModelForm):
            
         }
     
+
+"""
+ form.instance.especialidade = get_object_or_404(Especialidade, id=self.kwargs.get('id'))
+        return super().form_valid(form)"""

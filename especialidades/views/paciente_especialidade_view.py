@@ -27,7 +27,36 @@ class PacienteEspecialidadeCreateView(HasRoleMixin,SuccessMessageMixin,CreateVie
         return context
   
     def form_valid(self, form):
-        form.instance.especialidade = get_object_or_404(Especialidade, id=self.kwargs.get('id'))
+        # Obtenha a especialidade do URL kwargs
+        especialidade_id = self.kwargs.get('id')
+        especialidade_obj = get_object_or_404(Especialidade, id=especialidade_id)
+
+        # Obtenha os dados do formulário
+        paciente = form.cleaned_data.get('paciente')
+        procedimento = form.cleaned_data.get('procedimento')
+        data_pedido = form.cleaned_data.get('data_pedido')
+        status = form.cleaned_data.get('status')
+
+        # Realize a validação de unicidade
+        qs = PacienteEspecialidade.objects.filter(
+            paciente=paciente,
+            especialidade=especialidade_obj,
+            data_pedido=data_pedido,
+            procedimento=procedimento,
+            status=status
+        ).first()
+
+        if qs:
+            # ADICIONANDO O ERRO DIRETAMENTE NO CAMPO DO FORMULÁRIO NA VIEW
+            form.add_error(
+                'paciente', # Nome do campo onde o erro será exibido
+                'Este paciente já possui um cadastro  nessa especialidade com data do pedido e procedimento.'
+            )
+            # Retorna form_invalid para re-renderizar o formulário com o erro
+            return self.form_invalid(form)
+
+        # Se não houver duplicatas, atribua a especialidade e salve o formulário
+        form.instance.especialidade = especialidade_obj
         return super().form_valid(form)
     
     def get_success_url(self):
