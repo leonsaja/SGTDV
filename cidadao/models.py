@@ -37,10 +37,11 @@ class Cidadao(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
+        data=self.dt_nascimento.strftime('%d/%m/%Y')
         if self.cpf:
-             return f'{self.nome_completo}, CPF:   {self.cpf}'  
+             return f'{self.nome_completo}, (CPF:   {self.cpf}, DN: {data})'  
         
-        return f'{self.nome_completo}  CNS:   {self.cns}' 
+        return f'{self.nome_completo} (CNS:   {self.cns}, DN: {data}) ' 
        
     def formt_cpf(self):
         
