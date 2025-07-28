@@ -118,7 +118,8 @@
 
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>
-                    {%elif user|has_role:'recepcao,regulacao,secretario' %}
+                    {%endif%}
+                    {%if user|has_role:'coordenador,recepcao,regulacao,secretario' %}
                     <a href="{% url 'especialidades:pdf-atend_especialidade' atend.id%}"  target="_blank" class="pr-2">
                             <i class='fas fa-print'></i>
 

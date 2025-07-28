@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.db.models import ProtectedError, Q
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, redirect, render
-from especialidades.forms.form_paciente_especialidade import PacienteEspecialidadeForm
+from especialidades.forms.form_paciente_especialidade import PacienteEspecialidadeForm,PacienteEspecialidadeUpdateForm
 from especialidades.models import Especialidade, PacienteEspecialidade
 from django.contrib import messages
 from django.contrib.messages import constants
@@ -13,7 +13,7 @@ from rolepermissions.decorators import has_role_decorator
 from rolepermissions.mixins import HasRoleMixin
 
 
-class PacienteEspecialidadeCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
+class PacienteEspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
     model = PacienteEspecialidade
     form_class = PacienteEspecialidadeForm
     template_name = 'paciente_especialidade/form_paciente_especialidade.html'
@@ -27,17 +27,14 @@ class PacienteEspecialidadeCreateView(HasRoleMixin,SuccessMessageMixin,CreateVie
         return context
   
     def form_valid(self, form):
-        # Obtenha a especialidade do URL kwargs
         especialidade_id = self.kwargs.get('id')
         especialidade_obj = get_object_or_404(Especialidade, id=especialidade_id)
 
-        # Obtenha os dados do formulário
         paciente = form.cleaned_data.get('paciente')
         procedimento = form.cleaned_data.get('procedimento')
         data_pedido = form.cleaned_data.get('data_pedido')
         status = form.cleaned_data.get('status')
 
-        # Realize a validação de unicidade
         qs = PacienteEspecialidade.objects.filter(
             paciente=paciente,
             especialidade=especialidade_obj,
@@ -47,15 +44,13 @@ class PacienteEspecialidadeCreateView(HasRoleMixin,SuccessMessageMixin,CreateVie
         ).first()
 
         if qs:
-            # ADICIONANDO O ERRO DIRETAMENTE NO CAMPO DO FORMULÁRIO NA VIEW
+
             form.add_error(
-                'paciente', # Nome do campo onde o erro será exibido
+                'paciente', 
                 'Este paciente já possui um cadastro  nessa especialidade com data do pedido e procedimento.'
             )
-            # Retorna form_invalid para re-renderizar o formulário com o erro
             return self.form_invalid(form)
 
-        # Se não houver duplicatas, atribua a especialidade e salve o formulário
         form.instance.especialidade = especialidade_obj
         return super().form_valid(form)
     
@@ -63,21 +58,18 @@ class PacienteEspecialidadeCreateView(HasRoleMixin,SuccessMessageMixin,CreateVie
         especialidade_id = self.object.especialidade.id
         return reverse_lazy('especialidades:detail-especialidade', kwargs={'pk': especialidade_id})
     
-class PacienteEspecialidadeUpdateView(HasRoleMixin,UpdateView):
+class PacienteEspecialidadeUpdateView(SuccessMessageMixin,HasRoleMixin,UpdateView):
     model = PacienteEspecialidade
-    form_class = PacienteEspecialidadeForm
+    form_class = PacienteEspecialidadeUpdateForm
     template_name = 'paciente_especialidade/form_paciente_especialidade.html'
     pk_url_kwarg = 'id' 
+    success_message='Dados atualizados com sucesso'
     allowed_roles=['recepcao','regulacao']
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['especialidade'] = self.object.especialidade
         return context
-    
-    def form_valid(self, form):  
-        messages.add_message(self.request, constants.SUCCESS, 'Dados atualizados com sucesso')
-        return super().form_valid(form)
 
     def get_success_url(self):
         especialidade_id = self.object.especialidade.id

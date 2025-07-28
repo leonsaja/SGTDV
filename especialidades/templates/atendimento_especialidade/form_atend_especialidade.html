@@ -2,129 +2,219 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<div class="container-fluid  ">
-     {% include 'atendimento_especialidade/abas_atend_especialidade.html' %}
+<div class="container-fluid">
+    {% include 'atendimento_especialidade/abas_atend_especialidade.html' %}
     <div class="row">
         <div class="col-md-12">
             {% include 'includes/mensagens.html'%}
         </div>
     </div>
     <br /> <br> <br>
-    <div class="row  justify-content-center ">
+    <div class="row justify-content-center">
         <div class="col-md-6">
             <h4 class="text-primary"><strong>Atendimento</strong> </h4>
         </div>
- 
+
         <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-12 mt-2 needs-validation" novalidate>
             {% csrf_token %}
-           
-            <div class="row  justify-content-center">
-                 <div class="row mt-2 justify-content-center">
-                        <div class="col-md-6 ">{{form.especialidade  |as_crispy_field }}
-                        </div>
-                        
 
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-md-2">{{form.data  |as_crispy_field }}</div>
-                        <div class="col-md-2">{{form.hora |as_crispy_field }}</div>
-                        <div class="col-md-2">{{form.atendimento_via |as_crispy_field }}</div>
-                    </div>
-                  
-                    <div class="row justify-content-center">
-                          <div class="col-md-6">{{form.local_atendimento |as_crispy_field }}</div>
-                        
-                    </div>
-                    <div class="row justify-content-center">
-                          <div class="col-md-6">{{form.observacao |as_crispy_field }}</div>
-                        
-                    </div>
-                   
-             </div>
-            <br>
-            
-        <br>
-        <div class="row">
-      <div class="col-sm-12">
-    
-                                                                                                                                                                                                                                                                                                                       
-    {{formset.management_form}}
-    
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="logo"><strong></strong></h4>
-          </div>
-          <!-- /.card-header -->
-          <div class="table-responsive-md">
-            <div class="card-body">
-              <table class="form table table-bordered">
-                {% for forms in formset %}
-                {% if forloop.first %}
-                <thead>
-                  <tr>
-                    {% for field in forms.visible_fields %}
-                    <th>{{ field.label|capfirst }}</th>
-                    {% endfor %}
-                  </tr>
-                </thead>
-                {% endif %}
-                <tbody>
-                  <tr class="{% cycle 'row1' 'row2' %}">
-                    {% for field in forms.visible_fields %}
-                    <td>
-                      {% if forloop.first %}
-                      {% for hidden in forms.hidden_fields %}
-                      {{ hidden }}
-                      {% endfor %}
-                      {% endif %}
-                      {{ field }}
-                      {{ field.errors.as_ul }}
-                    </td>
-                    {% endfor %}
-                  </tr>
-                </tbody>
-                {% endfor %}
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-
-        
-      </div>
-    </div>
-
-        <div class="row">
-              <div class="col-md-12 mb-5">
-                <div class="text-right">
-                   <a href="{% url 'especialidades:list-atend_especialidade'%}" class="btn btn-outline-danger mr-2">Cancelar</a>
-                  <button id="submit" class="btn btn-primary">Salvar</button>
+            <div class="row justify-content-center">
+                <div class="row mt-2 justify-content-center">
+                    <div class="col-md-6">{{ form.especialidade |as_crispy_field }}</div>
                 </div>
-              </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-2">{{ form.data |as_crispy_field }}</div>
+                    <div class="col-md-2">{{ form.hora |as_crispy_field }}</div>
+                    <div class="col-md-2">{{ form.atendimento_via |as_crispy_field }}</div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">{{ form.local_atendimento |as_crispy_field }}</div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">{{ form.observacao |as_crispy_field }}</div>
+                </div>
             </div>
-            
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ formset.management_form }}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="logo"><strong>Pacientes do Atendimento</strong></h4>
+                                </div>
+                                <div class="table-responsive-md">
+                                    <div class="card-body">
+                                        <table class="form table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    {% for field in formset.empty_form.visible_fields %}
+                                                        <th>{{ field.label|capfirst }}</th>
+                                                    {% endfor %}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for forms in formset %}
+                                                    <tr class="{% cycle 'row1' 'row2' %}">
+                                                        {% for field in forms.visible_fields %}
+                                                            <td>
+                                                                {% if forloop.first %}
+                                                                    {% for hidden in forms.hidden_fields %}
+                                                                        {{ hidden }}
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                                {{ field }}
+                                                                {{ field.errors.as_ul }}
+                                                            </td>
+                                                        {% endfor %}
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            
+            <div class="row">
+                <div class="col-md-12 mb-5">
+                    <div class="text-right">
+                        <a href="{% url 'especialidades:list-atend_especialidade'%}" class="btn btn-outline-danger mr-2">Cancelar</a>
+                        <button id="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+            </div>
         </form>
-
     </div>
 </div>
 
-
 {% endblock %}
 
-{%block scripts %}
+{% block scripts %}
 
 <script src='/static/utils/jquery.formset.min.js'></script>
 <script>
-     $('table.form tr').formset({
-    prefix: '{{ formset.prefix }}',
-    addText: "<div><i class='fas fa-plus'></i></div>",
-    deleteText: "<div class='btn btn-danger btn-circle'><i class='fas fa-trash'></i></div>"
-  });
+    // Inicializa o formset
+    $('table.form tr').formset({
+        prefix: '{{ formset.prefix }}',
+        addText: "<div><i class='fas fa-plus'></i> Adicionar Paciente</div>", // Mudei o texto para ser mais claro
+        deleteText: "<div class='btn btn-danger btn-circle'><i class='fas fa-trash'></i></div>",
+        // --- ADIÇÃO CRUCIAL AQUI ---
+        added: function(row) {
+            // Este callback é executado quando uma nova linha (row) é adicionada ao formset.
+            const especialidadeId = $('#id_atendimento-especialidade').val(); // Pega a especialidade principal
+            const novoPacienteSelect = $(row).find('select[name$="-paciente"]'); // Encontra o campo 'paciente' na nova linha
 
+            // Chama a função de carregamento de pacientes para a nova linha
+            // Isso garantirá que o select 'paciente' seja preenchido com base na especialidade atual.
+            loadPacientes(especialidadeId, novoPacienteSelect);
+        }
+        // --- FIM DA ADIÇÃO CRUCIAL ---
+    });
+
+    // Função para carregar pacientes via AJAX
+    function loadPacientes(especialidadeId, pacienteSelectElement) {
+        // Converte o elemento jQuery para um objeto JavaScript nativo para verificar o tagName
+        const selectElement = $(pacienteSelectElement)[0]; 
+
+        // Certifica-se de que estamos lidando com um elemento <select>
+        if (!selectElement || selectElement.tagName.toLowerCase() !== 'select') {
+            console.warn("Elemento não é um select:", pacienteSelectElement);
+            return;
+        }
+
+        // Armazena o valor selecionado antes de limpar
+        const currentSelectedValue = $(pacienteSelectElement).val();
+
+        // Limpa as opções atuais
+        $(pacienteSelectElement).empty();
+        $(pacienteSelectElement).append('<option value="">---------</option>'); // Adiciona opção padrão
+
+        if (!especialidadeId) {
+            return; // Se não há especialidade, não faz a requisição AJAX
+        }
+
+        $.ajax({
+            url: "{% url 'especialidades:load_pacientes_by_especialidade' %}",
+            data: {
+                'especialidade_id': especialidadeId
+            },
+            dataType: 'json',
+            success: function (data) {
+               $.each(data, function (index, paciente) {
+                    // Crie a string de texto para a opção usando os novos campos
+                    let optionText = paciente.nome_completo;
+                    // Notei que 'procedimento' estava sendo usado aqui, mas no seu modelo
+                    // 'procedimento' é um ForeignKey em PacienteEspecialidade, não um campo do Cidadao.
+                    // Se você quer exibir o procedimento associado ao PacienteEspecialidade,
+                    // ele precisaria ser enviado pela view 'load_pacientes_by_especialidade'
+                    // se o PacienteEspecialidade já tiver um procedimento selecionado.
+                    // Por agora, vou manter o que estava, mas revise se 'paciente.procedimento' realmente existe no JSON.
+                    
+                   
+                    // Se você adicionou 'data_pedido' ou 'classificacao' na sua view:
+                    if (paciente.dt_nascimento) {
+                        optionText += ` ( DN: ${paciente.dt_nascimento})`;
+                    }
+                    if (paciente.cns) {
+                        optionText += ` ( CNS: ${paciente.cns})`;
+                    }
+                
+                    if (paciente.procedimento) { // Verifique se esta propriedade existe no JSON
+                        optionText += ` - Procedimento: ${paciente.procedimento}`;
+                    }
+                    if (paciente.classificacao) {
+                        optionText += ` - Classificação: ${paciente.classificacao}`;
+                    }
+                    if (paciente.cpf_paciente) {
+                        optionText += ` - CPF: ${paciente.cpf_paciente}`;
+                    }
+
+
+                    $(pacienteSelectElement).append(
+                        $('<option></option>').val(paciente.id).text(optionText)
+                    );
+                });
+                // Tenta restaurar o valor selecionado, se ele ainda existir nas novas opções
+                if (currentSelectedValue && $(pacienteSelectElement).find('option[value="' + currentSelectedValue + '"]').length > 0) {
+                    $(pacienteSelectElement).val(currentSelectedValue);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Erro ao carregar pacientes:", error);
+                // Você pode adicionar um feedback visual para o usuário aqui
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        const especialidadeSelectPrincipal = $('#id_atendimento-especialidade');
+
+        // Função para atualizar todos os dropdowns de paciente no formset
+        function updateAllPacientesDropdowns() {
+            const especialidadeId = especialidadeSelectPrincipal.val();
+            // Itera sobre todos os seletores de paciente no formset
+            $('select[name$="-paciente"]').each(function() {
+                loadPacientes(especialidadeId, this);
+            });
+        }
+
+        // 1. Quando a especialidade principal muda, atualiza todos os campos de paciente no formset
+        especialidadeSelectPrincipal.on('change', updateAllPacientesDropdowns);
+
+        // 2. Quando a página carrega, se já houver uma especialidade selecionada, carrega os pacientes
+        if (especialidadeSelectPrincipal.val()) {
+            updateAllPacientesDropdowns();
+        }
+
+        // A linha abaixo foi removida do $(document).ready para ser colocada no 'added' callback do formset,
+        // garantindo que seja executada para cada nova linha.
+        // $('table.form').on('formset:added', function(event, row) { ... });
+    });
 </script>
-{% endblock scripts %}class='btn btn-danger btn-circle'
+{% endblock scripts %}

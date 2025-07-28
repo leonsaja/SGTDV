@@ -8,7 +8,7 @@ from ..models import Cidadao, Endereco
 
 class CidadaoForm(forms.ModelForm):
     dt_nascimento = forms.DateField(
-        label='Data de Nascimento',
+        label='Data de nascimento',
         widget=forms.DateInput(
             format='%Y-%m-%d',
             attrs={

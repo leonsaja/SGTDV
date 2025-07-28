@@ -44,7 +44,7 @@ class PacienteEspecialidadeForm(forms.ModelForm):
                 qs = qs.exclude(pk=self.instance.pk)
             if qs.exists():
                 self.add_error('paciente','Existe Paciente já cadastrado na especialidade com Status: "AGUARDANDO" e com mesmo "PROCEDIMENTO"')"""
-
+           
         
 class PacienteEspecialidadeUpdateForm(forms.ModelForm):
 
@@ -66,7 +66,20 @@ class PacienteEspecialidadeUpdateForm(forms.ModelForm):
            
         }
     
+    
+    def clean(self):
+        paciente = self.cleaned_data.get('paciente')
+        procedimento = self.cleaned_data.get('procedimento')
 
+        if paciente and procedimento:
+            qs = PacienteEspecialidade.objects.select_related('paciente','procedimento','especialidade').filter(paciente=paciente,procedimento=procedimento)
+
+            if self.instance.pk:
+                qs = qs.exclude(pk=self.instance.pk)
+            if qs.exists():
+                self.add_error('paciente','Este paciente já possui um cadastro  nessa especialidade com mesmo procedimento.')
+           
+           
 """
  form.instance.especialidade = get_object_or_404(Especialidade, id=self.kwargs.get('id'))
         return super().form_valid(form)"""

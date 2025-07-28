@@ -103,10 +103,10 @@
           {%else%}
             <td>-</td>
           {%endif%}
-          <td>{{p.paciente.nome_completo|upper}}</td>
-           <td>{{p.paciente.cns}}</td>
-             <td>{{p.paciente.microarea.profissional.acs}}</td>
-             <td>{{p.procedimento}}</td>
+          <td>{{p.paciente.paciente.nome_completo|upper}}</td>
+           <td>{{p.paciente.paciente.cns|upper}}</td>
+             <td>{{p.paciente.paciente.microarea.profissional.acs}}</td>
+             <td>{{p.paciente.procedimento.nome_procedimento}}</td>
          
         </tr>
         

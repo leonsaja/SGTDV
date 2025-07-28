@@ -66,7 +66,7 @@ class PacienteEspecialidade(models.Model):
 
 
     def __str__(self):
-        return f'{self.paciente.nome_completo}'
+        return f'{self.paciente.nome_completo}+ {self.procedimento}'
     
     
         
@@ -107,9 +107,8 @@ class ProcedimentosEspecialidade(models.Model):
         return f'{self.nome_procedimento}'
   
 class PacienteSia(models.Model):
-    paciente=models.ForeignKey(Cidadao,verbose_name='Paciente',on_delete=models.PROTECT)
+    paciente=models.ForeignKey(PacienteEspecialidade,verbose_name='Paciente',on_delete=models.PROTECT)
     atendimento_paciente=models.ForeignKey(AtendimentoEspecialidade,on_delete=models.CASCADE,related_name='atend_paciente_especialidade')
-    procedimento=models.ForeignKey(ProcedimentosEspecialidade,verbose_name='Procedimento',on_delete=models.PROTECT)
     hora=models.TimeField(verbose_name='Horário',null=True,blank=True)
 
 

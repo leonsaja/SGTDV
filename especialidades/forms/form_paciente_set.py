@@ -11,14 +11,12 @@ class PacienteSiaForm(forms.ModelForm):
      class Meta:
         
         model=PacienteSia
-        fields=('hora','paciente','procedimento',)
+        fields=('hora','paciente',)
 
    
      def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['paciente'].widget.attrs.update({'class':'form-control'})
-        self.fields['procedimento'].widget.attrs.update({'class':'form-control'})
-        self.fields['procedimento'].widget.attrs.update({'class':'form-control'})
         self.fields['hora'].widget.attrs.update({'class':'form-control'})
 
         

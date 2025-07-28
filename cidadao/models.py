@@ -17,20 +17,20 @@ class Cidadao(models.Model):
        
     )
    
-    nome_completo = models.CharField(verbose_name='Nome Completo',max_length=150, null=False, blank=False)
+    nome_completo = models.CharField(verbose_name='Nome completo',max_length=150, null=False, blank=False)
     email=models.EmailField(verbose_name='E-mail', unique=True,null=True,blank=True)
     rg=models.CharField(max_length=100,verbose_name='RG', null=True,blank=True)
     cpf=BRCPFField(verbose_name='CPF',unique=True, max_length=11, null=True,blank=True)
     cns=models.PositiveBigIntegerField(verbose_name='CNS', unique=True, null=False,blank=False, help_text='Digite o cartão do SUS com 15 digitos')
     sexo=models.CharField(verbose_name='Sexo:',max_length=1,choices=SEXO, null=False, blank=False)
-    dt_nascimento=models.DateField(verbose_name='Data de Nascimento', null=False,blank=False)
-    nome_mae=models.CharField(verbose_name='Nome da Mãe', max_length=150, null=True,blank=False)
-    nome_pai=models.CharField(verbose_name='Nome do  Pai', max_length=150, null=True,blank=True)
+    dt_nascimento=models.DateField(verbose_name='Data de nascimento', null=False,blank=False)
+    nome_mae=models.CharField(verbose_name='Nome da mãe', max_length=150, null=True,blank=False)
+    nome_pai=models.CharField(verbose_name='Nome do  pai', max_length=150, null=True,blank=True)
     telefone=models.CharField(verbose_name='Telefone', max_length=15, null=True,blank=True)
     telefone1=models.CharField(verbose_name='Celular ', max_length=15,null=False,blank=False)
     
-    microarea=models.ForeignKey(MicroArea,null=True,blank=False,on_delete=models.PROTECT, related_name='microarea_cidadao',verbose_name='MICRO ÁREA')
-    raca=models.CharField(verbose_name='RAÇA/COR',max_length=1, choices=RACA, null=True, blank=False)
+    microarea=models.ForeignKey(MicroArea,null=True,blank=False,on_delete=models.PROTECT, related_name='microarea_cidadao',verbose_name='Microárea')
+    raca=models.CharField(verbose_name='Raça/Cor',max_length=1, choices=RACA, null=True, blank=False)
     nacionalidade=models.CharField(verbose_name='Município de nascimento',max_length=120, null=True, blank=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -50,7 +50,9 @@ class Cidadao(models.Model):
                 return ('{}.{}.{}-{}'.format( cpf[:3], cpf[3:6], cpf[6:9], cpf[9:]))
         
         return '-'
-    
+    def form_cns(self):
+        print('CNS',self.cns)
+        return self.cns
 
     def acompanhante(self):    
         return self.nome_completo.split()[0]

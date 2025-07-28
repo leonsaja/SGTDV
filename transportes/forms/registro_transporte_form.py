@@ -1,11 +1,12 @@
 from django import forms
 from transportes.models import Carro, RegistroTransporte
 from django_select2 import forms as s2forms
+from datetime import date
 
 
 class RegistroTransporteForm(forms.ModelForm):
     dt_atendimento = forms.DateField(
-        label='Data do Atendimento',
+        label='Data do atendimento',
         widget=forms.DateInput(
             format='%Y-%m-%d',
             attrs={
@@ -32,11 +33,8 @@ class RegistroTransporteForm(forms.ModelForm):
       ('3','NÃO,PERDEU A CONSULTA'),
       ('4','NÃO, SEM INFORMAÇÃO')
    )
-    status=forms.ChoiceField(label='Transporte Atendido', widget=forms.RadioSelect,choices=STATUS_CHOICES)
-    atend_zona_rural=forms.ChoiceField(label='Atend. Zona Rural', widget=forms.RadioSelect,choices=ATEND_ZONA_RURAL)
-    acompanhante=forms.ChoiceField(label='Tem Acompanhante', widget=forms.RadioSelect,choices=ACOMPANHANTE)
-    tipo_atend=forms.ChoiceField(label='Tipo de Atendimento', widget=forms.RadioSelect,choices=TIPO_ATENDIMENTO)
-    
+    status=forms.ChoiceField(label='Transporte atendido', widget=forms.RadioSelect,choices=STATUS_CHOICES)
+  
     class Meta:
         model=RegistroTransporte
         fields='__all__'
@@ -58,9 +56,22 @@ class RegistroTransporteForm(forms.ModelForm):
           
             if qs.exists():
                 self.add_error('paciente','Existe registro transporte com paciente com mesma data de atendimento.')
-        
+                        
         return self.cleaned_data
-      
+    
+    
+    def clean_dt_atendimento(self):
+        data = self.cleaned_data['dt_atendimento']
+        data_atual=date.today().strftime('%Y')
+        data_anterior=data.strftime('%Y')
+        
+        if data > date.today():
+            raise forms.ValidationError("A Data de atendimento não pode ser futura.")
+    
+        if  data_anterior < data_atual:
+            raise forms.ValidationError("A data do atendimento não pode ser anterior ao um Ano")
+        
+        return data
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
