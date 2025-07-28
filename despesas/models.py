@@ -9,6 +9,7 @@ class Diaria(models.Model):
         ('','---------'),
         ('1','Integral'),
         ('2','Meia'),
+        ('3','Integral+Meia'),
     )
     STATUS_REEMBOLSO=(
        ('1','SIM'),
@@ -30,7 +31,7 @@ class Diaria(models.Model):
     fonte=models.PositiveIntegerField(verbose_name='Fonte',null=False,blank=False,default=15001002)
     obs=models.TextField(verbose_name='Observação',null=True,blank=True)
     tipo_diaria=models.CharField(max_length=1, verbose_name='Tipo de Diária',choices=TIPO_DIARIA,null=False,blank=False,default='')
-    qta_diaria=models.PositiveBigIntegerField(verbose_name='Quantidade',null=False,blank=False)
+    qta_diaria=models.DecimalField(verbose_name='Quantidade',null=False,blank=False,max_digits=2,decimal_places=1)
     valor=models.DecimalField(verbose_name='Valor', decimal_places=2, max_digits=10, null=False,blank=False)
     total=models.DecimalField(null=True, blank=True, decimal_places=2, max_digits=10)
     
@@ -72,20 +73,29 @@ class Diaria(models.Model):
     
     def save(self,*args, **kwargs):
       meia=0
+      diaria_meia=0
 
       if not self.total:
          if self.tipo_diaria =='1':
             self.total=self.qta_diaria*self.valor
-         else:
+         elif self.tipo_diaria=='2':
             meia=self.valor/2
             self.total=self.qta_diaria*meia
+         else:
+            diaria_meia=self.valor/2
+            self.total=self.valor+diaria_meia
+         
       else:
          if self.tipo_diaria =='1':
             self.total=self.qta_diaria*self.valor
             
-         else:
+         elif self.tipo_diaria=='2':
             meia=self.valor/2
             self.total=self.qta_diaria*meia
+
+         else:
+            diaria_meia=self.valor/2
+            self.total=self.valor+diaria_meia
          
       return super().save(*args, **kwargs)
 
@@ -101,7 +111,19 @@ class Diaria(models.Model):
         return total
       
       return ''
-            
+
+    def form_qta_diaria(self):
+        meio=0
+        valor=0
+        if self.tipo_diaria =='1':
+           valor=int(self.qta_diaria)
+        elif self.tipo_diaria=='2':
+            meio=self.qta_diaria/2
+            valor=meio
+        else:
+           valor=self.qta_diaria
+        return valor
+
 class Reembolso(models.Model):
 
     TIPOS_DESPESAS=(
