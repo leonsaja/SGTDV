@@ -97,7 +97,11 @@
           <td class="text-center">{{ forloop.counter }} </td>
 
           {% if r.descricao %}
-          <td>{{r.get_descricao_display}}</td>
+          <td>{{r.get_descricao_display}} 
+            {%if r.obs%}
+             - {{r.obs}}
+            {%endif%}
+          </td>
           {% else %}
           <td class="text-center">
             -
@@ -159,7 +163,7 @@ SECRETÁRIO MUNICIPAL DE SAÚDE
 
 </div>
   <div class="bordas">
-    <p class="text-center pt-2"><b> COMPROVANTE DE RECECIMENTO</b></p>
+    <p class="text-center pt-2"><b> COMPROVANTE DE RECEBIMENTO</b></p>
     <p class="m-0 p-2"><b>DATA: </b> </p>
     <p class="m-2" style="text-align: justify;" >
 
