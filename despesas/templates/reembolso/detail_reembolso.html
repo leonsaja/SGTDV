@@ -126,6 +126,16 @@
                  <h6 class="text-muted">-</h6>
                 {%endif%}
             </div>
+                    <div class="col-md-6">
+                        <label for="id_descricao_reembolso" class="form-label">Data da última nota:</label>
+                        {%if diaria.data_ult_nota_reembolso%}
+                         
+                            <h6 class="text-muted">  {{diaria.data_ult_nota_reembolso|date:"d/m/Y"|default:'---'}}</h6>
+                            
+                        {%else%}
+                        <h6 class="text-muted">-</h6>
+                        {%endif%}
+                    </div>
       </div>
         </fieldset>
         <br>
