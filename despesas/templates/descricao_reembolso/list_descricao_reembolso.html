@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load permission_tags %}
+
+{% block content %}
+<div class="container-fluid">
+  {%include 'descricao_reembolso/abas_descricao_reembolso.html' %}
+
+  <div class="row">
+    <div class="col-md-12">
+        {% include 'includes/mensagens.html'%}
+    </div>
+</div>
+{% if user|has_role:'digitador' %}
+
+  <div class="row ">
+    <div class="col-md-12">
+      <div class="text-right">
+        <a href="{% url 'despesas:add-descricao-reembolso' %}" class="btn btn-primary"><b>Cadastrar Descrição</b>
+        </a>
+      </div>
+    </div>
+  </div>
+  {%endif%}
+  <div class="row ">
+    <div class="col-md-12">
+      <h4 class=" text-primary text-center"><strong>Descrição de Reembolsos</strong> </h4>
+    </div>
+  </div>
+  
+
+  <div class="row">
+    <div class="col-md-12 mt-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="logo pt-2">Descrição</h3>
+
+        </div>
+        <!-- /.card-header -->
+        <div class="table-responsive-md">
+          <div class="card-body">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th style="width: 10px">N°</th>
+                  <th>Nome</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%for descricao in descricoes %}
+                <tr>
+                 <td> {{ forloop.counter }}</td>
+                  <td>{{descricao.descricao}}</td>
+
+                  <td>
+
+                    <a href="{% url 'despesas:detail-descricao-reembolso' descricao.id%}" class="pr-1"><i
+                        class="fas fa-solid fa-eye"></i></a>
+
+                    {% if user|has_role:'digitador' %}
+
+                    <a href="{% url 'despesas:edit-descricao-reembolso' descricao.id%}" class="pr-1 text-warning"><i
+                        class="fas fa-edit"></i></a>
+                    {%endif%}
+                   
+                   
+
+                  </td>
+                </tr>
+               
+                {%endfor%}
+
+              </tbody>
+            </table>
+            <br>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% include 'includes/modal_delete.html'%}
+<!-- Button trigger modal -->
+{% endblock content %} {% block scripts %}
+<script>
+  $('#validar-form').submit(function () {
+    let nome = $('#buscar')
+    let erro = $('.alert')
+
+    if (nome.val() == '') {
+      erro.removeClass('d-none')
+      nome.addClass('is-invalid')
+      return false
+    }
+
+    return true
+  })
+</script>
+{% endblock scripts %}

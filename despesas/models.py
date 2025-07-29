@@ -123,6 +123,13 @@ class Diaria(models.Model):
         else:
            valor=self.qta_diaria
         return valor
+     
+class DescricaoReembolso(models.Model):
+   descricao=models.CharField(verbose_name='Descrição',max_length=200,null=True,blank=True)
+   
+   
+   def __str__(self):
+        return f'{self.descricao}'
 
 class Reembolso(models.Model):
 
@@ -142,7 +149,7 @@ class Reembolso(models.Model):
         ('2','APROVADO'),
         ('3','REPROVADO'),
     )
-    descricao=models.CharField(verbose_name='Descrição',choices=TIPOS_DESPESAS,null=True,blank=True, max_length=1)
+    descricao=models.ForeignKey(DescricaoReembolso,verbose_name='Descrição',on_delete=models.PROTECT,null=True,blank=False)
     valor_desp=models.DecimalField(max_digits=8,decimal_places=2,verbose_name= 'Valor',null=True,blank=False)
     diaria=models.ForeignKey(Diaria,on_delete=models.PROTECT,related_name='reembolsos',null=False,blank=False)
     obs=models.CharField(verbose_name='OBSERVAÇÃO', null=True,blank=True, max_length=200)
@@ -161,3 +168,4 @@ class Reembolso(models.Model):
     def __str__(self):
         return f'{self.id}'
     
+

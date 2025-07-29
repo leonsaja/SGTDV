@@ -1,7 +1,7 @@
 from django.urls import path
 
 from despesas.views import reembolso_view as reem_view
-
+from despesas.views import descricao_reembolso_view as desc_view
 from .views import diaria_view as diaria_view
 
 app_name='despesas'
@@ -27,7 +27,11 @@ urlpatterns = [
     path('reembolso/search',reem_view.ReembolsoSearchListView.as_view(),name='search-reembolso'),
     path('reembolso/<int:id>/pdf',reem_view.reembolso_pdf,name='pdf-reembolso'),
 
-
+    #Descrição de Reembolsos
+    path('descricao_reembolso/create',desc_view.DescricaoReembolsoCreateView.as_view(),name='add-descricao-reembolso'),
+    path('descricao_reembolso/update/<int:pk>',desc_view.DescricaoReembolsoUpdateView.as_view(),name='edit-descricao-reembolso'),
+    path('descricao_reembolso/detail/<int:pk>',desc_view.DescricaoReembolsoDetaiView.as_view(),name='detail-descricao-reembolso'),
+    path('descricao_reembolso/list',desc_view.DescricaoReembolsoListView.as_view(),name='list-descricao-reembolso'),
 
 
 ]

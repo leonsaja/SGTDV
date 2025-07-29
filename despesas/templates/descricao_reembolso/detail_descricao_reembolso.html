@@ -1,0 +1,53 @@
+{% extends 'base.html' %} {% load permission_tags %}
+{% load bootstrap5 %} {% block content %}
+
+<div class="descricaoiner-fluid">
+  {%include 'descricao_reembolso/abas_descricao_reembolso.html' %}
+
+    {% if user|has_role:'digitador' %}
+
+    <div class="row m-2">
+
+        <div class="col-md-12">
+            <div class="text-right">
+                <a href="{% url 'despesas:edit-descricao-reembolso' descricao.id %}" class="btn btn-primary"><b> Editar Descrição</b>
+                </a>
+            </div>
+        </div>
+
+    </div>
+    {%endif%}
+    <div class="col-md-12 px-4">
+        <br />
+        <div class="row">
+            <div class=" col-md-6">
+                <h4 class=" text-primary"><strong>Detalhes da descrição de Reembolso </strong> </h4>
+
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row  d-flex justify-content-start">
+            <div class="col-md-4">
+                <label for="id_codigo" class="form-label">Descrição:</label>
+                <h6 class="text-muted">{{descricao.descricao|upper}}</h6>
+
+            </div>
+            
+          
+           
+        </div>
+      
+        <br>
+
+        <div class="row">
+            <div class="col-md-12 mb-5">
+                <a href="{% url 'despesas:list-descricao-reembolso' %}" class="btn btn-outline-primary">Voltar</a>
+                               
+            </div>
+          </div>
+
+    </div>
+</div>
+{% endblock content %}
