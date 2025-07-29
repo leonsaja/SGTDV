@@ -23,7 +23,7 @@
   {%endif%}
   <div class="row ">
     <div class="col-md-12">
-      <h4 class=" text-primary text-center"><strong>Descrição de Reembolsos</strong> </h4>
+      <h4 class=" text-primary text-center"><strong>Descrição de Reembolso</strong> </h4>
     </div>
   </div>
   
@@ -82,19 +82,4 @@
 </div>
 {% include 'includes/modal_delete.html'%}
 <!-- Button trigger modal -->
-{% endblock content %} {% block scripts %}
-<script>
-  $('#validar-form').submit(function () {
-    let nome = $('#buscar')
-    let erro = $('.alert')
-
-    if (nome.val() == '') {
-      erro.removeClass('d-none')
-      nome.addClass('is-invalid')
-      return false
-    }
-
-    return true
-  })
-</script>
-{% endblock scripts %}
+{% endblock content %} 

@@ -36,7 +36,6 @@ class DescricaoReembolsoListView(HasRoleMixin,ListView):
     model=DescricaoReembolso
     template_name='descricao_reembolso/list_descricao_reembolso.html' 
     context_object_name='descricoes'
-    paginate_by=10
     allowed_roles=['digitador','secretario']
 
 
