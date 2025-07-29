@@ -6,10 +6,11 @@ from ..models import Diaria, Reembolso
 
 class DescricaoReembolsoForm(forms.ModelForm):
     descricao_reembolso=forms.CharField(label='Descrição', widget=forms.Textarea( attrs={'placeholder':'Digite a descrição da Reemboso...','rows':3,'cols':10}))
-
+    data_ult_nota_reembolso = forms.DateField(label='Data última nota',widget=forms.DateInput( \
+        format='%Y-%m-%d',attrs={ 'type': 'date',}),input_formats=('%Y-%m-%d',),help_text='Colocar data da última nota fiscal' )
     class Meta:
         model=Diaria
-        fields=['descricao_reembolso']
+        fields=['descricao_reembolso','data_ult_nota_reembolso']
 
 
 class ReembolsoForm(forms.ModelForm):
@@ -27,4 +28,4 @@ class ReembolsoForm(forms.ModelForm):
         
 
 
-ReembolFormSet=inlineformset_factory(Diaria,Reembolso,form=ReembolsoForm, extra=1)
+ReembolFormSet=inlineformset_factory(Diaria,Reembolso,form=ReembolsoForm, extra=1, min_num=1,validate_min=True)
