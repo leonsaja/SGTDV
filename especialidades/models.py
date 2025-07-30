@@ -68,7 +68,9 @@ class PacienteEspecialidade(models.Model):
     def __str__(self):
         return f'{self.paciente.nome_completo}+ {self.procedimento}'
     
-    
+    class Meta:
+        ordering = ["-paciente"]
+
         
 class AtendimentoEspecialidade(models.Model):
     ATEND_VIA=(
@@ -114,7 +116,7 @@ class PacienteSia(models.Model):
 
 
     class Meta:
-        ordering = ["paciente"]
+        ordering = ["-paciente"]
 
 
 

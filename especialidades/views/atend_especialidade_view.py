@@ -85,7 +85,7 @@ class AtendEspecialidadeDetailView(HasRoleMixin,DetailView):
         atendimento_especialidade= AtendimentoEspecialidade.objects.select_related('especialidade').get(id=self.kwargs['pk'])
         
         context['atendimento_especialidade']=atendimento_especialidade
-        context['pacientes_set']=PacienteSia.objects.select_related('paciente','procedimento').filter(atendimento_paciente__id=atendimento_especialidade.id)
+        context['pacientes_set']=PacienteSia.objects.select_related('paciente').filter(atendimento_paciente__id=atendimento_especialidade.id)
         return context
     
 class AtendEspecialidadeDeleteView(HasRoleMixin,SuccessMessageMixin, DeleteView):

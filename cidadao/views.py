@@ -120,10 +120,10 @@ class CidadaoSearchListView(HasRoleMixin,ListView):
     def get_queryset(self, *args, **kwargs):
         qs = super(CidadaoSearchListView,self).get_queryset(*args, **kwargs)
 
-        search_nome_cpf_cns=self.request.GET.get('search_nome_cpf',None)
-        search_nome_mae=self.request.GET.get('search_nome_mae',None)
+        search_nome_cpf_cns=self.request.GET.get('search_nome_cpf',None).rstrip()
+        search_nome_mae=self.request.GET.get('search_nome_mae',None).rstrip()
         search_dt_nascimento=self.request.GET.get('search_dt_nascimento',None)
-
+      
         if search_nome_cpf_cns:
             qs=qs.select_related('microarea').filter(Q(nome_completo__iregex=search_nome_cpf_cns)| Q(cpf__icontains=search_nome_cpf_cns)|Q(cns__icontains=search_nome_cpf_cns))
               

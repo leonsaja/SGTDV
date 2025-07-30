@@ -86,7 +86,8 @@ class PacienteEspecialidadeListView(HasRoleMixin,ListView):
     def get_queryset(self):
         especialidade_id = self.kwargs.get(self.pk_url_kwarg)
 
-        buscar = self.request.GET.get('buscar', None)
+        buscar = self.request.GET.get('buscar', None).rstrip()
+
         data = self.request.GET.get('data', None)
 
         queryset = PacienteEspecialidade.objects.select_related(

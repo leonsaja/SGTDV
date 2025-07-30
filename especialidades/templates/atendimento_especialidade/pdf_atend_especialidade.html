@@ -7,21 +7,21 @@
       
       body{
 
-        font-size: 14px;
+        font-size: 10px;
         font-family: Arial, Helvetica, sans-serif;
       }
       td{
-      padding-right: 8px;
-      padding: 8px;
+     
+      padding: 3px;
       text-align:center
       }
       th{
-        padding: 8px;
+        padding: 3px;
         text-align: center;
       }
       table{
 
-        font-size: 13px;
+        font-size: 10px;
       }
     
 </style>
@@ -29,20 +29,25 @@
 
 {%endblock head%}
 {% block content %}
-{% include  'includes/cabecalho.html' %}
+  
 
-<h2 class="text-center"> <b>{{atendimento_especialidade.especialidade|upper}}</b></h2>
-<div class="container-fluid ">
+<div class="container-fluid">
+  <div class="row">
+    <img style="width: 610px" src=" {% static 'img/logodasaude.png' %}" alt="">
+  </div>
+  <br>
+  <h2 class="text-center"> <b>{{atendimento_especialidade.especialidade|upper}}</b></h2>
   <div class="row">
 
     <div class="row">
-      <div class="col-md-12 mt-3">
+      <div class="col-md-12 ">
         <h3>
           <b> DATA:</b> {{atendimento_especialidade.data|date:"d/m/Y"|default:'---'}}
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-       
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; 
           <b> HORÁRIO:</b> {{atendimento_especialidade.hora|time:"H:i"|default:'---'}}
         
            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
@@ -50,34 +55,28 @@
             </h3>
       </div>
     </div>
-    <div class="linha"></div>
+    
 
     <div class="row">
-      <div class="col-md-8 mt-2">
-        <h3 ><b>LOCAL: </b>{{atendimento_especialidade.local_atendimento|upper}}
-
+      <div class="col-md-8">
+        <h3 ><b>LOCAL: </b>{{atendimento_especialidade.local_atendimento|upper}} 
+           {%if atendimento_especialidade.observacao%}
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <b>OBSERVAÇÃO: </b>
+                   {{atendimento_especialidade.observacao}}
+            {%endif%}
         </h3>
       </div>
     </div>
-     <div class="linha"></div>
-    {%if atendimento_especialidade.observacao%}
-      <div class="row">
-        <div class="col mt-2">
-                <h3><b>OBSERVAÇÃO: </b>
-                  </h3>
-              {{atendimento_especialidade.observacao}}
-                
-        
-        </div>
-        
-    </div>
+    
+  
+      
 
-     {%endif%}
+     
      
 
      
-   <div class="mt-4">
-    <br>
+  
      <table class="table">
       
       <thead>
@@ -115,7 +114,7 @@
       
     </table>
 
-   </div>
+ 
    
  </div>
   </div>
