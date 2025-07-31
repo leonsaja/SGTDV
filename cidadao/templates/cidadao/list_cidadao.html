@@ -122,7 +122,7 @@
                 {%for paciente in pacientes %}
                 <tr>
                   <td id="paciente_id">{{paciente.id}}</td>
-                  <td id="paciente_nome">{{paciente.nome_completo}}</td>
+                  <td id="paciente_nome">{{paciente.nome_completo|upper}}</td>
 
                   <td>{{paciente.formt_cpf}}</td>
 

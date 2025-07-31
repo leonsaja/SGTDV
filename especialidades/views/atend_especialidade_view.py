@@ -17,7 +17,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 
-@has_role_decorator(['regulacao','recepcao'])   
+@has_role_decorator(['regulacao'])   
 def atend_especialidade_create(request):
     
     atend_especialidade=AtendimentoEspecialidade()
@@ -38,7 +38,7 @@ def atend_especialidade_create(request):
     
     return render(request, 'atendimento_especialidade/form_atend_especialidade.html', {'form': form,'formset':formset})
 
-@has_role_decorator(['regulacao','recepcao'])  
+@has_role_decorator(['regulacao'])  
 def atend_especialidade_update(request,id):
     
     atend_especialidade=get_object_or_404(AtendimentoEspecialidade,pk=id)
@@ -70,7 +70,14 @@ class AtendEspecialidadeListView(HasRoleMixin,ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(AtendEspecialidadeListView,self).get_queryset(*args, **kwargs)
-        qs=qs.select_related('especialidade').order_by('-especialidade')
+        buscar=self.request.GET.get('buscar',None)
+
+        if buscar:
+            queryset=qs.filter(especialidade__nome__icontains=buscar).order_by('-especialidade')
+            return queryset 
+        
+        qs=qs.all().order_by('-especialidade') 
+
         return qs    
     
 class AtendEspecialidadeDetailView(HasRoleMixin,DetailView):
@@ -115,7 +122,6 @@ def atend_especialidade_pdf(request,id):
 
 
     return response
-
 
 def load_pacientes_by_especialidade(request):
     especialidade_id = request.GET.get('especialidade_id')

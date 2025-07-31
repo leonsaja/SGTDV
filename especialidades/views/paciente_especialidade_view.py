@@ -32,13 +32,11 @@ class PacienteEspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,CreateVie
 
         paciente = form.cleaned_data.get('paciente')
         procedimento = form.cleaned_data.get('procedimento')
-        data_pedido = form.cleaned_data.get('data_pedido')
         status = form.cleaned_data.get('status')
 
         qs = PacienteEspecialidade.objects.filter(
             paciente=paciente,
             especialidade=especialidade_obj,
-            data_pedido=data_pedido,
             procedimento=procedimento,
             status=status
         ).first()

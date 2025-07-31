@@ -135,22 +135,7 @@ class DescricaoReembolso(models.Model):
 
 class Reembolso(models.Model):
 
-    TIPOS_DESPESAS=(
-        ('1','1-Hotel/Pousada'),
-        ('2','2-Refeições e Lanches'),
-        ('3','3-Estacionamento'),
-        ('4','4-Passagens'),
-        ('5','5-Táxi'),
-        ('6','6-Mototáxi'),
-        ('7','7-Locação de Veículo'),
-        ('8','8-Combustivel'),
-        ('9','9-Outros')
-    )
-    STATUS=(
-        ('1','AGUARDANDO'),
-        ('2','APROVADO'),
-        ('3','REPROVADO'),
-    )
+   
     descricao=models.ForeignKey(DescricaoReembolso,verbose_name='Descrição',on_delete=models.PROTECT,null=True,blank=False)
     valor_desp=models.DecimalField(max_digits=8,decimal_places=2,verbose_name= 'Valor',null=True,blank=False)
     diaria=models.ForeignKey(Diaria,on_delete=models.PROTECT,related_name='reembolsos',null=False,blank=False)

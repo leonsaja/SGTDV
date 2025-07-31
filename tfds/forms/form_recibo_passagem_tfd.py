@@ -66,6 +66,16 @@ class ReciboPassagemTFDForm(forms.ModelForm):
         tem_acompanhante=cleaned_data.get('tem_acompanhante')
         quant_passagem_paciente=cleaned_data.get('quant_passagem_paciente')
         acompanhante=cleaned_data.get('acompanhante')
+        data_recibo=cleaned_data.get('data_recibo')
+        paciente=cleaned_data.get('paciente')
+
+        qs=ReciboPassagemTFD.objects.select_related('paciente','acompanhante').filter(paciente=paciente, data_recibo=data_recibo)
+
+        if self.instance.pk:
+                qs = qs.exclude(pk=self.instance.pk)
+                
+        if qs.exists():
+            self.add_error('paciente','Este paciente já possui um recibo passagem com essa data.')
 
 
         if tem_acompanhante == '1':

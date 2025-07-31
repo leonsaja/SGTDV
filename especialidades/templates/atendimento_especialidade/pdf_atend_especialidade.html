@@ -7,7 +7,7 @@
       
       body{
 
-        font-size: 10px;
+        font-size: 11px;
         font-family: Arial, Helvetica, sans-serif;
       }
       td{
@@ -23,6 +23,20 @@
 
         font-size: 10px;
       }
+      /* Estilos CSS para posicionar a imagem */
+        .header {
+            position: relative; /* Contêiner de referência para a imagem */
+            width: 100%;
+            height: 100px; /* Altura do cabeçalho */
+        }
+        .minha-imagem {
+            position: absolute; /* Posição absoluta em relação ao .header */
+            top: 2px;
+            left: 50px;
+            bottom: 0px;
+            width: 640px; /* Largura da imagem */
+        }
+       
     
 </style>
 
@@ -31,11 +45,11 @@
 {% block content %}
   
 
-<div class="container-fluid">
-  <div class="row">
-    <img style="width: 610px" src=" {% static 'img/logodasaude.png' %}" alt="">
+<div class="">
+  <div class="header">
+    <img class="minha-imagem" src=" {% static 'img/logodasaude.png' %}" alt="">
   </div>
-  <br>
+
   <h2 class="text-center"> <b>{{atendimento_especialidade.especialidade|upper}}</b></h2>
   <div class="row">
 
@@ -47,35 +61,41 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; 
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <b> HORÁRIO:</b> {{atendimento_especialidade.hora|time:"H:i"|default:'---'}}
         
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+           
             </h3>
       </div>
     </div>
     
 
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-12 ">
         <h3 ><b>LOCAL: </b>{{atendimento_especialidade.local_atendimento|upper}} 
-           {%if atendimento_especialidade.observacao%}
-             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <b>OBSERVAÇÃO: </b>
-                   {{atendimento_especialidade.observacao}}
-            {%endif%}
+          
         </h3>
       </div>
+      {%if atendimento_especialidade.observacao%}
+      <div class="col-md-12 ">
+        <h3 >
+              <b>OBSERVAÇÃO: </b>
+                 {{atendimento_especialidade.observacao}}
+           
+        </h3>
+      </div>
+       {%endif%}
+      
     </div>
     
-  
+ 
       
 
      
      
 
-     
+  </div>
   
      <table class="table">
       
@@ -85,7 +105,7 @@
           <th>Horário</th>
           <th>Paciente</th>
           <th>CNS</th>
-          <th>ACS</th>
+         
           <th>Procedimento</th>
         
         
@@ -104,7 +124,7 @@
           {%endif%}
           <td>{{p.paciente.paciente.nome_completo|upper}}</td>
            <td>{{p.paciente.paciente.cns|upper}}</td>
-             <td>{{p.paciente.paciente.microarea.profissional.acs}}</td>
+             
              <td>{{p.paciente.procedimento.nome_procedimento}}</td>
          
         </tr>

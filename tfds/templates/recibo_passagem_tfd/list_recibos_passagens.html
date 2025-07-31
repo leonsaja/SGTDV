@@ -93,7 +93,7 @@
                 {%for r in recibos %}
                 <tr>
                   <td>{{r.id}}</td>
-                  <td>{{r.paciente.nome_completo}}</td>
+                  <td>{{r.paciente.nome_completo|upper}}</td>
                   <td>{{r.paciente.formt_cpf}}</td>
 
                   <td>{{r.paciente.cns}}</td>
