@@ -68,7 +68,9 @@ class PacienteEspecialidade(models.Model):
     def __str__(self):
         return f'{self.paciente.nome_completo}+ {self.procedimento}'
     
-    
+    class Meta:
+        ordering = ["-procedimento"]
+
         
 class AtendimentoEspecialidade(models.Model):
     ATEND_VIA=(
@@ -105,6 +107,9 @@ class ProcedimentosEspecialidade(models.Model):
 
     def __str__(self):
         return f'{self.nome_procedimento}'
+      
+    class Meta:
+        ordering = ["-nome_procedimento"]
   
 class PacienteSia(models.Model):
     paciente=models.ForeignKey(PacienteEspecialidade,verbose_name='Paciente',on_delete=models.PROTECT)
@@ -114,7 +119,7 @@ class PacienteSia(models.Model):
 
 
     class Meta:
-        ordering = ["paciente"]
+        ordering = ["-paciente"]
 
 
 

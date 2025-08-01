@@ -69,7 +69,7 @@ class RegistroTransporteSearchListView(HasRoleMixin,ListView):
     def get_queryset(self):
         qs=super().get_queryset()
         
-        nome_paciente=self.request.GET.get('nome_paciente',None)
+        nome_paciente=self.request.GET.get('nome_paciente',None).rsplit()
         dt_atendimento=self.request.GET.get('data',None)
         placa_carro=self.request.GET.get('placa_carro',None)
         

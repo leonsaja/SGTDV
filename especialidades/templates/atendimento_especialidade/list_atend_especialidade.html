@@ -30,7 +30,7 @@
   <div class="row ">
     <div class="container">
       <div class="row justify-content-center">
-        <form class="col-md-8   needs-validation" action="% url 'especialidades:list-especialidade'%}" method="GET"
+        <form class="col-md-8   needs-validation" action="{% url 'especialidades:list-atend_especialidade'%}" method="GET"
           id="validar-form">
 
           <div class="row">
@@ -88,6 +88,7 @@
                   <th style="width: 10px">N°</th>
                   <th>Especialidade</th>
                   <th>Data do Atendimento</th>
+                  <th>Horário</th>
                    <th>Atendimento Via</th>
                   <th>Ação</th>
                 </tr>
@@ -98,6 +99,7 @@
                    <td class="tex4">{{ forloop.counter }}</td>
                   <td>{{atend.especialidade|upper}}</td>
                   <td>{{atend.data|date:"d/m/Y"|default:'---'}}</td>
+                  <td>{{atend.hora}}</td>
                   <td>{{atend.get_atendimento_via_display}}</td>
 
                   <td>

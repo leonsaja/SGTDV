@@ -57,7 +57,17 @@ class ReciboTFDForm(forms.ModelForm):
         pagamento_por=cleaned_data.get('pagamento_por')
         atend_fora_estado=cleaned_data.get('atend_fora_estado')
         acompanhante=cleaned_data.get('acompanhante')
-    
+        data=cleaned_data.get('data')
+        paciente=cleaned_data.get('paciente')
+
+        qs=ReciboTFD.objects.select_related('paciente','especialidade','acompanhante').filter(paciente=paciente, data=data)
+
+        if self.instance.pk:
+                qs = qs.exclude(pk=self.instance.pk)
+
+        if qs.exists():
+            self.add_error('paciente','Este paciente já possui um recibo TFD com essa data.')
+
         if tem_acompanhante == '1':
             acompanhante=cleaned_data.get('acompanhante')
         

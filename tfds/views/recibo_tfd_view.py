@@ -98,7 +98,7 @@ class ReciboTFDSearchListView(HasRoleMixin,ListView):
     def get_queryset(self, *args, **kwargs):
         qs = super(ReciboTFDSearchListView,self).get_queryset(*args, **kwargs)
         
-        search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
+        search_nome_cpf=self.request.GET.get('search_nome_cpf',None).rstrip()
         data=self.request.GET.get('data',None)
       
         if search_nome_cpf:

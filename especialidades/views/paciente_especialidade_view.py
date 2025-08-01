@@ -32,13 +32,11 @@ class PacienteEspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,CreateVie
 
         paciente = form.cleaned_data.get('paciente')
         procedimento = form.cleaned_data.get('procedimento')
-        data_pedido = form.cleaned_data.get('data_pedido')
         status = form.cleaned_data.get('status')
 
         qs = PacienteEspecialidade.objects.filter(
             paciente=paciente,
             especialidade=especialidade_obj,
-            data_pedido=data_pedido,
             procedimento=procedimento,
             status=status
         ).first()
@@ -86,7 +84,8 @@ class PacienteEspecialidadeListView(HasRoleMixin,ListView):
     def get_queryset(self):
         especialidade_id = self.kwargs.get(self.pk_url_kwarg)
 
-        buscar = self.request.GET.get('buscar', None)
+        buscar = self.request.GET.get('buscar', None).rstrip()
+
         data = self.request.GET.get('data', None)
 
         queryset = PacienteEspecialidade.objects.select_related(
