@@ -80,6 +80,12 @@ class AtendimentoEspecialidade(models.Model):
             ('4','PPI'),
 
         )
+    STATUS=(
+        ('1','AGUARDANDO'),
+        ('2','CONCLUÍDO'),
+        ('3','CANCELADO'),
+
+    )
 
     especialidade=models.ForeignKey(Especialidade,verbose_name='Especialidade',on_delete=models.PROTECT)
     data=models.DateField(verbose_name='Data do Atendimento',null=True,blank=False)
@@ -87,6 +93,7 @@ class AtendimentoEspecialidade(models.Model):
     local_atendimento=models.CharField(max_length=255,verbose_name='Local do Atendimento',null=False, blank=False)
     observacao=models.TextField(verbose_name='Observação',null=True,blank=True)
     hora=models.TimeField(verbose_name='Horário do Atendimento',null=True,blank=False)
+    status=models.CharField(verbose_name='Status', choices=STATUS, max_length=1,default=1,null=True)
 
 
     created_at = models.DateTimeField(auto_now_add=True,null=True)

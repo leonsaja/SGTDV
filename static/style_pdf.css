@@ -8,99 +8,18 @@
 @page {
         margin: 20px;
     }
-.cabecalho{
-  align-items: center;
-} 
-.conteudo{
-  margin-bottom: 100px;
-}
-.cabecalho_img {
- 
-  
-  width: 660px;
-  height: 110px;
- 
-}
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 13px;
-}
 
-.text-logo{
-  font-size: 13px;
-  padding-left: 30px;
-}
 
 .bordas{
     border: 1px solid black;
 
     margin-top: 8px;
 }
-.logo{
-  font-size: 14px;
-  margin-top: 30px;
-  float: right;
-}
-.container{
-  display: flex;
-  align-items: center;
-  
-}
-
-.conteudo2{
-  display: table;
-}
-
-.imagem{
-  display: table-cell;
-  padding-left: 40px;
-  margin-top: 15px;
-
-  
-}
-
-.texto{
-  display: table-cell;
-  float: left;
-  margin-top: -50px;
-  font-size: 14px;
-}
-.linha{
-
-    border-bottom: solid 1px black ;
-}
-.tfd{
-  padding: 15px;
-  font-size: 13px;
-  line-height: 18px;
-}
-.paragrafo{
-    
-   
-    padding: 5px;
-    padding-left: 10px;
-}
-.title_center{
-    text-align: center;
-   
-}
-.espaco{
-    padding-left: 10px;
-}
-.espaco1{
-    padding-left: 150px;
-}
-.mt{
-    margin-top: 10px;
-}
 
 table {
     width: 100%;
     border-collapse: collapse;
 
-}
-.pt{
-  padding-top: 5px;
 }
 
   thead {
@@ -112,8 +31,6 @@ table {
   }
  
   
-  
-
   .table-bordered th,
   .table-bordered td {
 
@@ -138,39 +55,32 @@ table {
     padding: 8px;
     text-align: center;
   }
- 
-
-  .table-viagem td{
-    padding: 4px;
-  
-  }
+ .paragrafo{
+    
    
+    padding: 5px;
+    padding-left: 10px;
+}
 
-  .col-md-6 {
-    flex: 0 0 auto;
-    width: 50%;
-  }
+.linha{
 
-  .col-md-12 {
-    flex: 0 0 auto;
-    width: 100%;
-  }
-  p{
-    margin: 0px;
-    padding: 0px;
-  }
+    border-bottom: solid 1px black ;
+}
 
-  .row {
-    --bs-gutter-x: 1.5rem;
-    --bs-gutter-y: 0;
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: calc(var(--bs-gutter-y) * -1);
-    margin-right: calc(var(--bs-gutter-x) * -.5);
-    margin-left: calc(var(--bs-gutter-x) * -.5);
-  }
+.header {
+            position: relative; /* Contêiner de referência para a imagem */
+            width: 100%;
+            height: 100px; /* Altura do cabeçalho */
+        }
+        .minha-imagem {
+            position: absolute; /* Posição absoluta em relação ao .header */
+            top: 2px;
+            left: 10px;
+            bottom: 0px;
+            width: 700px; /* Largura da imagem */
+        }
 
-  .subtitle {
-    font-size: 16px;
-    font-family: Arial, Helvetica, sans-serif;
-  }
+
+.text-center {
+  text-align: center !important;
+}

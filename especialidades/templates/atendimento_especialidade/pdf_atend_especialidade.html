@@ -7,7 +7,7 @@
       
       body{
 
-        font-size: 11px;
+        font-size: 14px;
         font-family: Arial, Helvetica, sans-serif;
       }
       td{
@@ -24,18 +24,7 @@
         font-size: 10px;
       }
       /* Estilos CSS para posicionar a imagem */
-        .header {
-            position: relative; /* Contêiner de referência para a imagem */
-            width: 100%;
-            height: 100px; /* Altura do cabeçalho */
-        }
-        .minha-imagem {
-            position: absolute; /* Posição absoluta em relação ao .header */
-            top: 2px;
-            left: 50px;
-            bottom: 0px;
-            width: 640px; /* Largura da imagem */
-        }
+        
        
     
 </style>
@@ -43,19 +32,15 @@
 
 {%endblock head%}
 {% block content %}
-  
+{% include  'includes/cabecalho.html' %}
+<div class="container">
 
-<div class="">
-  <div class="header">
-    <img class="minha-imagem" src=" {% static 'img/logodasaude.png' %}" alt="">
-  </div>
-
-  <h2 class="text-center"> <b>{{atendimento_especialidade.especialidade|upper}}</b></h2>
+  <h3 class="text-center"> <b>{{atendimento_especialidade.especialidade|upper}}</b></h3>
   <div class="row">
 
     <div class="row">
       <div class="col-md-12 ">
-        <h3>
+        <p>
           <b> DATA:</b> {{atendimento_especialidade.data|date:"d/m/Y"|default:'---'}}
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
@@ -66,24 +51,24 @@
           <b> HORÁRIO:</b> {{atendimento_especialidade.hora|time:"H:i"|default:'---'}}
         
            
-            </h3>
+        </p>
       </div>
     </div>
     
 
     <div class="row">
       <div class="col-md-12 ">
-        <h3 ><b>LOCAL: </b>{{atendimento_especialidade.local_atendimento|upper}} 
+        <p><b>LOCAL: </b>{{atendimento_especialidade.local_atendimento|upper}} 
           
-        </h3>
+        </p>
       </div>
       {%if atendimento_especialidade.observacao%}
       <div class="col-md-12 ">
-        <h3 >
+        <p >
               <b>OBSERVAÇÃO: </b>
                  {{atendimento_especialidade.observacao}}
            
-        </h3>
+        </p>
       </div>
        {%endif%}
       
@@ -92,15 +77,11 @@
  
       
 
-     
-     
-
   </div>
   
      <table class="table">
       
       <thead>
-        <tr>
           <th>N°</th>
           <th>Horário</th>
           <th>Paciente</th>
@@ -135,7 +116,6 @@
     </table>
 
  
-   
  </div>
   </div>
  {% endblock content%}

@@ -2,6 +2,7 @@ from django import forms
 from transportes.models import Carro, RegistroTransporte
 from django_select2 import forms as s2forms
 from datetime import date
+from dal import autocomplete
 
 
 class RegistroTransporteForm(forms.ModelForm):
@@ -39,7 +40,7 @@ class RegistroTransporteForm(forms.ModelForm):
         model=RegistroTransporte
         fields='__all__'
         widgets = {
-            'paciente':s2forms.Select2Widget,
+            'paciente': autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
             'carro':s2forms.Select2Widget(),
            
         }

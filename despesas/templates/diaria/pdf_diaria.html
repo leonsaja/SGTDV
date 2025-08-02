@@ -2,7 +2,6 @@
 {% load static %}
 {% block title %}DIÁRIA{% endblock %}
 
-
 {% block head%}
 <style>
   body{
@@ -25,43 +24,42 @@
       }
 </style>
 
-
 {% endblock%}
 {% block content %}
-{% include  'includes/cabecalho.html' %}
-<h2 class="text-center "> <b>DIÁRIA</b></h2>
+{% include 'includes/cabecalho.html' %}
+<h3 class="text-center "> <b>DIÁRIA</b></h3>
 <div class="bordas">
   <div class="row">
-   
+
     <div class="col-md-5 m-2">
-       
-      <p class=" "><b>IDENTIFICAÇÃO: </b>{{diaria.profissional.nome_completo|upper}}
+
+      <p class=" "><b>IDENTIFICAÇÃO:
+        </b>{{diaria.profissional.nome_completo|upper}}
 
         &nbsp; &nbsp;&nbsp;&nbsp;
-         &nbsp; &nbsp;&nbsp;&nbsp;
-          &nbsp; &nbsp;&nbsp;&nbsp;
-            &nbsp; &nbsp;&nbsp;&nbsp;
-          &nbsp; &nbsp;&nbsp;&nbsp;
-           &nbsp; &nbsp;&nbsp;&nbsp;
-            &nbsp; &nbsp;&nbsp;&nbsp;
-             &nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp; &nbsp;&nbsp;&nbsp;
         <b>DATA: </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}
       </p>
-      <p class="">
+      <p class>
         <b>CPF: </b>{{diaria.profissional.formt_cpf}}
         &nbsp; &nbsp;&nbsp;&nbsp;
         <b>FONTE: </b>{{diaria.form_fonte}}
-          &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
-          <b>CONTA: </b>{{diaria.form_conta}}
-           &nbsp;  &nbsp;&nbsp;&nbsp;
+        &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+        <b>CONTA: </b>{{diaria.form_conta}}
+        &nbsp; &nbsp;&nbsp;&nbsp;
       </p>
     </div>
-    
+
   </div>
- 
 
   <div class="linha"></div>
-  <p class="text-center m-1"><b>RELATÓRIO DESCREVENDO O OBJETO DA VIAGEM
+  <p class="text-center m-2"><b>RELATÓRIO DESCREVENDO O OBJETO DA VIAGEM
       INCLUINDO
       PERÍODO</b></p>
   <div class="linha"></div>
@@ -85,7 +83,7 @@
   {%endif%}
 </div>
 
-<table class="table-bordered">
+<table class="table-bordered mt-3">
   <thead>
     <tr>
       <th>ITENS</th>
@@ -101,10 +99,11 @@
       <td>01</td>
       <td>
         <p class="m-1 text-start">
-         <b> Origem:</b> {{diaria.viagem_orig|upper}}
-         
+          <b> Origem:</b> {{diaria.viagem_orig|upper}}
+
         </p>
-         <p class="m-1 text-start"><b> Destino:</b> {{diaria.viagem_dest|upper}}</p>
+        <p class="m-1 text-start"><b> Destino:</b>
+          {{diaria.viagem_dest|upper}}</p>
       </td>
       <td>{{diaria.get_tipo_diaria_display}}</td>
       <td>{{diaria.form_qta_diaria}}</td>
@@ -114,69 +113,75 @@
   </tbody>
 </table>
 <div class="bordas">
-<p class="text-center pt-2 " ><b> APROVAÇÃO DA DESPESA</b></p>
-<p class="m-0 p-2"><b>DATA: </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
-<p class=" text-center m-0 ">______________________________________</p>
-{%if diaria.status == '2'%}
-<p class="text-center"><b>STATUS:</b>  {{diaria.get_status_display}}
-{%elif diaria.status == '3' %}
-<p class=""><b>STATUS:</b> {{diaria.get_status_display}}
-{%endif%}
-{%if diaria.aprovado_por %}
-<p class="text-center"><b>{{diaria.aprovado_por|upper}}
-<br>
-SECRETÁRIO MUNICIPAL DE SAÚDE
-</b> </p>
-{%else%}
-<p class="paragrafo title_center"> {{profissional.nome_completo|upper}}
-<b><br>
-SECRETÁRIO MUNICIPAL DE SAÚDE
-</b> </p>
-{%endif%}
-</div>
+  <p class="text-center pt-2 "><b> APROVAÇÃO DA DESPESA</b></p>
+  <p class="m-0 p-2"><b>DATA:
+    </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
+  <p class=" text-center m-0 ">______________________________________</p>
+  {%if diaria.status == '2'%}
+  <p class="text-center"><b>STATUS:</b> {{diaria.get_status_display}}
+    {%elif diaria.status == '3' %}
+    <p class><b>STATUS:</b> {{diaria.get_status_display}}
+      {%endif%}
+      {%if diaria.aprovado_por %}
+      <p class="text-center"><b>{{diaria.aprovado_por|upper}}
+          <br>
+          SECRETÁRIO MUNICIPAL DE SAÚDE
+        </b> </p>
+      {%else%}
+      <p class="text-center"> {{profissional.nome_completo|upper}}
+        <b><br>
+          SECRETÁRIO MUNICIPAL DE SAÚDE
+        </b> </p>
+      {%endif%}
+    </div>
 
-<div class="bordas ">
-<p class="text-center pt-2"><b> AUTORIZAÇÃO DA DESPESA</b></p>
-<p class="m-0 p-2"><b>DATA: </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
-<p class="text-center m-0">______________________________________</p>
-{%if diaria.status == '2'%}
-<p class="text-center"><b>STATUS:</b> {{diaria.get_status_display}}
-{%elif diaria.status == '3' %}
-<p class="text-center"><b>STATUS:</b> {{diaria.get_status_display}}
-{%endif%}
-{%if diaria.aprovado_por %}
-<p class="text-center"><b>{{diaria.aprovado_por|upper}}
-<br>
-SECRETÁRIO MUNICIPAL DE SAÚDE
-</b> </p>
-{%else%}
-<p class="text-center"> {{profissional.nome_completo|upper}}
-<br><b>
-SECRETÁRIO MUNICIPAL DE SAÚDE
-</b> </p>
-{%endif%}
+    <div class="bordas ">
+      <p class="text-center pt-2"><b> AUTORIZAÇÃO DA DESPESA</b></p>
+      <p class="m-0 p-2"><b>DATA:
+        </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
+      <p class="text-center m-0">______________________________________</p>
+      {%if diaria.status == '2'%}
+      <p class="text-center"><b>STATUS:</b> {{diaria.get_status_display}}
+        {%elif diaria.status == '3' %}
+        <p class="text-center"><b>STATUS:</b> {{diaria.get_status_display}}
+          {%endif%}
+          {%if diaria.aprovado_por %}
+          <p class="text-center"><b>{{diaria.aprovado_por|upper}}
+              <br>
+              SECRETÁRIO MUNICIPAL DE SAÚDE
+            </b> </p>
+          {%else%}
+          <p class="text-center"> {{profissional.nome_completo|upper}}
+            <br><b>
+              SECRETÁRIO MUNICIPAL DE SAÚDE
+            </b> </p>
+          {%endif%}
 
-</div>
-<div class="bordas pt">
-  <p class="text-center"><b> COMPROVANTE DE RECEBIMENTO</b></p>
-  <p class="m-0 p-2"><b>DATA:</b> </p>
-  <p class="m-0 p-2">
-    <b>
-      <br>
-      Recebi o valor da importância acima a título de diária para despesas de viagem a serviço da Secretaria
-      Municipal de Saúde, no qual dou plena e total quitação.
-    </b>
-  </p>
-  <br>
-  <p class="title_center">______________________________________</p>
+        </div>
+        <div class="bordas pt">
+          <p class="text-center"><b> COMPROVANTE DE RECEBIMENTO</b></p>
+          <p class="m-0 p-2"><b>DATA:</b> </p>
+          <p class="m-0 p-2">
+            <b>
+              <br>
+              Recebi o valor da importância acima a título de diária para
+              despesas de viagem a serviço da Secretaria
+              Municipal de Saúde, no qual dou plena e total quitação.
+            </b>
+          </p>
+          <br>
+          <p class="text-center">______________________________________</p>
 
-  <p class="paragrafo title_center"><b>{{diaria.profissional.nome_completo|upper}}</b></p>
+          <p
+            class="text-center"><b>{{diaria.profissional.nome_completo|upper}}</b></p>
 
-</div>
+        </div>
 
-
-<div>
-  <br/>
-  <p> Realizado por {{diaria.criado_por}} no dia {{diaria.created_at|date:"d/m/Y"|default:'---'}} às {{diaria.created_at|time:"H:i"|default:'---'}}  </p>
-</div>
-{% endblock %}
+        <div>
+          <br />
+          <p> Realizado por {{diaria.criado_por}} no dia
+            {{diaria.created_at|date:"d/m/Y"|default:'---'}} às
+            {{diaria.created_at|time:"H:i"|default:'---'}} </p>
+        </div>
+    
+        {% endblock %}

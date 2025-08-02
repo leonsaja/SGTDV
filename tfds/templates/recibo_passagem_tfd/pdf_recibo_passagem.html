@@ -11,12 +11,12 @@
 
     td {
 
-        padding: 2px;
+        padding: 8px;
         text-align: center
     }
 
     th {
-        padding: 2px;
+        padding: 3px;
         text-align: center;
     }
 
@@ -36,8 +36,8 @@
 
 {% include  'includes/cabecalho.html' %}
 
-<h3 class="text-center"> <b>DECLARAÇÃO DE RECEBIMENTO DE AUTORIZAÇÃO DE PASSAGEM</b></h3>
-<div class="container-fluid">
+<h3 class="text-center "> <b>DECLARAÇÃO DE RECEBIMENTO DE AUTORIZAÇÃO DE PASSAGEM</b></h3>
+<div class="container-fluid ">
     <div class="bordas">
          <!-- PACIENTE -->
          <div class="row ">
@@ -45,6 +45,13 @@
                 <p><b>NOME DO PACIENTE: </b>
                    {{recibo_passagem.paciente.nome_completo|upper}}
                     &nbsp; &nbsp;
+                       &nbsp; &nbsp;
+                           &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                               &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                   &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                       &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                           
+                                               <b>DATA:</b>  &nbsp; {{recibo_passagem.data_recibo|date:"d/m/Y"|default:'---'}}
                 </p>
                
                 <p class="pt-1"><b>CPF: </b>{{recibo_passagem.paciente.formt_cpf|upper}}

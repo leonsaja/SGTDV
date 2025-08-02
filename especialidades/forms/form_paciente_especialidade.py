@@ -4,6 +4,7 @@ from django_select2 import forms as s2forms
 from django.core.exceptions import ValidationError
 from especialidades.models import PacienteEspecialidade
 from cidadao.models import Cidadao
+from dal import autocomplete
 
 class PacienteEspecialidadeForm(forms.ModelForm):
 
@@ -21,7 +22,7 @@ class PacienteEspecialidadeForm(forms.ModelForm):
         model= PacienteEspecialidade
         exclude=('especialidade',)
         widgets = {
-            'paciente':s2forms.Select2Widget(),
+            'paciente': autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
             'procedimento':s2forms.Select2Widget(),
            
         }

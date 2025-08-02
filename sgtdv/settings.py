@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     'estabelecimentos',
     'especialidades',
     'relatorios',
+    'dal',
+    'dal_select2',
 
     #Pacote
    

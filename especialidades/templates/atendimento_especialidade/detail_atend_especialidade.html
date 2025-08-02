@@ -67,9 +67,13 @@
             <div class="row">
 
             
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <label for="id_conta" class="form-label">Observação:</label>
-                    <h6 class="text-muted">{{atendimento_especialidade.observacao}}</h6>
+                    <h6 cla]ss="text-muted">{{atendimento_especialidade.observacao}}</h6>
+                </div>
+                <div class="col-md-6">
+                    <label for="id_conta" class="form-label">Status:</label>
+                    <h6 class="text-muted">{{atendimento_especialidade.get_status_display}}</h6>
                 </div>
             </div>
 

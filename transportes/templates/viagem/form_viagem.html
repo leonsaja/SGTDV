@@ -34,58 +34,53 @@
         </div>
     </fieldset>
 
+    
+
+<div class="row">
+  <div class="col-sm-12">
+    <br>
+    {{ formset.management_form }}
+
     <div class="row">
-      <div class="col-sm-12">
-        <br>
-
-        {{formset.management_form}}
-
-
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <h4 class=" text-primary"><strong>Passageiro</strong></h4>
-              </div>
-              <!-- /.card-header -->
-              <div class="table-responsive-md">
-                <div class="card-body">
-                  <table class="form table table-bordered">
-                    {% for forms in formset %}
-                    {% if forloop.first %}
-                    <thead>
-                      <tr>
-                        {% for field in forms.visible_fields %}
-                        <th>{{ field.label|capfirst }}</th>
-                        {% endfor %}
-                      </tr>
-                    </thead>
-                    {% endif %}
-                    <tbody>
-                      <tr class="{% cycle 'row1' 'row2' %}">
-                        {% for field in forms.visible_fields %}
-                        <td>
-                          {% if forloop.first %}
-                          {% for hidden in forms.hidden_fields %}
-                          {{ hidden }}
-                          {% endfor %}
-                          {% endif %}
-                          {{ field }}
-                          {{ field.errors.as_ul }}
-                        </td>
-                        {% endfor %}
-                      </tr>
-                    </tbody>
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class=" text-primary"><strong>Passageiro</strong></h4>
+          </div>
+          <div class="table-responsive-md">
+            <div class="card-body">
+              <table class="form table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Paciente</th>
+                    <th>Acompanhante</th>
+                    <th>Local do Exame</th>
+                    <th>Local de Espera</th>
+                    <th></th> </tr>
+                </thead>
+                <tbody>
+                  {% for form in formset %}
+                  <tr class="{% cycle 'row1' 'row2' %}">
+                    {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
                     {% endfor %}
-                  </table>
-                </div>
-              </div>
+                    <td>{{ form.paciente }}</td>
+                    <td>{{ form.acompanhante }}</td>
+                    <td>{{ form.local_exame }}</td>
+                    <td>{{ form.local_espera }}</td>
+                    <td>{{ form.DELETE }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </div>
           </div>
-
-
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
 
 
       <div class="row">
@@ -102,24 +97,16 @@
 
 {% endblock content%}
 
-{%block scripts %}
+{% block scripts %}
+  {{ form.media }}
+  {{ formset.media }}
 
-<script src='/static/utils/jquery.formset.min.js'></script>
-<script>
-{% comment %} 
-  $(document).ready(function () {
-    let horario = document.getElementById('id_viagem-horario_saida')
-    let data_viagem = document.getElementById('id_viagem-data_viagem')
-    data_viagem.setAttribute('type', 'date')
-    horario.setAttribute('type', 'time')
-
-  });
-
- {% endcomment %}
-  $('table.form tr').formset({
-    prefix: '{{ formset.prefix }}',
-    addText: "<div><i class='fas fa-plus'></i></div>",
-    deleteText: "<div class='btn btn-danger btn-circle'><i class='fas fa-trash'></i></div>"
-  });
-</script>
+  <script src='/static/utils/jquery.formset.min.js'></script>
+  <script>
+    $('table.form tr').formset({
+      prefix: '{{ formset.prefix }}',
+      addText: "<div><i class='fas fa-plus'></i></div>",
+      deleteText: "<div class='btn btn-danger btn-circle'><i class='fas fa-trash'></i></div>"
+    });
+  </script>
 {% endblock scripts %}

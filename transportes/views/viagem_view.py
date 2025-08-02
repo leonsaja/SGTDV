@@ -20,7 +20,9 @@ def viagemCreate(request):
         form = ViagemForm(request.POST,instance=viagem,prefix='viagem' )
         formset=PassageiroViagemSet(request.POST,instance=viagem,prefix='passageiro')
         if form.is_valid() and formset.is_valid():
-            form.save()
+            
+            viagem=form.save()
+            formset.instance=viagem
             formset.save()
             messages.add_message(request,constants.SUCCESS,'Viagem cadastrada com sucesso')
            
@@ -44,7 +46,9 @@ def viagemUpdate(request,id):
         form = ViagemForm(request.POST,instance=viagem,prefix='viagem' )
         formset=PassageiroViagemSet(request.POST,instance=viagem,prefix='passageiro')
         if form.is_valid() and formset.is_valid(): 
-            form.save()
+            
+            viagem=form.save()
+            formset.instance=viagem
             formset.save()
             messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
             return redirect('transportes:list-viagem')

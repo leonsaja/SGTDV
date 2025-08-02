@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.db.models import ProtectedError, Q
+from dal import autocomplete
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.views.generic import DetailView, ListView,CreateView, UpdateView
@@ -426,3 +427,18 @@ def cidadao_delete(request,id):
         messages.add_message(request, constants.ERROR ,"Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
     finally:
         return redirect('cidadao:list-cidadao')
+    
+class CidadaoAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # Garante que a busca só seja feita por usuários autenticados
+        if not self.request.user.is_authenticated:
+            return Cidadao.objects.none()
+
+        qs = Cidadao.objects.all()
+
+        if self.q:
+            # Filtra por nome do cidadão.
+            # Adapte 'nome' para o campo de Cidadao que deseja usar na busca.
+            qs = qs.filter(nome_completo__icontains=self.q)
+
+        return qs

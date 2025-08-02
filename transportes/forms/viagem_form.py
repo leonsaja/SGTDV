@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import inlineformset_factory
 from django_select2 import forms as s2forms
+from dal import autocomplete
 
 from ..models import PassageiroViagem, Viagem
 from profissionais.models import Profissional
@@ -25,6 +26,45 @@ class ViagemForm(forms.ModelForm):
             'carro':s2forms.Select2Widget(),
                 
         }
+    def clean(self):
+        cleaned_data = super().clean()
+        carro = cleaned_data.get('carro') # Pega o carro selecionado no formulário da Viagem
+        
+        # O formulário dos passageiros ainda não foi validado, mas podemos acessar os dados POST
+        # O Django inlineformset usa a sintaxe 'prefix-index-campo'
+        formset_prefix = 'passageiro' # Use o prefixo que você definiu
+        
+        total_passageiros = 0
+        
+        # Pega a quantidade de formulários no formset
+        try:
+            total_forms_key = f'{formset_prefix}-TOTAL_FORMS'
+            num_forms = int(self.data[total_forms_key])
+        except (KeyError, ValueError):
+            num_forms = 0
+
+        for i in range(num_forms):
+            paciente_key = f'{formset_prefix}-{i}-paciente'
+            acompanhante_key = f'{formset_prefix}-{i}-acompanhante'
+
+            paciente = self.data.get(paciente_key)
+            acompanhante = self.data.get(acompanhante_key)
+            delete = self.data.get(f'{formset_prefix}-{i}-DELETE')
+
+            # Conta passageiros e acompanhantes, mas ignora formulários que serão excluídos
+            if delete != 'on':
+                if paciente:
+                    total_passageiros += 1
+                if acompanhante:
+                    total_passageiros += 1
+
+        if carro and total_passageiros > carro.qta_passageiro:
+           self.add_error('carro',f"O número de passageiros ({total_passageiros}) excede a capacidade do carro ({carro.qta_passageiro}))."
+            )
+            
+        print('teste')
+
+        return cleaned_data
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -40,6 +80,9 @@ class PassageiroViagemForm(forms.ModelForm):
     class Meta:
         model=PassageiroViagem
         fields='__all__'
+        widgets = {
+            'paciente': autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete')
+        }
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
