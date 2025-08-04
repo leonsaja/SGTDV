@@ -51,12 +51,7 @@
             <div class="card-body">
               <table class="form table table-bordered">
                 <thead>
-                  <tr>
-                    <th>Paciente</th>
-                    <th>Acompanhante</th>
-                    <th>Local do Exame</th>
-                    <th>Local de Espera</th>
-                    <th></th> </tr>
+                
                 </thead>
                 <tbody>
                   {% for form in formset %}
@@ -64,11 +59,12 @@
                     {% for hidden in form.hidden_fields %}
                     {{ hidden }}
                     {% endfor %}
-                    <td>{{ form.paciente }}</td>
-                    <td>{{ form.acompanhante }}</td>
-                    <td>{{ form.local_exame }}</td>
-                    <td>{{ form.local_espera }}</td>
+                    <td>{{ form.paciente|as_crispy_field }}</td>
+                    <td>{{ form.acompanhante|as_crispy_field }}</td>
+                    <td>{{ form.local_exame|as_crispy_field }}</td>
+                    <td>{{ form.local_espera|as_crispy_field}}</td>
                     <td>{{ form.DELETE }}</td>
+                  
                   </tr>
                   {% endfor %}
                 </tbody>

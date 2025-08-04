@@ -52,17 +52,19 @@ class ViagemForm(forms.ModelForm):
             delete = self.data.get(f'{formset_prefix}-{i}-DELETE')
 
             # Conta passageiros e acompanhantes, mas ignora formulários que serão excluídos
-            if delete != 'on':
-                if paciente:
-                    total_passageiros += 1
-                if acompanhante:
-                    total_passageiros += 1
+            if delete == 'on':
+                continue
+
+            # Conta passageiros e acompanhantes apenas se os campos não estiverem vazios
+            if paciente and paciente.strip():
+                total_passageiros += 1
+            if acompanhante and acompanhante.strip():
+                total_passageiros += 1
 
         if carro and total_passageiros > carro.qta_passageiro:
            self.add_error('carro',f"O número de passageiros ({total_passageiros}) excede a capacidade do carro ({carro.qta_passageiro}))."
             )
             
-        print('teste')
 
         return cleaned_data
     
@@ -81,7 +83,8 @@ class PassageiroViagemForm(forms.ModelForm):
         model=PassageiroViagem
         fields='__all__'
         widgets = {
-            'paciente': autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete')
+            'paciente': autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
+        
         }
         
     def __init__(self, *args, **kwargs):
