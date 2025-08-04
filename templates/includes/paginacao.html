@@ -3,11 +3,11 @@
 <nav aria-label="Page navigation">
   <ul class="pagination">
     {% if page_obj.has_previous %}
-    {% if request.GET.buscar or request.GET.data%}
+    {% if request.GET.buscar or request.GET.data or request.GET.status%}
 
     <li class="page-item">
       <a class="page-link"
-        href="?page={{ page_obj.previous_page_number }}&buscar={{request.GET.buscar}}&data={{request.GET.data}} "
+        href="?page={{ page_obj.previous_page_number }}&buscar={{request.GET.buscar}}&data={{request.GET.data}}&status={{request.GET.status}} "
         tabindex="-1" aria-disabled="true">&laquo;</a>
     </li>
     {%else%}
@@ -31,9 +31,9 @@
     {% if page_obj.number == i %}
     <li class="page-item active"><a class="page-link">{{i}}</a></li>
     {% elif i > page_obj.number|add:'-2' and i < page_obj.number|add:'2' %} 
-      {% if request.GET.buscar or request.GET.data%} 
+      {% if request.GET.buscar or request.GET.data  or request.GET.status %} 
           <li class="page-item"><a class="page-link"
-            href="?page={{ i }}&buscar={{request.GET.buscar}}&data={{request.GET.data}}">{{ i }}</a>
+            href="?page={{ i }}&buscar={{request.GET.buscar}}&data={{request.GET.data}}&status={{request.GET.status}}">{{ i }}</a>
           </li>
       {%else%}
         <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a>
@@ -45,15 +45,15 @@
 
       {% if page_obj.has_next %}
       
-      {% if request.GET.buscar or request.GET.data %}
+      {% if request.GET.buscar or request.GET.data  or request.GET.status %}
       <li class="page-item " aria-current="page">
-        <a href="?page={{page_obj.next_page_number}}&buscar={{request.GET.buscar}}&data={{request.GET.data}}"
+        <a href="?page={{page_obj.next_page_number}}&buscar={{request.GET.buscar}}&data={{request.GET.data}}&status={{request.GET.status}}"
           class="page-link" tabindex="-2" aria-disabled="true">&raquo;</a>
       </li>
 
       {% else %}
       <li class="page-item " aria-current="page">
-        <a href="?page={{page_obj.next_page_number}}&buscar={{request.GET.buscar}}&data={{request.GET.data}}"
+        <a href="?page={{page_obj.next_page_number}}&buscar={{request.GET.buscar}}&data={{request.GET.data}}&status={{request.GET.status}}"
           class="page-link" tabindex="-2" aria-disabled="true">&raquo;</a>
       </li>
       {% endif %}

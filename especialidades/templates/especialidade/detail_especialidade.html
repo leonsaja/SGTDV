@@ -9,26 +9,26 @@
     {% include 'includes/mensagens.html'%}
     {% if user|has_role:'recepcao,regulacao' %}
 
-    
+
     {%endif%}
 
 
-    <div class="row row justify-content-center">
-        <div class=" col-md-8">
-            <h4 class=" text-primary"><strong>{{especialidade.nome|upper}}</strong></h4>
+    <div class="row row">
+        <div class=" col-md-12">
+            <h4 class="text-center text-primary"><strong>{{especialidade.nome|upper}}</strong></h4>
         </div>
 
     </div>
     <br>
     <div class="row ">
         <div class="container">
-            <div class="row justify-content-center ">
+            <div class="row justify-content-center">
 
                 <form class="col-md-8  needs-validation"
                     action="{% url 'especialidades:search-paciente-especialidade' especialidade.id%}" method="GET"
                     id="validar-form">
 
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <div class="col-md-10">
                             <div class="alert alert-danger d-none" role="alert">
                                 Insira algum filtro para realizar a busca.
@@ -36,53 +36,66 @@
                         </div>
 
                     </div>
-                    <div class="row">
-                        <div class="col-md-10">
+                    <div class="row  justify-content-center">
+                        <div class="col-md-8">
                             <label for="buscar"><strong> Busque pelo Nome/CPF</strong></label>
                             <input type="search" name="buscar" class="form-control" value="{{request.GET.buscar}}"
                                 id="buscar">
 
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row  justify-content-center ">
 
-                        <div class="col-md-3 mt-2">
+                        <div class="col-md-4 mt-2">
                             <label for="id_data">Data do Pedido</label>
                             <input type="date" name="data" class="form-control" id="id_data"
                                 value="{{request.GET.data}}">
                         </div>
+                        <div class="col-md-4 mt-2">
+                            <label for="id_status">Status:</label>
+                            <select class="form-select" id="id_status" name="status">
+                                <option value="" {% if request.GET.status == '0' %}selected{% endif %}>Selecione uma opção</option>
+                                <option value="1" {% if request.GET.status == '1' %}selected{% endif %}>Aguardando</option>
+                                <option value="2" {% if request.GET.status == '2' %}selected{% endif %}>Concluido</option>
+                                <option value="3" {% if request.GET.status == '3' %}selected{% endif %}>Cancelado</option>
+                            </select>
+                        </div>
 
-                        <div class="col-md-7 mt-3">
-                            <br>
+
+                    </div>
+                    <div class="row justify-content-center ">
+                        <div class="col-md-8 mt-3">
                             <div class="float-right">
-                                <a class="btn mr-2"
-                                    href="{% url 'especialidades:detail-especialidade' especialidade.id %}"
+
+                                <a class="btn " href="{% url 'especialidades:detail-especialidade' especialidade.id %}"
                                     style="background-color:#DADADA;"> Limpar
                                     Filtros</a>
                                 <button type="submit" class=" btn btn-primary ">Buscar</button>
 
-                            </div>
+                                </div>
 
                         </div>
                     </div>
 
-
                 </form>
 
-            </div>
-            {% if user|has_role:'recepcao,regulacao' %}
+                {% if user|has_role:'recepcao,regulacao' %}
                 <div class="row">
                     <div class="col-md-12">
-                    <div class="text-right">
-                        <a href="{% url 'especialidades:add-paciente-especialidade' especialidade.id %}"
-                        class="btn btn-primary"><b>Adicionar Paciente</b>
-                        </a>
-                    </div>
+                        <br>
+                        <div class="text-right">
+                            <a href="{% url 'especialidades:add-paciente-especialidade' especialidade.id %}"
+                                class="btn btn-primary"><b>Adicionar Paciente</b>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-            {%endif%}
-  </div>
+                {%endif%}
+
+
+
+            </div>
 
         </div>
     </div>
@@ -101,10 +114,12 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <td>N:</td>
                                     <th>Paciente</th>
                                     <th>CPF</th>
                                     <th>ACS</th>
                                     <th>Procedimento</th>
+                                    <th>Status</th>
                                     <th>Classficação</th>
                                     <th>Data do Pedido</th>
                                     <th>Ação</th>
@@ -113,10 +128,12 @@
                             <tbody>
                                 {%for especialidade in page_obj %}
                                 <tr>
+                                    <td class="text-center">{{ especialidade.id }} </td>
                                     <td>{{especialidade.paciente.nome_completo}}</td>
                                     <td>{{especialidade.paciente.formt_cpf}}</td>
-                                    <td>{{especialidade.paciente.microarea.profissional.nome_completo}}</td>
+                                    <td>{{especialidade.paciente.microarea.profissional.acs}}</td>
                                     <td>{{especialidade.procedimento }}</td>
+                                    <td>{{especialidade.get_status_display}}</td>
                                     {% if especialidade.classificacao == '2'%}
                                     <td style="background-color:#FFFF00; color: black;">
                                         {{especialidade.get_classificacao_display}}
@@ -127,32 +144,35 @@
                                         {{especialidade.get_classificacao_display}}
                                     </td>
                                     {%else%}
-                                        <td>
-                                            {{especialidade.get_classificacao_display}}
-                                        </td>
+                                    <td>
+                                        {{especialidade.get_classificacao_display}}
+                                    </td>
                                     {%endif%}
                                     <td>
                                         {{especialidade.data_pedido|date:"d/m/Y"|default:'---'}}
                                     </td>
-                                    
+
                                     <td>
 
                                         <a href="{% url 'especialidades:detail-paciente-especialidade' especialidade.id%}"
                                             class="pr-1"><i class="fas fa-solid fa-eye"></i></a>
 
                                         {% if user|has_role:'recepcao,regulacao' %}
-                                        <a href="{% url 'especialidades:edit-paciente-especialidade' especialidade.id%}"
-                                            class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
-                                        
+                                            {% if especialidade.status != '2'%}
+                                                <a href="{% url 'especialidades:edit-paciente-especialidade' especialidade.id%}"
+                                                    class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
+                                            {% elif especialidade.status == '2' and user|has_role:'coordenador' %}
+                                            <a href="{% url 'especialidades:edit-paciente-especialidade' especialidade.id%}"
+                                                    class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
                                             {%endif%}
-                                        
-                                        {% if user|has_role:'coordenador' %}                                                                                                                                                                                
+                                        {%endif%}
+                                        {% if user|has_role:'coordenador' %}
 
-                                            <a href="#modal--{{especialidade.id}}" data-bs-toggle="modal"
-                                                data-bs-target="#modal--{{especialidade.id}}" class="pr-2 text-danger">
+                                        <a href="#modal--{{especialidade.id}}" data-bs-toggle="modal"
+                                            data-bs-target="#modal--{{especialidade.id}}" class="pr-2 text-danger">
 
-                                                <i class="fas fa-solid fa-trash-can"></i>
-                                            </a>
+                                            <i class="fas fa-solid fa-trash-can"></i>
+                                        </a>
                                         {%endif%}
                                     </td>
                                 </tr>
@@ -176,11 +196,12 @@
     $('#validar-form').submit(function () {
         let buscar = $('#buscar')
         let data = $('#id_data')
+        let status= $('#id_status')
+
         let erro = $('.alert')
 
-        console.log('teste30')
-
-        if (buscar.val() == '' && data.val() == '') {
+       
+        if (buscar.val() == '' && data.val() == '' && status.val()=='') {
             erro.removeClass('d-none')
             return false
         }

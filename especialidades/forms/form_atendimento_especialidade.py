@@ -23,8 +23,8 @@ class AtendimentoEspecialidadeForm(forms.ModelForm):
         
         model=AtendimentoEspecialidade
         fields='__all__'
-    
-    def clean_data(self):
+     
+    """ def clean_data(self):
 
         data = self.cleaned_data['data']
         data_atual=date.today().strftime('%d/%m/%Y')
@@ -32,7 +32,7 @@ class AtendimentoEspecialidadeForm(forms.ModelForm):
        
         if data_pesq < data_atual:
             raise ValidationError("A Data do atendimento não pode ser anterior à data atual")
-        return data
+        return data"""
        
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

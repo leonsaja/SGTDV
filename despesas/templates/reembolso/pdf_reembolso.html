@@ -97,9 +97,9 @@
           <td class="text-center">{{ forloop.counter }} </td>
 
           {% if r.descricao %}
-          <td>{{r.descricao}} 
+          <td>{{r.descricao|upper}} 
             {%if r.obs%}
-             - {{r.obs}}
+             - {{r.obs|upper}}
             {%endif%}
           </td>
           {% else %}

@@ -109,7 +109,7 @@
 
                   <td>{{diaria.profissional.formt_cpf}}</td>
 
-                  <td>{{diaria.viagem_dest}}</td>
+                  <td>{{diaria.viagem_dest|upper}}</td>
                   <td>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</td>
                   <td>
                     {% if user|has_role:'digitador' %}

@@ -4,7 +4,9 @@
 
 {% block head%} 
 <style>
-      
+      p{
+        margin: 1px;
+      }
       body{
 
         font-size: 14px;
@@ -35,7 +37,7 @@
 {% include  'includes/cabecalho.html' %}
 <div class="container">
 
-  <h3 class="text-center"> <b>{{atendimento_especialidade.especialidade|upper}}</b></h3>
+  <h3 class="text-center mb-0"> <b>{{atendimento_especialidade.especialidade|upper}}</b></h3>
   <div class="row">
 
     <div class="row">
@@ -58,13 +60,13 @@
 
     <div class="row">
       <div class="col-md-12 ">
-        <p><b>LOCAL: </b>{{atendimento_especialidade.local_atendimento|upper}} 
+        <p class="mt-1"><b>LOCAL: </b>{{atendimento_especialidade.local_atendimento|upper}} 
           
         </p>
       </div>
       {%if atendimento_especialidade.observacao%}
       <div class="col-md-12 ">
-        <p >
+        <p class="mt-1">
               <b>OBSERVAÇÃO: </b>
                  {{atendimento_especialidade.observacao}}
            

@@ -84,21 +84,29 @@ class PacienteEspecialidadeListView(HasRoleMixin,ListView):
     def get_queryset(self):
         especialidade_id = self.kwargs.get(self.pk_url_kwarg)
 
-        buscar = self.request.GET.get('buscar', None).rstrip()
+        buscar = self.request.GET.get('buscar', None)
 
         data = self.request.GET.get('data', None)
+
+        status=self.request.GET.get('status',None)
+
 
         queryset = PacienteEspecialidade.objects.select_related(
             'paciente', 'especialidade', 'procedimento'
         ).filter(especialidade__id=especialidade_id).order_by('data_pedido')
 
         if buscar:
+            buscar=buscar.rstrip()
             queryset = queryset.filter(
                 Q(paciente__nome_completo__icontains=buscar) | Q(paciente__cpf__icontains=buscar)
             )
 
         if data:
             queryset = queryset.filter(data_pedido__iexact=data)
+
+        if status:
+            queryset = queryset.filter(status=status)
+         
             
         return queryset
 

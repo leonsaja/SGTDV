@@ -109,10 +109,16 @@
                         class="fas fa-solid fa-eye"></i></a>
                     {%endif%}
 
-                    {% if user|has_role:'regulacao,recepcao' %}
+                    {% if user|has_role:'regulacao' %}
 
-                    <a href="{% url 'especialidades:edit-atend_especialidade' atend.id%}" class="pr-1 text-warning"><i
-                        class="fas fa-edit"></i></a>
+                        {% if atend.status != '2'%}
+                           <a href="{% url 'especialidades:edit-atend_especialidade' atend.id%}" class="pr-1 text-warning"><i
+                            class="fas fa-edit"></i></a>
+                        {% elif atend.status == '2' and user|has_role:'coordenador' %}
+                          <a href="{% url 'especialidades:edit-atend_especialidade' atend.id%}" class="pr-1 text-warning"><i
+                              class="fas fa-edit"></i></a>
+                        {%endif%}
+                            
                     {%endif%}
                     {% if user|has_role:'coordenador' %}
                     <a href="{#modal--{{atend.id}}_}" data-bs-toggle="modal"

@@ -32,11 +32,11 @@
 
 {% include  'includes/cabecalho.html' %}
 <div class="conteudo">
-  <h3 class=" title_center">Relatório de Recibo de Passagens</h3>
+  <h2 class=" text-center"><b>Relatório de Recibo de Passagens</b></h2>
  
     <div class="row">
       <div class="col-md-5">
-        <p class="paragrafo "><b>Período: </b>{{inicial}}   a {{final}}
+        <p class="m-1 "><b>Período: </b>{{inicial}}   a {{final}}
 
         
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
@@ -51,7 +51,7 @@
     <div class="linha"></div>
     <div class="row">
       <div class="col-md-3">
-          <p class="paragrafo">
+          <p class="m-1">
             <b>Registros identificados: </b>{{qta_recibo_passagem}}
         </p>
       </div>
@@ -59,7 +59,7 @@
     <div class="linha"></div>
     <div class="row">
         <div class="col-md-3">
-            <p class="paragrafo">
+            <p class="m-1">
               <b>Quantidade de Passagens: </b>{{qta_passagem}}
               
              
@@ -69,7 +69,7 @@
       <div class="linha"></div>
 
       
-        <p class="paragrafo">
+        <p class="m-1">
           {%if total_recibo%}
           <b>Valor Total:  </b>R$ {{total_recibo}}
           {%else%}
