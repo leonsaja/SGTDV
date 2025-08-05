@@ -9,11 +9,10 @@
  <link rel="shortcut icon" href="{% static 'img/LOGO.ico' %}" />
 
   <title>{% block title%}Home {%endblock title%} </title>
-  {% block header%} {% endblock header %}
 
    {%include 'includes/head.html' %}
    {{ form.media.css }}
- 
+   {% block header%} {% endblock header %}
   
 </head>
 

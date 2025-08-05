@@ -58,8 +58,6 @@ class Cidadao(models.Model):
         return self.nome_completo.split()[0]
 
         
-    class Meta:
-        ordering = ["nome_completo"]
     
 class Endereco(models.Model):
 

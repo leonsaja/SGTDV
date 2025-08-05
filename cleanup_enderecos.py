@@ -14,7 +14,7 @@ from cidadao.models import Cidadao, Endereco
 # ---
 
 # Obtenha todos os cidadaos
-todos_cidadaos = Cidadao._base_manager.all()
+todos_cidadaos = Cidadao.objects.all()
 
 print(f"Total de cidadaos encontrados: {todos_cidadaos.count()}\n")
 
@@ -24,9 +24,10 @@ for cidadao in todos_cidadaos:
     try:
         # Acessa todos os endereços do cidadao
         enderecos_do_cidadao = cidadao.endereco_cidadao.all()
-        
+        print('teste10000')
         # Verifica se o cidadao tem mais de um endereço
         if enderecos_do_cidadao.count() > 1:
+            print('teste20000')
             # Pega o segundo endereço da lista (índice 1)
             segundo_endereco = enderecos_do_cidadao[1]
             

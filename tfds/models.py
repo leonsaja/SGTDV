@@ -55,11 +55,12 @@ class ReciboTFD(models.Model):
 
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
+   total_gasto=models.DecimalField(verbose_name='Total Gasto',max_digits=10,decimal_places=2,null=True,blank=True)
 
    def __str__(self):
       return f'{self.paciente.nome_completo}'
    
-   def total_pag(self):
+   def calcular_total_gasto(self):
       items=ProcedimentoSia.objects.prefetch_related('recibo_tfd','codigosia').filter(recibo_tfd=self)
 
       total=0
@@ -68,14 +69,19 @@ class ReciboTFD(models.Model):
             total+=item.soma()
            
       return total
+
+    # Sobrescreva o método save() para atualizar o campo total_gasto automaticamente
+   def save(self, *args, **kwargs):
+        self.total_gasto = self.calcular_total_gasto()
+        super().save(*args, **kwargs)
+   def total_pag(self):
+        return self.total_gasto
    
 class ProcedimentoSia(models.Model):
    
    qtd_procedimento=models.PositiveBigIntegerField(verbose_name='Quantidade',null=False,blank=False)
    recibo_tfd=models.ForeignKey(ReciboTFD,on_delete=models.CASCADE,related_name='procedimento_recibo_tfd')
    codigosia=models.ForeignKey("CodigoSIA",on_delete=models.PROTECT,related_name='procedimento_codigo')
-   
-   
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
 
@@ -143,13 +149,13 @@ class ProcedimentoSia(models.Model):
             total=self.codigosia.subtotal*self.qtd_procedimento
       return total
   
-   def total_pag(self):
-      
-      tota=0
-      total+=self.soma()
-      
-      return total
-           
+ 
+   def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Salva o recibo pai para atualizar o campo total_gasto
+        self.recibo_tfd.save()       
+
+        
 class CodigoSIA(models.Model):
 
    codigo=models.CharField(max_length=10, verbose_name='Código',null=False,blank=False,unique=True)

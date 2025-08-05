@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% load permission_tags %}
-
-
-
+{% block header%}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock header %}
 {% load crispy_forms_tags %}
 {% block content %}
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">{% include 'includes/mensagens.html'%}</div>
-      </div>
+    </div>
     <div class="row mt-4">
         <div class="col-lg-3 col-6">
             <!-- small box -->
@@ -17,11 +17,11 @@
                 <div class="inner">
                     <h3>{{qta_recibo_tfd}}</h3>
                     <p>Recibos de TFDs</p>
-                    </div>
+                </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
                 </div>
-          
+
             </div>
         </div>
         <!-- ./col -->
@@ -36,7 +36,7 @@
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
                 </div>
-            
+
             </div>
         </div>
         <!-- ./col -->
@@ -51,7 +51,7 @@
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
                 </div>
-            
+
             </div>
         </div>
         <!-- ./col -->
@@ -66,7 +66,7 @@
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
                 </div>
-                
+
             </div>
         </div>
         <!-- ./col -->
@@ -78,11 +78,11 @@
                 <div class="inner">
                     <h3>{{qta_registro_transporte}}</h3>
                     <p>Registro de Transportes</p>
-                    </div>
+                </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
                 </div>
-          
+
             </div>
         </div>
         <!-- ./col -->
@@ -97,20 +97,15 @@
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
                 </div>
-            
+
             </div>
         </div>
         <!-- ./col -->
 
-        </div>
-    {% if user|has_role:'coordenador,regulacao,digitador,recepcao,secretario' %}
-
-         
-    {% endif %}
+    </div>
+    {% if user|has_role:'digitador,secretario,coordenador' %}
     <div class="row">
         <div class="col-lg-6">
-
-            <!-- /.card -->
 
             <div class="card">
                 <div class="card-header border-0">
@@ -137,28 +132,145 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
-                           {%for especialidade in page_obj %}
-                                <tr>
-                                    <td><a style="text-decoration:none" href="{% url 'especialidades:detail-especialidade' especialidade.id%}"><b>{{especialidade.nome}}</b></a></td>
-                                    <td>{{especialidade.qta_pessoas_especialidade}}</td>
-                                    <td>{{especialidade.qta_pessoas_eletivo_especialidade}}</td>
-                                    <td>{{especialidade.qta_pessoas_concluido_especialidade}}</td>
-                                    <td>{{especialidade.qta_pessoas_prioridade_especialidade}}</td>
-                                    <td>{{especialidade.qta_pessoas_urgencia_especialidade}}</td>
-                                </tr>
-                           {%endfor%}
+
+                            {%for especialidade in page_obj %}
+                            <tr>
+                                <td><a style="text-decoration:none"
+                                        href="{% url 'especialidades:detail-especialidade' especialidade.id%}"><b>{{especialidade.nome}}</b></a>
+                                </td>
+                                <td>{{especialidade.qta_pessoas_especialidade}}</td>
+                                <td>{{especialidade.qta_pessoas_eletivo_especialidade}}</td>
+                                <td>{{especialidade.qta_pessoas_urgencia_especialidade}}</td>
+                                <td>{{especialidade.qta_pessoas_prioridade_especialidade}}</td>
+                                <td>{{especialidade.qta_pessoas_concluido_especialidade}}</td>
+                            </tr>
+                            {%endfor%}
                         </tbody>
                     </table>
-                     {% include 'includes/paginacao.html'%}
+                    {% include 'includes/paginacao.html'%}
                 </div>
             </div>
             <!-- /.card -->
         </div>
+        <div class="col-lg-6">
+            <h3 class="text-center"><b>Gráfico de Gastos Mensais com Diária</b></h3>
+            <div style="width: 80%; margin: auto;">
+                <canvas id="meuGrafico"></canvas>
+            </div>
+        </div>
     </div>
+    {%endif%}
+    {% if user|has_role:'regulacao,coordenador' %}
+
+    <div class="row mt-4">
+        <div class="col-lg-6">
+            <h3 class="text-center"><b>Gráfico de Gasto Total de TFD por Mês</b></h3>
+            <div style="width: 80%; margin: auto;">
+                <canvas id="graficoTfd"></canvas>
+            </div>
+        </div>
+    </div>
+    {%endif%}
 
 
-    </div>
+</div>
+{{labels|json_script:"labels-data" }}
+{{valores_diarias|json_script:"diarias-data" }}
+{{valores_reembolsos|json_script:"reembolsos-data" }}
+{{labels_tfd|json_script:"labels-tfd-data" }}
+{{valores_tfd|json_script:"valores-tfd-data" }}
+
+<script>
+    // Acessando os dados do script
+    const labels = JSON.parse(document.getElementById("labels-data").textContent);
+    const valores_diarias = JSON.parse(document.getElementById("diarias-data").textContent);
+    const valores_reembolsos = JSON.parse(document.getElementById("reembolsos-data").textContent);
+    const labels_tfd = JSON.parse(document.getElementById("labels-tfd-data").textContent);
+    const valores_tfd = JSON.parse(document.getElementById("valores-tfd-data").textContent);
+
+    // --- Gráfico 1: Diárias e Reembolsos ---
+    const ctxDiarias = document.getElementById('meuGrafico').getContext('2d');
+    new Chart(ctxDiarias, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Gastos com Diárias",
+                    data: valores_diarias,
+                    backgroundColor: "rgba(54, 162, 235, 0.5)",
+                    borderColor: "rgba(54, 162, 235, 1)",
+                    borderWidth: 1,
+                },
+                {
+                    label: "Gastos com Reembolsos",
+                    data: valores_reembolsos,
+                    backgroundColor: "rgba(255, 99, 132, 0.5)",
+                    borderColor: "rgba(255, 99, 132, 1)",
+                    borderWidth: 1,
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    stacked: true,
+                    title: {
+                        display: true,
+                        text: "Mês",
+                    },
+                },
+                y: {
+                    stacked: true,
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Valor (R$)",
+                    },
+                },
+            },
+        },
+    });
+
+    // --- Gráfico 2: Gasto Total de TFD ---
+    const ctxTfd = document.getElementById('graficoTfd').getContext('2d');
+    new Chart(ctxTfd, {
+        type: 'bar',
+        data: {
+            labels: labels_tfd,
+            datasets: [{
+                label: 'Gasto Total TFD',
+                data: valores_tfd,
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Mês'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Valor (R$)'
+                    }
+                }
+            }
+        }
+    });
+
+</script>
+
+
+
 </div>
 {% endblock content %}
 
@@ -169,7 +281,5 @@
 <script src="/static/utils/chart.js"></script>
 
 
-   
+
 {% endblock scripts %}
-
-

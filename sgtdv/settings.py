@@ -154,7 +154,7 @@ LANGUAGE_CODE = 'pt-br'
 USE_THOUSAND_SEPARATOR = True
 
 TIME_ZONE = 'America/Sao_Paulo'
-
+USE_L10N = True # Para formatação localizada de datas e números
 USE_I18N = True
 
 USE_TZ = True
