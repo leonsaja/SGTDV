@@ -14,14 +14,14 @@ class Especialidade(models.Model):
 
 
     def __str__(self):
-       return self.nome
+       return f'{self.nome}'
     
     def qta_pessoas_especialidade(self):
         pacientes=self.paciente_especialidades.filter().count()
         return pacientes
     
     def qta_pessoas_eletivo_especialidade(self):
-        pacientes=self.paciente_especialidades.filter(classificacao='1').count()
+        pacientes=self.paciente_especialidades.filter(classificacao='1').exclude(status='2').count()
         return pacientes
     
     def qta_pessoas_concluido_especialidade(self):
@@ -29,10 +29,10 @@ class Especialidade(models.Model):
         return pacientes
     
     def qta_pessoas_prioridade_especialidade(self):
-        pacientes=self.paciente_especialidades.filter(classificacao='2').count()
+        pacientes=self.paciente_especialidades.filter(classificacao='2').exclude(status='2').count()
         return pacientes
     def qta_pessoas_urgencia_especialidade(self):
-        pacientes=self.paciente_especialidades.filter(classificacao='3').count()
+        pacientes=self.paciente_especialidades.filter(classificacao='3').exclude(status='2').count()
         return pacientes
     
     class Meta:

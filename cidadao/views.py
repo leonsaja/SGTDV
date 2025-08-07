@@ -14,6 +14,8 @@ from rolepermissions.decorators import has_role_decorator
 from rolepermissions.mixins import HasRoleMixin
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
+from estabelecimentos.models import MicroArea
+
 
 class CidadaoCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
     model = Cidadao
@@ -136,285 +138,327 @@ class CidadaoSearchListView(HasRoleMixin,ListView):
 
         return qs
 
-class ImportDadosView(View):
-    template_name='cidadao/importar_dados.html'
-
-    def get(self, request):
-        cidadao = Cidadao.objects.all()
-        form = ImportarDadosForm()
-        return render(request, self.template_name, {
-            'form': form,
-            'clientes': cidadao
-        })
-    
-    def post(self, request):
-        form = ImportarDadosForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            arquivo = request.FILES['arquivo']
-            df = pd.read_excel(arquivo)
-
-            for _, row in df.iterrows():
-                # Itera sobre as linhas do DataFrame lido do arquivo Excel 
-                self.criar_cidadao_e_endereco(row)
-
-            return redirect('cidadao:list-cidadao')
-
-        return render(request, self.template_name, {'form': form})
-
-    def criar_cidadao_e_endereco(self, row):
-        
-        
-        cod_logradouro_map = {
-            'RUA': '2',
-            'FAZENDA': '3',
-            'PRACA': '4',
-            'PRAÇA': '4', # Adicione variações se necessário
-            'TRAVESSA': '5',
-        }
-        
-        cod_logradouro_excel = str(row.get('CÓD. LOGRADOURO', '')).upper()
-        
-        # Pega o código mapeado ou '1' (ou outro padrão) se não encontrar
-        cod_logradouro = cod_logradouro_map.get(cod_logradouro_excel, '1') # '1' pode ser para 'OUTROS' ou padrão
-        endereco_obj = None
-        
-        # 2. Obter ou criar o Cidadão
-        # Padroniza SEXO e RAÇA/COR para comparação
-        sexo_excel = str(row.get('SEXO', '')).upper()
-        raca_excel = str(row.get('RAÇA/COR', '')).upper()
-
-        sexo_map = {'F': 'F', 'M': 'M'}
-        raca_map = {
-            'AMARELA': 1,
-            'BRANCA': 2,
-            'PARDA': 3,
-            'PRETA': 4,
-            # 'INDÍGENA': 5, # Adicione se houver
-        }
-
-        sexo_final = sexo_map.get(sexo_excel, 'M') # Padrão 'M' ou tratar erro
-        raca_final = raca_map.get(raca_excel, 0) # Padrão 0 ou outro valor para "Não especificado"
-
-        
-        try:
-            cidadao, created = Cidadao.objects.get_or_create(
-                cns=str(row.get('CNS', '')).strip(), # CNS como chave única
-                defaults={
-                    'nome_completo': row.get('NOME', '').strip(),
-                    'sexo': sexo_final,
-                    'dt_nascimento': row.get('DATA DE NASCIMENTO'), # Certifique-se de que o formato do Excel é compatível com DateField
-                    'telefone1': str(row.get('TELEFONE1', '00000000000')).strip(),
-                    'raca': raca_final,
-                    'nacionalidade': row.get('NACIONALIDADE', 'Brasileira').strip(),
-                    
-                }
-            )
-        except Exception as e:
-            print(f"Erro ao criar/obter cidadão: {e} - Linha: {row}")
-            # Logue o erro detalhadamente, talvez salve em um arquivo de log para depuração.
-            # Considere retornar False ou levantar uma exceção para o chamador.
-        
-        if row.get('ENDEREÇO'): # Usar .get() para evitar KeyError
-            try:
-                # Usa .get() para valores que podem estar faltando no Excel
-                endereco_obj, created = Endereco.objects.get_or_create(
-                    logradouro=row.get('ENDEREÇO', '').strip(), # .strip() para remover espaços extras
-                    cep=str(row.get('CEP', '')).strip(), # Converte para string para garantir
-                    bairro=str(row.get('BAIRRO', '')).strip(),
-                    numero=str(row.get('NÚMERO', '')).strip(), # Converte para string para garantir
-                    defaults={
-                        'cod_logradouro': cod_logradouro,
-                        'complemento': row.get('COMPLEMENTO', '').strip(),
-                        'estado': 'MG', # Supondo que seja sempre MG
-                        'cidade': 'SANTO ANTÔNIO DO JACINTO', # Supondo que seja sempre esta cidade
-                        'cidadao':cidadao
-                    }
-                )
-            except Exception as e:
-                print(f"Erro ao criar/obter endereço: {e} - Linha: {row}")
-                # Considere logar o erro ou lidar com ele de forma mais robusta
-
-        
-
-            # Se o cidadão já existia, mas o endereço não estava associado, atualize
-    
-
-        
-            
-            
-
-        """"if row['ENDEREÇO']:
-
-         
-            # Cria o endereço associado ao cliente
-            if row['CÓD. LOGRADOURO']=='RUA' or row['CÓD. LOGRADOURO']=='rua' :
-                endereco=Endereco.objects.get_or_create(
-                    cod_logradouro='2',
-                    logradouro=row['ENDEREÇO'],
-                    cep=row['CEP'],
-                    bairro=row['BAIRRO'],
-                    complemento=row['COMPLEMENTO'],
-                    numero=row['NÚMERO'],
-                    estado='MG',
-                    cidade='SANTO ANTÔNIO DO JACINTO',
-                )
-            elif row['CÓD. LOGRADOURO']=='FAZENDA' or row['CÓD. LOGRADOURO']=='fazenda':
-                endereco=Endereco.objects.get_or_create(
-                    cod_logradouro='3',
-                    logradouro=row['ENDEREÇO'],
-                    cep=row['CEP'],
-                    bairro=row['BAIRRO'],
-                    complemento=row['COMPLEMENTO'],
-                    numero=row['NÚMERO'],
-                    estado='MG',
-                    cidade='SANTO ANTÔNIO DO JACINTO',
-                )
-            elif row['CÓD. LOGRADOURO']=='PRACA'or row['CÓD. LOGRADOURO']=='praca':
-                endereco=Endereco.objects.get_or_create(
-                    cod_logradouro='4',
-                    logradouro=row['ENDEREÇO'],
-                    cep=row['CEP'],
-                    bairro=row['BAIRRO'],
-                    complemento=row['COMPLEMENTO'],
-                    numero=row['NÚMERO'],
-                    estado='MG',
-                    cidade='SANTO ANTÔNIO DO JACINTO',
-                )
-            elif row['CÓD. LOGRADOURO']=='TRAVESSA' or row['CÓD. LOGRADOURO']=='travessa':
-                endereco=Endereco.objects.get_or_create(
-                    cod_logradouro='5',
-                    logradouro=row['ENDEREÇO'],
-                    cep=row['CEP'],
-                    bairro=row['BAIRRO'],
-                    complemento=row['COMPLEMENTO'],
-                    numero=row['NÚMERO'],
-                    estado='MG',
-                    cidade='SANTO ANTÔNIO DO JACINTO',
-                )
-
-        if row['SEXO'] =='F' or row['SEXO']=='f':
-                    print('F')
-                    if row['RAÇA/COR']=='PARDA':
-                        print('PARDA')
-                        cliente, criado = Cidadao.objects.get_or_create(
-                        cns=row['CNS'],
-                        defaults={
-                            'nome_completo': row['NOME'],
-                            'sexo': 'F',
-                            'dt_nascimento': row['DATA DE NASCIMENTO'],
-                            'telefone1':'00000000000',
-                            'raca':3,
-                            'nacionalidade':row['NACIONALIDADE'],
-                           
-                           
-
-                        })
-                    elif row['RAÇA/COR']=='AMARELA':
-                        print('AMARELA')
-                        cliente, criado = Cidadao.objects.get_or_create(
-                        cns=row['CNS'],
-                        defaults={
-                            'nome_completo': row['NOME'],
-                            'sexo': 'F',
-                            'dt_nascimento': row['DATA DE NASCIMENTO'],
-                            'telefone1':'00000000000',
-                            'raca':1,
-                            'nacionalidade':row['NACIONALIDADE'],
-                            
-                           
-
-                        })
-                    elif row['RAÇA/COR']=='PRETA':
-                        cliente, criado = Cidadao.objects.get_or_create(
-                        cns=row['CNS'],
-                        defaults={
-                            'nome_completo': row['NOME'],
-                            'sexo': 'F',
-                            'dt_nascimento': row['DATA DE NASCIMENTO'],
-                            'telefone1':'00000000000',
-                            'raca':4,
-                            'nacionalidade':row['NACIONALIDADE'],
-                           
-                            
-
-                        })
-                    elif row['RAÇA/COR']=='BRANCA':
-                        cliente, criado = Cidadao.objects.get_or_create(
-                        cns=row['CNS'],
-                        defaults={
-                            'nome_completo': row['NOME'],
-                            'sexo': 'F',
-                            'dt_nascimento': row['DATA DE NASCIMENTO'],
-                            'telefone1':'00000000000',
-                            'raca':2,
-                            'nacionalidade':row['NACIONALIDADE'],
-                           
-                            
-
-                        })
-                
-        elif row['SEXO'] =='M' or row['SEXO']=='m':
-                    if row['RAÇA/COR']=='PARDA':
-                        print('NOME',row['NOME'])
-                        print('parda')
-                        cliente, criado = Cidadao.objects.get_or_create(
-                        cns=row['CNS'],
-                        defaults={
-                            'nome_completo': row['NOME'],
-                             'sexo':'M',
-                            'dt_nascimento': row['DATA DE NASCIMENTO'],
-                            'telefone1':'00000000000',
-                            'raca':3,
-                            'nacionalidade':row['NACIONALIDADE'],
-                            
-                           
-
-                        })
-                    elif row['RAÇA/COR']=='AMARELA':
-                        cliente, criado = Cidadao.objects.get_or_create(
-                        cns=row['CNS'],
-                        defaults={
-                            'nome_completo': row['NOME'],
-                            'sexo':'M',
-                            'dt_nascimento': row['DATA DE NASCIMENTO'],
-                            'telefone1':'00000000000',
-                            'raca':1,
-                            'nacionalidade':row['NACIONALIDADE'],
-                            
-                            
-
-                        })
-                    elif row['RAÇA/COR']=='PRETA':
-                        cliente, criado = Cidadao.objects.get_or_create(
-                        cns=row['CNS'],
-                        defaults={
-                            'nome_completo': row['NOME'],
-                             'sexo':'M',
-                            'dt_nascimento': row['DATA DE NASCIMENTO'],
-                            'telefone1':'00000000000',
-                            'raca':1,
-                            'nacionalidade':1,
-                           
-                           
-
-                        })
-                    elif row['RAÇA/COR']=='BRANCA':
-                        cliente, criado = Cidadao.objects.get_or_create(
-                        cns=row['CNS'],
-                        defaults={
-                            'nome_completo': row['NOME'],
-                             'sexo':'M',
-                            'dt_nascimento': row['DATA DE NASCIMENTO'],
-                            'telefone1':'00000000000',
-                            'raca':1,
-                            'nacionalidade':2,
-                            
-                            
-
-                        })
 """
 
+def importar_dados_excel(request):
+    
+    template_name='cidadao/importar_dados.html'
+
+   
+    if request.method == 'POST':
+        form = ImportarDadosForm(request.POST, request.FILES)
+        if form.is_valid():
+            arquivo_excel = request.FILES['arquivo']
+            df = pd.read_excel(arquivo_excel,dtype={'CPF': str})
+    
+            for index, row in df.iterrows():
+                # Prepara os dados de forma limpa e segura
+                
+                cod_logradouro_map = {
+                'RUA': '2',
+                'FAZENDA': '3',
+                'PRACA': '4',
+                'PRAÇA': '4', 
+                'TRAVESSA': '5',
+                'SÍTIO':'6',
+                }
+                cod_logradouro_excel = str(row.get('TIPO LOGRADOURO', '')).upper()
+                cod_logradouro = cod_logradouro_map.get(cod_logradouro_excel, '1') # '1' pode ser para 'OUTROS' ou padrão
+                
+                
+                cod_localizacao_map = {
+                'URBANA': '2',
+                'RURAL': '3',
+                
+                }
+                cod_logalizacao_excel = str(row.get('TIPO LOCALIZAÇÃO', '')).upper()
+                cod_localizacao = cod_localizacao_map.get(cod_logalizacao_excel, '1') # '1' pode ser para 'OUTROS' ou padrão
+
+
+                sexo_excel = str(row.get('SEXO', '')).upper()
+
+                sexo_map = {'F': 'F', 'M': 'M'}
+
+
+                sexo_final = sexo_map.get(sexo_excel, 'M')
+                
+                print('CPF',row.get('CPF'))
+                
+                microare=MicroArea.objects.get(microarea=str(row.get('MA')).strip())
+                
+                dados_cidadao = {
+                    'cpf': row.get('CPF'),
+                    'nome_completo': str(row.get('NOME CIDADAO')).strip() if pd.notna(row.get('NOME CIDADAO')) else None,
+                    'sexo':sexo_final,
+                    'dt_nascimento': row.get('DATA NASCIMENTO'),
+                    'nome_mae': str(row.get('NOME DA MAE')).strip() if pd.notna(row.get('NOME DA MAE')) else None,
+                    'nome_pai':row.get('NOME DO PAI'),
+                    'nacionalidade': str(row.get('MUNIC. NASCIMENTO')).strip() if pd.notna(row.get('MUNIC. NASCIMENTO')) else None,
+                    'microarea': microare,
+                    'telefone1':str(row.get('CONTATO')).strip()
+                }
+
+                dados_endereco = {
+                    'cod_logradouro': cod_logradouro,
+                    'logradouro':str(row.get('LOGRADOURO')).strip(),
+                    'numero': str(row.get('N')).strip(),
+                    'complemento':str(row.get('COMPLEMENTO')).strip(),
+                    'bairro': str(row.get('BAIRRO')).strip(),
+                    'cidade': 'SANTO ANTÔNIO DO JACINTO',
+                    'estado': 'MG',
+                    'cep': '39935-000',
+                    'localizacao':cod_localizacao,
+                }
+
+                cidadao = None
+                
+                # Limpar os dados para evitar problemas na busca
+                dados_cidadao = {k: v for k, v in dados_cidadao.items() if v is not None}
+                dados_endereco = {k: v for k, v in dados_endereco.items() if v is not None}
+
+        
+                if dados_cidadao.get('cpf'):
+                    try:
+                        cidadao = Cidadao.objects.get(cpf=dados_cidadao['cpf'])
+                        print(f"Cidadão encontrado por CPF: {cidadao.cpf}. Atualizando...")
+                    except Cidadao.DoesNotExist:
+                        pass
+                    
+                        
+                # 3. Se um cidadão foi encontrado, atualiza os dados
+                if cidadao:
+                    for chave, valor in dados_cidadao.items():
+                        setattr(cidadao, chave, valor)
+                    cidadao.save()
+                    print(f"Dados do cidadão '{cidadao.nome_completo}' atualizados.")
+                else:
+                    # 4. Se não encontrou, cria um novo registro de cidadão
+                    cidadao = Cidadao.objects.create(**dados_cidadao)
+                    print(f"Novo cidadão '{cidadao.nome_completo}' criado.")
+
+                # 5. Lógica para encontrar ou criar o endereço, associado ao cidadão
+                if dados_endereco:
+                    busca_endereco = {'cidadao': cidadao, **dados_endereco}
+                    try:
+                        endereco = Endereco.objects.get(**busca_endereco)
+                        # Se o endereço já existe para esse cidadão, apenas o atualiza
+                        for chave, valor in dados_endereco.items():
+                            setattr(endereco, chave, valor)
+                        endereco.save()
+                        print(f"Endereço para '{cidadao.nome_completo}' atualizado.")
+                    except Endereco.DoesNotExist:
+                        # Se não existe, cria um novo
+                        Endereco.objects.create(**busca_endereco)
+                        print(f"Novo endereço criado para '{cidadao.nome_completo}'.")
+            
+            return redirect('cidadao:list-cidadao')
+        else: 
+            form=ImportarDadosForm(ImportarDadosForm(request.POST or None, request.FILES))
+    else:
+        
+        form=ImportarDadosForm()
+                    
+        return render(request,template_name, {'form': form}) 
+    """
+"""
+def importar_dados_excel(request):
+    
+    template_name='cidadao/importar_dados.html'
+
+   
+    if request.method == 'POST':
+        form = ImportarDadosForm(request.POST, request.FILES)
+        if form.is_valid():
+            arquivo_excel = request.FILES['arquivo']
+            df = pd.read_excel(arquivo_excel,dtype={'CPF': str})
+    
+            for index, row in df.iterrows():
+                # Prepara os dados de forma limpa e segura
+                
+                cod_logradouro_map = {
+                'RUA': '2',
+                'FAZENDA': '3',
+                'PRACA': '4',
+                'PRAÇA': '4', 
+                'TRAVESSA': '5',
+                'SÍTIO':'6',
+                }
+                cod_logradouro_excel = str(row.get('TIPO LOGRADOURO', '')).upper()
+                cod_logradouro = cod_logradouro_map.get(cod_logradouro_excel, '1') # '1' pode ser para 'OUTROS' ou padrão
+                
+                
+                cod_localizacao_map = {
+                'URBANA': '2',
+                'RURAL': '3',
+                
+                }
+                cod_logalizacao_excel = str(row.get('TIPO LOCALIZAÇÃO', '')).upper()
+                cod_localizacao = cod_localizacao_map.get(cod_logalizacao_excel, '1') # '1' pode ser para 'OUTROS' ou padrão
+
+
+                sexo_excel = str(row.get('SEXO', '')).upper()
+
+                sexo_map = {'F': 'F', 'M': 'M'}
+
+
+                sexo_final = sexo_map.get(sexo_excel, 'M')
+                
+                print('CPF',row.get('CPF'))
+                
+                microare=MicroArea.objects.get(microarea=str(row.get('MA')).strip())
+                
+                dados_cidadao = {
+                    'cpf': row.get('CPF'),
+                    'nome_completo': str(row.get('NOME CIDADAO')).strip() if pd.notna(row.get('NOME CIDADAO')) else None,
+                    'sexo':sexo_final,
+                    'dt_nascimento': row.get('DATA NASCIMENTO'),
+                    'nome_mae': str(row.get('NOME DA MAE')).strip() if pd.notna(row.get('NOME DA MAE')) else None,
+                    'nome_pai':row.get('NOME DO PAI'),
+                    'nacionalidade': str(row.get('MUNIC. NASCIMENTO')).strip() if pd.notna(row.get('MUNIC. NASCIMENTO')) else None,
+                    'microarea': microare,
+                    'telefone1':str(row.get('CONTATO')).strip()
+                }
+
+                dados_endereco = {
+                    'cod_logradouro': cod_logradouro,
+                    'logradouro':str(row.get('LOGRADOURO')).strip(),
+                    'numero': str(row.get('N')).strip(),
+                    'complemento':str(row.get('COMPLEMENTO')).strip(),
+                    'bairro': str(row.get('BAIRRO')).strip(),
+                    'cidade': 'SANTO ANTÔNIO DO JACINTO',
+                    'estado': 'MG',
+                    'cep': '39935-000',
+                    'localizacao':cod_localizacao,
+                }
+
+                cidadao = None
+                
+                # Limpar os dados para evitar problemas na busca
+                dados_cidadao = {k: v for k, v in dados_cidadao.items() if v is not None}
+                dados_endereco = {k: v for k, v in dados_endereco.items() if v is not None}
+
+        
+                if dados_cidadao.get('cpf'):
+                    try:
+                        cidadao = Cidadao.objects.get(cpf=dados_cidadao['cpf'])
+                        print(f"Cidadão encontrado por CPF: {cidadao.cpf}. Atualizando...")
+                    except Cidadao.DoesNotExist:
+                        pass
+                    
+                        
+                # 3. Se um cidadão foi encontrado, atualiza os dados
+                if cidadao:
+                    for chave, valor in dados_cidadao.items():
+                        setattr(cidadao, chave, valor)
+                    cidadao.save()
+                    print(f"Dados do cidadão '{cidadao.nome_completo}' atualizados.")
+                else:
+                    # 4. Se não encontrou, cria um novo registro de cidadão
+                    cidadao = Cidadao.objects.create(**dados_cidadao)
+                    print(f"Novo cidadão '{cidadao.nome_completo}' criado.")
+
+                # 5. Lógica para encontrar ou criar o endereço, associado ao cidadão
+                if dados_endereco:
+                    busca_endereco = {'cidadao': cidadao, **dados_endereco}
+                    try:
+                        endereco = Endereco.objects.get(**busca_endereco)
+                        # Se o endereço já existe para esse cidadão, apenas o atualiza
+                        for chave, valor in dados_endereco.items():
+                            setattr(endereco, chave, valor)
+                        endereco.save()
+                        print(f"Endereço para '{cidadao.nome_completo}' atualizado.")
+                    except Endereco.DoesNotExist:
+                        # Se não existe, cria um novo
+                        Endereco.objects.create(**busca_endereco)
+                        print(f"Novo endereço criado para '{cidadao.nome_completo}'.")
+
+        else: 
+            form=ImportarDadosForm(ImportarDadosForm(request.POST or None, request.FILES))
+    else:
+        
+        form=ImportarDadosForm()
+                    
+        return render(request,template_name, {'form': form}) 
+
+
+
+def importar_dados_excel(request):
+    template_name = 'cidadao/importar_dados.html'
+
+    if request.method == 'POST':
+        form = ImportarDadosForm(request.POST, request.FILES)
+        if form.is_valid():
+            arquivo_excel = request.FILES['arquivo']
+            df = pd.read_excel(arquivo_excel, dtype={'CPF': str, 'CNS': str})
+
+            # Preenche os valores NaN com strings vazias para evitar o erro de 'nan' duplicado.
+            df['CPF'] = df['CPF'].fillna('')
+            df['CNS'] = df['CNS'].fillna('')
+
+            # Contadores para o resumo da importação
+            novos_registros_criados = 0
+            registros_atualizados = 0
+            registros_ignorados = 0
+
+            for index, row in df.iterrows():
+                # 1. Preparar os dados da linha
+                cns = str(row.get('CNS', '')).strip() if row.get('CNS') else None
+                cpf = str(row.get('CPF', '')).strip() if row.get('CPF') else None
+                
+                # Ignora a linha se não tivermos nem CNS nem CPF para a verificação
+                if not cns and not cpf:
+                    registros_ignorados += 1
+                    continue
+
+                # --- LÓGICA PRINCIPAL: ATUALIZAR POR CNS OU CPF > CRIAR NOVO ---
+                
+                cidadao_existente = None
+                
+                # Passo A: Tentar encontrar o cidadão por CNS (prioridade 1)
+              
+                    
+                # Passo B: Se não encontrou por CNS, tenta encontrar por CPF (prioridade 2)
+                if cpf:
+                    cidadao_existente = Cidadao.objects.filter(cpf=cpf).first()
+
+                if cidadao_existente:
+                    # Se encontrou por CNS ou CPF, atualiza o registro
+                    try:
+                        # Prepara um dicionário com os campos a serem atualizados
+                        # Para o seu caso, apenas o CNS é importante.
+                        dados_para_atualizar = {}
+                        if cns and cns != cidadao_existente.cns:
+                             dados_para_atualizar['cns'] = cns
+
+                        # Se houver dados para atualizar, faça a alteração
+                        if dados_para_atualizar:
+                            for chave, valor in dados_para_atualizar.items():
+                                setattr(cidadao_existente, chave, valor)
+                            cidadao_existente.save()
+                            registros_atualizados += 1
+                        else:
+                            # Se encontrou, mas não há nada para atualizar, ignora
+                            registros_ignorados += 1
+
+                    except Exception as e:
+                        print(f"Erro ao atualizar registro (CNS/CPF): {e}")
+
+                
+
+            # Adiciona uma mensagem de sucesso para o usuário com o resumo da importação
+            messages.success(request, f"Importação concluída! {novos_registros_criados} novos registros criados, {registros_atualizados} registros atualizados e {registros_ignorados} registros ignorados.")
+            
+            # Redireciona para evitar que o formulário seja reenviado
+            return redirect('cidadao:list-cidadao')
+                
+        else:
+            form = ImportarDadosForm(request.POST, request.FILES)
+    else:
+        form = ImportarDadosForm()
+            
+    return render(request, template_name, {'form': form})
+
+  """   
 @has_role_decorator(['coordenador'])
 def cidadao_delete(request,id):
     cidadao=get_object_or_404(Cidadao,id=id)

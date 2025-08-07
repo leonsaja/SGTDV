@@ -92,7 +92,21 @@
                 <div class="inner">
                     <h3>{{qta_atendimento}}</h3>
 
-                    <p>Atendimento com Especialidade</p>
+                    <p>Atendimentos de Especialidades</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>{{qta_cadastro_incompleto}}</h3>
+
+                    <p>Atendimentos de Especialidades</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
@@ -103,7 +117,7 @@
         <!-- ./col -->
 
     </div>
-    {% if user|has_role:'digitador,secretario,coordenador' %}
+    {% if user|has_role:'regulacao,digitador,secretario,coordenador' %}
     <div class="row">
         <div class="col-lg-6">
 
@@ -152,19 +166,21 @@
             </div>
             <!-- /.card -->
         </div>
+         {% if user|has_role:'digitador,secretario,coordenador' %}
         <div class="col-lg-6">
-            <h3 class="text-center"><b>Gráfico de Gastos Mensais com Diária</b></h3>
+            <h3 class="text-center"><b> Gastos Mensais de Diárias</b></h3>
             <div style="width: 80%; margin: auto;">
                 <canvas id="meuGrafico"></canvas>
             </div>
         </div>
+        {%endif%}
     </div>
     {%endif%}
-    {% if user|has_role:'regulacao,coordenador' %}
+    {% if user|has_role:'regulacao,secretario' %}
 
     <div class="row mt-4">
         <div class="col-lg-6">
-            <h3 class="text-center"><b>Gráfico de Gasto Total de TFD por Mês</b></h3>
+            <h3 class="text-center"><b>Gastos Mensais de TFDs</b></h3>
             <div style="width: 80%; margin: auto;">
                 <canvas id="graficoTfd"></canvas>
             </div>

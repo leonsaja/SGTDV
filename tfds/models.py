@@ -58,7 +58,7 @@ class ReciboTFD(models.Model):
    total_gasto=models.DecimalField(verbose_name='Total Gasto',max_digits=10,decimal_places=2,null=True,blank=True)
 
    def __str__(self):
-      return f'{self.paciente.nome_completo}'
+      return f'{self.id} {self.paciente.nome_completo}'
    
    def calcular_total_gasto(self):
       items=ProcedimentoSia.objects.prefetch_related('recibo_tfd','codigosia').filter(recibo_tfd=self)

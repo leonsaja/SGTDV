@@ -27,7 +27,6 @@ class DiariaCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
         
         self.object = form.save(commit=False)
         self.object.criado_por = self.request.user.nome_completo
-        print('diaria')
         self.object.save()
         return  super().form_valid(form)
    

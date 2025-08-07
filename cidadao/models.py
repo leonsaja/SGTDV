@@ -21,7 +21,7 @@ class Cidadao(models.Model):
     email=models.EmailField(verbose_name='E-mail', unique=True,null=True,blank=True)
     rg=models.CharField(max_length=100,verbose_name='RG', null=True,blank=True)
     cpf=BRCPFField(verbose_name='CPF',unique=True, max_length=11, null=True,blank=True)
-    cns=models.PositiveBigIntegerField(verbose_name='CNS', unique=True, null=False,blank=False, help_text='Digite o cartão do SUS com 15 digitos')
+    cns=models.PositiveBigIntegerField(verbose_name='CNS', unique=True, null=True,blank=False, help_text='Digite o cartão do SUS com 15 digitos')
     sexo=models.CharField(verbose_name='Sexo:',max_length=1,choices=SEXO, null=False, blank=False)
     dt_nascimento=models.DateField(verbose_name='Data de nascimento', null=False,blank=False)
     nome_mae=models.CharField(verbose_name='Nome da mãe', max_length=150, null=True,blank=False)
@@ -56,7 +56,8 @@ class Cidadao(models.Model):
 
     def acompanhante(self):    
         return self.nome_completo.split()[0]
-
+    class Meta:
+        ordering = ["nome_completo"]
         
     
 class Endereco(models.Model):
@@ -72,16 +73,18 @@ class Endereco(models.Model):
        ('3','FAZENDA'),
        ('4','PRACA'),
        ('5','TRAVESSA'),
+       ('6','AVENIDA'),
+       ('7','SÍTIO'),
 
    )
    cidadao=models.ForeignKey("Cidadao",on_delete=models.CASCADE, related_name='endereco_cidadao', null=True, blank=False)
    cod_logradouro=models.CharField(verbose_name="CÓD. LOGRADOURO", max_length=1,null=True,blank=False,choices=COD_LOGRADOURO,default='')
-   logradouro = models.CharField(max_length=60, null=False, blank=False)
+   logradouro = models.CharField(max_length=100, null=False, blank=False)
    numero = models.CharField(verbose_name='Número',max_length=10, null=False, blank=False)
-   bairro = models.CharField(max_length=30, null=False, blank=False)
+   bairro = models.CharField(max_length=100, null=False, blank=False)
    complemento = models.CharField(max_length=100, null=False, blank=False)
    cep = models.CharField(verbose_name='CEP', max_length=10, null=False, blank=False)
-   cidade = models.CharField(max_length=30, null=False, blank=False)
+   cidade = models.CharField(max_length=100, null=False, blank=False)
    estado = models.CharField( verbose_name='UF',max_length=2, null=False, blank=False)
    localizacao=models.CharField(verbose_name='Localização',max_length=1,choices=ZONA,null=True, blank=False,default='')
 

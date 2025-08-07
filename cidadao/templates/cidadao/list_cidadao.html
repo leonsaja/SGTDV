@@ -136,7 +136,7 @@
                   <td>
                     <a href="{% url 'cidadao:detail-cidadao' paciente.id%}" class="pr-2"><i
                         class="fas fa-solid fa-eye"></i></a>
-                    {% if user|has_role:'acs,recepcao,regulacao,secretario' %}    
+                    {% if user|has_role:'acs,recepcao,regulacao' %}    
                     <a href="{% url 'cidadao:edit-cidadao' paciente.id%}" class="pr-1 text-warning"><i
                         class="fas fa-edit"></i></a>
                     {%endif%}
