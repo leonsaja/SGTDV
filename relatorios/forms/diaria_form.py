@@ -20,6 +20,13 @@ class RelatorioDiariaForm(forms.Form):
             }),
         )
     
+    TIPO=(
+        ('1','RESUMO'),
+        ('2','COMPLETO'),
+    )
+    
+    tipo_relatorio=forms.ChoiceField(label='Tipo relatório',required=True, widget=forms.RadioSelect,choices=TIPO)
+    
     profissionais=forms.ModelChoiceField(label='Profissional', queryset=Profissional.objects.select_related('estabelecimento').all(),
                                          required=False,  
     widget=forms.Select(attrs={'class': 'form-control'}))

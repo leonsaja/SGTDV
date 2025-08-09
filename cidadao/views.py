@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib import messages
 from django.db.models import ProtectedError, Q
 from dal import autocomplete
@@ -15,7 +16,7 @@ from rolepermissions.mixins import HasRoleMixin
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from estabelecimentos.models import MicroArea
-
+import re
 
 class CidadaoCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
     model = Cidadao
@@ -123,20 +124,44 @@ class CidadaoSearchListView(HasRoleMixin,ListView):
     def get_queryset(self, *args, **kwargs):
         qs = super(CidadaoSearchListView,self).get_queryset(*args, **kwargs)
 
-        search_nome_cpf_cns=self.request.GET.get('search_nome_cpf',None).rstrip()
-        search_nome_mae=self.request.GET.get('search_nome_mae',None).rstrip()
-        search_dt_nascimento=self.request.GET.get('search_dt_nascimento',None)
-      
+        search_nome_cpf_cns = self.request.GET.get('search_nome_cpf', '').strip()
+        search_nome_mae = self.request.GET.get('search_nome_mae', '').strip()
+        search_dt_nascimento = self.request.GET.get('search_dt_nascimento', None)
+   
         if search_nome_cpf_cns:
-            qs=qs.select_related('microarea').filter(Q(nome_completo__iregex=search_nome_cpf_cns)| Q(cpf__icontains=search_nome_cpf_cns)|Q(cns__icontains=search_nome_cpf_cns))
-              
+
+            """ # 1. Tentar validar como data de nascimento
+            data_nascimento = None
+            try:
+                print(search_nome_cpf_cns)
+                data_nascimento = datetime.strptime(search_nome_cpf_cns, '%Y/%m/%d').date()
+                print(data_nascimento)
+                qs = qs.filter(dt_nascimento=data_nascimento)
+               
+
+            except (ValueError, TypeError):
+                pass
+            """
+
+            cpf_cns_limpo = re.sub(r'\D', '', search_nome_cpf_cns)
+         
+            if len(cpf_cns_limpo) == 11:
+                qs = qs.filter(cpf=cpf_cns_limpo)
+            elif len(cpf_cns_limpo) == 15:
+                qs = qs.filter(cns=cpf_cns_limpo)
+            else:
+                qs = qs.filter(nome_completo__icontains=search_nome_cpf_cns)
+
+
+    
         if search_nome_mae:
-            qs=qs.select_related('microarea').filter(nome_mae__icontains=search_nome_mae)
+            qs=qs.filter(nome_mae__icontains=search_nome_mae)
         
         if search_dt_nascimento:
-            qs=qs.select_related('microarea').filter(dt_nascimento__iexact=search_dt_nascimento)
+            print('data',search_dt_nascimento)
+            qs=qs.filter(dt_nascimento__iexact=search_dt_nascimento)
 
-        return qs
+        return qs.select_related('microarea')
 
 """
 
@@ -478,11 +503,19 @@ class CidadaoAutocomplete(autocomplete.Select2QuerySetView):
         if not self.request.user.is_authenticated:
             return Cidadao.objects.none()
 
-        qs = Cidadao.objects.all()
-
+        qs = Cidadao.objects.select_related('microarea').all()
+        
+   
         if self.q:
+            cpf_cns_limpo = re.sub(r'\D', '', self.q)
+         
+            if len(cpf_cns_limpo) == 11:
+                qs = qs.filter(cpf=cpf_cns_limpo)
+            elif len(cpf_cns_limpo) == 15:
+                qs = qs.filter(cns=cpf_cns_limpo)
+            else:
+                qs = qs.filter(nome_completo__icontains=self.q)
+
             # Filtra por nome do cidadão.
             # Adapte 'nome' para o campo de Cidadao que deseja usar na busca.
-            qs = qs.filter(nome_completo__icontains=self.q)
-
         return qs

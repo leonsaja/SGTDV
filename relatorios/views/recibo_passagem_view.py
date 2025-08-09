@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from weasyprint import HTML
 from datetime import datetime
 from rolepermissions.decorators import has_role_decorator
+from django.core.paginator import Paginator
 
 
 def relatorio_recibo_passagem_pdf(request,context):
@@ -46,6 +47,10 @@ def relatorio_recibo_passagem_pdf(request,context):
 def relatorio_recibo_passagem(request):
     context={}
     recibos=ReciboPassagemTFD.objects.select_related('paciente').all()
+    paginator = Paginator(recibos,10)  
+    page_number = request.GET.get("page")
+    recibos= paginator.get_page(page_number)
+
     if request.method == 'POST':
         form=RelatorioReciboPassagemForm(request.POST or None)
 

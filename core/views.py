@@ -1,6 +1,8 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 import locale
+from django.db.models import ProtectedError, Q
+
 from cidadao.models import Cidadao
 from despesas.models import Diaria,Reembolso
 from especialidades.models import Especialidade, PacienteEspecialidade
@@ -14,6 +16,7 @@ from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
 
+from django.shortcuts import render
 @login_required
 def home(request):
    try:
@@ -32,7 +35,7 @@ def home(request):
    context['qta_recibo_tfd']=ReciboTFD.objects.select_related('paciente').count()
    context['qta_registro_transporte']=RegistroTransporte.objects.select_related('paciente','carro').count()
    context['qta_atendimento']=AtendimentoEspecialidade.objects.count()
-   context['qta_cadastro_incompleto']=Cidadao.objects.select_related('endereco','microarea').filter(cns=None).count()
+   context['qta_cadastro_incompleto']=Cidadao.objects.select_related('endereco','microarea').filter(Q(cns=None)).count() 
    especialidades=Especialidade.objects.all()
    
    paginator = Paginator(especialidades,10)  
@@ -90,3 +93,8 @@ def home(request):
    context['valores_reembolsos']=valores_reembolsos
     
    return render(request,'home.html',context)
+
+
+
+def page_not_found_view(request, exception):
+    return render(request, '404.html', status=404)

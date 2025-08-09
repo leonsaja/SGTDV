@@ -48,7 +48,7 @@ def relatorio_viagem_pdf(request,context):
         messages.add_message(request,constants.ERROR,'Data inicial e Data final são Campos o obrigatório')
         return render(request,'transporte/viagem/relatorio_viagem.html',context)
         
-has_role_decorator(['regulacao','coordenador','secretario'])
+@has_role_decorator(['regulacao','coordenador','secretario'])
 def relatorio_viagem(request):
     context={}
     viagens=Viagem.objects.select_related('carro','motorista').all().order_by('-data_viagem')

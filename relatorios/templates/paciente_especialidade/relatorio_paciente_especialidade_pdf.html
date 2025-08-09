@@ -67,9 +67,9 @@
           <th>Itens</th>
           <th>Paciente</th>
           <th>ACS</th>
-            {% if  tipo_atendimento%}
+            {% if  procedimento%}
             <th>
-              Tipo de Atendimento
+             Procedimento
             </th>
             {% endif %}
             {% if  classificacao%}
@@ -94,9 +94,9 @@
           <td>{{ forloop.counter }}</td>
           <td>{{p.paciente.nome_completo|upper}}</td>
           <td>{{p.paciente.microarea.profissional.acs|upper}}</td>
-            {% if  tipo_atendimento%}
+            {% if  procedimento%}
             <td>
-              {{p.get_tipo_atendimento_display}}
+              {{p.procedimento}}
             </td>
             {% endif %}
             {% if classificacao%}

@@ -57,10 +57,10 @@
                 <p class="pt-1"><b>CPF: </b>{{recibo_passagem.paciente.formt_cpf|upper}}
 
                      &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-                     <b>CNS: </b>{{recibo_passagem.paciente.cns|upper}}
+                     <b>CNS: </b>{{recibo_passagem.paciente.form_cns|upper}}
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
                      {% if recibo_passagem.paciente.rg %}
-                        <b>RG: </b>{{recibo_passagem.paciente.rg|upper}}
+                        <b>RG: &nbsp; </b>{{recibo_passagem.paciente.rg|upper}}
                      {%else%}
                          <b>RG:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - </b>
                       {%endif%}
@@ -85,8 +85,8 @@
                 {% else %}
                 <p class="p-1"><b>CPF:</b>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
                 {% endif %}
-                 {% if recibo_passagem.acompanhante.cns %}
-                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                 {% if recibo_passagem.acompanhante.form_cns %}
+                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
                     <b>CNS: </b>{{recibo_passagem.acompanhante.cns|upper}}
                 {% else %}
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
@@ -94,7 +94,7 @@
                 {% endif %}
                 {% if recibo_passagem.acompanhante.rg %}
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-                   <b>RG:</b>{{recibo_passagem.acompanhante.rg|upper}}
+                   <b>RG: &nbsp;</b>{{recibo_passagem.acompanhante.rg|upper}}
                 </p>
                 {%else %}
                      &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;

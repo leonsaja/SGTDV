@@ -3,7 +3,7 @@ from typing import Any
 from django import forms
 from django.forms import ValidationError, inlineformset_factory
 from django_select2 import forms as s2forms
-
+from datetime import date, timedelta
 from tfds.models import  ReciboTFD
 from utils.django_form import validarCNS
 
@@ -43,6 +43,14 @@ class ReciboTFDForm(forms.ModelForm):
             'paciente':s2forms.Select2Widget(),
             'acompanhante':s2forms.Select2Widget(),
         }
+
+    def clean_data(self):
+        data=self.cleaned_data.get('data')
+        
+        if data > date.today():
+            raise ValidationError(f'Data não pode ser futura.')
+        
+        return data
     def clean_cns(self):
         data=self.cleaned_data.get('cns')
         if data:

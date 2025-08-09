@@ -16,7 +16,7 @@ urlpatterns = [
     path('usuarios/',include('usuarios.urls')),
     path('tfds/',include('tfds.urls')),
     path('despesas/',include('despesas.urls')),
-      
+
 
     path('especialidades/',include('especialidades.urls')),
     path('transportes/',include('transportes.urls')),
@@ -24,3 +24,5 @@ urlpatterns = [
    
         
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
+
+

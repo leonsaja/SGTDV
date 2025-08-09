@@ -52,6 +52,8 @@ class Cidadao(models.Model):
         
         return '-'
     def form_cns(self):
+        if not self.cns:
+            return '-'
         return self.cns
 
     def acompanhante(self):    

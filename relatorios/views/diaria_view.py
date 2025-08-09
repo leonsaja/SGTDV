@@ -8,13 +8,17 @@ from despesas.models import Diaria
 from relatorios.forms.diaria_form import RelatorioDiariaForm
 from datetime import datetime
 from rolepermissions.decorators import has_role_decorator
+from django.core.paginator import Paginator
 
 def relatorio_diaria_pdf(request,context):
     response = HttpResponse(content_type='application/pdf')
-    
+    diarias=Diaria.objects.select_related('profissional').all()
     if context['profissional']:
-        diarias=Diaria.objects.select_related('profissional').filter(profissional=context['profissional']).filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
+        diarias.filter(profissional=context['profissional']).filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
   
+
+    if context['tipo_relatorio']:
+         diarias=Diaria.objects.select_related('profissional').filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
     else:
         diarias=Diaria.objects.select_related('profissional').filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
 
@@ -54,7 +58,10 @@ def relatorio_diaria_pdf(request,context):
 def relatorio_diaria(request):
     context={}
     diarias=Diaria.objects.select_related('profissional').order_by('-created_at')
-
+    paginator = Paginator(diarias,10)  
+    page_number = request.GET.get("page")
+    diarias= paginator.get_page(page_number)
+  
     if request.method == 'POST':
         form=RelatorioDiariaForm(request.POST or None)
 
@@ -65,6 +72,7 @@ def relatorio_diaria(request):
           context['inicial']=form.cleaned_data.get('data_inicial')
           context['final']=form.cleaned_data.get('data_final')
           context['profissional']=form.cleaned_data.get('profissionais')
+          context['tipo_relatorio']=form.cleaned_data.get('tipo_relatorio')
       
           return relatorio_diaria_pdf(request,context)
 

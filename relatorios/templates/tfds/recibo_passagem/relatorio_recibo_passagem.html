@@ -11,20 +11,20 @@
     </div>
   </div>
 
-  <form method="POST" class="needs-validation" novalidate>
+  <form method="POST" class="col-md-12 needs-validation" novalidate>
     {% csrf_token %} 
     
     <div class="row justify-content-center mt-3">
-      <div class="col-md-2">{{form.data_inicial|as_crispy_field }}</div>
-      <div class="col-md-2">{{form.data_final|as_crispy_field }}</div>
+      <div class="col-md-3">{{form.data_inicial|as_crispy_field }}</div>
+      <div class="col-md-3">{{form.data_final|as_crispy_field }}</div>
     </div>
     <div class="row justify-content-center mt-3">
-        <div class="col-md-4">{{form.pacientes|as_crispy_field }}</div>
+        <div class="col-md-6">{{form.pacientes|as_crispy_field }}</div>
        
       </div>
 
     <div class="row justify-content-center">
-      <div class="col-md-4 mt-2">
+      <div class="col-md-6 mt-2">
         <div class="text-right">
             <a href="% url 'relatorios:relatorio_recibo_passagem '%}" class="btn mr-2" style="background-color:#DADADA;"> Limpar
                 Filtros</a>
@@ -68,7 +68,7 @@
               </tbody>
             </table>
             <br />
-            {% include 'paginacao_tfd.html'%}
+           
           </div>
         </div>
       </div>

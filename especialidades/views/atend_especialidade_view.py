@@ -12,7 +12,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404 
 from django.urls import reverse_lazy
 from rolepermissions.decorators import has_role_decorator
-
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
@@ -71,14 +71,19 @@ class AtendEspecialidadeListView(HasRoleMixin,ListView):
     def get_queryset(self, *args, **kwargs):
         qs = super(AtendEspecialidadeListView,self).get_queryset(*args, **kwargs)
         buscar=self.request.GET.get('buscar',None)
+        status=self.request.GET.get('status',None)
 
         if buscar:
-            queryset=qs.filter(especialidade__nome__icontains=buscar).order_by('-especialidade')
+            queryset=qs.select_related('especialidade').filter(especialidade__nome__icontains=buscar).order_by('-especialidade')
             return queryset 
         
-        qs=qs.all().order_by('-especialidade') 
+        if status:
+            queryset=qs.select_related('especialidade').filter(status=status).order_by('-especialidade')
 
-        return qs    
+        
+        qs=qs.select_related('especialidade').exclude(status='2').all().order_by('-especialidade') 
+
+        return qs  
     
 class AtendEspecialidadeDetailView(HasRoleMixin,DetailView):
 
@@ -123,22 +128,16 @@ def atend_especialidade_pdf(request,id):
 
     return response
 
+@login_required
 def load_pacientes_by_especialidade(request):
     especialidade_id = request.GET.get('especialidade_id')
     pacientes_data = []
 
     if especialidade_id:
         try:
-            # Busca os PacienteEspecialidade que estão relacionados à especialidade_id
-            # e que possuem um status de 'AGUARDANDO' (valor '1') para atendimento.
-            # Isso garante que apenas pacientes ativos na fila da especialidade apareçam.
-            pacientes_especialidade = PacienteEspecialidade.objects.filter(
-                especialidade_id=especialidade_id,
-                status='1' # Filtrando por pacientes com status 'AGUARDANDO'
-            ).select_related('paciente').order_by('paciente__nome_completo')
-
-            # Para cada PacienteEspecialidade encontrado, extraímos as informações
-            # do Cidadao (o paciente real) e PacienteEspecialidade (o registro da fila)
+            
+            pacientes_especialidade = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(especialidade_id=especialidade_id,status='1' )
+            
             for pe in pacientes_especialidade:
                 pacientes_data.append({
                     'id': pe.id,
@@ -150,10 +149,8 @@ def load_pacientes_by_especialidade(request):
                 })
                 
         except ValueError:
-            # Lida com o caso em que especialidade_id não é um número válido
             pass 
         except Exception as e:
-            # Captura outras exceções inesperadas
             print(f"Erro ao carregar pacientes: {e}")
             pass
 

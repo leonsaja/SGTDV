@@ -48,7 +48,7 @@ class ProcedEspecialidadeListView(HasRoleMixin,ListView):
             queryset=qs.filter(nome_procedimento__icontains=buscar).order_by('-nome_procedimento')
             return queryset 
 
-        qs=qs.all().order_by('nome_procedimento')                                          
+        qs=qs.all().order_by('id')                                          
         
         return qs
 

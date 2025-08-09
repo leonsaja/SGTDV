@@ -57,7 +57,8 @@
 
                 <p class="p-1"><b>CPF:
                     </b>&nbsp{{recibo_tfd.paciente.formt_cpf|upper}}
-
+                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                     <b>CNS: </b>{{recibo_tfd.paciente.form_cns|upper}}
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
                     {% if recibo_tfd.paciente.rg %}
                     <b>RG: </b>{{recibo_tfd.paciente.rg|upper}}
@@ -65,7 +66,7 @@
                     <b>RG: </b> &nbsp; &nbsp;-
                     {%endif%}
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-                    <b>CNS: </b>{{recibo_tfd.paciente.cns|upper}}
+                   
                 </p>
             </div>
         </div>
@@ -97,20 +98,21 @@
                         &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
                         &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
                         {% endif %}
+                        {% if recibo_tfd.acompanhante.cns %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>CNS:
+                        </b>{{recibo_tfd.acompanhante.form_cns|upper}}
 
+                         &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
                         {% if recibo_tfd.acompanhante.rg %}
                         <b>RG:
                         </b>
                         {{recibo_tfd.acompanhante.rg}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
                         {%else %}
-                        <b>RG: </b> &nbsp; &nbsp; &nbsp;&nbsp;
+                        <b>RG: &nbsp; &nbsp; - </b> &nbsp; &nbsp; &nbsp;&nbsp;
                         {%endif%}
-                        {% if recibo_tfd.acompanhante.cns %}
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>CNS:
-                        </b>{{recibo_tfd.acompanhante.cns|upper}}
-
+                        
                     </p>
-                    {% else %}
+                        {% else %}
 
                     &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
                     &nbsp;&nbsp;

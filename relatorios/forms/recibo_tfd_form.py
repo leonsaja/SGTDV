@@ -4,6 +4,7 @@ from especialidades.models import Especialidade
 from django.core.exceptions import ValidationError
 from cidadao.models import Cidadao
 from django_select2 import forms as s2forms
+from dal import autocomplete
 
 
 class RelatorioReciboTfdsForm(forms.Form):
@@ -21,8 +22,9 @@ class RelatorioReciboTfdsForm(forms.Form):
             }),
         )
     pacientes=forms.ModelChoiceField(label='Paciente', queryset=Cidadao.objects.select_related('microarea').all(),
-                                         required=False,  widget=s2forms.Select2Widget())
-    
+                                         required=False,  widget= autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),)
+    especialidade=forms.ModelChoiceField(label='Especialidade', queryset=Especialidade.objects.all(),
+                                         required=False,  widget= s2forms.Select2Widget())
 
     def clean_data_inicial(self):
         data = self.cleaned_data["data_inicial"]

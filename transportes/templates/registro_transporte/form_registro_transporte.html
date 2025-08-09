@@ -82,25 +82,28 @@
     var proced_paciente = document.getElementById("id_quant_proced_paciente")
     var proced_acompanhante = document.getElementById("id_quant_proced_acompanhante")
 
-    var acompanhante_sim = document.getElementById("id_acompanhante_0")
-    var acompanhante_nao = document.getElementById("id_acompanhante_1")
+    console.log(percorrida.value)
+    console.log(proced_paciente.value )
+    console.log(proced_acompanhante.value)
+
+    var acompanhante_sim = document.getElementById("id_acompanhante")
+   
 
     percorrida.addEventListener('change', calcular)
     acompanhante_sim.addEventListener('change',calcular)
-    acompanhante_nao.addEventListener('change',calcular)
-   
+    
 
     function calcular() {
-
+    
       var qta=0
    
-      if (percorrida.value && acompanhante_sim.checked) {
+      if (percorrida.value && acompanhante_sim.value=='1') {
 
           qta=Math.round(percorrida.value/50)
           proced_paciente.value=qta
           proced_acompanhante.value=qta
       }
-      else if ( percorrida.value && acompanhante_nao.checked)
+      else if ( percorrida.value && acompanhante_sim.value=='2')
       {
         qta=Math.round(percorrida.value/50)
         proced_paciente.value=qta

@@ -10,109 +10,117 @@
   <br /><br />
   <div class="row justify-content-center">
     <div class="col-md-4">
-      <h4 class="text-primary"><strong>Relátorio de Diária</strong></h4>
+      <h4 class="text-primary text-center"><strong>Relátorio de Diária</strong></h4>
     </div>
   </div>
-  
-  <form method="POST" class="needs-validation"  novalidate>
- {% csrf_token %}
 
- <div class="row justify-content-center">
-  <div class="col-md-4 mt-3">
-    <h6><b>Período:</b></h6>
-  </div>
- </div>
-    <div class="row justify-content-center mt-3" >
+  <form method="POST" class="needs-validation" novalidate>
+    {% csrf_token %}
+
+    <div class="row justify-content-center">
+      <div class="col-md-4 mt-3">
+        <h6 class="m-0"><b>Período:</b></h6>
+      </div>
+    </div>
+    <div class="row justify-content-center mt-3">
       <div class="col-md-2 ">
         {{form.data_inicial|as_crispy_field }}
-      
+
       </div>
-      
+
       <div class="col-md-2">
         {{form.data_final|as_crispy_field }}
       </div>
     </div>
-    <div class="row justify-content-center mt-3" >
+    <div class="row justify-content-center mt-3">
       <div class="col-md-4 ">
         {{form.profissionais|as_crispy_field }}
-       
+
       </div>
-  
+
     </div>
-
-    
-
     <div class="row justify-content-center">
-      <div class="col-md-4 mt-2">
+      <div class="col-md-2">
+
+        {{form.tipo_relatorio|as_crispy_field }}
+
+      </div>
+      <div class="col-md-2 mt-2">
         <div class="text-right">
           <a href="{% url 'relatorios:relatorio-diaria'%}" class="btn mr-2" style="background-color:#DADADA;"> Limpar
             Filtros</a>
-          <button type="submit" class="btn btn-primary" >Gerar Relatório</button>
+          <button type="submit" class="btn btn-primary">Gerar Relatório</button>
         </div>
       </div>
+
     </div>
-  </form>
-  <div class="row">
-    <div class="col-md-12 mt-4">
-      {% if diarias %}
 
-      <div class="card">
-        <div class="card-header">
-          <h3 class="logo pt-2"><strong>Diárias</strong>
+</div>
 
-          </h3>
 
-        </div>
-        <!-- /.card-header -->
-        <div class="table-responsive-md">
-          <div class="card-body">
-            <table class="table table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th style="width: 10px">#</th>
-                  <th>Nome Profissional</th>
-                  <th>CPF</th>
-                  <th>CNS</th>
-                  <th>Data da Diária</th>
-                </tr>
-              </thead>
-              <tbody>
-                {%for diaria in diarias %}
-                <tr>
-                  <td>{{diaria.id}}</td>
-                  <td>{{diaria.profissional.nome_completo}}</td>
 
-                  <td>{{diaria.profissional.formt_cpf}}</td>
+</form>
+<div class="row">
+  <div class="col-md-12 mt-4">
+    {% if diarias %}
 
-                  <td>{{diaria.profissional.cns}}</td>
-                  <td>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</td>
-                 
+    <div class="card">
+      <div class="card-header">
+        <h3 class="logo pt-2"><strong>Diárias</strong>
+
+        </h3>
+
+      </div>
+      <!-- /.card-header -->
+      <div class="table-responsive-md">
+        <div class="card-body">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>Nome Profissional</th>
+                <th>CPF</th>
+                <th>CNS</th>
+                <th>Data da Diária</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for diaria in diarias %}
+              <tr>
+                <td>{{diaria.id}}</td>
+                <td>{{diaria.profissional.nome_completo}}</td>
+
+                <td>{{diaria.profissional.formt_cpf}}</td>
+
+                <td>{{diaria.profissional.cns}}</td>
+                <td>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</td>
+
                 {%endfor%}
 
-              </tbody>
-            </table>
-            <br />
-            {% include 'includes/paginacao.html'%}
-          </div>
+            </tbody>
+          </table>
+          <br />
+          {% include 'includes/paginacao.html'%}
         </div>
       </div>
-      {%else %}
-      <hr>
-      <h5 class="text-center pt-4">Nenhuma Diária encontrada.
-      </h5>
-      {%endif%}
     </div>
+    {%else %}
+    <hr>
+    <h5 class="text-center pt-4">Nenhuma Diária encontrada.
+    </h5>
+    {%endif%}
   </div>
+</div>
 </div>
 {% endblock %}
 
 {% block scripts %}
 
 <script>
-    document.getElementById('id_data_inicial').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
-    document.getElementById('id_data_final').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+  document.getElementById('id_data_inicial').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+  document.getElementById('id_data_final').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
 
-  
-    
+
+
 </script>
 {% endblock %}

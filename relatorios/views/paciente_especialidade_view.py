@@ -25,7 +25,7 @@ def relatorio_paciente_especialidade_pdf(request,context):
     if profissional:
         paciente_especialidade=paciente_especialidade.filter(profissional=profissional) 
     if procedimento:
-        paciente_especialidade=paciente_especialidade.filter(tipo_atendimento=procedimento)
+        paciente_especialidade=paciente_especialidade.filter(procedimento=procedimento)
     if classificacao:
         paciente_especialidade=paciente_especialidade.filter(classificacao=classificacao)
     if status:

@@ -7,27 +7,28 @@
   <br /><br />
   <div class="row justify-content-center">
     <div class="col-md-4">
-      <h4 class="text-primary"><strong>Relátorio de Recibo de TFDs</strong></h4>
+      <h4 class="text-primary text-center"><strong>Relátorio de Recibo de TFDs</strong></h4>
     </div>
   </div>
 
-  <form method="POST" class="needs-validation" novalidate>
-    {% csrf_token %} 
-    
+  <form method="POST" class="col-md-12 needs-validation" novalidate>
+    {% csrf_token %}
+
     <div class="row justify-content-center mt-3">
-      <div class="col-md-2">{{form.data_inicial|as_crispy_field }}</div>
-      <div class="col-md-2">{{form.data_final|as_crispy_field }}</div>
+      <div class="col-md-3">{{form.data_inicial|as_crispy_field }}</div>
+      <div class="col-md-3">{{form.data_final|as_crispy_field }}</div>
     </div>
     <div class="row justify-content-center mt-3">
-        <div class="col-md-4">{{form.pacientes|as_crispy_field }}</div>
-       
-      </div>
+      <div class="col-md-3">{{form.pacientes|as_crispy_field }}</div>
+      <div class="col-md-3">{{form.especialidade|as_crispy_field }}</div>
+    </div>
 
     <div class="row justify-content-center">
-      <div class="col-md-4 mt-2">
+      <div class="col-md-6 mt-2">
         <div class="text-right">
-            <a href="{% url 'relatorios:relatorio-recibo-tfd'%}" class="btn mr-2" style="background-color:#DADADA;"> Limpar
-                Filtros</a>
+          <a href="{% url 'relatorios:relatorio-recibo-tfd'%}" class="btn mr-2" style="background-color:#DADADA;">
+            Limpar
+            Filtros</a>
           <button type="submit" class="btn btn-primary">Gerar Relatório</button>
         </div>
       </div>
@@ -52,7 +53,7 @@
                   <th>CPF</th>
                   <th>CNS</th>
                   <th>Data do Recibo</th>
-                 
+
                 </tr>
               </thead>
               <tbody>
@@ -65,12 +66,12 @@
 
                   <td>{{recibo.paciente.cns}}</td>
                   <td>{{recibo.data|date:"d/m/Y"|default:'---'}}</td>
-                  
-                {%endfor%}
+
+                  {%endfor%}
               </tbody>
             </table>
             <br />
-            {% include 'paginacao_tfd.html'%}
+
           </div>
         </div>
       </div>
@@ -87,6 +88,6 @@
   document.getElementById('id_data_final').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
 
 
-  
+
 </script>
 {% endblock %}
