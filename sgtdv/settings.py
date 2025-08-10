@@ -11,9 +11,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY=env('SECRET_KEY')
 
-DEBUG = True
+DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['192.168.0.251',]
+ALLOWED_HOSTS = env.list('HOST_IPS')
 
 
 # Application definition
@@ -37,7 +37,7 @@ INSTALLED_APPS = [
 
     #Pacote
    
-    'bootstrap5',
+    
     "widget_tweaks",
     'crispy_forms',
     "crispy_bootstrap5",
@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rolepermissions',
     'django.contrib.humanize',  
-
+    'django_bootstrap5',
+    
     
     
     
@@ -120,13 +121,7 @@ DATABASES = {
             'PORT': env('DB_PORT'), 
         }
     }
-"""DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-"""
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -151,7 +146,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'pt-br'
 
-USE_THOUSAND_SEPARATOR = True
+
 
 TIME_ZONE = 'America/Sao_Paulo'
 USE_L10N = True # Para formatação localizada de datas e números
@@ -174,8 +169,9 @@ SESSION_SAVE_EVERY_REQUEST = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    'static'
+  'static'
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 #configuração da pasta de Media(arquivos, fotos, videos)

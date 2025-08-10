@@ -35,23 +35,20 @@
 
 {% include  'includes/cabecalho.html' %}
 
-<div class="conteudo">
-
-  <br><br>
-  <h3 class=" title_center">Relatório de Pacientes na Especialidade</h3>
+  <h3 class="text-center"><b>Relatório de Pacientes na Especialidade</b></h3>
   <br/>
       <div class="col-md-3">
-        <p class="paragrafo";>
+        <p class="m-1";>
           <b>Especialidade: </b>{{especialidade}}
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-          <b>Data: {{data}}</b> 
+          <b>Data: </b>{{data}} 
      
     </div>
     <div class="linha"></div>
       <div class="col-md-3">
-          <p class="paragrafo";>
+          <p class="m-1";>
             <b>Quantidade de Pacientes: </b>{{qta_pacienteespecialidade}}
             
         </p>
@@ -118,6 +115,6 @@
     </table>
   </div>
  
-</div>
+
 
 {% endblock %}

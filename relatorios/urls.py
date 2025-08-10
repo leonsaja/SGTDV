@@ -10,6 +10,9 @@ from relatorios.views.recibo_tfd_view import relatorio_recibo_tfd
 from relatorios.views.registro_transporte_view import relatorio_registro_transporte
 from relatorios.views.recibo_passagem_view import relatorio_recibo_passagem
 from relatorios.views.viagem_view import relatorio_viagem
+from relatorios.views.cidadao_view import relatorio_cadastro_cidadao
+from relatorios.views.procedimentos import relatorio_procedimentos
+
 from relatorios.views.atendimento_especialidade import relatorio_atendimento_especialidade
 app_name='relatorios'
 
@@ -37,7 +40,12 @@ urlpatterns = [
     path('registro-transporte/relatorio/',relatorio_registro_transporte,name='relatorio-registro-transporte'),
 
     #Viagem
-    path('viagem/relatorio/',relatorio_viagem,name='relatorio-viagem')
+    path('viagem/relatorio/',relatorio_viagem,name='relatorio-viagem'),
     
+    #Cadastro cidadao
+      path('cidadao/cadastro_incompleto/',relatorio_cadastro_cidadao,name='relatorio-cadastro-cidadao'),
+       
+    #Procedimento 
+      path('especialidades/procedimentos/',relatorio_procedimentos,name='relatorio_procedimentos')
 ]
 

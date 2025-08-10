@@ -53,7 +53,7 @@ class PacienteEspecialidade(models.Model):
 
     )
     
-    paciente=models.ForeignKey(Cidadao,verbose_name='Paciente', on_delete=models.PROTECT)
+    paciente=models.ForeignKey(Cidadao,verbose_name='Paciente',related_name='cidadao_especialidade', on_delete=models.PROTECT)
     especialidade=models.ForeignKey(Especialidade, on_delete=models.PROTECT, related_name='paciente_especialidades')
     data_pedido=models.DateField(verbose_name='Data do Pedido')
     classificacao=models.CharField(max_length=1, verbose_name='Classificação',choices=TIPO_CLASSIFICACAO, help_text='TIPO DE URGENCIA')

@@ -1,4 +1,6 @@
-{% extends 'baseP.html' %} {% load static %} {% load bootstrap5 %}
+{% extends 'baseP.html' %} {% load static %}
+{% load django_bootstrap5 %}
+
 
 {% block title %} Login {% endblock %} {% block content %}
 
@@ -12,8 +14,8 @@
                 <img src="/static/img/LOGOSAJA.png" width="100%" height="auto" alt="Logo-Saude">
 
                 {% csrf_token %}
-
-                {% bootstrap_form form %}
+    {% bootstrap_form form %}
+                
 
                 <br>
                 <div class="d-grid">

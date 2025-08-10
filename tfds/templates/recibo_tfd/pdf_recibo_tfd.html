@@ -1,7 +1,7 @@
 {% extends 'relatorio.html' %}
 {% load static %}
 {% block title %} RECIBO DE TFD{% endblock %}
-
+{% load humanize %}
 {% block head%}
 <style>
     
@@ -24,7 +24,7 @@
 
     table {
 
-        font-size: 13px;
+        font-size: 12px;
     }
 
     p {
@@ -214,10 +214,10 @@
 
                     <td>{{p.codigosia.codigo}}</td>
                     <td>{{p.qtd_procedimento}}</td>
-                    <td>{{p.valor_unid_sigtap}}</td>
-                    <td> {{p.valor_total_sigtap}}</td>
-                    <td>{{p.valor_comp_mun}}</td>
-                    <td>{{p.soma}}</td>
+                    <td>R$ {{p.valor_unid_sigtap|intcomma}}</td>
+                    <td>R$ {{p.valor_total_sigtap|intcomma}}</td>
+                    <td>R$ {{p.valor_comp_mun|intcomma}}</td>
+                    <td>R$ {{p.soma|intcomma}}</td>
 
                 </tr>
 
@@ -231,7 +231,7 @@
 
                     <td colspan="2"
                         style="text-align: end; font-size: 15px;"><b>
-                            TOTAL:&nbsp;&nbsp; R${{recibo_tfd.total_pag}}
+                            TOTAL:&nbsp;&nbsp; R$ {{recibo_tfd.total_pag|intcomma}}
                         </b> </td>
                 </tr>
             </tfoot>

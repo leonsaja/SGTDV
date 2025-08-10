@@ -66,7 +66,7 @@ class DiariaSearchListView(HasRoleMixin,ListView):
     def get_queryset(self, *args, **kwargs):
         qs = super(DiariaSearchListView,self).get_queryset(*args, **kwargs)
         
-        buscar=self.request.GET.get('buscar',None)
+        buscar=self.request.GET.get('buscar',None).rstrip()
         data=self.request.GET.get('data',None)
         
         if buscar:

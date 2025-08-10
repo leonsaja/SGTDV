@@ -23,9 +23,10 @@
         font-size: 12px;
        
       }
-      .negrito{
-        font-weight: bold;
-      }
+     
+    p{
+      margin:0;
+     }
     
 
 </style>
@@ -36,17 +37,19 @@
 
 {% include  'includes/cabecalho.html' %}
 <div class="conteudo">
-  <h3 class=" title_center">Relatório de Viagens</h3>
+  <h3 class=" text-center"><b>Relatório de Viagens</b></h3>
  
     <div class="row">
       <div class="col-md-5">
-        <p class="paragrafo "><b>Período: </b>{{inicial}}   a {{final}}
+        <p class="m-2 "><b>Período: </b>{{inicial}}   a {{final}}
 
         
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
          
-          
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <b> Data do relatório:</b> {{data}}
        
             </p>
@@ -55,7 +58,7 @@
     <div class="linha"></div>
     <div class="row">
       <div class="col-md-3">
-          <p class="paragrafo ">
+          <p class="m-2 ">
             <b>Registros identificados: </b>{{qta_registro_viagens}}
            
         </p>
@@ -65,16 +68,13 @@
     <div class="linha"></div>
     <div class="row">
       <div class="col-md-3">
-          <p class="paragrafo ">
+          <p class="m-2 ">
             <b>Quantidade passageiros transportados:</b> {{qta_pessoas_transportados}}            
         </p>
       </div>
     </div>
     <div class="linha"></div>
-    <br>
-
-    
-      
+  
       
   <div class="pt">
     <br>

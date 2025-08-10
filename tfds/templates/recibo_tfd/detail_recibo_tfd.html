@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% load crispy_forms_tags %}
-{% load bootstrap5 %} {% block content %}
+ {% block content %}
 {% load permission_tags %}
 
 <div class="descricaoiner-fluid">
@@ -45,7 +46,15 @@
                 <label for="id_cns" class="form-label">CNS:
                     <h6 class="text-muted" id="id_cns">{{recibo_tfd.paciente.cns}}</h6>
 
-            </div>      
+            </div> 
+             <div class="col-md-2">
+                <label for="id_cns" class="form-label">RG :
+                    {% if recibo_tfd.paciente.rg%}
+                    <h6 class="text-muted">{{recibo_tfd.paciente.rg}}</h6>
+                    {%else%}
+                    <h6 class="text-muted">-</h6>
+                    {%endif%}
+            </div>  
             <div class="col-md-2">
                 <label for="id_data" class="form-label">Data:
                     <h6 class="text-muted">{{recibo_tfd.data|date:"d/m/Y"|default:'---'}}</h6>
@@ -60,21 +69,21 @@
             <div class="col-md-4">
                 <label for="id_acompanhante" class="form-label">Nome do acompanhante:
                     {% if recibo_tfd.acompanhante%}
-                    <h6 class="text-muted">{{recibo_tfd.acompanhante|upper}}</h6>
+                    <h6 class="text-muted">{{recibo_tfd.acompanhante.nome_completo|upper}}</h6>
                     {%else%}
                     <h6 class="text-muted">-</h6>
                     {%endif%}
     
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="id_cpf" class="form-label">CPF:
                     {% if recibo_tfd.acompanhante.cpf%}
-                    <h6 class="text-muted">{{recibo_tfd.acompanhante.cpf}}</h6>
+                    <h6 class="text-muted">{{recibo_tfd.acompanhante.formt_cpf}}</h6>
                     {%else%}
                     <h6 class="text-muted">-</h6>
                     {%endif%}
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="id_cns" class="form-label">CNS:
                     {% if recibo_tfd.acompanhante.cns%}
                     <h6 class="text-muted">{{recibo_tfd.acompanhante.cns}}</h6>
@@ -131,17 +140,17 @@
             </div>
             {%else%}
             <div class="col-md-3">
-                <label for="id_grs" class="form-label">AGÊNCIA:
+                <label for="id_grs" class="form-label">Agência:
                     <h6 class="text-muted">{{recibo_tfd.agencia|upper}}</h6>
 
             </div>
             <div class="col-md-3">
-                <label for="id_grs" class="form-label">CONTA:
+                <label for="id_grs" class="form-label">Conta:
                     <h6 class="text-muted">{{recibo_tfd.conta|upper}}</h6>
 
             </div>
             <div class="col-md-3">
-                <label for="id_grs" class="form-label">ATENDIMENTO FORA DO ESTADO:
+                <label for="id_grs" class="form-label">Atendimento  fora do estado:
                     <h6 class="text-muted">{{recibo_tfd.get_atend_fora_estado_display}}</h6>
 
             </div>
@@ -187,13 +196,13 @@
 
                                             </td>
 
-                                            <td class="text-center">{{r.valor_unid_sigtap}}</td>
+                                            <td class="text-center"> R$ {{r.valor_unid_sigtap}}</td>
                                              <td class="text-center">
-                                                {{r.valor_total_sigtap}}
+                                                R$ {{r.valor_total_sigtap|intcomma}}
                                                 
                                             </td>
                                              <td class="text-center">
-                                                {{r.valor_comp_mun}}
+                                               R$ {{r.valor_comp_mun|intcomma}}
                                                         
                                             </td>   
 
@@ -201,7 +210,7 @@
 
                                            
                                             <td class="text-center">
-                                                {{r.soma}}
+                                                R$ {{r.soma|intcomma}}
 
                                             </td>
 

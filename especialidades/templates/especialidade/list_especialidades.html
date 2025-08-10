@@ -101,12 +101,10 @@
                     <a href="{% url 'especialidades:detail-especialidade' especialidade.id%}" class="pr-1"><i
                         class="fas fa-solid fa-eye"></i></a>
 
-                    {% if user|has_role:'regulacao,recepcao' %}
+                     {% if user|has_role:'coordenador' %}
 
                     <a href="{% url 'especialidades:edit-especialidade' especialidade.id%}" class="pr-1 text-warning"><i
                         class="fas fa-edit"></i></a>
-                    {%endif%}
-                    {% if user|has_role:'coordenador' %}
                     <a href="#modal--{{especialidade.id}}" data-bs-toggle="modal"
                       data-bs-target="#modal--{{especialidade.id}}" class="pr-2 text-danger">
 

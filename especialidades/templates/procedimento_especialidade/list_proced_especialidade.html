@@ -101,7 +101,7 @@
                     <a href="{% url 'especialidades:detail-proced_especialidade' procedimento.id%}" class="pr-1"><i
                         class="fas fa-solid fa-eye"></i></a>
 
-                    {% if user|has_role:'regulacao,recepcao' %}
+                    {% if user|has_role:'coordenador secretario' %}
 
                     <a href="{% url 'especialidades:edit-proced_especialidade' procedimento.id%}" class="pr-1 text-warning"><i
                         class="fas fa-edit"></i></a>

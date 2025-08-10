@@ -1,7 +1,8 @@
 {% extends 'base.html' %} 
 {% load permission_tags %}
+{% load humanize %}
 
-{% load bootstrap5 %} {% block content %}
+ {% block content %}
 
 <div class="descricaoiner-fluid">
     {% include 'recibo_passagem_tfd/abas_recibo_passagem.html' %}
@@ -34,22 +35,30 @@
         <div class="row">
             <legend class="text-primary"><b>Dados do Paciente</b></legend>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <label for="id_paciente" class="form-label">Nome do Paciente:</label>
                 <h6 class="text-muted">{{recibo.paciente.nome_completo|upper}}</h6>
 
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="id_cpf" class="form-label">CPF do Paciente:</label>
                 <h6 class="text-muted">{{recibo.paciente.formt_cpf|upper}}</h6>
 
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="id_cns" class="form-label">CNS do Paciente :
                     <h6 class="text-muted">{{recibo.paciente.cns}}</h6>
 
             </div>
-            <div class="col-md-3">
+             <div class="col-md-2">
+                <label for="id_cns" class="form-label">RG do paciente:
+                    {% if recibo.paciente.rg%}
+                    <h6 class="text-muted">{{recibo.paciente.rg}}</h6>
+                    {%else%}
+                    <h6 class="text-muted">-</h6>
+                    {%endif%}
+            </div>
+            <div class="col-md-2">
                 <label for="id_data_recibo" class="form-label">Data :
                     <h6 class="text-muted">{{recibo.data_recibo|date:"d/m/Y"|default:'---'}}</h6>
 
@@ -66,12 +75,12 @@
             </div>
             <div class="col-md-2">
                 <label for="id_valor_paciente_sia" class="form-label">Valor :
-                    <h6 class="text-muted">{{recibo.valor_paciente_sia}}</h6>
+                    <h6 class="text-muted">R$ {{recibo.valor_paciente_sia|intcomma}}</h6>
 
             </div>
             <div class="col-md-2">
                 <label for="id_data_recibo" class="form-label">Qta de Passagem :
-                    <h6 class="text-muted">{{recibo.quant_passagem_paciente}}</h6>
+                    <h6 class="text-muted tex">{{recibo.quant_passagem_paciente}}</h6>
 
             </div>
         </div>
@@ -79,7 +88,7 @@
         <hr>
         <div class="row">
             <legend class="text-primary"><b>Dados do Acompanhante</b></legend>
-            <div class="col-md-3">
+            <div class="col-md-4">
               
                 <label for="id_acompanhante" class="form-label">Nome do acompanhante:
                     {% if recibo.acompanhante.nome_completo%}
@@ -89,15 +98,15 @@
                     {%endif%}
     
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="id_cpf" class="form-label">CPF do acompanhante:
                     {% if recibo.acompanhante.cpf%}
-                    <h6 class="text-muted">{{recibo.acompanhante.cpf}}</h6>
+                    <h6 class="text-muted">{{recibo.acompanhante.formt_cpf}}</h6>
                     {%else%}
                     <h6 class="text-muted">-</h6>
                     {%endif%}
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="id_cns" class="form-label">CNS do acompanhante:
                     {% if recibo.acompanhante.cns%}
                     <h6 class="text-muted">{{recibo.acompanhante.cns}}</h6>
@@ -107,8 +116,8 @@
             </div>
             <div class="col-md-2">
                 <label for="id_cns" class="form-label">RG do acompanhante:
-                    {% if recibo.rg%}
-                    <h6 class="text-muted">{{recibo.rg}}</h6>
+                    {% if recibo.acompanhante.rg%}
+                    <h6 class="text-muted">{{recibo.acompanhante.rg}}</h6>
                     {%else%}
                     <h6 class="text-muted">-</h6>
                     {%endif%}
@@ -126,7 +135,7 @@
             <div class="col-md-2">
                 <label for="id_valor_acompanhante_sia" class="form-label">Valor :
                     {% if recibo.valor_acompanhante_sia%}
-                    <h6 class="text-muted">{{recibo.valor_acompanhante_sia}}</h6>
+                    <h6 class="text-muted">R$ {{recibo.valor_acompanhante_sia|intcomma}}</h6>
                     {%else %}
                     <h6 class="text-muted">-</h6>
                     {%endif%}

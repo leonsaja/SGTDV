@@ -19,7 +19,8 @@ class RelatorioAtendimentoEspecialidadeForm(forms.Form):
             }),
         )
     ATEND_VIA=(
-
+        
+            ('','---'),
             ('1','CIMBAJE'),
             ('2','CEAE'),
             ('3','RECURSO PRÓPRIO'),
@@ -29,4 +30,21 @@ class RelatorioAtendimentoEspecialidadeForm(forms.Form):
 
     especialidade=forms.ModelChoiceField(label='Especialidade', queryset=Especialidade.objects.all(),
                                          required=False,widget=forms.Select(attrs={'class': 'form-control'}))
-    atendimento_via=forms.ChoiceField(label='Classficação',required=False, widget=forms.Select,choices=ATEND_VIA)
+    atendimento_via=forms.ChoiceField(label='Classficação',required=True, widget=forms.Select,choices=ATEND_VIA)
+
+    def clean_data_inicial(self):
+        data = self.cleaned_data["data_inicial"]
+        data_atual=date.today().strftime('%Y-%m-%d')
+        
+        if data > data_atual:
+            raise ValidationError('Data inicial é maior que data atual')
+
+        return data
+    
+    def clean_data_final(self):
+        data = self.cleaned_data["data_final"]
+        data_atual=date.today().strftime('%Y-%m-%d')
+        if data > data_atual:
+            raise ValidationError('Data final é maior que data atual')
+
+        return data

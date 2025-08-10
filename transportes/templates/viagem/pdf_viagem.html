@@ -33,9 +33,9 @@
 
        .cabecalho-info {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: flex-start;
-        flex-wrap: wrap;
+        
         margin-bottom: 10px;
         border: 1px solid #ddd;
         padding: 10px;
@@ -62,96 +62,213 @@
     .info-detalhada p {
         margin: 0;
     }
-</style>
+    /* Estiliza o contêiner que envolve as duas imagens */
+ 
 
+.imagem-esquerda {
+  /* Estilos adicionais para a imagem da esquerda */
+  width: 30%; /* Exemplo de largura */
+  height:auto;
+  margin-right: 20%;
+}
+
+.imagem-direita {
+  /* Estilos adicionais para a imagem da direita */
+  width: 37%; /* Exemplo de largura */
+  height: auto;
+
+
+}
+     
+</style>
 
 {% endblock%}
 {% block content %}
+
+{%if micro_onibus%}
+
+<div class="cabecalho m-0">
+
+<img class="imagem-esquerda " src="{{ viagem.carro.foto.url }}" alt="Foto do Carro">
+
+<img class="imagem-direita" src=" {% static 'img/secretaria.jpeg' %}" alt="">
+</div>
+
+<div class="pt-2">
+  <h3 class="text-center"> <b>VIAGEM</b></h3>
+      <p class="m-1"><b>MOTORISTA: </b>{{ viagem.motorista.nome_completo|upper }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>PLACA:</b>{{viagem.carro.placa}}</p>
+        <p class="m-0 p-1">
+          <b>DESTINO: </b>{{ viagem.destino_viagem|upper }}
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <b>DATA:
+          </b>{{viagem.data_viagem|date:"d/m/Y"|default:'---' }}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <b>HORÁRIO: </b>{{ viagem.horario_saida }}</p>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>N°</th>
+        <th>PACIENTE</th>
+        <th>ACOMPANHANTE</th>
+        <th>LOCAL DE EXAME</th>
+        <th>LOCAL DE ESPERA </th>
+        <th>TELEFONE</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in viagem.passageiros_viagens.all %}
+
+      <tr>
+        <td>{{ forloop.counter }} </td>
+        <td>{{p.paciente.nome_completo|upper}}</td>
+
+        {% if p.acompanhante %}
+        <td>{{p.acompanhante}}</td>
+        {% else %}
+        <td>-</td>
+        {%endif%}
+
+        {% if p.local_exame %}
+        <td>
+          {{p.local_exame}}
+        </td>
+        {% else %}
+        <td>-</td>
+        {%endif%}
+
+        {% if p.local_espera %}
+        <td>{{p.local_espera}}</td>
+
+        {%else%}
+        <td>-</td>
+        {%endif%}
+
+        {% if p.paciente.telefone1 %}
+        <td>
+          {{ p.paciente.telefone1}}
+        </td>
+        {%else%}
+        <td>-</td>
+        {%endif%}
+
+      </tr>
+
+      {%endfor%}
+    </tbody>
+
+  </table>
+  <div class="row">
+    <div class="col-md-12 m-0">
+      <p class><b>Qta. Passageiros: </b> {{total}}
+      </p>
+      <p class="m-0 text-center">
+        {%if carro_lotado %}
+        <b style="color: red;">CARRO LOTADO</b>
+
+          {%endif%}
+      </p>
+    </div>
+  </div>
+</div>
+
+{%else%}
 {% include 'includes/cabecalho.html' %}
 
 <h3 class="text-center"> <b>VIAGEM</b></h3>
-
-<div class="cabecalho-info">
+<div>
+  <div class="cabecalho-info">
     <div class="info-motorista">
-        <p><b>MOTORISTA: </b>{{ viagem.motorista.nome_completo|upper }}</p>
-        <div class="info-detalhada">
-            <p class="">
-                <b>DESTINO: </b>{{ viagem.destino_viagem|upper }}
-            </p>
-            <p class="pt-2"><b>DATA: </b>{{ viagem.data_viagem|date:"d/m/Y"|default:'---' }}
-                <b>HORÁRIO: </b>{{ viagem.horario_saida }}</p>
-        </div>
+      <p><b>MOTORISTA: </b>{{ viagem.motorista.nome_completo|upper }}</p>
+      <div class="info-detalhada">
+        <p class>
+          <b>DESTINO: </b>{{ viagem.destino_viagem|upper }}
+        </p>
+        <p class="pt-2"><b>DATA: </b>{{viagem.data_viagem|date:"d/m/Y"|default:'---' }}
+          <b>HORÁRIO: </b>{{ viagem.horario_saida }}</p>
+      </div>
     </div>
-    
+
     <div class="foto-carro">
-        <img src="{{ viagem.carro.foto.url }}" alt="Foto do Carro">
-        <p><b>PLACA: </b>{{ viagem.carro.placa|upper }}</p>
+      <img src="{{ viagem.carro.foto.url }}" alt="Foto do Carro">
+      <p><b>PLACA: </b>{{ viagem.carro.placa|upper }}</p>
     </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>N°</th>
+        <th>PACIENTE</th>
+        <th>ACOMPANHANTE</th>
+        <th>LOCAL DE EXAME</th>
+        <th>LOCAL DE ESPERA </th>
+        <th>TELEFONE</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in viagem.passageiros_viagens.all %}
+
+      <tr>
+        <td>{{ forloop.counter }} </td>
+        <td>{{p.paciente.nome_completo|upper}}</td>
+
+        {% if p.acompanhante %}
+        <td>{{p.acompanhante}}</td>
+        {% else %}
+        <td>-</td>
+        {%endif%}
+
+        {% if p.local_exame %}
+        <td>
+          {{p.local_exame}}
+        </td>
+        {% else %}
+        <td>-</td>
+        {%endif%}
+
+        {% if p.local_espera %}
+        <td>{{p.local_espera}}</td>
+
+        {%else%}
+        <td>-</td>
+        {%endif%}
+
+        {% if p.paciente.telefone1 %}
+        <td>
+          {{ p.paciente.telefone1}}
+        </td>
+        {%else%}
+        <td>-</td>
+        {%endif%}
+
+      </tr>
+
+      {%endfor%}
+    </tbody>
+
+  </table>
+    <div class="row">
+    <div class="col-md-12 m-0">
+      <p class><b>Qta. Passageiros: </b> {{total}}
+      </p>
+      <p class="m-0 text-center">
+        {%if carro_lotado %}
+        <b style="color: red;">CARRO LOTADO</b>
+
+          {%endif%}
+      </p>
+    </div>
+  </div>
 </div>
-</div>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>N°</th>
-      <th>PACIENTE</th>
-      <th>ACOMPANHANTE</th>
-      <TH>ACS</TH>
-      <th>LOCAL DE EXAME</th>
-      <th>LOCAL DE ESPERA </th>
-      <th>TELEFONE</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for p in viagem.passageiros_viagens.all %}
-
-    <tr>
-      <td>{{ forloop.counter }} </td>
-      <td>{{p.paciente.nome_completo|upper}}</td>
-
-      {% if p.acompanhante %}
-      <td>{{p.acompanhante}}</td>
-      {% else %}
-      <td>-</td>
-      {%endif%}
-      
-      {% if p.paciente.microarea.profissional.acs %}
-      <td>{{p.paciente.microarea.profissional.acs}}</td>
-      {% else %}
-      <td>-</td>
-      {%endif%}
-      
-      {% if p.local_exame %}
-      <td>
-        {{p.local_exame}}
-      </td>
-      {% else %}
-      <td>-</td>
-      {%endif%}
-
-
-
-      {% if p.local_espera %}
-      <td>{{p.local_espera}}</td>
-
-      {%else%}
-      <td>-</td>
-      {%endif%}
-
-      {% if p.paciente.telefone1 %}
-      <td>
-        {{ p.paciente.telefone1}}
-      </td>
-      {%else%}
-      <td>-</td>
-      {%endif%}
-
-    </tr>
-
-    {%endfor%}
-  </tbody>
-</table>
-
-
-
+{%endif%}
 {% endblock %}

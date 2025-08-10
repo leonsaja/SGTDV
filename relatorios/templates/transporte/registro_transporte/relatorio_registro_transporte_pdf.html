@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Relatorio{% endblock %}
 
-{% block head%} 
+{% block head%}
 <style>
       body{
 
@@ -23,95 +23,95 @@
         font-size: 12px;
        
       }
-      .negrito{
-        font-weight: bold;
-      }
+     p{
+      margin:0;
+     }
     
 
 </style>
 
-
 {%endblock head%}
 {% block content %}
 
-{% include  'includes/cabecalho.html' %}
+{% include 'includes/cabecalho.html' %}
 <div class="conteudo">
-  <h3 class=" title_center">Relatório de Transportes</h3>
- 
-    <div class="row">
-      <div class="col-md-5">
-        <p class="paragrafo "><b>Período: </b>{{inicial}}   a {{final}}
+  <h2 class=" text-center"><b>Relatório de Transportes</b></h2>
 
-        
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;
-          
-          <b> Data do relatório:</b> {{data}}
-       
-            </p>
-      </div>
+  <div class="row">
+    <div class="col-md-5">
+      <p class="m-2 "><b>Período: </b>{{inicial}} a {{final}}
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+
+        <b> Data do relatório:</b> {{data}}
+
+      </p>
     </div>
-    <div class="linha"></div>
-    <div class="row">
-      <div class="col-md-3">
-          <p class="paragrafo ">
-            <b>Registros identificados: </b>{{qta_registro_transporte}}
-           
-        </p>
-      </div>
+  </div>
+  <div class="linha"></div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="m-2 ">
+        <b>Registros identificados: </b>{{qta_registro_transporte}}
+
+      </p>
     </div>
-   
-    <div class="linha"></div>
-    <br>
+  </div>
 
-    <div class="row">
-        <div class="col-md-3">
-            <p class="paragrafo ">
-              Quantidade de atendimento aos pacientes residentes na zona rural: {{qta_atend_zona_rural}}
-              
-          </p>
-        </div>
-      </div>
-      <div class="linha"></div>
-      <div class="row">
-        <div class="col-md-3">
-            <p class="paragrafo">
-              Quantidade total de pacientes atendidos no modo rotineiro: {{qta_atendimento_rotineiro}}
-              
-             
-          </p>
-        </div>
-      </div>
-      <div class="linha"></div>
-    
-      <div class="row">
-        <div class="col-md-3">
-            <p class="paragrafo">
-              Quantidade total de pacientes atendidos no modo eventual: {{qta_atendimento_eventual}}
-              
-             
-          </p>
-        </div>
-      </div>
-     
-     
-      <div class="linha"></div>
+  <div class="linha"></div>
 
-      <div class="row">
-        <div class="col-md-3">
-            <p class="paragrafo">
-              Quantidade de pacientes que não compareceu na consulta: {{qta_paciente_nao_foi_consulta}}
-              
-             
-          </p>
-        </div>
-      </div>
-     
-     
-      <div class="linha"></div>
-      
-  <div class="pt">
+  <div class="row">
+    <div class="col-md-3">
+      <p class="m-2 ">
+        <b> Quantidade de atendimento aos pacientes residentes na zona rural:
+        </b>{{qta_atend_zona_rural}}
+
+      </p>
+    </div>
+  </div>
+  <div class="linha"></div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="m-2">
+        <b>Quantidade total de pacientes atendidos no modo rotineiro:</b>
+        {{qta_atendimento_rotineiro}}
+
+      </p>
+    </div>
+  </div>
+  <div class="linha"></div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <p class="m-2">
+       <b> Quantidade total de pacientes atendidos no modo eventual:</b>
+        {{qta_atendimento_eventual}}
+
+      </p>
+    </div>
+  </div>
+
+  <div class="linha"></div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <p class="m-2">
+
+        <b>        Quantidade de pacientes que não compareceu na consulta:</b>
+        {{qta_paciente_nao_foi_consulta}}
+
+      </p>
+    </div>
+  </div>
+
+  <div class="linha"></div>
+
+  <div class="pt-3">
     <br>
     <table border=" 1">
       <thead>
@@ -120,44 +120,42 @@
           <th>Pacientes</th>
           <th>Acompanhantes</th>
           <th>Total</th>
-        
-          
-        
+
         </tr>
       </thead>
       <tbody>
-       
+
         <tr>
 
-          <td>Quantidade de pacientes e acompanhantes atendidos com veículos próprios:</td>
+          <td>Quantidade de pacientes e acompanhantes atendidos com veículos
+            próprios:</td>
           <td class="title_center">{{qta_atend_carro_proprio_paciente}}</td>
           <td class="title_center">{{qta_atend_carro_proprio_acompanhante}}</td>
           <td class="title_center">{{total_atend_carro_propio}}</td>
         </tr>
         <tr>
 
-          <td>Quantidade de pacientes e acompanhantes atendidos com veículos do consórcio:</td>
+          <td>Quantidade de pacientes e acompanhantes atendidos com veículos do
+            consórcio:</td>
           <td class="title_center">{{qta_atend_carro_consorcio_paciente}}</td>
-          <td class="title_center">{{qta_atend_carro_consorcio_acompanhante}}</td>
+          <td
+            class="title_center">{{qta_atend_carro_consorcio_acompanhante}}</td>
           <td class="title_center">{{total_atend_carro_consorcio}}</td>
-         
+
         </tr>
         <tr>
 
-          <td>Quantidade de procedimento realizado para pacientes e acompanhantes:</td>
+          <td>Quantidade de procedimento realizado para pacientes e
+            acompanhantes:</td>
           <td class="title_center">{{qta_proced_paciente}}</td>
           <td class="title_center">{{qta_proced_acompanhante}}</td>
           <td class="title_center">{{total_procedimento}}</td>
-         
+
         </tr>
-       
-       
-      
+
       </tbody>
-      
+
     </table>
   </div>
- 
 
-
-{% endblock %}
+  {% endblock %}

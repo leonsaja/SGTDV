@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 
 {% load permission_tags %}
-
-{% load bootstrap5 %} {% block content %}
+{% block content %}
 
 <div class="container-fluid">
     {% include 'registro_transporte/abas_registro_transporte.html' %}
@@ -92,7 +91,7 @@
                 <div class="col-md-4">
                     <label for="id_quant_proced_acompanhante" class="form-label">Quant. Procedimento 08.03.01.010-9:</label>
                     {%if transporte.quant_proced_acompanhante %}
-                        <h6 class="text-muted">{{transporte.quant_proced_acompanhante }}</h6>
+                        <h6 class="text-muted text-center">{{transporte.quant_proced_acompanhante }}</h6>
                         {%else%}
                         <h6 class="text-muted">-</h6>
                         {%endif%}

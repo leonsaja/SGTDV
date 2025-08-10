@@ -6,7 +6,7 @@ from especialidades.views import \
 from .views import especialidade_view as view_especialidade
 from especialidades.views import atend_especialidade_view 
 from especialidades.views import proced_especialidade_view as view_procedimento
-
+from especialidades.views import busca_paciente_especialidades
 app_name='especialidades'
 
 urlpatterns = [
@@ -25,6 +25,7 @@ urlpatterns = [
     path('<int:id>/search/pacientes_especialidades', view_paciente_especialidade.PacienteEspecialidadeListView.as_view(), name='search-paciente-especialidade'),
     path('detail /<int:pk>/paciente_especialidade', view_paciente_especialidade.PacienteEspecialidadeDetailView.as_view(), name='detail-paciente-especialidade' ),  
     path('delete/<int:id>/paciente_especialidade', view_paciente_especialidade.pacienteEspecialidade_delete, name='del-paciente-especialidade' ),  
+    path('buscar/paciente_especialidade', busca_paciente_especialidades.PacienteEspecialidadeSearchView.as_view(), name='buscar-paciente-especialidade' ),  
 
 
 

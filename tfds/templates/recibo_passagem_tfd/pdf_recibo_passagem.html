@@ -1,6 +1,7 @@
 {% extends 'relatorio.html' %}
 {% load static %}
 {% block title %} RECIBO DE PASSAGEM DO TFD{% endblock %}
+{% load humanize %}
 {% block head%}
 <style>
     body {
@@ -22,7 +23,7 @@
 
     table {
 
-        font-size: 13px;
+        font-size: 11px;
     }
 
     p {
@@ -146,7 +147,7 @@
                 <td>{{recibo_passagem.quant_passagem_paciente}}</td>
                 <td>{{recibo_passagem.trecho}}</td>
                 <td>{{recibo_passagem.codigo_sia_paciente}}</td>
-                <td>{{recibo_passagem.valor_total_passagem}}</td>
+                <td>R$ {{recibo_passagem.valor_total_passagem|intcomma}}</td>
                 
                
     
@@ -160,7 +161,7 @@
                 <td>{{recibo_passagem.quant_passagem_acompanhante}}</td>
                 <td>{{recibo_passagem.trecho}}</td>
                 <td>{{recibo_passagem.codigo_sia_acompanhante}}</td>
-                <td>{{recibo_passagem.valor_total_passagem}}</td>
+                <td>R$ {{recibo_passagem.valor_total_passagem|intcomma}}</td>
                            
     
             </tr>

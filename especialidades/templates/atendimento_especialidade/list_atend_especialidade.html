@@ -10,7 +10,7 @@
         {% include 'includes/mensagens.html'%}
     </div>
 </div>
-{% if user|has_role:'regulacao,recepcao' %}
+{% if user|has_role:'regulacao' %}
 
   <div class="row ">
     <div class="col-md-12">
@@ -23,7 +23,7 @@
   {%endif%}
   <div class="row justify-content-center ">
     <div class="col-md-8  ">
-      <h4 class=" text-primary"><strong>Atendimentos</strong> </h4>
+      <h4 class=" text-primary text-center"><strong>Atendimentos</strong> </h4>
     </div>
   </div>
   <br>
@@ -41,14 +41,31 @@
             </div>
 
           </div>
-          <div class="row">
-            <div class="col-md-12">
+          <div class="row   justify-content-center">
+            <div class="col-md-8">
               <label for="buscar"><strong> Busque pelo Nome:</strong></label>
               <input type="search" name="buscar" class="form-control" value="{{request.GET.buscar}}"
                 id="buscar">
 
             </div>
           </div>
+          <div class="row  justify-content-center ">
+
+                    <div class="col-md-4 mt-2">
+                        <label for="id_data">Data do Atendimento</label>
+                        <input type="date" name="data" class="form-control" id="id_data"
+                            value="{{request.GET.data}}">
+                    </div>
+                    <div class="col-md-4 mt-2">
+                        <label for="id_status">Status:</label>
+                        <select class="form-select" id="id_status" name="status">
+                            <option value="0" {% if request.GET.status == '0' %}selected{% endif %}>Selecione uma opção</option>
+                            <option value="1" {% if request.GET.status == '1' %}selected{% endif %}>Aguardando</option>
+                            <option value="2" {% if request.GET.status == '2' %}selected{% endif %}>Concluido</option>
+                            <option value="3" {% if request.GET.status == '3' %}selected{% endif %}>Cancelado</option>
+                        </select>
+                    </div>
+            </div>
 
           <div class="row">
             <div class="col-md-12 mt-3">
@@ -88,6 +105,7 @@
                   <th style="width: 10px">N°</th>
                   <th>Especialidade</th>
                   <th>Data do Atendimento</th>
+                  <th>Status</th>
                   <th>Horário</th>
                    <th>Atendimento Via</th>
                   <th>Ação</th>
@@ -99,6 +117,7 @@
                    <td class="tex4">{{ forloop.counter }}</td>
                   <td>{{atend.especialidade|upper}}</td>
                   <td>{{atend.data|date:"d/m/Y"|default:'---'}}</td>
+                  <td>{{atend.get_status_display}}</td>
                   <td>{{atend.hora}}</td>
                   <td>{{atend.get_atendimento_via_display}}</td>
 
@@ -154,17 +173,20 @@
 <!-- Button trigger modal -->
 {% endblock content %} {% block scripts %}
 <script>
-  $('#validar-form').submit(function () {
-    let nome = $('#buscar')
-    let erro = $('.alert')
+    $('#validar-form').submit(function () {
+        let buscar = $('#buscar')
+        let data = $('#id_data')
+        let status= $('#id_status')
 
-    if (nome.val() == '') {
-      erro.removeClass('d-none')
-      nome.addClass('is-invalid')
-      return false
-    }
+        let erro = $('.alert')
 
-    return true
-  })
+       
+        if (buscar.val() == '' && data.val() == '' && status.val()=='') {
+            erro.removeClass('d-none')
+            return false
+        }
+
+        return true
+    })
 </script>
 {% endblock scripts %}

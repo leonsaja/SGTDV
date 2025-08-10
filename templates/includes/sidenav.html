@@ -83,6 +83,13 @@
                 <p class=" text-sm text-muted">Procedimentos</p>
               </a>
             </li>
+             <li class="nav-item">
+              <a href="{% url 'especialidades:buscar-paciente-especialidade'%}" class="nav-link link-houver">
+
+                <p class=" text-sm text-muted">Buscar paciente especialidade</p>
+              </a>
+            </li>
+
 
           </ul>
         </li>
@@ -157,6 +164,14 @@
             </p>
           </a>
           <ul class="nav nav-treeview ">
+             {% if user|has_role:'coordenador' %}
+            <li class="nav-item">
+              <a href="{% url 'relatorios:relatorio-cadastro-cidadao'%}" class="nav-link link-houver">
+
+                <p class="text-sm text-muted"> Cadastro incompleto</p>
+              </a>
+            </li>
+             {%endif%}
             {% if user|has_role:'coordenador,digitador,secretario' %}
 
             <li class="nav-item">
@@ -176,6 +191,7 @@
                 </p>
               </a>
               <ul class="nav nav-treeview ">
+
                 <li class="nav-item">
 
                   <a href="{% url 'relatorios:relatorio-atendimento-especialidade'%}" class="nav-link link-houver">
@@ -197,6 +213,14 @@
                     <p class=" text-sm text-muted">Pacientes </p>
                   </a>
                 </li>
+                 <li class="nav-item">
+
+                  <a href="{% url 'relatorios:relatorio_procedimentos'%}" class="nav-link link-houver">
+
+                    <p class=" text-sm text-muted">Procedimentos </p>
+                  </a>
+                </li>
+             
               </ul>
             </li>
             {%endif%}

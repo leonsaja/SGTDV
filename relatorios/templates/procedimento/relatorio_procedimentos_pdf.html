@@ -1,0 +1,80 @@
+{% extends 'relatorio.html' %}
+{% load static %}
+{% block title %}Relatorio{% endblock %}
+
+{% block head%}
+<style>
+    body {
+
+        font-size: 15px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    td {
+
+        padding: 1px;
+        text-align: center
+    }
+
+    th {
+        padding: 1px;
+        text-align: center;
+    }
+
+    table {
+
+        font-size: 12px;
+    }
+
+    p {
+        margin: 0;
+    }
+</style>
+
+
+{% endblock%}
+{% block content %}
+
+{% include  'includes/cabecalho.html' %}
+<div class="container-fluid">
+  <h3 class=" text-center "><b>Nomes de Procedimentos</b></h3>
+  <br/>
+     <div class="row">
+       <div class="col-md-12 m-2">
+          <p class="p-1";>
+
+            <b>Data: {{data}}</b> 
+        </p>
+      </div>
+     </div>
+      <div class="linha"></div>
+  <br/>
+ 
+    
+    <table border=" 1" class="table">
+      <thead>
+        <tr>
+          <th>Itens</th>
+          <th>Nome</th>
+     
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in procedimentos %}
+        
+        <tr>
+
+          <td>{{ forloop.counter }}</td>
+          <td>{{p.nome_procedimento|upper}}</td>
+          
+        
+        </tr>
+        {%endfor%}
+      </tbody>
+      
+    </table>
+ 
+ 
+</div>
+
+{% endblock %}

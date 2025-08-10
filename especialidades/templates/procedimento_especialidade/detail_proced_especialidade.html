@@ -2,11 +2,11 @@
 
 {% load permission_tags %}
 
-{% load bootstrap5 %} {% block content %}
+ {% block content %}
 
 <div class="container-fluid">
      {% include 'procedimento_especialidade/abas_proced_especialidade.html' %}
-     {% if user|has_role:'regulacao,recepcao' %}
+     {% if user|has_role:'coordenador,secretario' %}
 
     <div class="row m-2">
         <div class="col-md-12">
@@ -33,7 +33,7 @@
         <br />
         <div class="row">
             <div class="col-md-12">
-                <label for="id_estabelecimento" class="form-label">Nome do Estabelecimento:</label>
+                <label for="id_estabelecimento" class="form-label">Nome do Procedimento:</label>
                 <h6 class="text-muted">{{procedimento.nome_procedimento}}</h6>
 
             </div>

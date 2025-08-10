@@ -2,7 +2,7 @@
 
 {% load permission_tags %}
 
-{% load bootstrap5 %} {% block content %}
+ {% block content %}
 
 
 
@@ -14,7 +14,7 @@
         {% include 'includes/mensagens.html'%}
     </div>
 </div>
-{% if user|has_role:'regulacao,recepcao' %}
+{% if user|has_role:'regulacao' %}
 
     <div class="row">
 

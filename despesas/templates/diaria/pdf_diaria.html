@@ -1,6 +1,7 @@
 {% extends 'relatorio.html' %}
 {% load static %}
 {% block title %}DIÁRIA{% endblock %}
+   {% load humanize %}
 
 {% block head%}
 <style>
@@ -108,7 +109,7 @@
       <td>{{diaria.get_tipo_diaria_display}}</td>
       <td>{{diaria.form_qta_diaria}}</td>
       <td>{{diaria.valor}}</td>
-      <td>{{diaria.total}}</td>
+      <td>{{diaria.total|intcomma}}</td>
     </tr>
   </tbody>
 </table>

@@ -38,7 +38,7 @@ class ProcedEspecialidadeListView(HasRoleMixin,ListView):
     template_name='procedimento_especialidade/list_proced_especialidade.html'
     context_object_name='procedimentos'
     paginate_by=10
-    allowed_roles=['regulacao','recepcao','secretario']
+    allowed_roles=['regulacao','recepcao','secretario','coordenador']
 
     def get_queryset(self):
         qs=super(ProcedEspecialidadeListView,self).get_queryset()
@@ -57,7 +57,7 @@ class ProcedEspecialidadeDetail(HasRoleMixin,DetailView):
     model=ProcedimentosEspecialidade
     template_name='procedimento_especialidade/detail_proced_especialidade.html'
     context_object_name='procedimento'
-    allowed_roles=['regulacao','recepcao','secretario']
+    allowed_roles=['regulacao','recepcao','coordenador','secretario']
     
 @has_role_decorator(['coordenador'])
 def especialidadeDelete(request, id):

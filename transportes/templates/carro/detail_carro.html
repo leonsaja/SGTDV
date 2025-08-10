@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load bootstrap5 %} {% load permission_tags %}
+{% extends 'base.html' %}{% load permission_tags %}
 {% block content %}
 {% include 'carro/abas_carro.html' %}
 
@@ -48,6 +48,7 @@
                 <h6 id='ano_fabricacao' class="text-muted">{{carro.ano_fabricacao}}</h6>
 
             </div>
+            
             <div class="col-md-3">
                 <label for="fabricante" class="form-label">Fabricação</label>
                 <h6 id='fabricante' class="text-muted">{{carro.fabricante}}</h6>
@@ -55,11 +56,10 @@
             </div>
           
         </div>
-        <br>
-        <div class="row">
-            <div class="col-md-6">
-                <label for="id_carro" class="form-label">Foto:</label>
-                <h6 class="text-muted"> <img src="{{carro.foto.url}}" alt="foto do carro" width="300px" height="200px"> </h6>
+        <div class="row pt-3">
+             <div class="col-md-3">
+                <label for="id_placa" class="form-label">Capacidade. Passageiro:</label>
+                <h6 class="text-muted">{{carro.qta_passageiro|upper}}</h6>
 
             </div>
             <div class="col-md-3">
@@ -78,6 +78,14 @@
                 <h6 class="text-muted" id="forma_atend">{{carro.get_status_display}} </h6>
 
             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="id_carro" class="form-label">Foto:</label>
+                <h6 class="text-muted"> <img src="{{carro.foto.url}}" alt="foto do carro" width="300px" height="200px"> </h6>
+
+            </div>
+            
         </div>
         <br>
         <div class="row">

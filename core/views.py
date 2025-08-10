@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 import locale
-from django.db.models import ProtectedError, Q
+from django.db.models import Q
 
 from cidadao.models import Cidadao
 from despesas.models import Diaria,Reembolso

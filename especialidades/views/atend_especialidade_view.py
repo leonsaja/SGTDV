@@ -72,7 +72,7 @@ class AtendEspecialidadeListView(HasRoleMixin,ListView):
         qs = super(AtendEspecialidadeListView,self).get_queryset(*args, **kwargs)
         buscar=self.request.GET.get('buscar',None)
         status=self.request.GET.get('status',None)
-
+        print("status",status)
         if buscar:
             queryset=qs.select_related('especialidade').filter(especialidade__nome__icontains=buscar).order_by('-especialidade')
             return queryset 
@@ -80,10 +80,9 @@ class AtendEspecialidadeListView(HasRoleMixin,ListView):
         if status:
             queryset=qs.select_related('especialidade').filter(status=status).order_by('-especialidade')
 
-        
-        qs=qs.select_related('especialidade').exclude(status='2').all().order_by('-especialidade') 
-
-        return qs  
+        if not buscar and not status:
+                queryset=qs.select_related('especialidade').exclude(status='2').all().order_by('-especialidade') 
+        return queryset
     
 class AtendEspecialidadeDetailView(HasRoleMixin,DetailView):
 

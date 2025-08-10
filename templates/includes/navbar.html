@@ -24,10 +24,13 @@
            <a href="{% url 'usuarios:alterar_senha'%}" class="dropdown-item">
             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Alterar Senha 
           </a>
-         
-          <a href="{% url 'usuarios:deslogar_usuario'%}" class="dropdown-item">
-            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Sair
-          </a>
+         <form  action="{% url 'usuarios:deslogar_usuario'%}" method="POST">
+           {% csrf_token %}
+          <button type="submit" class="btn btn-link text-center dropdown-item">Sair</button>
+
+
+         </form>
+          
       
          
           

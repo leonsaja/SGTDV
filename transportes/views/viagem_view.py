@@ -119,11 +119,33 @@ class ViagemDeleteView(HasRoleMixin,SuccessMessageMixin,DeleteView):
 
 has_role_decorator(['recepcao','regulacao'])
 def viagemPdf(request,id):
-    
+    context={}
     viagem=get_object_or_404(Viagem,id=id)
+    total=0
+    for passageiro in viagem.passageiros_viagens.all():
+        if passageiro.paciente:
+            total+=1
+        if passageiro.acompanhante:
+            total+=1
+    capacidade=viagem.carro.qta_passageiro
+    
+    micro_onibus=False
+    
+    if capacidade>22:
+         micro_onibus=True
+         
+    
+    carro_lotado=False
+    if total>=capacidade:
+        carro_lotado=True
+        
+    context['carro_lotado']=carro_lotado
+    context['viagem']=viagem
+    context['total']=total
+    context['micro_onibus']=micro_onibus
     response = HttpResponse(content_type='application/pdf')
     
-    html_string = render_to_string('viagem/pdf_viagem.html',{'viagem':viagem})
+    html_string = render_to_string('viagem/pdf_viagem.html',context)
     
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
 

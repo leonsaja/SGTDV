@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-
 {% load permission_tags %}
-{% load bootstrap5 %} {% block content %}
 {% load crispy_forms_tags %}
+{% load humanize %}
+{% block content %}
 
 <div class="container-fluid">
 
@@ -13,7 +13,6 @@
         </div>
     </div>
 
-
     <div class="col-md-12 px-4">
 
         {% if user|has_role:'digitador,coordenador' %}
@@ -22,7 +21,8 @@
 
             <div class="col-md-12">
                 <div class="text-right">
-                    <a href="{% url 'despesas:edit-diaria' diaria.id %}" class="btn btn-primary"><strong>Editar
+                    <a href="{% url 'despesas:edit-diaria' diaria.id %}"
+                        class="btn btn-primary"><strong>Editar
                             Diária</strong>
                     </a>
                 </div>
@@ -31,40 +31,46 @@
         {%endif%}
         <fieldset>
             <legend>
-                <h4 class=" text-primary"><strong>Detalhes da Diária</strong> </h4>
+                <h4 class=" text-primary"><strong>Detalhes da Diária</strong>
+                </h4>
             </legend>
             <hr>
 
             <div class="row">
 
                 <div class="col-md-4 ">
-                    <label for="id_profissional" class="form-label">Nome do Profissional:</label>
-                    <h6 class="text-muted">{{diaria.profissional.nome_completo|upper}}</h6>
+                    <label for="id_profissional" class="form-label">Nome do
+                        Profissional:</label>
+                    <h6
+                        class="text-muted">{{diaria.profissional.nome_completo|upper}}</h6>
                 </div>
 
                 <div class="col-md-4 ">
                     <label for="id_cpf" class="form-label">CPF:</label>
-                    <h6 class="text-muted">{{diaria.profissional.formt_cpf}}</h6>
+                    <h6
+                        class="text-muted">{{diaria.profissional.formt_cpf}}</h6>
                 </div>
                 <div class="col-md-4">
-                    <label for="id_sus" class="form-label">Cartão do SUS:</label>
+                    <label for="id_sus" class="form-label">SUS:</label>
                     <h6 class="text-muted">{{diaria.profissional.cns}}</h6>
                 </div>
-
 
             </div>
 
             <div class="row mt-2">
                 <div class="col-md-3">
-                    <label for="id_reembolso" class="form-label">Reembolso:</label>
+                    <label for="id_reembolso"
+                        class="form-label">Reembolso:</label>
                     <h6 class="text-muted">{{diaria.get_reembolso_display}}</h6>
                 </div>
                 <div class="col-md-3">
                     <label for="id_data" class="form-label">Data:</label>
-                    <h6 class="text-muted">{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</h6>
+                    <h6
+                        class="text-muted">{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</h6>
                 </div>
                 <div class="col-md-3">
-                    <label for="id_telefone" class="form-label">Telefone:</label>
+                    <label for="id_telefone"
+                        class="form-label">Telefone:</label>
                     <h6 class="text-muted">{{diaria.profissional.telefone}}</h6>
                 </div>
                 <div class="col-md-3">
@@ -80,26 +86,30 @@
                     <h6 class="text-muted">{{diaria.form_fonte}}</h6>
                 </div>
                 <div class="col-md-2">
-                    <label for="id_tipo_diaria" class="form-label">Tipo Diária:</label>
-                    <h6 class="text-muted">{{diaria.get_tipo_diaria_display}}</h6>
+                    <label for="id_tipo_diaria" class="form-label">Tipo
+                        Diária:</label>
+                    <h6
+                        class="text-muted">{{diaria.get_tipo_diaria_display}}</h6>
                 </div>
                 <div class="col-md-2">
-                    <label for="id_qta_diaria" class="form-label">Quantidade:</label>
+                    <label for="id_qta_diaria"
+                        class="form-label">Quantidade:</label>
                     <h6 class="text-muted">{{diaria.form_qta_diaria}}</h6>
                 </div>
 
                 <div class="col-md-2">
                     <label for="id_valor" class="form-label">Valor:</label>
-                    <h6 class="text-muted">R$ {{diaria.valor}}</h6>
+                    <h6 class="text-muted">R$ {{diaria.valor|intcomma}}</h6>
                 </div>
                 <div class="col-md-2">
-                    <label for="id_total" class="form-label">Subtotal:</label>
-                    <h6 class="text-muted">R$ {{diaria.total}}</h6>
+                    <label for="id_total" class="form-label">Total:</label>
+                    <h6 class="text-muted">R$ {{diaria.total|intcomma}}</h6>
                 </div>
             </div>
             <div class="row mt-2">
                 <div class="col-md-6">
-                    <label for="id_descricao" class="form-label">Descrição da Diária:</label>
+                    <label for="id_descricao" class="form-label">Descrição da
+                        Diária:</label>
                     <h6 class="text-muted">{{diaria.descricao|upper}}</h6>
                 </div>
                 <div class="col-md-6">
@@ -111,149 +121,153 @@
 
             <div class="row ">
                 <div class="col-md-6">
-                    <label for="id_viagem_orig" class="form-label">Origem da Viagem:</label>
+                    <label for="id_viagem_orig" class="form-label">Origem da
+                        Viagem:</label>
                     <h6 class="text-muted">{{diaria.viagem_orig|upper}}</h6>
                 </div>
                 <div class="col-md-6">
-                    <label for="id_viagem_dest" class="form-label">Destino da Viagem:</label>
+                    <label for="id_viagem_dest" class="form-label">Destino da
+                        Viagem:</label>
                     <h6 class="text-muted"> {{diaria.viagem_dest|upper}}</h6>
                 </div>
             </div>
-   
-    </fieldset>
-   
-      <div class="row">
-        <hr>
+
+        </fieldset>
+
+        <div class="row">
+            <hr>
             <div class="col-md-7">
-                <label for="id_descricao_reembolso" class="form-label"><h6><b>Descrição do Reembolso:</b></h6></label>
+                <label for="id_descricao_reembolso"
+                    class="form-label"><h6><b>Descrição do
+                            Reembolso:</b></h6></label>
                 {%if diaria.descricao_reembolso%}
-                    
-                    <h6 class="text-muted"> {{diaria.descricao_reembolso|upper}}</h6>
-                       
+
+                <h6 class="text-muted">
+                    {{diaria.descricao_reembolso|upper}}</h6>
+
                 {%else%}
-                 <h6 class="text-muted">-</h6>
+                <h6 class="text-muted">-</h6>
                 {%endif%}
             </div>
             <div class="col-md-5">
-            {% if user|has_role:'secretario' %}
+                {% if user|has_role:'secretario' %}
 
-                <form action="{% url 'despesas:status-diaria'  diaria.id %}" method="POST">
+                <form action="{% url 'despesas:status-diaria'  diaria.id %}"
+                    method="POST">
                     {% csrf_token %}
                     <div class="row">
-                        <div class="col-md-4">{{form.status  |as_crispy_field }}
+                        <div class="col-md-4">{{form.status |as_crispy_field }}
                         </div>
-                    
-                        <div class="col-md-4 mt-4"> <button type="submit" class="btn btn-primary">Salvar</button>
+
+                        <div class="col-md-4 mt-4"> <button type="submit"
+                                class="btn btn-primary">Salvar</button>
                         </div>
                     </div>
-                
+
                 </form>
             </div>
             {%endif%}
-        
-        <div class="row">
-        <div class="col-md-12 mb-5">
-            <a href="{% url 'despesas:list-diaria' %}" class="btn btn-outline-primary mr-2">Voltar</a>
-                           
-        </div>
-      </div>
-    {% if reembolsos %}
-    <div class="row mb-3">
 
-        <div class="col-md-12">
-            <div class="text-right">
-                <a href="{% url 'despesas:edit-reembolso' diaria.id %}" class="btn btn-primary"><b>Editar
-                        Reembolso</b>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="text-primary"> <strong>Detalhe do Reembolso</strong> </h4>
+            <div class="row">
+                <div class="col-md-12 mb-5">
+                    <a href="{% url 'despesas:list-diaria' %}"
+                        class="btn btn-outline-primary mr-2">Voltar</a>
+
                 </div>
-                <div class="table-responsive-md">
-                    <div class="card-body">
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
+            </div>
+            {% if reembolsos %}
+            <div class="row mb-3">
 
-                                    <th class="text-center">Descricao</th>
-                                    <th class="text-center">Valor</th>
-                                    <th class="text-center">Observação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for r in reembolsos%}
-                                <div class="table-responsive-md">
+                <div class="col-md-12">
+                    <div class="text-right">
+                        <a href="{% url 'despesas:edit-reembolso' diaria.id %}"
+                            class="btn btn-primary"><b>Editar
+                                Reembolso</b>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="text-primary"> <strong>Detalhe do
+                                    Reembolso</strong> </h4>
+                        </div>
+                        <div class="table-responsive-md">
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
 
-                                    <tr>
-                                        {% if r.descricao %}
-                                                <td>{{r.get_descricao_display}}</td>
+                                            <th
+                                                class="text-center">Descricao</th>
+                                            <th class="text-center">Valor</th>
+                                            <th
+                                                class="text-center">Observação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for r in reembolsos%}
+                                        <div class="table-responsive-md">
+
+                                            <tr>
+                                                {% if r.descricao %}
+                                                <td class="text-center">{{r.descricao}}</td>
                                                 {% else %}
                                                 <td class="text-center">
                                                     -
 
                                                 </td>
-                                                 {%endif%}
-                                                 {%if r.valor_desp%}
+                                                {%endif%}
+                                                {%if r.valor_desp%}
 
-                                                    <td class="text-center">{{r.valor_desp}}</td>
-                                                 {%else%}
-                                                 <td class="text-center">-</td>
-                                                 {%endif%}
+                                                <td
+                                                    class="text-center">R$ {{r.valor_desp|intcomma}}</td>
+                                                {%else%}
+                                                <td class="text-center">-</td>
+                                                {%endif%}
 
-                                        {% if r.obs %}
-                                        <td class="text-center">
-                                            {{r.obs}}   
-                                        </td>
-                                        {%else %}
-                                        <td class="text-center">
-                                            -
+                                                {% if r.obs %}
+                                                <td class="text-center">
+                                                    {{r.obs}}
+                                                </td>
+                                                {%else %}
+                                                <td class="text-center">
+                                                    -
 
-                                        </td>
-                                        {%endif%}
-                                        
+                                                </td>
+                                                {%endif%}
 
+                                            </tr>
 
+                                            {%endfor%}
 
-                                    </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td class="text-end"><b>
+                                                        <h6>Total:</h6>
+                                                    </b> </td>
 
+                                                <td class="text-center"><b>
+                                                        <h6>R$ {{diaria.total_desp|intcomma}}</h6>
+                                                    </b> </td>
 
+                                            </tr>
 
-                                    {%endfor%}
+                                        </tfoot>
+                                    </table>
 
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td class="text-end"><b>
-                                            <h6>Total:</h6>
-                                        </b> </td>
-                                 
-                                    <td class="text-center"><b>
-                                            <h6>R$ {{ diaria.total_desp}}</h6>
-                                        </b> </td>
-
-                                     
-                                </tr>
-                                
-
-
-                            </tfoot>
-                        </table>
-
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
+            {% endif %}
         </div>
     </div>
-
-  
-    {% endif %}
-    
-    
 </div>
-
 {% endblock %}

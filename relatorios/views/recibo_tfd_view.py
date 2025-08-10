@@ -50,7 +50,7 @@ def relatorio_recibo_tfd(request):
     context={}
     
     recibos_tfds=ReciboTFD.objects.select_related('paciente','especialidade','acompanhante').all().order_by('-created_at')
-    paginator = Paginator(recibos_tfds,10)  
+    paginator = Paginator(recibos_tfds,9)  
     page_number = request.GET.get("page")
     recibos_tfds= paginator.get_page(page_number)
   
