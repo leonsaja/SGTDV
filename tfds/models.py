@@ -72,7 +72,6 @@ class ReciboTFD(models.Model):
 
     # Sobrescreva o método save() para atualizar o campo total_gasto automaticamente
    def save(self, *args, **kwargs):
-        self.total_gasto = self.calcular_total_gasto()
         super().save(*args, **kwargs)
    def total_pag(self):
         return self.total_gasto

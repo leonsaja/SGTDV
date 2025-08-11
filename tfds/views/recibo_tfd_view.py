@@ -16,27 +16,38 @@ from weasyprint import HTML
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
 
-
 @has_role_decorator(['regulacao'])
 def reciboTFD_create(request):
-    tfd=ReciboTFD()
-    if request.method == 'POST':
+    tfd = ReciboTFD()
 
-        form = ReciboTFDForm(request.POST,instance=tfd,prefix='recibo' )
-        formset=ProcedimentoSet(request.POST,instance=tfd,prefix='procedimento')
+    if request.method == 'POST':
+        form = ReciboTFDForm(request.POST, instance=tfd, prefix='recibo')
+        formset = ProcedimentoSet(request.POST, instance=tfd, prefix='procedimento')
+
         if form.is_valid() and formset.is_valid():
-            form=form.save(commit=False)
-            form.criado_por=request.user.nome_completo
-            form.save()
+            # 1. Salva a instância principal do ReciboTFD (o "recibo pai")
+            #    Ela agora tem um ID
+            recibo_instance = form.save(commit=False)
+            recibo_instance.criado_por = request.user.nome_completo
+            recibo_instance.save()
+
+            # 2. Salva o formset, associando os procedimentos ao recibo
+            formset.instance = recibo_instance
             formset.save()
-            messages.add_message(request,constants.SUCCESS,'Cadastro realizado com sucesso')
+
+            # 3. Recalcula o total agora que os procedimentos já foram salvos
+            recibo_instance.total_gasto = recibo_instance.calcular_total_gasto()
+            recibo_instance.save(update_fields=['total_gasto'])
+
+            messages.add_message(request, constants.SUCCESS, 'Cadastro realizado com sucesso')
             return redirect('tfds:list-recibo_tfd')
 
-    form = ReciboTFDForm(request.POST or None,instance=tfd,prefix='recibo')
-    formset=ProcedimentoSet(request.POST or None,instance=tfd,prefix='procedimento')
-    
-    return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset})
+    # GET request or form is invalid
+    else:
+        form = ReciboTFDForm(instance=tfd, prefix='recibo')
+        formset = ProcedimentoSet(instance=tfd, prefix='procedimento')
 
+    return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form, 'formset': formset})
 @has_role_decorator(['regulacao'])  
 def reciboTFD_update(request,id):
     recibo_tfd=get_object_or_404(ReciboTFD, pk=id)
@@ -44,18 +55,30 @@ def reciboTFD_update(request,id):
     if request.method =='POST':
         form=ReciboTFDForm(request.POST, instance=recibo_tfd,prefix='recibo')
         formset=ProcedimentoSet(request.POST, instance=recibo_tfd,prefix='procedimento')
+        
         if form.is_valid() and formset.is_valid():
-           form=form.save(commit=False)
-           form.criado_por=request.user.nome_completo
-           form.save()
-           formset.save()
-           messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
-           return redirect('tfds:list-recibo_tfd')
-        print('POST')    
-    form=ReciboTFDForm(request.POST or None, instance=recibo_tfd,prefix='recibo')
-    formset=ProcedimentoSet(request.POST or None, instance=recibo_tfd,prefix='procedimento')
-    return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset,'recibo_tfd':recibo_tfd})
+            # 1. Salva a instância principal do ReciboTFD, mas sem enviar ao banco ainda.
+            recibo_instance = form.save(commit=False)
+            recibo_instance.criado_por = request.user.nome_completo
+            
+            # 2. Salva o ReciboTFD no banco de dados.
+            recibo_instance.save()
+            
+            # 3. Salva o formset. Isso adiciona/atualiza/deleta os ProcedimentoSia.
+            formset.save()
+            
+            # 4. **Recalcula o total gasto.**
+            #    Agora que o formset já foi salvo, o método calcular_total_gasto()
+            #    encontrará os dados corretos no banco.
+            recibo_instance.total_gasto = recibo_instance.calcular_total_gasto()
+            recibo_instance.save(update_fields=['total_gasto']) # Salva apenas o campo atualizado
 
+            messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
+            return redirect('tfds:list-recibo_tfd')
+        
+    form=ReciboTFDForm(instance=recibo_tfd,prefix='recibo')
+    formset=ProcedimentoSet(instance=recibo_tfd,prefix='procedimento')
+    return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset,'recibo_tfd':recibo_tfd})
 @has_role_decorator(['secretario'])  
 def reciboStatusUpdate(request,id):
     recibo_tfd=get_object_or_404(ReciboTFD, pk=id)
