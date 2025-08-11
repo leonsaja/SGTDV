@@ -13,6 +13,7 @@ build/
 develop-eggs/
 #dist/
 downloads/
+bd_08_08.json
 eggs/
 .eggs/
 lib/
