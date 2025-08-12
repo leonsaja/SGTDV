@@ -1,5 +1,7 @@
 {% extends 'relatorio.html' %}
 {% load static %}
+   {% load humanize %}
+
 {% block title %}Relatorio{% endblock %}
 
 {% block head%} 
@@ -71,7 +73,7 @@
       
         <p class="m-1">
           {%if total_recibo%}
-          <b>Valor Total:  </b>R$ {{total_recibo}}
+          <b>Valor Total:  </b>R$ {{total_recibo|intcomma}}
           {%else%}
             <b>Valor Total:  </b> R$ 0,00
           {%endif%}
@@ -106,7 +108,7 @@
           {%else%}
             <td>-</td>
           {%endif%}
-          <td>R$ {{r.valor_total_passagem}}</td>
+          <td>R$ {{r.valor_total_passagem|intcomma}}</td>
          
         
         </tr>

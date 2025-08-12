@@ -54,7 +54,6 @@ class ReciboPassagemListView(HasRoleMixin,ListView):
     context_object_name='recibos'
     ordering='-created_at'
     paginate_by=10
-    queryset=ReciboPassagemTFD.objects.select_related('paciente').all()
     allowed_roles=['coordenador','regulacao','secretario']
    
 class ReciboPassagemSearchListView(HasRoleMixin,ListView):
@@ -75,10 +74,10 @@ class ReciboPassagemSearchListView(HasRoleMixin,ListView):
         
         if search_nome_cpf:
             qs=qs.select_related('paciente').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)|\
-                Q(paciente__cpf__icontains=search_nome_cpf))
+                Q(paciente__cpf__icontains=search_nome_cpf)).order_by('paciente__nome_completo')
         
         if search_data_recibo:     
-             qs=qs.select_related('paciente').filter(data_recibo__iexact=search_data_recibo)
+             qs=qs.select_related('paciente').filter(data_recibo__iexact=search_data_recibo).order_by('paciente__nome_completo')
         
         return qs
         

@@ -103,7 +103,8 @@
                                     <th>ID</th>
                                     <th>Paciente</th>
                                     <th>Data de Atendimento</th>
-                                    <th>status</th>
+                                    <td>Destino</td>
+                                    <td>KM</td>
                                     <th>Placa do Carro</th>
                                     <th>Ação</th>
                                 </tr>
@@ -114,7 +115,9 @@
                                     <th>{{transporte.id}}</th>
                                     <td>{{transporte.paciente.nome_completo}}</td>
                                     <td>{{transporte.dt_atendimento|date:"d/m/Y"|default:'---'}}</td>
-                                    <td>{{transporte.get_status_display }}</td>
+                                    
+                                    <td>{{transporte.destino}}</td>
+                                     <td>{{transporte.dist_percorrida}}</td>
                                     <td>{{transporte.carro.placa}}</td>
 
 

@@ -218,6 +218,9 @@ class ReciboPassagemTFD(models.Model):
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
 
+   class Meta:
+        ordering = ["paciente__nome_completo"]
+
    def __str__(self):
       return f'{self.paciente.nome_completo}'
    
@@ -244,3 +247,5 @@ class ReciboPassagemTFD(models.Model):
       if self.tem_acompanhante=='1':
          return (self.quant_passagem_paciente*self.valor_paciente_sia)+(self.valor_acompanhante_sia*self.quant_passagem_acompanhante)
       return self.quant_passagem_paciente*self.valor_paciente_sia
+   
+   

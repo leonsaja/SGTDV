@@ -68,7 +68,7 @@ class ViagemListView(HasRoleMixin,ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs =super(ViagemListView,self).get_queryset(*args, **kwargs)
-        qs=qs.select_related('carro','motorista').order_by('-data_viagem')
+        qs=qs.select_related('carro','motorista').filter(status='1').order_by('-data_viagem')
         return qs
     
 class ViagemSearchListView(HasRoleMixin,ListView):
@@ -82,17 +82,17 @@ class ViagemSearchListView(HasRoleMixin,ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(ViagemSearchListView,self).get_queryset(*args, **kwargs)
-        qs=qs.select_related('motorista','carro').filter(status='1')
+        qs=qs.select_related('motorista','carro').all()
 
         destino_viagem=self.request.GET.get('destino_viagem',None)
         placa_carro=self.request.GET.get('placa_carro',None)
         data=self.request.GET.get('data',None)
         status=self.request.GET.get('status',None)
-        print('1',status)
+        
+
         if destino_viagem:
             qs=qs.filter(destino_viagem__icontains=destino_viagem).order_by('-data_viagem')
         if placa_carro:
-            print("placa_carro",placa_carro)
             qs=qs.filter(carro__placa__icontains=placa_carro).order_by('-data_viagem')       
         if data :
              qs=qs.filter(data_viagem__iexact=data).order_by('-data_viagem')

@@ -58,3 +58,6 @@ class Profissional(models.Model):
  
     def acs(self):    
         return self.nome_completo.split()[0]
+
+    class Meta:
+        ordering = ["nome_completo"]

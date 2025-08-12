@@ -1,7 +1,6 @@
 
 from django.db.models import ProtectedError, Q
 from django.urls import reverse_lazy
-
 from django.contrib.messages import constants
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
@@ -59,15 +58,17 @@ class ProfissionalSearchListView(HasRoleMixin,ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(ProfissionalSearchListView,self).get_queryset(*args, **kwargs)
-        
-        search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
+        qs.select_related('estabelecimento').all()
+        search_nome_cpf=self.request.GET.get('search_nome_cpf', '').strip()
         search_dt_nascimento=self.request.GET.get('search_dt_nascimento',None)
         
         if search_nome_cpf:
-            qs=qs.select_related('estabelecimento').filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))
+            qs=qs.filter(Q(nome_completo__icontains=search_nome_cpf)| Q(cpf__icontains=search_nome_cpf))
           
         if search_dt_nascimento:
              qs=qs.select_related('estabelecimento').filter(dt_nascimento__iexact=search_dt_nascimento)
+        
+        qs=qs.order_by('nome_completo')
         
         return qs
 

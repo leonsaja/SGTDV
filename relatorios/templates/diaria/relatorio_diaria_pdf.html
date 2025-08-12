@@ -1,6 +1,7 @@
 {% extends 'relatorio.html' %}
 {% load static %}
 {% block title %}Relatorio{% endblock %}
+   {% load humanize %}
 
 {% block head%}
 <style>
@@ -69,10 +70,10 @@
   </p>
 </div>
   <div class="col-md-12 pt-1">
-    <p class="p-1"><b>Total de Diárias:  </b>R$ {{total_diarias}}</p>
+    <p class="p-1"><b>Total de Diárias:  </b>R$ {{total_diarias|intcomma}}</p>
   </div>
  <div class="col-md-12 pt-1">
-    <p class="p-1"><b>Total de Reembolsos:  </b>R$ {{total_reembolsos}}</p>
+    <p class="p-1"><b>Total de Reembolsos:  </b>R$ {{total_reembolsos|intcomma}}</p>
   </div>
  
 </div>
