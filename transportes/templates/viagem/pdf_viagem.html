@@ -125,46 +125,33 @@
         <th>TELEFONE</th>
       </tr>
     </thead>
-    <tbody>
-      {% for p in viagem.passageiros_viagens.all %}
+         
+<tbody>
+    {% for p in viagem.passageiros_viagens.all %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ p.paciente.nome_completo|upper }}</td>
+        <td>{% if p.acompanhante %}{{ p.acompanhante }}{% else %}-{% endif %}</td>
+        <td>{% if p.local_exame %}{{ p.local_exame }}{% else %}-{% endif %}</td>
+        <td>{% if p.local_espera %}{{ p.local_espera }}{% else %}-{% endif %}</td>
+        <td></td>
+    </tr>
+    {% endfor %}
 
-      <tr>
-        <td>{{ forloop.counter }} </td>
-        <td>{{p.paciente.nome_completo|upper}}</td>
+    {% for i in capacidade %}
+        {% if forloop.counter > total %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td></td> 
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {% endif %}
+    {% endfor %}
+</tbody>
 
-        {% if p.acompanhante %}
-        <td>{{p.acompanhante}}</td>
-        {% else %}
-        <td>-</td>
-        {%endif%}
-
-        {% if p.local_exame %}
-        <td>
-          {{p.local_exame}}
-        </td>
-        {% else %}
-        <td>-</td>
-        {%endif%}
-
-        {% if p.local_espera %}
-        <td>{{p.local_espera}}</td>
-
-        {%else%}
-        <td>-</td>
-        {%endif%}
-
-        {% if p.paciente.telefone1 %}
-        <td>
-          {{ p.paciente.telefone1}}
-        </td>
-        {%else%}
-        <td>-</td>
-        {%endif%}
-
-      </tr>
-
-      {%endfor%}
-    </tbody>
 
   </table>
   <div class="row">
@@ -216,45 +203,32 @@
       </tr>
     </thead>
     <tbody>
-      {% for p in viagem.passageiros_viagens.all %}
+      
+<tbody>
+    {% for p in viagem.passageiros_viagens.all %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ p.paciente.nome_completo|upper }}</td>
+        <td>{% if p.acompanhante %}{{ p.acompanhante }}{% else %}-{% endif %}</td>
+        <td>{% if p.local_exame %}{{ p.local_exame }}{% else %}-{% endif %}</td>
+        <td>{% if p.local_espera %}{{ p.local_espera }}{% else %}-{% endif %}</td>
+        <td></td>
+    </tr>
+    {% endfor %}
 
-      <tr>
-        <td>{{ forloop.counter }} </td>
-        <td>{{p.paciente.nome_completo|upper}}</td>
-
-        {% if p.acompanhante %}
-        <td>{{p.acompanhante}}</td>
-        {% else %}
-        <td>-</td>
-        {%endif%}
-
-        {% if p.local_exame %}
-        <td>
-          {{p.local_exame}}
-        </td>
-        {% else %}
-        <td>-</td>
-        {%endif%}
-
-        {% if p.local_espera %}
-        <td>{{p.local_espera}}</td>
-
-        {%else%}
-        <td>-</td>
-        {%endif%}
-
-        {% if p.paciente.telefone1 %}
-        <td>
-          {{ p.paciente.telefone1}}
-        </td>
-        {%else%}
-        <td>-</td>
-        {%endif%}
-
-      </tr>
-
-      {%endfor%}
-    </tbody>
+    {% for i in capacidade %}
+        {% if forloop.counter > total %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td></td> 
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {% endif %}
+    {% endfor %}
+</tbody>
 
   </table>
     <div class="row">

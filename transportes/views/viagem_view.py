@@ -82,17 +82,22 @@ class ViagemSearchListView(HasRoleMixin,ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(ViagemSearchListView,self).get_queryset(*args, **kwargs)
-        
+        qs=qs.select_related('motorista','carro').filter(status='1')
+
         destino_viagem=self.request.GET.get('destino_viagem',None)
         placa_carro=self.request.GET.get('placa_carro',None)
         data=self.request.GET.get('data',None)
-
+        status=self.request.GET.get('status',None)
+        print('1',status)
         if destino_viagem:
-            qs=qs.select_related('motorista','carro').filter(destino_viagem__icontains=destino_viagem).order_by('-data_viagem')
+            qs=qs.filter(destino_viagem__icontains=destino_viagem).order_by('-data_viagem')
         if placa_carro:
-            qs=qs.select_related('motorista','carro').filter(carro__placa__iexact=placa_carro).order_by('-data_viagem')       
+            print("placa_carro",placa_carro)
+            qs=qs.filter(carro__placa__icontains=placa_carro).order_by('-data_viagem')       
         if data :
-             qs=qs.select_related('motorista','carro').filter(data_viagem__iexact=data).order_by('-data_viagem')
+             qs=qs.filter(data_viagem__iexact=data).order_by('-data_viagem')
+        if status:
+            qs=qs.filter(status=status).order_by('-data_viagem')
         return qs
     
 class DetailViagemView(HasRoleMixin,SuccessMessageMixin,DetailView):
@@ -143,6 +148,8 @@ def viagemPdf(request,id):
     context['viagem']=viagem
     context['total']=total
     context['micro_onibus']=micro_onibus
+    capacidade=range(capacidade)
+    context['capacidade']=capacidade
     response = HttpResponse(content_type='application/pdf')
     
     html_string = render_to_string('viagem/pdf_viagem.html',context)

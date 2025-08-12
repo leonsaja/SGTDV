@@ -8,7 +8,9 @@ class Viagem(models.Model):
 
    STATUS_VIAGEM=(
        ('1','AGUARDANDO'),
-       ('2','CONCLUÍDO'),)
+       ('2','CONCLUÍDO'),
+       ('3','CANCELADO'),
+       )
     
 
    data_viagem=models.DateField(verbose_name='Data da Viagem', null=False,blank=False)

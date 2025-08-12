@@ -63,6 +63,15 @@
                                 value="{{request.GET.placa_carro}}">
 
                         </div>
+                        <div class="col-md-4 mt-2">
+                            <label for="id_status">Status:</label>
+                            <select class="form-select" id="id_status" name="status">
+                                <option value="" {% if request.GET.status == '0' %}selected{% endif %}>Selecione uma opção</option>
+                                <option value="1" {% if request.GET.status == '1' %}selected{% endif %}>Aguardando</option>
+                                <option value="2" {% if request.GET.status == '2' %}selected{% endif %}>Concluido</option>
+                                <option value="3" {% if request.GET.status == '3' %}selected{% endif %}>Cancelado</option>
+                            </select>
+                    </div>
 
                     </div>
                     <div class="row">
@@ -151,7 +160,7 @@
                             </tbody>
                         </table>
                         <br>
-                        {% include 'viagem/paginacao_viagem.html'%}
+                        {% include 'includes/paginacao.html'%}
                     </div>
                 </div>
             </div>
@@ -167,12 +176,14 @@
 {% endblock content %} {% block scripts %}
 <script>
     $('#validar-form').submit(function () {
-        let destino_viagem = $('#destino_viagem')
-        let data = $('#data')
-        let placa_carro = $('#placa_carro')
+        let buscar = $('#buscar')
+        let data = $('#id_data')
+        let status= $('#id_status')
+
         let erro = $('.alert')
 
-        if (destino_viagem.val() == '' && data.val() == '' && placa_carro.val() == '') {
+       
+        if (buscar.val() == '' && data.val() == '' && status.val()=='') {
             erro.removeClass('d-none')
             return false
         }

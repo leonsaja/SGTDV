@@ -31,22 +31,32 @@ class CarroUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
     success_message='Dados atualizado com sucesso'
     allowed_roles=['coordenador','recepcao']
 
-
 class ListCarroView(HasRoleMixin,ListView):
     model=Carro
     template_name='carro/list_carros.html'
     context_object_name='carros'
     ordering='-created_at'
     allowed_roles=['coordenador','secretario','regulacao','recepcao']
+    paginate_by=10  
 
+
+    def get_queryset(self):
+        qs=super(ListCarroView,self).get_queryset()
+        #buscar=self.request.GET.get('buscar',None)
+
+        """if buscar:
+            queryset=qs.filter(nome__icontains=buscar).order_by('-nome')
+            return queryset """
+
+        qs=qs.filter(status='1').order_by('nome')                                          
+        
+        return qs
 
 class DetailCarraView(HasRoleMixin,DetailView):
     model=Carro
     template_name='carro/detail_carro.html'
     context_object_name='carro'
     allowed_roles=['coordenador','secretario','regulacao','recepcao']
-
-
 
 has_role_decorator(['coordenador'])
 def carroDelete(request, id):

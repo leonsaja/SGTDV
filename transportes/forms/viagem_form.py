@@ -2,6 +2,7 @@ from django import forms
 from django.forms import inlineformset_factory
 from django_select2 import forms as s2forms
 from dal import autocomplete
+from django.core.exceptions import ValidationError
 
 from ..models import PassageiroViagem, Viagem
 from profissionais.models import Profissional
@@ -26,12 +27,29 @@ class ViagemForm(forms.ModelForm):
             'carro':s2forms.Select2Widget(),
                 
         }
+
     def clean(self):
+
         cleaned_data = super().clean()
-        carro = cleaned_data.get('carro') # Pega o carro selecionado no formulário da Viagem
+        carro = cleaned_data.get('carro')
+        status=cleaned_data.get('status')
+        motorista=cleaned_data.get('motorista')
         
-        # O formulário dos passageiros ainda não foi validado, mas podemos acessar os dados POST
-        # O Django inlineformset usa a sintaxe 'prefix-index-campo'
+        if status=='1':
+             qs=Viagem.objects.select_related('carro','motorista').filter(carro=carro,status=status)
+             
+             if qs.exists():
+                self.add_error('carro','Existe uma viagem com esse carro com status aguardando, por favor, concluir viagem anterior.')
+        
+             if self.instance.pk:
+                qs = qs.exclude(pk=self.instance.pk)
+
+        
+        """ if status=='2':
+            if not moto_id:
+                self.add_error('motorista','Por favor, preencher  nome do motorista para concluir a viagem.')"""
+        
+        
         formset_prefix = 'passageiro' # Use o prefixo que você definiu
         
         total_passageiros = 0
