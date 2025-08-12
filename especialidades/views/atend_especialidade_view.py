@@ -134,7 +134,7 @@ def load_pacientes_by_especialidade(request):
     if especialidade_id:
         try:
             
-            pacientes_especialidade = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(especialidade_id=especialidade_id,status='1' )
+            pacientes_especialidade = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(especialidade_id=especialidade_id,status='1' ).order_by('paciente__nome_completo')
             
             for pe in pacientes_especialidade:
                 pacientes_data.append({

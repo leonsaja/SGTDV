@@ -32,8 +32,8 @@ class ViagemForm(forms.ModelForm):
 
         cleaned_data = super().clean()
         carro = cleaned_data.get('carro')
-        status=cleaned_data.get('status')
-        motorista=cleaned_data.get('motorista')
+        status = cleaned_data.get('status')
+        motorista = cleaned_data.get('motorista')
         
         if status=='1':
              qs=Viagem.objects.select_related('carro','motorista').filter(carro=carro,status=status)
@@ -43,18 +43,17 @@ class ViagemForm(forms.ModelForm):
         
              if self.instance.pk:
                 qs = qs.exclude(pk=self.instance.pk)
-
         
-        """ if status=='2':
-            if not moto_id:
-                self.add_error('motorista','Por favor, preencher  nome do motorista para concluir a viagem.')"""
+        if status == '2' and not motorista:
+            self.add_error('motorista', "O campo 'motorista' é obrigatório para viagens concluídas.")
+        
+       
         
         
         formset_prefix = 'passageiro' # Use o prefixo que você definiu
         
         total_passageiros = 0
         
-        # Pega a quantidade de formulários no formset
         try:
             total_forms_key = f'{formset_prefix}-TOTAL_FORMS'
             num_forms = int(self.data[total_forms_key])
@@ -69,7 +68,6 @@ class ViagemForm(forms.ModelForm):
             acompanhante = self.data.get(acompanhante_key)
             delete = self.data.get(f'{formset_prefix}-{i}-DELETE')
 
-            # Conta passageiros e acompanhantes, mas ignora formulários que serão excluídos
             if delete == 'on':
                 continue
 
