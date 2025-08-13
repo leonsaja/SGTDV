@@ -46,9 +46,16 @@ class ReciboTFDForm(forms.ModelForm):
 
     def clean_data(self):
         data=self.cleaned_data.get('data')
-        
+        hoje=date.today()
+        limite_minimo=hoje-timedelta(days=7)
         if data > date.today():
             raise ValidationError(f'Data não pode ser futura.')
+        print("limite_minimo",limite_minimo)
+        if data < limite_minimo:
+                self.add_error(
+                    'data', 
+                    f"A data do recibo não pode ser anterior a {limite_minimo.strftime('%d/%m/%Y')} (7 dias atrás)."
+                )
         
         return data
     def clean_cns(self):
@@ -78,10 +85,14 @@ class ReciboTFDForm(forms.ModelForm):
 
         if tem_acompanhante == '1':
             acompanhante=cleaned_data.get('acompanhante')
-        
             
             if not acompanhante:
                  self.add_error('acompanhante', 'Este campo é obrigatório.')
+                 
+            if acompanhante and paciente == acompanhante:
+                self.add_error(
+                'acompanhante',"O acompanhante não pode ser a mesma pessoa que o paciente."
+                )
 
         if  tem_acompanhante =='2':
             acompanhante=''
@@ -110,6 +121,9 @@ class ReciboTFDForm(forms.ModelForm):
    
             if not valor_passagem:
                 self.add_error('valor_passagem', 'Este campo é obrigatório.')
+         
+         
+      
                 
 
     def __init__(self, *args, **kwargs):
