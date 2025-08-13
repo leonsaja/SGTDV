@@ -122,9 +122,6 @@ class PacienteSia(models.Model):
     hora=models.TimeField(verbose_name='Horário',null=True,blank=True)
 
     class Meta:
-        """# AQUI ESTÁ A VALIDAÇÃO:
-        # Garante que a combinação de atendimento_paciente e paciente seja única.
-        unique_together = ('atendimento_paciente', 'paciente',)"""
         ordering = ["-paciente"]
         
     def __str__(self):

@@ -4,7 +4,6 @@
 {% load humanize %}
 {% block head%}
 <style>
-    
     body {
 
         font-size: 14px;
@@ -55,27 +54,35 @@
                     &nbsp; &nbsp;
                 </p>
 
-                <p class="p-1"><b>CPF:
-                    </b>&nbsp{{recibo_tfd.paciente.formt_cpf|upper}}
-                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-                     <b>CNS: </b>{{recibo_tfd.paciente.form_cns|upper}}
+                <p class="p-1"><b>CPF:</b>
+                    {%if recibo_tfd.paciente.cpf %}
+                    &nbsp;{{recibo_tfd.paciente.formt_cpf|upper}}
+                    &nbsp; &nbsp;&nbsp;
+                    {%else%}
+                    -
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                    &nbsp;
+
+                    {%endif%}
+                    <b>CNS: </b>{{recibo_tfd.paciente.form_cns|upper}}
+                    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
                     {% if recibo_tfd.paciente.rg %}
                     <b>RG: </b>{{recibo_tfd.paciente.rg|upper}}
                     {%else%}
                     <b>RG: </b> &nbsp; &nbsp;-
                     {%endif%}
                     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-                   
+
                 </p>
             </div>
-        </div>
         <div class="linha"></div>
         <div class="row">
             <div class="col-md-6 m-2 ">
                 {%if recibo_tfd.acompanhante%}
-                <p class="p-1"><b>NOME DO ACOMPANHANTE:    </b>
-                      &nbsp;{{recibo_tfd.acompanhante.nome_completo|upper}}
+                <p class="p-1"> <b>ACOMPANHANTE:</b>
+                    &nbsp;{{recibo_tfd.acompanhante.nome_completo|upper}}
                     &nbsp; &nbsp;&nbsp;&nbsp;
                 </p>
                 {% else %}
@@ -88,206 +95,201 @@
 
                 {% if recibo_tfd.acompanhante.cpf %}
                 <p class="p-1"><b>CPF:
-                    </b>{{recibo_tfd.acompanhante.formt_cpf}} &nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;
+                    </b>{{recibo_tfd.acompanhante.formt_cpf}}
+
                     {% else %}
-                    <p class="p-1">
-                        <b>CPF: </b>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
-                        &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
-                        &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
-                        {% endif %}
-                        {% if recibo_tfd.acompanhante.cns %}
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>CNS:
-                        </b>{{recibo_tfd.acompanhante.form_cns|upper}}
+                <p class="p-1">
+                    <b>CPF: </b>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
+                    &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+                    &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
 
-                         &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
-                        {% if recibo_tfd.acompanhante.rg %}
-                        <b>RG:
-                        </b>
-                        {{recibo_tfd.acompanhante.rg}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-                        {%else %}
-                        <b>RG: &nbsp; &nbsp; - </b> &nbsp; &nbsp; &nbsp;&nbsp;
-                        {%endif%}
-                        
-                    </p>
-                        {% else %}
+                    {% endif %}
+                    {% if recibo_tfd.acompanhante.cns %}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>CNS:
+                    </b>{{recibo_tfd.acompanhante.form_cns|upper}}
+                    &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                    {% else %}
 
-                    &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                    &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+
+                    <b>CNS: </b>&nbsp; -&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp;&nbsp;
                     &nbsp;&nbsp;
-
-                    <b>CNS:</b>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
-                    &nbsp;&nbsp;
-
-                    -</p>
-                {% endif %}
-            </div>
-        </div>
-        <div class="linha"></div>
-        <div class="row">
-            <div class="col-md-6 m-2">
-                <p><b>DADOS BANCÁRIO:</b>
-                    <br>
-
-                    {%if recibo_tfd.pagamento_por == '1'%}
-                    <b> PIX:</b> {{recibo_tfd.pix}}
-                    {%else%}
-                    <b> AGÊNCIA:</b> {{recibo_tfd.agencia}} &nbsp;&nbsp;&nbsp;
-                    <b>CONTA:</b> {{recibo_tfd.conta}}
-                    {%endif%}</p>
-
-            </div>
-        </div>
-        <div class="linha"></div>
-        <div class="row">
-            <div class="col-md-6 m-2">
-                <p>
-                    <b>MUNICÍPIO DE ORIGEM :</b>
-                    {{recibo_tfd.municipio_origem|upper}}
-                </p>
-                <p class>
-                    <b>GRS : </b>{{recibo_tfd.grs|upper}}
-                </p>
-            </div>
-        </div>
-        <div class="linha"></div>
-        <div class="row">
-
-            <div class="col-md-6 m-2">
-                <p>
-                    <b>MUNICÍPIO DE DESTINO :</b>
-                    {{recibo_tfd.municipio_destino|upper}}
-                </p>
-            </div>
-        </div>
-
-        <div class="linha"></div>
-
-        <div class="row">
-            <div class="col-md-6 m-2">
-                <p>
-                    <b>ESPECIALIDADE:</b>
-
-                    {{recibo_tfd.especialidade|upper}}
-                </p>
-            </div>
-
-        </div>
-        <div class="linha"></div>
-        <div class="row">
-            <div class="col-md-6 m-2">
-                <p>
-
-                    <b>UNIDADE ASSISTENCIAL:</b>
-
-                    {%if recibo_tfd.unid_assistencial %}
-                    {{recibo_tfd.unid_assistencial|upper}}
-                    {%else%}
-                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;------
+                    {% endif %}
+                    {% if recibo_tfd.acompanhante.rg %}
+                    <b>RG:</b>
+                    {{recibo_tfd.acompanhante.rg}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    {%else %}
+                    <b>RG: &nbsp; - </b> &nbsp; &nbsp; &nbsp;&nbsp;
                     {%endif%}
-                </div>
+
+                </p>
 
             </div>
-
-            <div class="linha"></div>
         </div>
-        <h3 class="text-center pt-3"><b>TABELA DE PROCEDIMENTOS</b></h3>
-        <table class="table mt-3">
-
-            <thead>
-                <tr>
-                    <th class="title_center">ITENS</th>
-                    <th>CÓDIGO</th>
-                    <th>QUANT.</th>
-                    <th class="text-center">VLR UNIT. T.SIGTAP</th>
-                    <th class="text-center">VLR TOTAL T.SIGTAP</th>
-                    <th class="text-center">VLR COMP. MUNICIPAL</th>
-                    <th class="text-center">TOTAL</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for p in procedimentos %}
-                <tr>
-
-                    <td class="title_center ">{{ forloop.counter }} </td>
-
-                    <td>{{p.codigosia.codigo}}</td>
-                    <td>{{p.qtd_procedimento}}</td>
-                    <td>R$ {{p.valor_unid_sigtap|intcomma}}</td>
-                    <td>R$ {{p.valor_total_sigtap|intcomma}}</td>
-                    <td>R$ {{p.valor_comp_mun|intcomma}}</td>
-                    <td>R$ {{p.soma|intcomma}}</td>
-
-                </tr>
-
-                {%endfor%}
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="5" style="text-align: end;"><b>
-
-                        </b> </td>
-
-                    <td colspan="2"
-                        style="text-align: end; font-size: 15px;"><b>
-                            TOTAL:&nbsp;&nbsp; R$ {{recibo_tfd.total_pag|intcomma}}
-                        </b> </td>
-                </tr>
-            </tfoot>
-        </table>
-
-        <div class="bordas pb-1">
-            <p class="text-center pt-2 "><b> APROVAÇÃO DA DESPESA</b></p>
-            <p class="m-0 p-2"><b>DATA:
-                </b>{{recibo_tfd.data|date:"d/m/Y"|default:'---'}}</p>
-            <p
-                class=" text-center m-0 ">______________________________________</p>
-            {%if recibo_tfd.status == '2'%}
-            <p class="text-center p-1"><b>STATUS:</b>
-                {{recibo_tfd.get_status_display}}
-                {%elif recibo_tfd.status == '3' %}
-                <p class><b>STATUS:</b> {{recibo_tfd.get_status_display}}
-                    {%endif%}
-                    {%if recibo_tfd.aprovado_por %}
-                    <p class="text-center"><b>{{recibo_tfd.aprovado_por|upper}}
-                            <br>
-                            SECRETÁRIO MUNICIPAL DE SAÚDE
-                        </b> </p>
-                    {%else%}
-                    <p class=" text-center">{{profissional.nome_completo|upper}}
-                        <br>
-                        <b>
-                            SECRETÁRIO MUNICIPAL DE SAÚDE
-                        </b>
-
-                    </p>
-                    {%endif%}
-                </p>
-            </div>
-
-            <div class="bordas">
-                <p class="text-center pt-2"><b> COMPROVANTE DE
-                        RECEBIMENTO</b></p>
-                <p class="paragrafo">
-
-                    Recebi o valor de <b>R$ {{recibo_tfd.total_pag}}</b> da
-                    importância acima a título de TFD.
-                </p>
-                <p class="m-0 p-2"><b>DATA:</b>
-                    ____/___/____</p>
-                <p
-                    class="text-center">______________________________________</p>
-                <p
-                    class=" text-center pb-2"><b>{{recibo_tfd.paciente.nome_completo|upper}}</b></p>
-            </div>
-
-            <div class="pt-2">
-
-                <p> Realizado por {{recibo_tfd.criado_por}} no dia
-                    {{recibo_tfd.updated_at|date:"d/m/Y"|default:'---'}} às
-                    {{recibo_tfd.created_at|time:"H:i"|default:'---'}} </p>
-            </div>
-      
     </div>
-    {% endblock content%}
+    <div class="linha"></div>
+    <div class="row">
+        <div class="col-md-6 m-2">
+            <p><b>DADOS BANCÁRIO:</b>
+                <br>
+
+                {%if recibo_tfd.pagamento_por == '1'%}
+                <b> PIX:</b> {{recibo_tfd.pix}}
+                {%else%}
+                <b> AGÊNCIA:</b> {{recibo_tfd.agencia}} &nbsp;&nbsp;&nbsp;
+                <b>CONTA:</b> {{recibo_tfd.conta}}
+                {%endif%}
+            </p>
+
+        </div>
+    </div>
+    <div class="linha"></div>
+    <div class="row">
+        <div class="col-md-6 m-2">
+            <p>
+                <b>MUNICÍPIO DE ORIGEM :</b>
+                {{recibo_tfd.municipio_origem|upper}}
+            </p>
+            <p class>
+                <b>GRS : </b>{{recibo_tfd.grs|upper}}
+            </p>
+        </div>
+    </div>
+    <div class="linha"></div>
+    <div class="row">
+
+        <div class="col-md-6 m-2">
+            <p>
+                <b>MUNICÍPIO DE DESTINO :</b>
+                {{recibo_tfd.municipio_destino|upper}}
+            </p>
+        </div>
+    </div>
+    <div class="linha"></div>
+
+    <div class="row">
+        <div class="col-md-6 m-2">
+            <p>
+                <b>ESPECIALIDADE:</b>
+
+                {{recibo_tfd.especialidade|upper}}
+            </p>
+        </div>
+
+    </div>
+    <div class="linha"></div>
+    <div class="row">
+        <div class="col-md-6 m-2">
+            <p>
+
+                <b>UNIDADE ASSISTENCIAL:</b>
+
+                {%if recibo_tfd.unid_assistencial %}
+                {{recibo_tfd.unid_assistencial|upper}}
+                {%else%}
+                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;------
+                {%endif%}
+        </div>
+
+    </div>
+    <div class="linha"></div>
+</div>
+<h3 class="text-center pt-3"><b>TABELA DE PROCEDIMENTOS</b></h3>
+<table class="table mt-3">
+
+    <thead>
+        <tr>
+            <th class="title_center">ITENS</th>
+            <th>CÓDIGO</th>
+            <th>QUANT.</th>
+            <th class="text-center">VLR UNIT. T.SIGTAP</th>
+            <th class="text-center">VLR TOTAL T.SIGTAP</th>
+            <th class="text-center">VLR COMP. MUNICIPAL</th>
+            <th class="text-center">TOTAL</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in procedimentos %}
+        <tr>
+
+            <td class="title_center ">{{ forloop.counter }} </td>
+
+            <td>{{p.codigosia.codigo}}</td>
+            <td>{{p.qtd_procedimento}}</td>
+            <td>R$ {{p.valor_unid_sigtap|intcomma}}</td>
+            <td>R$ {{p.valor_total_sigtap|intcomma}}</td>
+            <td>R$ {{p.valor_comp_mun|intcomma}}</td>
+            <td>R$ {{p.soma|intcomma}}</td>
+
+        </tr>
+
+        {%endfor%}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5" style="text-align: end;"><b>
+
+                </b> </td>
+
+            <td colspan="2" style="text-align: end; font-size: 15px;"><b>
+                    TOTAL:&nbsp;&nbsp; R$ {{recibo_tfd.total_pag|intcomma}}
+                </b> </td>
+        </tr>
+    </tfoot>
+</table>
+
+<div class="bordas pb-1">
+    <p class="text-center pt-2 "><b> APROVAÇÃO DA DESPESA</b></p>
+    <p class="m-0 p-2"><b>DATA:
+        </b>{{recibo_tfd.data|date:"d/m/Y"|default:'---'}}</p>
+    <p class=" text-center m-0 ">______________________________________</p>
+    {%if recibo_tfd.status == '2'%}
+    <p class="text-center p-1"><b>STATUS:</b>
+        {{recibo_tfd.get_status_display}}
+        {%elif recibo_tfd.status == '3' %}
+    <p class><b>STATUS:</b> {{recibo_tfd.get_status_display}}
+        {%endif%}
+        {%if recibo_tfd.aprovado_por %}
+    <p class="text-center"><b>{{recibo_tfd.aprovado_por|upper}}
+            <br>
+            SECRETÁRIO MUNICIPAL DE SAÚDE
+        </b> </p>
+    {%else%}
+    <p class=" text-center">{{profissional.nome_completo|upper}}
+        <br>
+        <b>
+            SECRETÁRIO MUNICIPAL DE SAÚDE
+        </b>
+
+    </p>
+    {%endif%}
+    </p>
+</div>
+
+<div class="bordas">
+    <p class="text-center pt-2"><b> COMPROVANTE DE
+            RECEBIMENTO</b></p>
+    <p class="paragrafo">
+
+        Recebi o valor de <b>R$ {{recibo_tfd.total_pag}}</b> da
+        importância acima a título de TFD.
+    </p>
+    <p class="m-0 p-2"><b>DATA:</b>
+        ____/___/____</p>
+    <p class="text-center">______________________________________</p>
+    <p class=" text-center pb-2"><b>{{recibo_tfd.paciente.nome_completo|upper}}</b></p>
+</div>
+
+<div class="pt-2">
+
+    <p> Realizado por {{recibo_tfd.criado_por}} no dia
+        {{recibo_tfd.updated_at|date:"d/m/Y"|default:'---'}} às
+        {{recibo_tfd.created_at|time:"H:i"|default:'---'}} </p>
+</div>
+
+</div>
+{% endblock content%}
