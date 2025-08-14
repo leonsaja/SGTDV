@@ -147,6 +147,8 @@ def viagemPdf(request,id):
     context['carro_lotado']=carro_lotado
     context['viagem']=viagem
     context['total']=total
+    context['cap']=capacidade
+
     context['micro_onibus']=micro_onibus
     capacidade=range(capacidade)
     context['capacidade']=capacidade
