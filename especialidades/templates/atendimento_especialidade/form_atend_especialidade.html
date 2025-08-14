@@ -56,23 +56,38 @@
                                                     {% endfor %}
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                {% for forms in formset %}
-                                                    <tr class="{% cycle 'row1' 'row2' %}">
-                                                        {% for field in forms.visible_fields %}
-                                                            <td>
-                                                                {% if forloop.first %}
-                                                                    {% for hidden in forms.hidden_fields %}
-                                                                        {{ hidden }}
-                                                                    {% endfor %}
-                                                                {% endif %}
-                                                                {{ field }}
-                                                                {{ field.errors.as_ul }}
-                                                            </td>
-                                                        {% endfor %}
-                                                    </tr>
-                                                {% endfor %}
-                                            </tbody>
+                                         <tbody>
+                                                    {% for forms in formset %}
+                                                        {% if forms.non_field_errors %}
+                                                            <tr class="alert-row">
+                                                                <td colspan="{{ formset.empty_form.visible_fields|length }}">
+                                                                    <div class="alert alert-danger" role="alert">
+                                                                        {{ forms.non_field_errors }}
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+                                                        
+                                                        <tr class="{% cycle 'row1' 'row2' %}">
+                                                            {% for field in forms.visible_fields %}
+                                                                <td>
+                                                                    {% if forloop.first %}
+                                                                        {% for hidden in forms.hidden_fields %}
+                                                                            {{ hidden }}
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                    {{ field }}
+                                                                
+                                                                    {% if field.errors %}
+                                                                        <div class="alert alert-danger" role="alert">
+                                                                            {{ field.errors.as_ul }}
+                                                                        </div>
+                                                                    {% endif %}
+                                                                </td>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -175,6 +190,9 @@
                     if (paciente.cpf_paciente) {
                         optionText += ` - CPF: ${paciente.cpf_paciente}`;
                     }
+                    if (paciente.classificacao) {
+                        optionText += ` - Classificação: ${paciente.classificacao}`;
+                    }
 
 
                     $(pacienteSelectElement).append(
@@ -193,29 +211,58 @@
         });
     }
 
-    $(document).ready(function() {
+     $(document).ready(function() {
         const especialidadeSelectPrincipal = $('#id_atendimento-especialidade');
 
+        // Função para verificar duplicatas em tempo real
+        function checkDuplicatePacientes() {
+            const selectedPacientes = {};
+
+            $('select[name$="-paciente"]').not(':hidden').each(function() {
+                const pacienteId = $(this).val();
+                
+                // Remove erros de validações anteriores
+                $(this).closest('tr').removeClass('has-error');
+                $(this).next('.text-danger').remove();
+
+                if (pacienteId) {
+                    if (selectedPacientes[pacienteId]) {
+                        $(this).closest('tr').addClass('has-error');
+                        $(this).after('<div class="text-danger">Paciente já selecionado!</div>');
+                        // Adiciona a classe de erro também na linha duplicada anterior
+                        $('select[name$="-paciente"][value="' + pacienteId + '"]').not(this).closest('tr').addClass('has-error');
+
+                    } else {
+                        selectedPacientes[pacienteId] = true;
+                    }
+                }
+            });
+        }
+
+        // Eventos que disparam a validação
+        $('table.form').on('change', 'select[name$="-paciente"]', function() {
+            checkDuplicatePacientes();
+        });
+        
         // Função para atualizar todos os dropdowns de paciente no formset
         function updateAllPacientesDropdowns() {
             const especialidadeId = especialidadeSelectPrincipal.val();
-            // Itera sobre todos os seletores de paciente no formset
             $('select[name$="-paciente"]').each(function() {
                 loadPacientes(especialidadeId, this);
             });
         }
 
-        // 1. Quando a especialidade principal muda, atualiza todos os campos de paciente no formset
-        especialidadeSelectPrincipal.on('change', updateAllPacientesDropdowns);
+        // Eventos para o dropdown de especialidade
+        especialidadeSelectPrincipal.on('change', function() {
+            updateAllPacientesDropdowns();
+            checkDuplicatePacientes(); // Re-valida após mudar a especialidade
+        });
 
-        // 2. Quando a página carrega, se já houver uma especialidade selecionada, carrega os pacientes
+        // Quando a página carrega, se já houver uma especialidade selecionada, carrega os pacientes e valida
         if (especialidadeSelectPrincipal.val()) {
             updateAllPacientesDropdowns();
+            checkDuplicatePacientes();
         }
-
-        // A linha abaixo foi removida do $(document).ready para ser colocada no 'added' callback do formset,
-        // garantindo que seja executada para cada nova linha.
-        // $('table.form').on('formset:added', function(event, row) { ... });
     });
 </script>
 {% endblock scripts %}

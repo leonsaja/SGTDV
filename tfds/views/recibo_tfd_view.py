@@ -75,9 +75,9 @@ def reciboTFD_update(request,id):
 
             messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
             return redirect('tfds:list-recibo_tfd')
-        
-    form=ReciboTFDForm(instance=recibo_tfd,prefix='recibo')
-    formset=ProcedimentoSet(instance=recibo_tfd,prefix='procedimento')
+    else:
+        form=ReciboTFDForm(instance=recibo_tfd,prefix='recibo')
+        formset=ProcedimentoSet(instance=recibo_tfd,prefix='procedimento')
     return render(request, 'recibo_tfd/form_recibo_tfd.html', {'form': form,'formset':formset,'recibo_tfd':recibo_tfd})
 @has_role_decorator(['secretario'])  
 def reciboStatusUpdate(request,id):
@@ -92,7 +92,8 @@ def reciboStatusUpdate(request,id):
            messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
            return redirect('tfds:list-recibo_tfd')
 
-    form=ReciboTFDStatusForm(request.POST or None, instance=recibo_tfd,prefix='recibo')
+    else:
+        form=ReciboTFDStatusForm(request.POST or None, instance=recibo_tfd,prefix='recibo')
     
     return render(request, 'recibo_tfd/detail_recibo_tfd.html', {'form': form,'recibo_tfd':recibo_tfd})
 

@@ -11,8 +11,9 @@ class RelatorioPacienteEspecialidadeForm(forms.Form):
     especialidades=forms.ModelChoiceField(label='Especialidade', queryset=Especialidade.objects.all(),
                                          required=True,widget=forms.Select(attrs={'class': 'form-control'}))
     TIPO_CLASSIFICACAO=(
-        ('1','NORMAL'),
-        ('2','URGÊNCIA'),
+        ('1','ELETIVO'),
+        ('2','PRIORIDADE'),
+        ('3','URGÊNCIA'),
     )
     STATUS=(
         ('1','AGUARDANDO'),

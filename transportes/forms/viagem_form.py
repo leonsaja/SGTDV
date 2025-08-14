@@ -48,12 +48,8 @@ class ViagemForm(forms.ModelForm):
         
         if status == '2' and not motorista:
             self.add_error('motorista', "O campo 'motorista' é obrigatório para viagens concluídas.")
-        
-       
-        
-        
+         
         formset_prefix = 'passageiro' # Use o prefixo que você definiu
-        
         total_passageiros = 0
         
         try:

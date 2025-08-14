@@ -44,27 +44,13 @@ class ReciboTFDForm(forms.ModelForm):
             'acompanhante':s2forms.Select2Widget(),
         }
 
-    def clean_data(self):
-        data=self.cleaned_data.get('data')
-        hoje=date.today()
-        limite_minimo=hoje-timedelta(days=7)
-        if data > date.today():
-            raise ValidationError(f'Data não pode ser futura.')
-        print("limite_minimo",limite_minimo)
-        if data < limite_minimo:
-                self.add_error(
-                    'data', 
-                    f"A data do recibo não pode ser anterior a {limite_minimo.strftime('%d/%m/%Y')} (7 dias atrás)."
-                )
-        
-        return data
     def clean_cns(self):
-        data=self.cleaned_data.get('cns')
-        if data:
-            if validarCNS(data):
-                return data    
+        cns=self.cleaned_data.get('cns')
+        if cns:
+            if validarCNS(cns):
+                return cns    
             raise ValidationError('Digite o cartão do SUS com 15 digitos')
-        return data
+        return cns
     
     def clean(self):
         cleaned_data = super().clean()
@@ -74,15 +60,24 @@ class ReciboTFDForm(forms.ModelForm):
         acompanhante=cleaned_data.get('acompanhante')
         data=cleaned_data.get('data')
         paciente=cleaned_data.get('paciente')
-
+        hoje=date.today()
+        limite_minimo=hoje-timedelta(days=7)
+        
         qs=ReciboTFD.objects.select_related('paciente','especialidade','acompanhante').filter(paciente=paciente, data=data)
-
         if self.instance.pk:
                 qs = qs.exclude(pk=self.instance.pk)
 
         if qs.exists():
             self.add_error('paciente','Este paciente já possui um recibo TFD com essa data.')
-
+        
+        if data > date.today():
+            self.add_error("data",'Data não pode ser futura.')
+        if  data < limite_minimo:
+            if not self.instance.pk:
+                self.add_error(
+                    f"data","A data do recibo não pode ser anterior a 7 dias atrás."
+                )
+        
         if tem_acompanhante == '1':
             acompanhante=cleaned_data.get('acompanhante')
             

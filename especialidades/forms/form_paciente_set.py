@@ -12,6 +12,9 @@ class PacienteSiaForm(forms.ModelForm):
         
         model=PacienteSia
         fields=('hora','paciente',)
+        error_messages = {
+            'unique_together': "O paciente já foi adicionado a este atendimento."
+        }
 
    
      def __init__(self, *args, **kwargs):

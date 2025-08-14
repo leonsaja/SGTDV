@@ -19,24 +19,31 @@ from weasyprint import HTML
 
 @has_role_decorator(['regulacao'])   
 def atend_especialidade_create(request):
-    
-    atend_especialidade=AtendimentoEspecialidade()
-   
-    if request.method == 'POST':
+    atend_especialidade = AtendimentoEspecialidade()
 
-        form = AtendimentoEspecialidadeForm(request.POST,instance=atend_especialidade,prefix='atendimento' )
-        formset=AtendPacienteSet(request.POST,instance=atend_especialidade,prefix='paciente')
+    if request.method == 'POST':
+        form = AtendimentoEspecialidadeForm(request.POST, instance=atend_especialidade, prefix='atendimento')
+        formset = AtendPacienteSet(request.POST, instance=atend_especialidade, prefix='paciente')
+
         if form.is_valid() and formset.is_valid():
-            
             form.save()
             formset.save()
-            messages.add_message(request,constants.SUCCESS,'Atendimento salvo com sucesso')
+            messages.add_message(request, constants.SUCCESS, 'Atendimento salvo com sucesso!')
             return redirect('especialidades:list-atend_especialidade')
+        else:
+            # SE O FORMSET TIVER ERROS, ENVIAMOS A MENSAGEM
+            # O erro de 'unique_together' fica em 'non_form_errors' ou 'non_field_errors'
+            if formset.non_form_errors():
+                for error in formset.non_form_errors():
+                    messages.add_message(request, constants.ERROR, f'Paciente duplicado: {error}')
 
-    form = AtendimentoEspecialidadeForm(request.POST or None,instance=atend_especialidade,prefix='atendimento')
-    formset=AtendPacienteSet(request.POST or None,instance=atend_especialidade,prefix='paciente')
-    
-    return render(request, 'atendimento_especialidade/form_atend_especialidade.html', {'form': form,'formset':formset})
+            # Também é bom verificar os erros de cada formulário individual
+           
+    else:
+        form = AtendimentoEspecialidadeForm(instance=atend_especialidade, prefix='atendimento')
+        formset = AtendPacienteSet(instance=atend_especialidade, prefix='paciente')
+
+    return render(request, 'atendimento_especialidade/form_atend_especialidade.html', {'form': form, 'formset': formset})
 
 @has_role_decorator(['regulacao'])  
 def atend_especialidade_update(request,id):
@@ -53,9 +60,18 @@ def atend_especialidade_update(request,id):
             formset.save()
             messages.add_message(request,constants.SUCCESS,'Atendimento salvo com sucesso')
             return redirect('especialidades:list-atend_especialidade')
+        
+        else:
+            # SE O FORMSET TIVER ERROS, ENVIAMOS A MENSAGEM
+            # O erro de 'unique_together' fica em 'non_form_errors' ou 'non_field_errors'
+            if formset.non_form_errors():
+                for error in formset.non_form_errors():
+                    messages.add_message(request, constants.ERROR, f'Paciente duplicado: {error}')
 
-    form = AtendimentoEspecialidadeForm(request.POST or None,instance=atend_especialidade,prefix='atendimento')
-    formset=AtendPacienteSet(request.POST or None,instance=atend_especialidade,prefix='paciente')
+
+    else:
+        form = AtendimentoEspecialidadeForm(request.POST or None,instance=atend_especialidade,prefix='atendimento')
+        formset=AtendPacienteSet(request.POST or None,instance=atend_especialidade,prefix='paciente')
     
     return render(request, 'atendimento_especialidade/form_atend_especialidade.html', {'form': form,'formset':formset})
 
@@ -137,12 +153,14 @@ def load_pacientes_by_especialidade(request):
             pacientes_especialidade = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(especialidade_id=especialidade_id,status='1' ).order_by('paciente__nome_completo')
             
             for pe in pacientes_especialidade:
+                
                 pacientes_data.append({
                     'id': pe.id,
                     'nome_completo': pe.paciente.nome_completo,
                     'cns':pe.paciente.cns,
                     'dt_nascimento':pe.paciente.dt_nascimento.strftime('%d/%m/%Y'),
                     'procedimento': pe.procedimento.nome_procedimento, # Formata a data para exibir
+                    'classificacao':pe.get_classificacao_display(),
                    
                 })
                 
