@@ -89,6 +89,7 @@
                   <th>Nome Completo</th>
                   <th>CPF</th>
                   <th>CNS</th>
+                  <th>Especialidade</th>
                   <th>Data do Recibo</th>
                   <th>Ação</th>
                 </tr>
@@ -97,11 +98,12 @@
                 {%for recibo in recibos_tfds %}
                 <tr>
                   <td>{{recibo.id}}</td>
-                  <td>{{recibo.paciente.nome_completo}}</td>
+                  <td>{{recibo.paciente.nome_completo|upper}}</td>
 
                   <td>{{recibo.paciente.formt_cpf}}</td>
 
                   <td>{{recibo.paciente.cns}}</td>
+                  <td>{{recibo.especialidade.nome}}</td>
                   <td>{{recibo.data|date:"d/m/Y"|default:'---'}}</td>
                   <td>
                     <a href="{% url 'tfds:detail-recibo_tfd' recibo.id%}" class="pr-2"><i
