@@ -18,6 +18,8 @@ class RelatorioPacienteEspecialidadeForm(forms.Form):
     STATUS=(
         ('1','AGUARDANDO'),
         ('2','CONCLUÍDO'),
+        ('3','CANCELADO'),
+        ('4','AUSENTE'),
     )
     
     classificacao=forms.ChoiceField(label='Classficação',required=False, widget=forms.RadioSelect,choices=TIPO_CLASSIFICACAO)

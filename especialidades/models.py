@@ -84,6 +84,7 @@ class AtendimentoEspecialidade(models.Model):
         ('1','AGUARDANDO'),
         ('2','CONCLUÍDO'),
         ('3','CANCELADO'),
+        ('4','AUSENTE'),
 
     )
 

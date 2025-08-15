@@ -16,7 +16,8 @@ def relatorio_paciente_especialidade_pdf(request,context):
 
     especialidade=context['especialidade']
     profissional=context['profissional']
-    procedimento=context['procedimento'] 
+    procedimento=context['procedimento']
+    print("procedimento",type (procedimento))
     classificacao=context['classificacao']
     status=context['status']
 
@@ -36,6 +37,10 @@ def relatorio_paciente_especialidade_pdf(request,context):
     context['data']=datetime.today().strftime('%d/%m/%Y') 
     context['pacientes_especialidade']=paciente_especialidade
 
+    if context['procedimento']:
+        
+        if context['procedimento'].nome_procedimento=='EXAMES':
+            context['exames']=context['procedimento']
     
     response = HttpResponse(content_type='application/pdf')   
     html_string = render_to_string('paciente_especialidade/relatorio_paciente_especialidade_pdf.html',context)

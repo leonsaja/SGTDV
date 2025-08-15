@@ -28,23 +28,21 @@ class PacienteEspecialidadeForm(forms.ModelForm):
         }
     def clean_data_pedido(self):
         data = self.cleaned_data['data_pedido']
+                
         if data > date.today():
             raise ValidationError("A Data do pedido não pode ser futura.")
         return data
     
-    """def clean(self):
-        paciente = self.cleaned_data.get('paciente')
+    def clean(self):
         procedimento = self.cleaned_data.get('procedimento')
-        status=self.cleaned_data.get('status')
-        data_pedido=self.cleaned_data.get('data_pedido')
+        obs=self.cleaned_data.get('observacao')
 
-        if paciente and status:
-            qs = PacienteEspecialidade.objects.select_related('paciente','procedimento','especialidade').filter(paciente=paciente, status=status,procedimento=procedimento,data_pedido=data_pedido)
+        if procedimento.nome_procedimento=='EXAMES':
+            if not obs:
+                self.add_error('observacao', 'Este campo é obrigatório. Por favor, informar quais exames o paciente vai fazer ')
 
-            if self.instance.pk:
-                qs = qs.exclude(pk=self.instance.pk)
-            if qs.exists():
-                self.add_error('paciente','Existe Paciente já cadastrado na especialidade com Status: "AGUARDANDO" e com mesmo "PROCEDIMENTO"')"""
+        print(type(procedimento))
+   
            
         
 class PacienteEspecialidadeUpdateForm(forms.ModelForm):

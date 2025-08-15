@@ -4,6 +4,11 @@
 
 {% block head%} 
 <style>
+    /*@page {
+      size: "A4";
+      margin: 1.0cm 1.5cm 3.5cm 1.5cm;
+      size: A4 landscape; 
+    }*/
       body{
 
         font-size: 15px;
@@ -69,11 +74,15 @@
              Procedimento
             </th>
             {% endif %}
-            {% if  classificacao%}
+            {% if  exames%}
+            <th>
+             Observação
+            </th>
+            {% endif %}
             <th>
               Classificação
             </th>
-            {% endif %}
+           
             {% if  status%}
             <th>
               Status
@@ -96,11 +105,15 @@
               {{p.procedimento}}
             </td>
             {% endif %}
-            {% if classificacao%}
+             {% if  exames%}
+            <td>
+              {{p.observacao}}
+            </td>
+            {% endif %}
             <td>
               {{ p.get_classificacao_display }}
             </td>
-            {% endif %}
+
             {% if status%}
             <td>
               {{ p.get_status_display }}
