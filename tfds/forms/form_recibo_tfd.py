@@ -6,6 +6,7 @@ from django_select2 import forms as s2forms
 from datetime import date, timedelta
 from tfds.models import  ReciboTFD
 from utils.django_form import validarCNS
+from dal import autocomplete
 
 
 class ReciboTFDForm(forms.ModelForm):
@@ -40,7 +41,7 @@ class ReciboTFDForm(forms.ModelForm):
         model=ReciboTFD
         exclude=('status','aprovado_por',)
         widgets = {
-            'paciente':s2forms.Select2Widget(),
+            'paciente': autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
             'acompanhante':s2forms.Select2Widget(),
         }
 

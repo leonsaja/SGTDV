@@ -129,7 +129,7 @@
                                 {%for especialidade in page_obj %}
                                 <tr>
                                     <td class="text-center">{{ especialidade.id }} </td>
-                                    <td>{{especialidade.paciente.nome_completo}}</td>
+                                    <td>{{especialidade.paciente.nome_completo|upper}}</td>
                                     <td>{{especialidade.paciente.formt_cpf}}</td>
                                     <td>{{especialidade.paciente.microarea.profissional.acs}}</td>
                                     <td>{{especialidade.procedimento }}</td>
