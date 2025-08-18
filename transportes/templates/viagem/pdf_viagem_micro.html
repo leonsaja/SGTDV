@@ -8,7 +8,7 @@
     size: "A4";
     /*margin: 1.0cm 1.5cm 1.5cm 1.5cm;*/
     margin: 0.3cm 1.5cm 1.5cm 1.5cm;
-    size: A4 landscape; */
+
 }
 
 body {
@@ -17,14 +17,13 @@ body {
 }
 
 td {
-    padding-top: 12px;
-    text-align: left;
+    padding-top: 4px;
     border-bottom: 1px solid #ddd;
 }
 
 th {
-    padding: 10px;
-    text-align: left;
+    padding: 6px;
+    text-align: center;
     border-bottom: 1px solid #ddd;
     background-color: #f2f2f2;
 }
@@ -41,6 +40,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 15px;
+    
 }
 
 .header-row {
@@ -50,8 +50,6 @@ table {
 .header-cell {
     display: table-cell;
     vertical-align: middle;
-    padding: 5px;
-   
 }
 
 .header-cell:last-child {
@@ -64,7 +62,7 @@ table {
 }
 .info-motorista {
     /* Diminuímos o padding geral da caixa */
-    padding: 2px;
+   
     border: 1px solid #000;
     /* Reduzimos a margem inferior para a caixa ficar mais próxima do que a segue */
     margin-bottom: 5px; 
@@ -93,6 +91,7 @@ table {
 }
 
 
+
 .local-info {
     padding: 5px;
     border-bottom: 1px solid #000;
@@ -116,7 +115,7 @@ table {
 
 .logo-prefeitura {
     width: 280px;
-    height: 140pxs;
+    height: 140px;
   
 }
 .text-center{
@@ -124,8 +123,8 @@ table {
 }
 
 .foto-carro {
-     width: 350px;
-     height: 160px;
+     width: 380px;
+     height: 140px;
 }
 
 .table thead tr th, .table tbody tr td {
@@ -136,7 +135,7 @@ table {
     margin-top: 20px;
 }
 </style>
-{% endblock %}
+{% endblock%}
 
 {% block content %}
 
@@ -158,7 +157,7 @@ table {
             <p style="margin: 0px;"><b>MOTORISTA:</b> <br> {{ viagem.motorista.nome_completo|upper }}</p>
         </div>
         <div class="item placa-container">
-            <p style="margin: 0px;"><b>PLACA:</b> <br> {{viagem.carro.placa}}</p>
+            <p style="margin: 0px;"><b>PLACA: </b><br> {{viagem.carro.placa}}</p>
         </div>
     </div>
     <div class="linha">
@@ -173,8 +172,8 @@ table {
         </div>
     </div>
 </div>
-
-<table class="table">
+<br>
+<table class="table " style="padding-top: 5     px;">
     <thead>
         <tr>
             <th>N°</th>
@@ -206,13 +205,14 @@ table {
                 <td></td>
                 <td></td>
                  <td></td>
+                
             </tr>
             {% endif %}
         {% endfor %}
     </tbody>
 </table>
-  {% if cap <= 4 or cap <= 15 %}
-    <div class="row">
+{% if cap <= 4 or cap <= 15 %}
+ <div class="row">
         <div class="col-md-12 m-0">
             <p class><b>Qta. Passageiros: </b> {{total}}</p>
             <p class="m-0 text-center">

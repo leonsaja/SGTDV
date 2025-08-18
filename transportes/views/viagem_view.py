@@ -153,8 +153,11 @@ def viagemPdf(request,id):
     capacidade=range(capacidade)
     context['capacidade']=capacidade
     response = HttpResponse(content_type='application/pdf')
+    if micro_onibus:
+       html_string = render_to_string('viagem/pdf_viagem_micro.html',context)
     
-    html_string = render_to_string('viagem/pdf_viagem.html',context)
+    else:
+        html_string = render_to_string('viagem/pdf_viagem.html',context)
     
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
 
