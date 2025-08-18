@@ -136,8 +136,14 @@
                                         
                                         {% if user|has_role:'regulacao,recepcao' %}
 
-                                        <a href="{% url 'transportes:edit-viagem' viagem.id%}"
-                                            class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
+                                                {% if viagem.status != '2'%}
+                                                <a href="{% url 'transportes:edit-viagem' viagem.id%}"
+                                                    class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
+
+                                                {% elif viagem.status == '2' and user|has_role:'coordenador' %}
+                                                    <a href="{% url 'transportes:edit-viagem' viagem.id%}" class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
+                                                {%endif%}
+
                                         {%endif%}
 
                                         {% if user|has_role:'coordenador,' %}

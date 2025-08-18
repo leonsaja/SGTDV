@@ -42,7 +42,7 @@ class ReciboTFDForm(forms.ModelForm):
         exclude=('status','aprovado_por',)
         widgets = {
             'paciente': autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
-            'acompanhante':s2forms.Select2Widget(),
+            'acompanhante':autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
         }
 
     def clean_cns(self):

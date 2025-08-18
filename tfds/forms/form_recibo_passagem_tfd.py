@@ -3,6 +3,7 @@ from typing import Any
 from django import forms
 from django.core.exceptions import ValidationError
 from django_select2 import forms as s2forms
+from dal import autocomplete
 
 from utils.django_form import validarCNS
 
@@ -24,10 +25,9 @@ class ReciboPassagemTFDForm(forms.ModelForm):
         model=ReciboPassagemTFD
         fields='__all__'
         widgets = {
-            'paciente':s2forms.Select2Widget(),
-            'acompanhante':s2forms.Select2Widget(),
-           
-        }   
+            'paciente': autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
+            'acompanhante':autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
+        }  
 
     def clean_codigo_sia_paciente(self):
         data = self.cleaned_data["codigo_sia_paciente"]
