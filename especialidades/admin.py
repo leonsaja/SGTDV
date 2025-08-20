@@ -5,10 +5,12 @@ from .models import Especialidade, PacienteEspecialidade,AtendimentoEspecialidad
 
 @admin.register(PacienteEspecialidade)
 class PacienteEspecialidadeAdmin(admin.ModelAdmin):
-    search_fields=('paciente__nome_completo','paciente__cpf')
+    search_fields=('paciente__nome_completo')
 
-
+@admin.register(PacienteSia)
+class PacienteSiaAdmin(admin.ModelAdmin):
+    search_fields=('paciente__paciente__nome_completo',)
+    
 admin.site.register(Especialidade)
 admin.site.register(AtendimentoEspecialidade)
-admin.site.register(PacienteSia)
 admin.site.register(ProcedimentosEspecialidade)

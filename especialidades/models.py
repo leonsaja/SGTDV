@@ -130,7 +130,7 @@ class PacienteSia(models.Model):
         ordering = ["-paciente"]
         
     def __str__(self):
-        return f'{self.paciente__nome_completo}'
+        return f'{self.paciente}'
     
 
     
