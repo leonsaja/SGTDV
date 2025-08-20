@@ -69,14 +69,17 @@ class PacienteEspecialidadeUpdateForm(forms.ModelForm):
     def clean(self):
         paciente = self.cleaned_data.get('paciente')
         procedimento = self.cleaned_data.get('procedimento')
+        status = self.cleaned_data.get('status')
+        data=self.cleaned_data.get('data_pedido')
 
-        if paciente and procedimento:
-            qs = PacienteEspecialidade.objects.select_related('paciente','procedimento','especialidade').filter(paciente=paciente,procedimento=procedimento)
+
+        if paciente and procedimento and status and data:
+            qs = PacienteEspecialidade.objects.select_related('paciente','procedimento','especialidade').filter(paciente=paciente,procedimento=procedimento,status=status,data_pedido=data)
 
             if self.instance.pk:
                 qs = qs.exclude(pk=self.instance.pk)
             if qs.exists():
-                self.add_error('paciente','Este paciente já possui um cadastro  nessa especialidade com mesmo procedimento.')
+                self.add_error('paciente','Este paciente já possui um cadastro  nessa especialidade com mesmo procedimento, status e data.')
            
            
 """

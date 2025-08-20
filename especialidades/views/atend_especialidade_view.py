@@ -16,6 +16,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
+from django.db.models import Q
 
 @has_role_decorator(['regulacao'])   
 def atend_especialidade_create(request):
@@ -85,19 +86,24 @@ class AtendEspecialidadeListView(HasRoleMixin,ListView):
     allowed_roles=['regulacao','secretario','coordenador','recepcao']
 
     def get_queryset(self, *args, **kwargs):
-        qs = super(AtendEspecialidadeListView,self).get_queryset(*args, **kwargs)
+        qs = super().get_queryset(*args, **kwargs).select_related('especialidade')
+
         buscar=self.request.GET.get('buscar',None)
         status=self.request.GET.get('status',None)
-        if buscar:
-            queryset=qs.select_related('especialidade').filter(especialidade__nome__icontains=buscar).order_by('-especialidade')
-            return queryset 
-        
-        if status:
-            queryset=qs.select_related('especialidade').filter(status=status).order_by('-especialidade')
+        data = self.request.GET.get('data', None)
 
-        if not buscar and not status:
-                queryset=qs.select_related('especialidade').exclude(status='2').all().order_by('-especialidade') 
-        return queryset
+        if buscar:
+            queryset=qs.filter(especialidade__nome__icontains=buscar)
+    
+        if status:
+            queryset=qs.filter(status=status)
+
+        if data:
+            queryset = qs.filter(data__iexact=data)
+
+        if not buscar and not status and not data:
+                queryset=qs.exclude(status='2')
+        return queryset.order_by('-especialidade')
     
 class AtendEspecialidadeDetailView(HasRoleMixin,DetailView):
 
@@ -132,7 +138,7 @@ def atend_especialidade_pdf(request,id):
     context={}
 
     context['atendimento_especialidade']= AtendimentoEspecialidade.objects.select_related('especialidade').get(id=atendimento_especialidade.id)
-    context['pacientes_set']=PacienteSia.objects.select_related('paciente').filter(atendimento_paciente__id=context['atendimento_especialidade'].id)
+    context['pacientes_set']=PacienteSia.objects.select_related('paciente').filter(atendimento_paciente__id=context['atendimento_especialidade'].id).exclude(paciente__status='4')
    
                 
     response = HttpResponse(content_type='application/pdf')
@@ -150,7 +156,7 @@ def load_pacientes_by_especialidade(request):
     if especialidade_id:
         try:
             
-            pacientes_especialidade = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(especialidade_id=especialidade_id,status='1' ).order_by('paciente__nome_completo')
+            pacientes_especialidade = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(status='1',especialidade_id=especialidade_id).order_by('paciente__nome_completo')
             
             for pe in pacientes_especialidade:
                 

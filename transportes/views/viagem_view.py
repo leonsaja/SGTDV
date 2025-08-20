@@ -77,7 +77,7 @@ class ViagemSearchListView(HasRoleMixin,ListView):
     template_name='viagem/list_viagens.html'
     context_object_name='viagens'
     paginate_by=10
-    allowed_roles=['acs','recepcao','secretario','regulacao','coordenador']
+    allowed_roles=['acs','digitador','recepcao','secretario','regulacao','coordenador']
 
 
     def get_queryset(self, *args, **kwargs):
@@ -122,7 +122,7 @@ class ViagemDeleteView(HasRoleMixin,SuccessMessageMixin,DeleteView):
     def get(self, request,*args, **kwargs):
          return self.post(request, *args, **kwargs)
 
-has_role_decorator(['recepcao','regulacao'])
+has_role_decorator(['recepcao','digitador','regulacao'])
 def viagemPdf(request,id):
     context={}
     viagem=get_object_or_404(Viagem,id=id)

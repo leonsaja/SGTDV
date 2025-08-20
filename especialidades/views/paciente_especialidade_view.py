@@ -85,9 +85,7 @@ class PacienteEspecialidadeListView(HasRoleMixin,ListView):
         especialidade_id = self.kwargs.get(self.pk_url_kwarg)
 
         buscar = self.request.GET.get('buscar', None)
-
         data = self.request.GET.get('data', None)
-
         status=self.request.GET.get('status',None)
 
 

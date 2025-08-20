@@ -21,9 +21,5 @@ class PacienteEspecialidadeSearchView(HasRoleMixin,ListView):
             queryset = queryset.filter(
                 Q(paciente__nome_completo__icontains=buscar) | Q(paciente__cpf__icontains=buscar)
             )
-
-    
-            
-            print('queryset',queryset)
             
         return queryset
