@@ -87,7 +87,7 @@
           <th>Horário</th>
           <th>Paciente</th>
           <th>CNS</th>
-         
+          <th>Status</th>
           <th>Procedimento</th>
         
         
@@ -106,6 +106,7 @@
           {%endif%}
           <td>{{p.paciente.paciente.nome_completo|upper}}</td>
            <td>{{p.paciente.paciente.form_cns}}</td>
+           <td>{{p.paciente.get_status_display}}</td>
              
              <td>{{p.paciente.procedimento.nome_procedimento}}</td>
          

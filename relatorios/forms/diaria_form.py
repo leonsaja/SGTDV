@@ -21,8 +21,9 @@ class RelatorioDiariaForm(forms.Form):
         )
     
     TIPO=(
-        ('1','RESUMO'),
-        ('2','COMPLETO'),
+        ('1','RESUMO (VALOR TOTAL)'),
+        ('2','COMPLETO (TUDO)'),
+        ('3','MOTORISTA (SOMENTE)'),
     )
     
     tipo_relatorio=forms.ChoiceField(label='Tipo relatório',required=True, widget=forms.RadioSelect,choices=TIPO)
