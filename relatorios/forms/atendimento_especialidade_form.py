@@ -19,18 +19,25 @@ class RelatorioAtendimentoEspecialidadeForm(forms.Form):
             }),
         )
     ATEND_VIA=(
-        
-            ('','---'),
+    
             ('1','CIMBAJE'),
             ('2','CEAE'),
             ('3','RECURSO PRÓPRIO'),
             ('4','PPI'),
 
         )
+    STATUS=(
+        ('1','AGUARDANDO'),
+        ('2','CONCLUÍDO'),
+        ('3','CANCELADO'),
+        
 
-    especialidade=forms.ModelChoiceField(label='Especialidade', queryset=Especialidade.objects.all(),
-                                         required=False,widget=forms.Select(attrs={'class': 'form-control'}))
-    atendimento_via=forms.ChoiceField(label='Classficação',required=True, widget=forms.Select,choices=ATEND_VIA)
+    )
+
+    especialidade=forms.ModelChoiceField(label='Especialidade', queryset=Especialidade.objects.all(),required=False,widget=forms.Select(attrs={'class': 'form-control'}))
+    atendimento_via=forms.ChoiceField(label='Classficação',required=True,widget=forms.RadioSelect,choices=ATEND_VIA)
+    status=forms.ChoiceField(label='Status',required=True, widget=forms.RadioSelect,choices=STATUS)
+
 
     def clean_data_inicial(self):
         data = self.cleaned_data["data_inicial"]

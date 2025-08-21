@@ -51,6 +51,7 @@ class PacienteEspecialidade(models.Model):
         ('2','CONCLUÍDO'),
         ('3','CANCELADO'),
         ('4','AUSENTE'),
+        ('5','EM TRATAMENTO'),
 
     )
     
@@ -67,7 +68,7 @@ class PacienteEspecialidade(models.Model):
 
 
     def __str__(self):
-        return f'{self.paciente.nome_completo}+ {self.procedimento}'
+        return f'{self.paciente.nome_completo}'
     
     class Meta:
         ordering = ["-paciente__nome_completo"]
@@ -105,7 +106,7 @@ class AtendimentoEspecialidade(models.Model):
         return f'{self.especialidade}'
     
     def qta_paciente_especialidade(self):
-        total=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).count()
+        total=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).filter(paciente__status='2').count()
         return total
  
 class ProcedimentosEspecialidade(models.Model):

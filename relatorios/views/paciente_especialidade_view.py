@@ -17,7 +17,6 @@ def relatorio_paciente_especialidade_pdf(request,context):
     especialidade=context['especialidade']
     profissional=context['profissional']
     procedimento=context['procedimento']
-    print("procedimento",type (procedimento))
     classificacao=context['classificacao']
     status=context['status']
 

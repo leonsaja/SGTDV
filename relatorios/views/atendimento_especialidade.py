@@ -11,13 +11,11 @@ from weasyprint import HTML
 def relatorio_atendimento_pdf(request,context):
     response = HttpResponse(content_type='application/pdf')
     atendimentos=AtendimentoEspecialidade.objects.select_related('especialidade').all()
-    print('atendimentos',atendimentos)
     especialidade= context['especialidade']
     data_inicial=context['inicial']
     data_final=context['final']
     atendimento_via=context['atendimento_via']
-    
-    print('10',atendimento_via)
+    status=context['status']
     
     if especialidade:                                                                                                                                                                                                                                                   
         atendimentos=atendimentos.filter(especialidade=especialidade) 
@@ -27,6 +25,10 @@ def relatorio_atendimento_pdf(request,context):
 
     if atendimento_via:
         atendimentos=atendimentos.filter(atendimento_via=atendimento_via)
+
+    if status:
+        atendimentos=atendimentos.filter(status=status)
+        
     context['qta_atendimeento']= atendimentos.count()
     total=0
 
@@ -37,7 +39,6 @@ def relatorio_atendimento_pdf(request,context):
 
     
     for a in atendimentos:
-       print('atendimento',a)
        total=a.atend_paciente_especialidade.count()    
     context['total']=total
     
@@ -58,6 +59,7 @@ def relatorio_atendimento_especialidade(request):
           context['final']=form.cleaned_data.get('data_final')
           context['especialidade']=form.cleaned_data.get('especialidade')
           context['atendimento_via']=form.cleaned_data.get('atendimento_via')
+          context['status']=form.cleaned_data.get('status')
           return relatorio_atendimento_pdf(request,context)
          
 

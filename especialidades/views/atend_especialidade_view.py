@@ -138,7 +138,7 @@ def atend_especialidade_pdf(request,id):
     context={}
 
     context['atendimento_especialidade']= AtendimentoEspecialidade.objects.select_related('especialidade').get(id=atendimento_especialidade.id)
-    context['pacientes_set']=PacienteSia.objects.select_related('paciente').filter(atendimento_paciente__id=context['atendimento_especialidade'].id).exclude(paciente__status='4')
+    context['pacientes_set']=PacienteSia.objects.select_related('paciente').filter(atendimento_paciente__id=context['atendimento_especialidade'].id)
    
                 
     response = HttpResponse(content_type='application/pdf')
@@ -156,7 +156,7 @@ def load_pacientes_by_especialidade(request):
     if especialidade_id:
         try:
             
-            pacientes_especialidade = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(status='1',especialidade_id=especialidade_id).order_by('paciente__nome_completo')
+            pacientes_especialidade = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(Q(status='1')|Q(status='4'),especialidade_id=especialidade_id).order_by('paciente__nome_completo')
             
             for pe in pacientes_especialidade:
                 
