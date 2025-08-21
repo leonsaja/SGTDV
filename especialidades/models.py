@@ -52,6 +52,7 @@ class PacienteEspecialidade(models.Model):
         ('3','CANCELADO'),
         ('4','AUSENTE'),
         ('5','EM TRATAMENTO'),
+        ('6','ALTA'),
 
     )
     
@@ -72,8 +73,7 @@ class PacienteEspecialidade(models.Model):
     
     class Meta:
         ordering = ["-paciente__nome_completo"]
-
-        
+   
 class AtendimentoEspecialidade(models.Model):
     ATEND_VIA=(
             ('1','CIMBAJE'),

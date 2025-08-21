@@ -41,7 +41,6 @@ class PacienteEspecialidadeForm(forms.ModelForm):
             if not obs:
                 self.add_error('observacao', 'Este campo é obrigatório. Por favor, informar quais exames o paciente vai fazer ')
 
-        print(type(procedimento))
    
            
         

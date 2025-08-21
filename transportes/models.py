@@ -51,6 +51,9 @@ class PassageiroViagem(models.Model):
    def __str__(self):
       return f'{self.paciente}'
    
+   class Meta:
+        ordering = ["paciente__nome_completo"]
+   
 class Carro(models.Model):
    
    CHOICES_TIPO_TRANSPORTE=(

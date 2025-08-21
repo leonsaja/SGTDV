@@ -4,6 +4,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django_select2 import forms as s2forms
 from dal import autocomplete
+from datetime import date, timedelta
 
 from utils.django_form import validarCNS
 
@@ -68,6 +69,8 @@ class ReciboPassagemTFDForm(forms.ModelForm):
         acompanhante=cleaned_data.get('acompanhante')
         data_recibo=cleaned_data.get('data_recibo')
         paciente=cleaned_data.get('paciente')
+        hoje=date.today()
+        limite_minimo=hoje-timedelta(days=7)
 
         qs=ReciboPassagemTFD.objects.select_related('paciente','acompanhante').filter(paciente=paciente, data_recibo=data_recibo)
 
@@ -76,6 +79,12 @@ class ReciboPassagemTFDForm(forms.ModelForm):
                 
         if qs.exists():
             self.add_error('paciente','Este paciente já possui um recibo passagem com essa data.')
+
+        if  data_recibo < limite_minimo:
+            if not self.instance.pk:
+                self.add_error(
+                    f"data_recibo","A data do recibo não pode ser anterior a 7 dias atrás."
+                )
 
 
         if tem_acompanhante == '1':

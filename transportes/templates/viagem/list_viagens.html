@@ -109,23 +109,24 @@
                             <thead>
                                 <tr>
                                     <th>Carro</th>
-                                    <th>Placa</th>
+                                    
                                     <th>Destino</th>
                                     <th>Motorista</th>
                                     <th>Status</th>
-                                    <th>Data Viagem</th>
+                                    <th>Data da Viagem</th>
+                                    <th>Horario da Saída</th>
                                     <th>Ação</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {%for viagem in viagens %}
                                 <tr>
-                                    <td>{{viagem.carro.nome}}</td>
-                                    <td>{{viagem.carro.placa|upper}}</td>
+                                    <td>{{viagem.carro}}</td>
                                     <td>{{viagem.destino_viagem|upper}}</td>
                                     <td>{{viagem.motorista.nome_completo}}</td>
                                     <td>{{viagem.get_status_display}}</td>
                                     <td>{{viagem.data_viagem|date:"d/m/Y"|default:'---'}}</td>
+                                    <th>{{viagem.horario_saida}}</th>
 
 
 

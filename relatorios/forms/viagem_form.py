@@ -61,24 +61,14 @@ class RelatorioViagemForm(forms.Form):
 
 
         if inicial and final:
-
-           
-
-        
+            
             if inicial > final:
                 self.add_error('data_inicial', 'Data inicial é maior que Data final ')
                                                                 
             inicial_data=datetime.strptime(inicial,'%Y-%m-%d')
             final_data=datetime.strptime(final,'%Y-%m-%d')
             
-            print('tipo',type(inicial))
-            print('tipo2',type(final))
-
-            
-            
-            
-
-
+          
 
             data_limite=timedelta(days=180)
             pesquisado=final_data-inicial_data

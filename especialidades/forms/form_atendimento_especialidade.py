@@ -24,16 +24,6 @@ class AtendimentoEspecialidadeForm(forms.ModelForm):
         model=AtendimentoEspecialidade
         fields='__all__'
      
-    """ def clean_data(self):
-
-        data = self.cleaned_data['data']
-        data_atual=date.today()
-        data_pesq=data_atual-timedelta(days=7)
-        print(data_pesq)
-        print('data_atual',data_atual)
-        if data_pesq > data_adatatual:
-            raise ValidationError("A Data do atendimento não pode ser anterior a 7 dias da  data atual")
-        return data"""
        
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
