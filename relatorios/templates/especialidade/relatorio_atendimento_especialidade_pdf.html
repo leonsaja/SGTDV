@@ -72,7 +72,8 @@
         <tr>
           <th>ITENS</th>
           <th>ESPECIALIDADE</th>
-          <th>QUANTIDADE</th>
+          <th>CONCLUIDO</th>
+          <th>AUSENTE</th>
           <th>ATENDIMENTO VIA</th>
         
 
@@ -85,7 +86,8 @@
 
           <td>{{ forloop.counter }}</td>
           <td>{{a.especialidade}}</td>
-          <td>{{a.qta_paciente_especialidade}}</td>
+          <td>{{a.qta_paciente_especialidade_concluido}}</td>
+          <td>{{a.qta_paciente_especialidade_ausente}}</td>
           <td>{{a.get_atendimento_via_display}}</td>
         </tr>
 

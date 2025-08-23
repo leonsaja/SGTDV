@@ -21,7 +21,10 @@ def relatorio_recibo_tfd_pdf(request,context):
     
     if context['especialidade']:
         recibo_tfds=recibo_tfds.filter(especialidade=context['especialidade']).distinct('paciente__cpf').order_by('paciente__cpf','paciente__nome_completo')
-    
+
+    if context['fora_estado']:
+        recibo_tfds=recibo_tfds.filter(atend_fora_estado=context['fora_estado'])
+
 
     context['inicial']=datetime.strptime(context['inicial'],'%Y-%m-%d').strftime('%d/%m/%Y')
     context['final']=datetime.strptime(context['final'],'%Y-%m-%d').strftime('%d/%m/%Y')
@@ -62,6 +65,8 @@ def relatorio_recibo_tfd(request):
             context['final']=form.cleaned_data.get('data_final')
             context['paciente']=form.cleaned_data.get('pacientes')
             context['especialidade']=form.cleaned_data.get('especialidade')
+            context['fora_estado']=form.cleaned_data.get('fora_estado')
+
             return relatorio_recibo_tfd_pdf(request,context)
            
     else:

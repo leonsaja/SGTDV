@@ -105,8 +105,11 @@ class AtendimentoEspecialidade(models.Model):
     def __str__(self):
         return f'{self.especialidade}'
     
-    def qta_paciente_especialidade(self):
+    def qta_paciente_especialidade_concluido(self):
         total=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).filter(paciente__status='2').count()
+        return total
+    def qta_paciente_especialidade_ausente(self):
+        total=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).filter(paciente__status='4').count()
         return total
  
 class ProcedimentosEspecialidade(models.Model):

@@ -175,10 +175,10 @@
                    
                     // Se você adicionou 'data_pedido' ou 'classificacao' na sua view:
                     if (paciente.dt_nascimento) {
-                        optionText += ` ( DN: ${paciente.dt_nascimento})`;
+                        optionText += ` ( DN: ${paciente.dt_nascimento}`;
                     }
                     if (paciente.cns) {
-                        optionText += ` ( CNS: ${paciente.cns})`;
+                        optionText += ` - CNS: ${paciente.cns})`;
                     }
                 
                     if (paciente.procedimento) { // Verifique se esta propriedade existe no JSON
@@ -187,14 +187,8 @@
                     if (paciente.classificacao) {
                         optionText += ` - Classificação: ${paciente.classificacao}`;
                     }
-                    if (paciente.cpf_paciente) {
-                        optionText += ` - CPF: ${paciente.cpf_paciente}`;
-                    }
-                    if (paciente.classificacao) {
-                        optionText += ` - Classificação: ${paciente.classificacao}`;
-                    }
-
-
+                    
+                  
                     $(pacienteSelectElement).append(
                         $('<option></option>').val(paciente.id).text(optionText)
                     );
