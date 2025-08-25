@@ -130,19 +130,6 @@ class CidadaoSearchListView(HasRoleMixin,ListView):
    
         if search_nome_cpf_cns:
 
-            """ # 1. Tentar validar como data de nascimento
-            data_nascimento = None
-            try:
-                print(search_nome_cpf_cns)
-                data_nascimento = datetime.strptime(search_nome_cpf_cns, '%Y/%m/%d').date()
-                print(data_nascimento)
-                qs = qs.filter(dt_nascimento=data_nascimento)
-               
-
-            except (ValueError, TypeError):
-                pass
-            """
-
             cpf_cns_limpo = re.sub(r'\D', '', search_nome_cpf_cns)
          
             if len(cpf_cns_limpo) == 11:
@@ -152,13 +139,10 @@ class CidadaoSearchListView(HasRoleMixin,ListView):
             else:
                 qs = qs.filter(nome_completo__icontains=search_nome_cpf_cns)
 
-
-    
         if search_nome_mae:
             qs=qs.filter(nome_mae__icontains=search_nome_mae)
         
         if search_dt_nascimento:
-            print('data',search_dt_nascimento)
             qs=qs.filter(dt_nascimento__iexact=search_dt_nascimento)
 
         return qs.select_related('microarea')
