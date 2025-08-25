@@ -1,4 +1,6 @@
 {% extends 'base.html' %} 
+{% block title%}Detalhe da Viagem {%endblock title%}
+
 {% load permission_tags %}
 {% block content %}
 
@@ -141,12 +143,33 @@
                         </div>
                       
                     </div>
+                     
                    
                 </div>
+                <div class="row">
+                        <div class="col-md-6">
+                             <label for="id_carro" class="form-label">Criado Por:</label>
+                             {%if viagem.criado_por%}
+                                 <h6 class="text-muted">{{viagem.criado_por|upper}}</h6>
+                              {%else%}
+                                 <h6 class="text-muted">-</h6>
+                             {%endif%}
+                        </div>
+                        <div class="col-md-6">
+                                <label for="id_carro" class="form-label">Alterado Por:</label>
+                                {%if viagem.alterado_por%}
+                                        <h6 class="text-muted">{{viagem.alterado_por|upper}}</h6>
+                                {%else%}
+                                    <h6 class="text-muted">-</h6>
+                                {%endif%}
+                         </div>
+                    </div>
             </div>
         </div>
         <div class="row">
+          
             <div class="col-md-12 mb-5">
+                  <br>  
                 <a href="{% url 'transportes:list-viagem' %}" class="btn btn-outline-primary mr-2">Voltar</a>
                                
             </div>

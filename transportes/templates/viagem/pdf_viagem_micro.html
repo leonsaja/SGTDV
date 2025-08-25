@@ -8,7 +8,26 @@
     size: "A4";
     /*margin: 1.0cm 1.5cm 1.5cm 1.5cm;*/
     margin: 0.3cm 1.5cm 1.5cm 1.5cm;
+    @bottom-left {
+        content: element(footer-content);
+    }
 
+    /* Insere a numeração de página no rodapé */
+    @bottom-right {
+        content: counter(page) " de " counter(pages);
+        font-family: Arial, sans-serif;
+        font-size: 10pt;
+        
+    }
+}
+#footer-content {
+    /* O nome 'footer-content' aqui deve ser o mesmo usado em 'content: element()'. */
+    position: running(footer-content);
+    /* Você pode adicionar estilos extras ao seu rodapé aqui */
+    text-align: left;
+    font-size: 10pt;
+
+    padding-bottom: 5px;
 }
 
 body {
@@ -222,6 +241,14 @@ table {
             </p>
         </div>
     </div>
+
+ <div id="footer-content">
+    {% if viagem.criado_por %}
+        <p>Realizado por {{ viagem.criado_por|upper }} no dia
+            {{viagem.created_at|date:"d/m/Y"|default:'---'}} às
+            {{viagem.created_at|time:"H:i"|default:'---'}}</span></p>
+   
+    {% endif %}
 
 
 

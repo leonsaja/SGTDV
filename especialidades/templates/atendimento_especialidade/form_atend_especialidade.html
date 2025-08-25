@@ -1,4 +1,12 @@
 {% extends 'base.html' %}
+
+{% block title%}
+  {% if request.resolver_match.url_name == 'add-atend_especialidade' %} 
+      Criar Atendimento
+  {%else%} 
+      Editar Atendimento
+  {%endif%} 
+{%endblock title%}
 {% load crispy_forms_tags %}
 {% block content %}
 

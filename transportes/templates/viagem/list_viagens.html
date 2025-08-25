@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load permission_tags %}
+{% block title%}Listar Viagens {%endblock title%}
 
 {% block content %}
 
@@ -126,7 +127,7 @@
                                     <td>{{viagem.motorista.nome_completo}}</td>
                                     <td>{{viagem.get_status_display}}</td>
                                     <td>{{viagem.data_viagem|date:"d/m/Y"|default:'---'}}</td>
-                                    <th>{{viagem.horario_saida}}</th>
+                                    <td>{{viagem.horario_saida}}</td>
 
 
 

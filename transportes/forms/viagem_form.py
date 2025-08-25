@@ -7,6 +7,8 @@ from django.core.exceptions import ValidationError
 from ..models import PassageiroViagem, Viagem
 from profissionais.models import Profissional
 from transportes.models import Carro
+from datetime import date, timedelta
+
 class ViagemForm(forms.ModelForm):
 
     data_viagem = forms.DateField(
@@ -34,6 +36,18 @@ class ViagemForm(forms.ModelForm):
         carro = cleaned_data.get('carro')
         status = cleaned_data.get('status')
         motorista = cleaned_data.get('motorista')
+        data=cleaned_data.get('data_viagem')
+        
+        hoje=date.today()
+        limite_minimo=hoje-timedelta(days=7)
+        limite_maximo=hoje+timedelta(days=7)
+    
+        if  data < limite_minimo or data > limite_maximo:
+            if not self.instance.pk:
+                self.add_error(
+                    f"data_viagem","A data deve estar entre 7 dias antes e 7 dias depois da data atual."
+                )
+        
         
         if status=='1':
              qs=Viagem.objects.select_related('carro','motorista').filter(carro=carro,status=status)

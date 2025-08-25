@@ -1,4 +1,8 @@
-{% extends 'base.html' %} {% load permission_tags %} {% block content %}
+{% extends 'base.html' %} 
+
+{% block title%}Lista Reembolsos {%endblock title%}
+
+{% load permission_tags %} {% block content %}
 <div class="container-fluid">
   {% include 'reembolso/abas_reembolso.html' %}
   <div class="row">

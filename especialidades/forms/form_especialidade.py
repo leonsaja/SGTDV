@@ -15,8 +15,12 @@ class EspecialidadeForm(forms.ModelForm):
         data = self.cleaned_data["nome"]
         data=data.upper()
         
-        if Especialidade.objects.filter(nome=data).exists():
-            raise ValidationError('Já existe especialidade com esse nome cadastrado')
+        qs=Especialidade.objects.filter(nome=data)
+        if self.instance.pk:
+                qs = qs.exclude(pk=self.instance.pk)
+                
+        if qs.exists():
+                raise ValidationError('Já existe especialidade com esse nome cadastrado')
         
         return data
     

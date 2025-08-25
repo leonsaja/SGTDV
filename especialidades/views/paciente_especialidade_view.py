@@ -45,10 +45,11 @@ class PacienteEspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,CreateVie
 
             form.add_error(
                 'paciente', 
-                'Este paciente já possui um cadastro  nessa especialidade com data do pedido e procedimento.'
+                'Este paciente já possui um cadastro  nessa especialidade, procedimento E .'
             )
             return self.form_invalid(form)
-
+        
+        form.instance.criado_por = self.request.user  
         form.instance.especialidade = especialidade_obj
         return super().form_valid(form)
     
@@ -68,7 +69,12 @@ class PacienteEspecialidadeUpdateView(SuccessMessageMixin,HasRoleMixin,UpdateVie
         context = super().get_context_data(**kwargs)
         context['especialidade'] = self.object.especialidade
         return context
-
+    
+    def form_valid(self, form): 
+        self.object.alterado_por = self.request.user.nome_completo
+        return  super().form_valid(form)
+    
+    
     def get_success_url(self):
         especialidade_id = self.object.especialidade.id
         return reverse_lazy('especialidades:detail-especialidade', kwargs={'pk': especialidade_id})

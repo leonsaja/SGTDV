@@ -1,4 +1,14 @@
-{% extends 'base.html' %} {% load widget_tweaks %}
+{% extends 'base.html' %} 
+{% block title%}
+  {% if request.resolver_match.url_name == 'add-reembolso' %} 
+      Criar Reembolso
+  {%else%} 
+      Editar Reembolso
+  {%endif%} 
+{%endblock title%}
+
+
+{% load widget_tweaks %}
 {% load crispy_forms_tags %}
 {% block content %}
 

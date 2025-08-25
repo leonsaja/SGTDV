@@ -1,4 +1,8 @@
-{% extends 'base.html' %}{% load permission_tags %}
+{% extends 'base.html' %}
+{% block title%}Detalhe paciente Especialidade {%endblock title%}
+
+
+{% load permission_tags %}
 {% block content %}
 
 <div class="container-fluid">
@@ -74,6 +78,31 @@
             <br />
 
         </fieldset>
+         <div class="row">
+                        <div class="col-md-6">
+                             <label for="id_carro" class="form-label">Criado Por:</label>
+                             {%if paciente_especialidade.criado_por%}
+                                 <h6 class="text-muted">{{paciente_especialidade.criado_por|upper}} -
+                                     {{paciente_especialidade.created_at|date:"d/m/Y"|default:'---'}} às
+                                            {{paciente_especialidade.created_at|time:"H:i"|default:'---'}}
+
+                                 </h6>
+                              {%else%}
+                                 <h6 class="text-muted">-</h6>
+                             {%endif%}
+                        </div>
+                        <div class="col-md-6">
+                                <label for="id_carro" class="form-label">Ultima alteração realizado por :</label>
+                                {%if paciente_especialidade.alterado_por%}
+                                        <h6 class="text-muted">{{paciente_especialidade.alterado_por|upper}} - 
+                                            {{paciente_especialidade.updated_at|date:"d/m/Y"|default:'---'}} às
+                                            {{paciente_especialidade.updated_at|time:"H:i"|default:'---'}}
+                                           </h6>
+                                {%else%}
+                                    <h6 class="text-muted">-</h6>
+                                {%endif%}
+                         </div>
+                    </div>
         <div class="row">
             <div class="col-md-12 mb-5">
                 <a href="{% url 'especialidades:detail-especialidade'  especialiadade.id%}" class="btn btn-outline-primary mr-2">Voltar</a>

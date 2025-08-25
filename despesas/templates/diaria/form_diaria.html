@@ -1,4 +1,15 @@
-{% extends 'base.html' %} {% load crispy_forms_tags %}
+{% extends 'base.html' %} 
+{% block title%}
+  {% if request.resolver_match.url_name == 'add-diaria' %} 
+      Criar Diária
+  {%else%} 
+      Editar Diária
+  {%endif%} 
+{%endblock title%}
+{% load crispy_forms_tags %}
+
+
+{% load crispy_forms_tags %}
 
 {% block content %}
 <div class="container-fluid">

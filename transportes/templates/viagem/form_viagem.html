@@ -1,5 +1,11 @@
 {% extends 'base.html' %} 
-
+{% block title%}
+  {% if request.resolver_match.url_name == 'add-viagem' %} 
+      Criar Viagem 
+  {%else%} 
+      Editar Viagem 
+  {%endif%} 
+{%endblock title%}
 {% load crispy_forms_tags %}
 
 
@@ -103,6 +109,42 @@
       prefix: '{{ formset.prefix }}',
       addText: "<div><i class='fas fa-plus'></i></div>",
       deleteText: "<div class='btn btn-danger btn-circle'><i class='fas fa-trash'></i></div>"
+    });
+
+    // Código de validação com JavaScript
+    $(document).ready(function() {
+      // Usa delegação de eventos para capturar mudanças em todos os campos de paciente
+      $('table.form').on('change', 'select[name$="paciente"]', function() {
+        var selectedValue = $(this).val();
+        var currentSelect = $(this);
+        var isDuplicate = false;
+
+        // Limpa mensagens de erro anteriores em todas as células de passageiro
+        $('td:has(select[name$="paciente"]) .error-message').remove();
+        $('select[name$="paciente"]').removeClass('is-invalid');
+
+        // Itera sobre todos os campos de paciente, exceto o atual
+        $('select[name$="paciente"]').not(this).each(function() {
+          // Verifica se o valor é duplicado e não está vazio
+          if ($(this).val() === selectedValue && selectedValue !== '') {
+            isDuplicate = true;
+            return false; // Sai do loop 'each'
+          }
+        });
+
+        // Se for uma duplicata, exibe a mensagem de erro no formulário
+        if (isDuplicate) {
+          // Adiciona a classe de validação do Bootstrap para o campo ficar vermelho
+          currentSelect.addClass('is-invalid');
+
+          // Adiciona a mensagem de erro diretamente na célula (<td>)
+          var errorMessageHtml = '<div class="invalid-feedback d-block error-message mt-1">Este passageiro já foi adicionado na viagem.</div>';
+          currentSelect.closest('td').append(errorMessageHtml);
+
+          // Limpa a seleção do campo com erro de forma confiável
+          currentSelect.prop('selectedIndex', 0);
+        }
+      });
     });
   </script>
 {% endblock scripts %}
