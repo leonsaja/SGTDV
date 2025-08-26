@@ -43,6 +43,7 @@ class Diaria(models.Model):
     aprovado_por=models.CharField(verbose_name='Aprovado por ',max_length=200,null=True,blank=True)
     descricao_reembolso=models.TextField(verbose_name='Descrição Reembolso',null=True,blank=True)
     data_ult_nota_reembolso=models.DateField(verbose_name='Data última nota',null=True,blank=False,help_text='Colocar data última nota')
+    alterado_por=models.CharField(verbose_name='Alterado por ', max_length=200,null=True,blank=True)
 
     def valor_total(self):
        total=0

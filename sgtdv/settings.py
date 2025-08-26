@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'rolepermissions',
     'django.contrib.humanize',  
     'django_bootstrap5',
+    'django.contrib.postgres',
     
     
     

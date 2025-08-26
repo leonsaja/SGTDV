@@ -23,7 +23,7 @@ class ViagemForm(forms.ModelForm):
      
     class Meta:
         model=Viagem
-        fields='__all__'
+        exclude=('criado_por','alterado_por',)
         widgets = {
             'motorista':s2forms.Select2Widget(),
             'carro':s2forms.Select2Widget(),

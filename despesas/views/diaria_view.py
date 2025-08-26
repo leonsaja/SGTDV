@@ -42,7 +42,7 @@ class DiariaUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.criado_por = self.request.user.nome_completo
+        self.object.alterado_por = self.request.user.nome_completo
         self.object.save()
         return  super().form_valid(form)
 

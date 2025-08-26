@@ -14,13 +14,13 @@ def relatorio_diaria_pdf(request,context):
     response = HttpResponse(content_type='application/pdf')
     diarias=Diaria.objects.select_related('profissional').all()
     if context['profissional']:
-        diarias.filter(profissional=context['profissional']).filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
+        diarias=diarias.filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
   
 
     if context['tipo_relatorio']:
-         diarias=Diaria.objects.select_related('profissional').filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
+        diarias=diarias.filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
     else:
-        diarias=Diaria.objects.select_related('profissional').filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
+       diarias=diarias.filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
 
     context['qta_diarias']= diarias.count()
     context['qta_reembolsos']=diarias.filter(reembolso='1').count()

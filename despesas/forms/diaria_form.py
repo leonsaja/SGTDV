@@ -13,7 +13,7 @@ class DiariaForm(forms.ModelForm):
     
     class Meta:
         model=Diaria
-        exclude=('status','aprovado_por','total','descricao_rembolso','data_ult_nota_reembolso',)
+        exclude=('status','criado_por','alterado_por','aprovado_por','total','descricao_rembolso','data_ult_nota_reembolso',)
         widgets = {
             'profissional':s2forms.Select2Widget(),
         }

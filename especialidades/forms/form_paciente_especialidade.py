@@ -58,7 +58,7 @@ class PacienteEspecialidadeUpdateForm(forms.ModelForm):
     )
     class Meta:
         model= PacienteEspecialidade
-        exclude=('especialidade',)
+        exclude=('especialidade','criado_por','alterado_por',)
         widgets = {
             'paciente': autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
             'procedimento':s2forms.Select2Widget(),
