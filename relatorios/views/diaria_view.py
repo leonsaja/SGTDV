@@ -7,20 +7,39 @@ from reportlab.lib.pagesizes import A4
 from despesas.models import Diaria
 from relatorios.forms.diaria_form import RelatorioDiariaForm
 from datetime import datetime
+from django.db.models import Q
+
 from rolepermissions.decorators import has_role_decorator
 from django.core.paginator import Paginator
-
+from django.db.models import Count, Sum
+from profissionais.models import Profissional
 def relatorio_diaria_pdf(request,context):
     response = HttpResponse(content_type='application/pdf')
-    diarias=Diaria.objects.select_related('profissional').all()
+    diarias=Diaria.objects.select_related('profissional').filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
+    
     if context['profissional']:
-        diarias=diarias.filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
+        diarias=diarias.filter(profissional=context['profissional'])
   
 
-    if context['tipo_relatorio']:
-        diarias=diarias.filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
-    else:
-       diarias=diarias.filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
+    start_date = context['inicial']
+    end_date = context['final']
+
+    if context['tipo_relatorio'] == '3':
+        motoristas = Profissional.objects.filter(cargo='7')
+
+        motoristas_com_dados = motoristas.annotate(
+            total_diarias=Count('profissionais', filter=Q(profissionais__data_diaria__range=(start_date, end_date))),
+            soma_valores=Sum('profissionais__total', filter=Q(profissionais__data_diaria__range=(start_date, end_date)))
+        ).exclude(total_diarias=0)
+
+        total_geral_diarias = Diaria.objects.filter(profissional__cargo='7', data_diaria__range=(start_date, end_date)).count()
+        soma_total_valores = Diaria.objects.filter(profissional__cargo='7', data_diaria__range=(start_date, end_date)).aggregate(Sum('total'))['total__sum']
+
+        context['motoristas'] = motoristas_com_dados
+        context['total_geral_diarias'] = total_geral_diarias
+        context['soma_total_valores'] = soma_total_valores
+
+
 
     context['qta_diarias']= diarias.count()
     context['qta_reembolsos']=diarias.filter(reembolso='1').count()

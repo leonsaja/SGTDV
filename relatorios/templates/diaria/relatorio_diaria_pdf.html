@@ -37,7 +37,78 @@
 
 {% include 'includes/cabecalho.html' %}
 <div class="conteudo">
-  <h2 class="text-center"> <b>Relatório de Diárias</b></h2>
+   <h2 class="text-center"> <b>Relatório de Diárias</b></h2>
+  {% if tipo_relatorio == '2'%}
+  <div class="row">
+    <div class="col-md-12">
+      <p class="p-1"><b>Período: </b>{{inicial}} a {{final}}
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;
+        <b> Data do relatório:</b> {{data}}
+
+      </p>
+    </div>
+
+    <div class="col-md-12 pt-1">
+      <p class="p-1">
+        <b>Registros identificados: </b>{{qta_diarias}}
+      </p>
+
+    </div>
+  
+
+<div class="col-md-12 pt-1">
+  <p class="p-1" ;>
+    <b>Reembolsos: </b>{{qta_reembolsos}}
+
+  </p>
+</div>
+  <div class="col-md-12 pt-1">
+    <p class="p-1"><b>Total de Diárias:  </b>R$ {{total_diarias|intcomma}}</p>
+  </div>
+ <div class="col-md-12 pt-1">
+    <p class="p-1"><b>Total de Reembolsos:  </b>R$ {{total_reembolsos|intcomma}}</p>
+  </div>
+ 
+</div>
+  {%elif tipo_relatorio == '3' %}
+ <div class="row">
+    <div class="col-md-12">
+      <p class="p-1"><b>Período: </b>{{inicial}} a {{final}}
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;
+        <b> Data do relatório:</b> {{data}}
+
+      </p>
+    </div>
+
+    <div class="col-md-12 pt-1">
+      <p class="p-1">
+        <b>Registros identificados: </b> {{ total_geral_diarias }}
+      </p>
+
+    </div>
+  
+  <div class="col-md-12 pt-1">
+    <p class="p-1"><b>Total de Diárias:  </b>R$ {{ soma_total_valores|intcomma}}</p>
+  </div>
+ 
+ 
+</div>
+  {%else%}
+  <div class="conteudo">
 
   <div class="row">
     <div class="col-md-12">
@@ -77,8 +148,7 @@
   </div>
  
 </div>
-  
-
+{%endif%}
     <br>
     {% if tipo_relatorio == '2'%}
     <table class="table">
@@ -89,6 +159,7 @@
           <th>CPF</th>
           <th>Data da Diária</th>
           <th>Quantidade</th>
+          <th>Valor</th>
 
         </tr>
       </thead>
@@ -103,7 +174,36 @@
 
           <td>{{d.data_diaria|date:"d/m/Y"|default:'---'}}</td>
           <td>{{d.form_qta_diaria}}</td>
+          <td>R$ {{d.total|intcomma}}</td>
 
+        </tr>
+
+        {%endfor%}
+      </tbody>
+
+    </table>
+    {%endif%}
+    {% if tipo_relatorio == '3'%}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ITENS</th>
+          <th>Nome do Profissional</th>
+          <th>Quantidade</th>
+          <th>Valor total</th>
+          
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in motoristas %}
+
+        <tr>
+
+          <td>{{ forloop.counter }}</td>
+          <td>{{d}}</td>
+          <td>{{d.total_diarias}}</td>
+          <td>R$ {{d.soma_valores|intcomma}}</td>
         </tr>
 
         {%endfor%}
