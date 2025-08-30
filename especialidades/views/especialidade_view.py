@@ -12,6 +12,7 @@ from rolepermissions.decorators import has_role_decorator
 from django.contrib.messages.views import SuccessMessageMixin
 from especialidades.forms.form_especialidade import EspecialidadeForm
 from especialidades.models import Especialidade, PacienteEspecialidade
+from django.db.models import ProtectedError, Q
 
 
 class EspecialidadeCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
@@ -59,7 +60,7 @@ def especialidadeDetail(request,pk):
     
     especialidade=get_object_or_404(Especialidade,id=pk)
     context['especialidade']=especialidade
-    pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade').filter(especialidade_id=especialidade.id).filter(status=1).order_by('data_pedido')
+    pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade').filter(especialidade_id=especialidade.id).filter(Q(status='1') |Q(status='5')).order_by('data_pedido')
     
     paginator = Paginator(pacientes_especialidade,10)  
     page_number = request.GET.get("page")

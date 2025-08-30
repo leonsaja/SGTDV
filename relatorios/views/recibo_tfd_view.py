@@ -10,7 +10,8 @@ from django.core.paginator import Paginator
 from rolepermissions.decorators import has_role_decorator
 
 def relatorio_recibo_tfd_pdf(request,context):
-    recibo_tfds=ReciboTFD.objects.select_related('paciente').all()
+    recibo_tfds=ReciboTFD.objects.select_related('paciente').all().order_by('paciente__nome_completo')
+  
 
     if context['inicial'] and context['final']:
         recibo_tfds=recibo_tfds.filter(data__gte=context['inicial']).filter(data__lte=context['final'])
@@ -25,7 +26,7 @@ def relatorio_recibo_tfd_pdf(request,context):
     if context['fora_estado']:
         recibo_tfds=recibo_tfds.filter(atend_fora_estado=context['fora_estado'])
 
-
+   
     context['inicial']=datetime.strptime(context['inicial'],'%Y-%m-%d').strftime('%d/%m/%Y')
     context['final']=datetime.strptime(context['final'],'%Y-%m-%d').strftime('%d/%m/%Y')
     context['data']=datetime.today().strftime('%d/%m/%Y')
@@ -55,11 +56,12 @@ def relatorio_recibo_tfd(request):
     recibos_tfds=ReciboTFD.objects.select_related('paciente','especialidade','acompanhante').all().order_by('-created_at')
     paginator = Paginator(recibos_tfds,9)  
     page_number = request.GET.get("page")
+  
     recibos_tfds= paginator.get_page(page_number)
   
     if request.method == 'POST':
         form=RelatorioReciboTfdsForm(request.POST or None)
-
+        
         if form.is_valid():
             context['inicial']=form.cleaned_data.get('data_inicial')
             context['final']=form.cleaned_data.get('data_final')
