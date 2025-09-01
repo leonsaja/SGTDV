@@ -1,33 +1,13 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="pt">
+{% extends 'base.html' %}
+{% load permission_tags %}
+{% block header%}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock header %}
+{% load crispy_forms_tags %}
+{% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="container-fluid">
 
-    <title>{% block title %}Home{% endblock %}</title>
-    <link rel="stylesheet" media="print" href="/static/style_pdf.css" />
-    <link rel="stylesheet" media="print" href="/static/bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" media="print" href="/static/bootstrap/js/bootstrap.js" />
-    {% block head%} {%endblock head%}
-
-    <style>
-        .custom-bg {
-            background: linear-gradient(to right, #e2e8f0, #e5e7eb);
-        }
-
-        .custom-btn:hover {
-            background-color: #f3e8ff !important;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-       
-    </style>
-</head>
-
-<body>
-    {% block content %}
     <div class="container">
         <div class="row justify-content-center">
 
@@ -36,20 +16,17 @@
         <div class="">
             <div class="text-center">
                 <h1 class="display-1 fw-bold">404</h1>
-                ">Oops! Page not found</p>
-                <p class="mt-4 mb-5">The page you're looking for doesn't exist or has been moved.</p>
-                <a href="/" class="btn btn-light fw-semibold rounded-pill px-4 py-2 custom-btn">
-                    Go Home
+               <p>"Ops! Página não encontrada.</p>
+                <p class="mt-4 mb-5">A página que você está procurando não existe ou foi movida.</p>
+                <a href="/" class="">
+                   <h4><b>Home</b></h4> 
                 </a>
             </div>
         </div>
     </div>
     </div>
         
-   
+    </div>
+{% endblock content %}
 
-    {% endblock %}
 
-</body>
-
-</html>

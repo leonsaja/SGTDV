@@ -38,7 +38,7 @@ urlpatterns = [
     path('delete/<int:pk>/atendimento', atend_especialidade_view.AtendEspecialidadeDeleteView.as_view(), name='del-atend-especialidade' ),  
     path("pdf/<int:id>/atendimento",atend_especialidade_view.atend_especialidade_pdf,name='pdf-atend_especialidade'),
     path('load-pacientes-by-especialidade/', atend_especialidade_view.load_pacientes_by_especialidade, name='load_pacientes_by_especialidade'),
-   
+    #path('search-pacientes/', atend_especialidade_view.search_pacientes, name='search_pacientes'),
 
     #Procedimento de Especialidades
 
