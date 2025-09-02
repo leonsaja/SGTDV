@@ -173,14 +173,7 @@
                $.each(data, function (index, paciente) {
                     // Crie a string de texto para a opção usando os novos campos
                     let optionText = paciente.nome_completo;
-                    // Notei que 'procedimento' estava sendo usado aqui, mas no seu modelo
-                    // 'procedimento' é um ForeignKey em PacienteEspecialidade, não um campo do Cidadao.
-                    // Se você quer exibir o procedimento associado ao PacienteEspecialidade,
-                    // ele precisaria ser enviado pela view 'load_pacientes_by_especialidade'
-                    // se o PacienteEspecialidade já tiver um procedimento selecionado.
-                    // Por agora, vou manter o que estava, mas revise se 'paciente.procedimento' realmente existe no JSON.
                     
-                   
                     // Se você adicionou 'data_pedido' ou 'classificacao' na sua view:
                     if (paciente.dt_nascimento) {
                         optionText += ` ( DN: ${paciente.dt_nascimento}`;

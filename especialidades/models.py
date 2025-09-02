@@ -53,6 +53,7 @@ class PacienteEspecialidade(models.Model):
         ('4','AUSENTE'),
         ('5','EM TRATAMENTO'),
         ('6','ALTA'),
+        ('7','ACOMPANHAMENTO')
 
     )
     

@@ -33,6 +33,8 @@ class ReciboTFD(models.Model):
    grs=models.CharField(verbose_name='GRS',max_length=50,null=False,blank=False,default='Pedra Azul-MG')
    especialidade=models.ForeignKey(Especialidade,on_delete=models.PROTECT, verbose_name='Especialidade', null=False, blank=False)
    unid_assistencial=models.CharField(verbose_name='Unidade Assistencial',null=True, blank=False,max_length=240)
+   pg_conta=models.PositiveBigIntegerField(verbose_name='Conta',null=True,blank=False,default=115223,help_text='DADOS DA FONTE DE PAGAMENTO ')
+   pg_fonte=models.PositiveIntegerField(verbose_name='Fonte',null=True,blank=False,default=15001002, help_text='DADOS DA FONTE DE PAGAMENTO ')
    
    #Dados para Acompanhante
    tem_acompanhante=models.CharField(verbose_name='Tem Acompanhante',null=False,blank=False,max_length=1,choices=ACOMPANHANTE)
@@ -59,6 +61,14 @@ class ReciboTFD(models.Model):
 
    def __str__(self):
       return f'{self.id} {self.paciente.nome_completo}'
+   
+   def form_conta(self):
+       conta=str(self.pg_conta)
+       return ('{}-{}'.format(conta[:5],conta[5:]))
+    
+   def form_fonte(self):
+       fonte=str(self.pg_fonte)
+       return ('{}-{}'.format(fonte[:4],fonte[4:]))
    
    def calcular_total_gasto(self):
       items=ProcedimentoSia.objects.prefetch_related('recibo_tfd','codigosia').filter(recibo_tfd=self)

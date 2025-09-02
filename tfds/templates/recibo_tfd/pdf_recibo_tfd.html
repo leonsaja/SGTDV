@@ -134,7 +134,7 @@
     <div class="linha"></div>
     <div class="row">
         <div class="col-md-6 m-2">
-            <p><b>DADOS BANCÁRIO:</b>
+            <p><b>DADOS BANCÁRIO DO PACIENTE OU DO ACOMPANHANTE:</b>
                 <br>
 
                 {%if recibo_tfd.pagamento_por == '1'%}
@@ -143,6 +143,19 @@
                 <b> AGÊNCIA:</b> {{recibo_tfd.agencia}} &nbsp;&nbsp;&nbsp;
                 <b>CONTA:</b> {{recibo_tfd.conta}}
                 {%endif%}
+            </p>
+
+        </div>
+    </div>
+     <div class="linha"></div>
+    <div class="row">
+        <div class="col-md-6 m-2">
+           
+            <p ><b>DADOS DA FONTE DE PAGAMENTO:</b>
+                <br>
+                <b>FONTE:</b> {{recibo_tfd.form_fonte}} &nbsp;&nbsp;&nbsp;
+                <b>CONTA:</b> {{recibo_tfd.form_conta}}
+              
             </p>
 
         </div>

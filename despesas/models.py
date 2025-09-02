@@ -51,6 +51,7 @@ class Diaria(models.Model):
        if self.total:
           total+=self.total
        return total
+    
     def form_conta(self):
        conta=str(self.conta)
        return ('{}-{}'.format(conta[:5],conta[5:]))

@@ -30,7 +30,7 @@ def relatorio_diaria_pdf(request,context):
         motoristas_com_dados = motoristas.annotate(
             total_diarias=Count('profissionais', filter=Q(profissionais__data_diaria__range=(start_date, end_date))),
             soma_valores=Sum('profissionais__total', filter=Q(profissionais__data_diaria__range=(start_date, end_date)))
-        ).exclude(total_diarias=0)
+        ).exclude(total_diarias=0).order_by('nome_completo')
 
         total_geral_diarias = Diaria.objects.filter(profissional__cargo='7', data_diaria__range=(start_date, end_date)).count()
         soma_total_valores = Diaria.objects.filter(profissional__cargo='7', data_diaria__range=(start_date, end_date)).aggregate(Sum('total'))['total__sum']
