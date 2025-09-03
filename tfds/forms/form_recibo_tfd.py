@@ -71,13 +71,14 @@ class ReciboTFDForm(forms.ModelForm):
         if qs.exists():
             self.add_error('paciente','Este paciente já possui um recibo TFD com essa data.')
         
-        if data > date.today():
-            self.add_error("data",'Data não pode ser futura.')
-        if  data < limite_minimo:
-            if not self.instance.pk:
-                self.add_error(
-                    f"data","A data do recibo não pode ser anterior a 7 dias atrás."
-                )
+        if data:
+            if data > date.today():
+                self.add_error("data",'Data não pode ser futura.')
+            if  data < limite_minimo:
+                if not self.instance.pk:
+                    self.add_error(
+                        f"data","A data do recibo não pode ser anterior a 7 dias atrás."
+                    )
         
         if tem_acompanhante == '1':
             acompanhante=cleaned_data.get('acompanhante')
