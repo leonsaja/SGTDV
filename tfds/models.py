@@ -28,9 +28,11 @@ class ReciboTFD(models.Model):
    )
    PG_CONTA=(
       ('1','11522-3'),
+      ('2','14753-2'),
    )
    PG_FONTE=(
       ('1','1500-1002'),
+      ('2','1600-0000'),
    )
    paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='paciente')
    municipio_origem=models.CharField(verbose_name='Município Origem', max_length=120,null=False,blank=False,default='Santo Antônio do Jacinto-MG')

@@ -63,7 +63,15 @@ class ReciboTFDForm(forms.ModelForm):
         paciente=cleaned_data.get('paciente')
         hoje=date.today()
         limite_minimo=hoje-timedelta(days=7)
+
+        pg_fonte=cleaned_data.get('pg_fonte')
+        pg_conta=cleaned_data.get('pg_conta')
+
+        print('pg_fonte',pg_fonte)
+        print('pg_conta',pg_conta)
+
         
+
         qs=ReciboTFD.objects.select_related('paciente','especialidade','acompanhante').filter(paciente=paciente, data=data)
         if self.instance.pk:
                 qs = qs.exclude(pk=self.instance.pk)
