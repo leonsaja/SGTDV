@@ -29,7 +29,7 @@ class Cidadao(models.Model):
     telefone=models.CharField(verbose_name='Telefone', max_length=15, null=True,blank=True)
     telefone1=models.CharField(verbose_name='Celular ', max_length=15,null=False,blank=False)
     
-    microarea=models.ForeignKey(MicroArea,null=True,blank=False,on_delete=models.PROTECT, related_name='microarea_cidadao',verbose_name='Microárea')
+    microarea=models.ForeignKey('estabelecimentos.MicroArea',null=True,blank=False,on_delete=models.PROTECT, related_name='microarea_cidadao',verbose_name='Microárea')
     raca=models.CharField(verbose_name='Raça/Cor',max_length=1, choices=RACA, null=True, blank=False)
     nacionalidade=models.CharField(verbose_name='Município de nascimento',max_length=120, null=True, blank=False)
 
