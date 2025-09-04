@@ -41,8 +41,8 @@ class ReciboTFD(models.Model):
    grs=models.CharField(verbose_name='GRS',max_length=50,null=False,blank=False,default='Pedra Azul-MG')
    especialidade=models.ForeignKey(Especialidade,on_delete=models.PROTECT, verbose_name='Especialidade', null=False, blank=False)
    unid_assistencial=models.CharField(verbose_name='Unidade Assistencial',null=True, blank=False,max_length=240)
-   pg_conta=models.CharField(verbose_name='Conta',null=True,blank=False,max_length=1,choices=PG_CONTA,help_text='DADOS DA FONTE DE PAGAMENTO ')
-   pg_fonte=models.CharField(verbose_name='Fonte',null=True,blank=False,max_length=1,choices=PG_FONTE,help_text='DADOS DA FONTE DE PAGAMENTO ')
+   pg_conta=models.CharField(verbose_name='Conta',null=True,blank=False,max_length=1,choices=PG_CONTA,help_text='FONTE DE PAGAMENTO ')
+   pg_fonte=models.CharField(verbose_name='Fonte',null=True,blank=False,max_length=1,choices=PG_FONTE,help_text='FONTE DE PAGAMENTO ')
    
    #Dados para Acompanhante
    tem_acompanhante=models.CharField(verbose_name='Tem Acompanhante',null=False,blank=False,max_length=1,choices=ACOMPANHANTE)

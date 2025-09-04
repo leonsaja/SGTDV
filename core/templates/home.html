@@ -167,17 +167,19 @@
             </div>
             <!-- /.card -->
         </div>
-         {% if user|has_role:'digitador,secretario,coordenador' %}
+    {%endif%}
+    {%if user|has_role:'digitador,secretario,coordenador' %}
         <div class="col-lg-6">
             <h3 class="text-center"><b>Gastos Mensais das Despesas</b></h3>
             <div style="width: 80%; margin: auto;">
                 <canvas id="meuGrafico"></canvas>
             </div>
         </div>
-        {%endif%}
+        
     </div>
     {%endif%}
-     {% if user|has_role:'regulacao,secretario,coordenador' %}
+    
+    {% if user|has_role:'secretario,coordenador' %}
 
     <div class="row mt-4">
         <div class="col-lg-6">

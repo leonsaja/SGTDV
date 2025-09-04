@@ -68,10 +68,17 @@ class ReciboTFDForm(forms.ModelForm):
         pg_conta=cleaned_data.get('pg_conta')
 
         print('pg_fonte',pg_fonte)
-        print('pg_conta',pg_conta)
-
+        print('pg_conta',type(pg_conta))
         
-
+        if pg_fonte and pg_conta:
+            
+            if pg_fonte=='1':
+                if pg_conta != pg_fonte:
+                    self.add_error('pg_fonte',f'Fonte deve ser para Conta 11522-3.')
+            else:
+                if pg_conta != pg_fonte:
+                    self.add_error('pg_fonte',f'Fonte deve ser para Conta 14753-2.')
+                    
         qs=ReciboTFD.objects.select_related('paciente','especialidade','acompanhante').filter(paciente=paciente, data=data)
         if self.instance.pk:
                 qs = qs.exclude(pk=self.instance.pk)

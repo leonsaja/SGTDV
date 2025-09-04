@@ -26,14 +26,20 @@ class RelatorioReciboTfdsForm(forms.Form):
     especialidade=forms.ModelChoiceField(label='Especialidade', queryset=Especialidade.objects.all(),
                                          required=False,  widget= s2forms.Select2Widget())
 
-    """ FORA_ESTADO=(
-        ('1','RESUMO (VALOR TOTAL)'),
-        ('2','COMPLETO (TUDO)'),
-        ('3','MOTORISTA (SOMENTE)'),
+    FORA_ESTADO=(
+        ('1','SIM'),
+        ('2','NAO'),
+    
     )
     
-    fora_estado=forms.ChoiceField(label='FORA DO ESTADO',required=True, widget=forms.RadioSelect,choices=FORA_ESTADO)
-    """
+    fora_estado=forms.ChoiceField(label='FORA DO ESTADO',required=False, widget=forms.RadioSelect,choices=FORA_ESTADO)
+    TIPO=(
+        ('1','RESUMO (VALOR TOTAL)'),
+        ('2','COMPLETO (TUDO)'),
+    )
+    
+    tipo_relatorio=forms.ChoiceField(label='TIPO DE RELATÓRIO',required=True, widget=forms.RadioSelect,choices=TIPO)
+    
     def clean_data_inicial(self):
         data = self.cleaned_data["data_inicial"]
         data_atual=date.today().strftime('%Y-%m-%d')

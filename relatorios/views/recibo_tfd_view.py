@@ -10,12 +10,8 @@ from django.core.paginator import Paginator
 from rolepermissions.decorators import has_role_decorator
 
 def relatorio_recibo_tfd_pdf(request,context):
-    recibo_tfds=ReciboTFD.objects.select_related('paciente').all().order_by('paciente__nome_completo')
+    recibo_tfds=ReciboTFD.objects.select_related('paciente').filter(data__gte=context['inicial']).filter(data__lte=context['final']).order_by('paciente__nome_completo')
   
-
-    if context['inicial'] and context['final']:
-        recibo_tfds=recibo_tfds.filter(data__gte=context['inicial']).filter(data__lte=context['final'])
-
     if context['paciente']:
         recibo_tfds=recibo_tfds.filter(paciente=context['paciente'])
 
@@ -40,9 +36,7 @@ def relatorio_recibo_tfd_pdf(request,context):
     context['recibos_tfds']=recibo_tfds
     context['total_recibo']=total
 
-    """  context['total_diarias']=total
-    context['total_reembolsos']=total_reembolsos """
- 
+
 
     response = HttpResponse(content_type='application/pdf')
     html_string = render_to_string('tfds/recibo_tfd/relatorio_recibo_tfd_pdf.html',context)
@@ -68,6 +62,7 @@ def relatorio_recibo_tfd(request):
             context['paciente']=form.cleaned_data.get('pacientes')
             context['especialidade']=form.cleaned_data.get('especialidade')
             context['fora_estado']=form.cleaned_data.get('fora_estado')
+            context['tipo_relatorio']=form.cleaned_data.get('tipo_relatorio')
 
             return relatorio_recibo_tfd_pdf(request,context)
            
