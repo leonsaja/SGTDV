@@ -118,146 +118,25 @@
 </div>
 
 {% endblock %}
-
 {% block scripts %}
-
+  {{ form.media }}
+  {{ formset.media }}
 <script src='/static/utils/jquery.formset.min.js'></script>
 <script>
-    // Inicializa o formset
-    $('table.form tr').formset({
-        prefix: '{{ formset.prefix }}',
-        addText: "<div><i class='fas fa-plus'></i> Adicionar Paciente</div>", // Mudei o texto para ser mais claro
-        deleteText: "<div class='btn btn-danger btn-circle'><i class='fas fa-trash'></i></div>",
-        // --- ADIÇÃO CRUCIAL AQUI ---
-        added: function(row) {
-            // Este callback é executado quando uma nova linha (row) é adicionada ao formset.
-            const especialidadeId = $('#id_atendimento-especialidade').val(); // Pega a especialidade principal
-            const novoPacienteSelect = $(row).find('select[name$="-paciente"]'); // Encontra o campo 'paciente' na nova linha
-
-            // Chama a função de carregamento de pacientes para a nova linha
-            // Isso garantirá que o select 'paciente' seja preenchido com base na especialidade atual.
-            loadPacientes(especialidadeId, novoPacienteSelect);
-        }
-        // --- FIM DA ADIÇÃO CRUCIAL ---
-    });
-
-    // Função para carregar pacientes via AJAX
-    function loadPacientes(especialidadeId, pacienteSelectElement) {
-        // Converte o elemento jQuery para um objeto JavaScript nativo para verificar o tagName
-        const selectElement = $(pacienteSelectElement)[0]; 
-
-        // Certifica-se de que estamos lidando com um elemento <select>
-        if (!selectElement || selectElement.tagName.toLowerCase() !== 'select') {
-            console.warn("Elemento não é um select:", pacienteSelectElement);
-            return;
-        }
-
-        // Armazena o valor selecionado antes de limpar
-        const currentSelectedValue = $(pacienteSelectElement).val();
-
-        // Limpa as opções atuais
-        $(pacienteSelectElement).empty();
-        $(pacienteSelectElement).append('<option value="">---------</option>'); // Adiciona opção padrão
-
-        if (!especialidadeId) {
-            return; // Se não há especialidade, não faz a requisição AJAX
-        }
-
-        $.ajax({
-            url: "{% url 'especialidades:load_pacientes_by_especialidade' %}",
-            data: {
-                'especialidade_id': especialidadeId
-            },
-            dataType: 'json',
-            success: function (data) {
-               $.each(data, function (index, paciente) {
-                    // Crie a string de texto para a opção usando os novos campos
-                    let optionText = paciente.nome_completo;
-                    
-                    // Se você adicionou 'data_pedido' ou 'classificacao' na sua view:
-                    if (paciente.dt_nascimento) {
-                        optionText += ` ( DN: ${paciente.dt_nascimento}`;
-                    }
-                    if (paciente.cns) {
-                        optionText += ` - CNS: ${paciente.cns})`;
-                    }
-                
-                    if (paciente.procedimento) { // Verifique se esta propriedade existe no JSON
-                        optionText += ` - Procedimento: ${paciente.procedimento}`;
-                    }
-                    if (paciente.classificacao) {
-                        optionText += ` - Classificação: ${paciente.classificacao}`;
-                    }
-                    
-                  
-                    $(pacienteSelectElement).append(
-                        $('<option></option>').val(paciente.id).text(optionText)
-                    );
+    $(document).ready(function() {
+        // Inicializa o formset. O DAL já cuida do autocomplete.
+        $('table.form tr').formset({
+            prefix: '{{ formset.prefix }}',
+            addText: "<div><i class='fas fa-plus'></i> Adicionar Paciente</div>",
+            deleteText: "<div class='btn btn-danger btn-circle'><i class='fas fa-trash'></i></div>",
+            // A função 'added' é importante para inicializar o Select2 em novas linhas
+            added: function(row) {
+                // Aqui você pode chamar o evento de inicialização do DAL
+                $(row).find('.dal-forward-to').each(function() {
+                    $(this).data('autocomplete-light-function').init(this);
                 });
-                // Tenta restaurar o valor selecionado, se ele ainda existir nas novas opções
-                if (currentSelectedValue && $(pacienteSelectElement).find('option[value="' + currentSelectedValue + '"]').length > 0) {
-                    $(pacienteSelectElement).val(currentSelectedValue);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Erro ao carregar pacientes:", error);
-                // Você pode adicionar um feedback visual para o usuário aqui
             }
         });
-    }
-
-     $(document).ready(function() {
-        const especialidadeSelectPrincipal = $('#id_atendimento-especialidade');
-
-        // Função para verificar duplicatas em tempo real
-        function checkDuplicatePacientes() {
-            const selectedPacientes = {};
-
-            $('select[name$="-paciente"]').not(':hidden').each(function() {
-                const pacienteId = $(this).val();
-                
-                // Remove erros de validações anteriores
-                $(this).closest('tr').removeClass('has-error');
-                $(this).next('.text-danger').remove();
-
-                if (pacienteId) {
-                    if (selectedPacientes[pacienteId]) {
-                        $(this).closest('tr').addClass('has-error');
-                        $(this).after('<div class="text-danger">Paciente já selecionado!</div>');
-                        // Adiciona a classe de erro também na linha duplicada anterior
-                        $('select[name$="-paciente"][value="' + pacienteId + '"]').not(this).closest('tr').addClass('has-error');
-
-                    } else {
-                        selectedPacientes[pacienteId] = true;
-                    }
-                }
-            });
-        }
-
-        // Eventos que disparam a validação
-        $('table.form').on('change', 'select[name$="-paciente"]', function() {
-            checkDuplicatePacientes();
-        });
-        
-        // Função para atualizar todos os dropdowns de paciente no formset
-        function updateAllPacientesDropdowns() {
-            const especialidadeId = especialidadeSelectPrincipal.val();
-            $('select[name$="-paciente"]').each(function() {
-                loadPacientes(especialidadeId, this);
-            });
-        }
-
-        // Eventos para o dropdown de especialidade
-        especialidadeSelectPrincipal.on('change', function() {
-            updateAllPacientesDropdowns();
-            checkDuplicatePacientes(); // Re-valida após mudar a especialidade
-        });
-
-        // Quando a página carrega, se já houver uma especialidade selecionada, carrega os pacientes e valida
-        if (especialidadeSelectPrincipal.val()) {
-            updateAllPacientesDropdowns();
-            checkDuplicatePacientes();
-        }
     });
 </script>
 {% endblock scripts %}

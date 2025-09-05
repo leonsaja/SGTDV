@@ -73,7 +73,7 @@ class PacienteEspecialidade(models.Model):
     
     
     def __str__(self):
-        return f'{self.paciente.nome_completo}'
+        return f'{self.paciente.nome_completo} - ({self.paciente.dt_nascimento.strftime('%d/%m/%Y')}) - ({self.procedimento.nome_procedimento}) - ({self.get_classificacao_display()}) '
     
     class Meta:
         ordering = ["-paciente__nome_completo"]

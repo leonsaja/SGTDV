@@ -17,6 +17,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from django.db.models import Q
+from dal import autocomplete
 
 
 @has_role_decorator(['regulacao'])   
@@ -164,10 +165,7 @@ def load_pacientes_by_especialidade(request):
                 pacientes_data.append({
                     'id': pe.id,
                     'nome_completo': pe.paciente.nome_completo,
-                    'cns':pe.paciente.cns,
-                    'dt_nascimento':pe.paciente.dt_nascimento.strftime('%d/%m/%Y'),
-                    'procedimento': pe.procedimento.nome_procedimento, # Formata a data para exibir
-                    'classificacao':pe.get_classificacao_display(),
+                    
                    
                 })
                 
@@ -179,3 +177,25 @@ def load_pacientes_by_especialidade(request):
 
     return JsonResponse(pacientes_data, safe=False)
 
+
+
+class PacienteAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # Acesso ao valor encaminhado via o dicionário 'self.forwarded'
+        especialidade_id = self.forwarded.get('atendimento-especialidade', None)
+        
+        # Filtra por especialidade
+        if especialidade_id:
+            qs = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(Q(status='1')|Q(status='4'),especialidade__id=especialidade_id).order_by('paciente__nome_completo')
+        else:
+            # Se a especialidade não foi selecionada, não retorna resultados
+            return PacienteEspecialidade.objects.none()
+
+        # Adiciona a busca por nome ou CNS (isso já está no seu código)
+        if self.q:
+            qs = qs.filter(
+                Q(paciente__nome_completo__icontains=self.q) |
+                Q(paciente__cns__icontains=self.q)
+            )
+
+        return qs

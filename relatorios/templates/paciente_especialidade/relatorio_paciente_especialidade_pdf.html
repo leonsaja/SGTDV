@@ -69,6 +69,7 @@
           <th>Itens</th>
           <th>Paciente</th>
           <th>ACS</th>
+          <th>Procedimento</th>
             {% if  procedimento%}
             <th>
              Procedimento
@@ -100,6 +101,7 @@
           <td>{{ forloop.counter }}</td>
           <td>{{p.paciente.nome_completo|upper}}</td>
           <td>{{p.paciente.microarea.profissional.acs|upper}}</td>
+          <td>{{p.procedimento}}</td>
             {% if  procedimento%}
             <td>
               {{p.procedimento}}
