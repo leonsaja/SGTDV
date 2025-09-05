@@ -4,11 +4,11 @@
 
 {% block head%} 
 <style>
-    /*@page {
+    @page {
       size: "A4";
-      margin: 1.0cm 1.5cm 3.5cm 1.5cm;
+      margin: 0.35cm 1.5cm 3.5cm 1.5cm;
       size: A4 landscape; 
-    }*/
+    }
       body{
 
         font-size: 15px;
@@ -19,7 +19,7 @@
       }
       td{
       padding-right: 8px;
-      padding: 4px;
+      padding: 2px;
       text-align:center
       }
       th{
@@ -30,6 +30,19 @@
 
         font-size: 12px;
       }
+      
+      .header {
+            position: relative; /* Contêiner de referência para a imagem */
+            width: 100%;
+            height: 100px; /* Altura do cabeçalho */
+        }
+        .minha-imagem {
+            position: absolute; /* Posição absoluta em relação ao .header */
+            top: 2px;
+            left: 100px;
+            bottom: 0px;
+            width: 800px; /* Largura da imagem */
+        }
     
 
 </style>
@@ -38,9 +51,9 @@
 {%endblock head%}
 {% block content %}
 
-{% include  'includes/cabecalho.html' %}
+{% include  'includes/cabecalho_especialidade.html' %}
 
-  <h3 class="text-center"><b>Relatório de Pacientes na Especialidade</b></h3>
+  <h3 class="text-center pt-2"><b>Relatório de Pacientes na Especialidade</b></h3>
   <br/>
       <div class="col-md-3">
         <p class="m-1";>
@@ -48,6 +61,10 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
           <b>Data: </b>{{data}} 
      
     </div>
@@ -63,7 +80,7 @@
   <br/> 
   <div class="pt">
     
-    <table border=" 1">
+    <table class="table" border=" 1">
       <thead>
         <tr>
           <th>Itens</th>
@@ -75,11 +92,10 @@
              Procedimento
             </th>
             {% endif %}
-            {% if  exames%}
             <th>
              Observação
             </th>
-            {% endif %}
+          
             <th>
               Classificação
             </th>
@@ -107,10 +123,12 @@
               {{p.procedimento}}
             </td>
             {% endif %}
-             {% if  exames%}
+             {% if p.observacao%}
             <td>
               {{p.observacao}}
             </td>
+            {%else%}
+            <td>-</td>
             {% endif %}
             <td>
               {{ p.get_classificacao_display }}

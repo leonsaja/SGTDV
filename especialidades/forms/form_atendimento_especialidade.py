@@ -23,6 +23,8 @@ class AtendimentoEspecialidadeForm(forms.ModelForm):
         
         model=AtendimentoEspecialidade
         fields='__all__'
+
+        
      
        
     def __init__(self, *args, **kwargs):

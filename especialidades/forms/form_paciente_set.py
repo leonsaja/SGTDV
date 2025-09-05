@@ -33,4 +33,4 @@ class PacienteSiaForm(forms.ModelForm):
         
         
 
-AtendPacienteSet=inlineformset_factory(AtendimentoEspecialidade,PacienteSia,form=PacienteSiaForm,extra=1, min_num=1,validate_min=True)
+AtendPacienteSet=inlineformset_factory(AtendimentoEspecialidade,PacienteSia,form=PacienteSiaForm,extra=20, min_num=1,validate_min=True)

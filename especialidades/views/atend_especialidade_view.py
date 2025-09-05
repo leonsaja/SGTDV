@@ -183,9 +183,12 @@ class PacienteAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # Acesso ao valor encaminhado via o dicionário 'self.forwarded'
         especialidade_id = self.forwarded.get('atendimento-especialidade', None)
+        print('especialidade_id',especialidade_id)
         
         # Filtra por especialidade
         if especialidade_id:
+
+            print('especialidade_id',especialidade_id)
             qs = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(Q(status='1')|Q(status='4'),especialidade__id=especialidade_id).order_by('paciente__nome_completo')
         else:
             # Se a especialidade não foi selecionada, não retorna resultados
