@@ -101,7 +101,9 @@ class AtendimentoEspecialidade(models.Model):
     observacao=models.TextField(verbose_name='Observação',null=True,blank=True)
     hora=models.TimeField(verbose_name='Horário do Atendimento',null=True,blank=False)
     status=models.CharField(verbose_name='Status', choices=STATUS, max_length=1,default=1,null=True)
-
+    
+    criado_por=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
+    alterado_por=models.CharField(verbose_name='Alterado por ', max_length=200,null=True,blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True,null=True)
     updated_at = models.DateTimeField(auto_now=True,null=True)
