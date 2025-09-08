@@ -1,0 +1,242 @@
+{% extends 'base.html' %} 
+{% block title%}Historico do Cidadao {%endblock title%}
+
+{% load permission_tags %}
+
+
+ {% block content %}
+
+<div class="container-fluid">
+  {% include 'cidadao/abas_cidadao.html' %}
+  <div class="row">
+    <div class="col-md-12">
+        {% include 'includes/mensagens.html'%}
+    </div>
+</div>
+{% if user|has_role:'recepcao,regulacao,acs' %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="text-right">
+        <a href=" {% url 'cidadao:edit-cidadao' paciente.id %}" class="btn btn-primary"><b>Editar Cadastro</b> </a>
+      </div>
+    </div>
+  </div>
+  {%endif%}
+  <div class="row">
+    <div class=" col-md-6 ml-4 mt-4">
+      <h4 class=" text-primary"><strong>Histórico do Paciente</strong></h4>
+    </div>
+  </div>
+
+  <div class="col-md-12 px-4">
+    <br>
+    <fieldset>
+        
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            {% if request.resolver_match.url_name == 'detail-cidadao' %}
+                <a style="text-decoration: none;" class="nav-link active" href="{% url 'cidadao:detail-cidadao' paciente.id %}">Dados Pessoais</a>
+                <a class="nav-link" style="text-decoration: none;" href="{% url 'cidadao:historico-cidadao' paciente.id %}">Histórico</a>
+
+               
+            {%else%} 
+                <a class="nav-link"style="text-decoration: none;" href="{% url 'cidadao:detail-cidadao' paciente.id %}">Dados Pessoais</a>
+                <a class="nav-link active" style="text-decoration: none;" href="">Histórico</a>
+            {%endif%} 
+          
+        </div>
+      </nav>
+
+<legend class="text-primary pt-3"><strong>Atendimentos</strong></legend>
+      <hr>
+      {% if paciente_atendimentos %}
+      <div class="table-responsive-md">
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="tex-lelf">Nº</th>
+                                    <th class="tex-lelf">Paciente</th>
+                                    <th class="tex-lelf">Especialidade</th>
+                                    <th class="tex-lelf">Procedimento</th>
+                                    <th class="tex-lelf">Status</th>
+                                    <th class="tex-lelf">Data do Atendimentos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for p in paciente_atendimentos %}
+                                <tr>
+                                    <td>{{ p.id }} </td>
+                                    <td>{{p.paciente.paciente.nome_completo}}</td>
+                                    <td>{{p.atendimento_paciente.especialidade}}</td>
+                                    <td>{{p.paciente.procedimento}}</td>
+                                    <td>{{p.paciente.get_status_display}}</td>                                    
+                                    <td>{{p.atendimento_paciente.data|date:"d/m/Y"|default:'---'}}</td>
+                                    
+                                    
+
+                                    
+                                </tr>
+                                {%endfor%}
+
+                            </tbody>
+                        </table>
+                        <br>
+                        {% include 'includes/paginacao.html'%}
+                    </div>
+                </div>
+      {%else%}
+      <h5 class="text-center">Nenhum atendimento encontrado para este paciente.</h5>
+      {%endif%}
+    <legend class="text-primary pt-1"><strong>Especialidades</strong></legend>
+      <hr>
+      {% if paciente_especialidades %}
+      <div class="table-responsive-md">
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>N:</th>
+                                    <th>Paciente</th>
+                                    <th>CPF</th>
+                                    <th>Especialidade</th>
+                                    <th>Procedimento</th>
+                                    <th>Status</th>
+                                    <th>Classificacao</th>
+                                    <th>Data do Pedido</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for especialidade in paciente_especialidades %}
+                                <tr>
+                                    <td class="text-center">{{ especialidade.id }} </td>
+                                    <td>{{especialidade.paciente.nome_completo}}</td>
+                                    <td>{{especialidade.paciente.formt_cpf}}</td>
+                                    <td>{{especialidade.especialidade}}</td>
+                                    <td>{{especialidade.procedimento }}</td>
+                                    <td>{{especialidade.get_status_display}}</td>
+                                    {% if especialidade.classificacao == '2'%}
+                                    <td style="background-color:#FFFF00; color: black;">
+                                        {{especialidade.get_classificacao_display}}
+
+                                    </td>
+                                    {% elif especialidade.classificacao == '3' %}
+                                    <td style="background-color: red; color: white;">
+                                        {{especialidade.get_classificacao_display}}
+                                    </td>
+                                    {%else%}
+                                    <td>
+                                        {{especialidade.get_classificacao_display}}
+                                    </td>
+                                    {%endif%}
+                                    <td>
+                                        {{especialidade.data_pedido|date:"d/m/Y"|default:'---'}}
+                                    </td>
+
+                                    <td>
+
+                                        <a href="{% url 'especialidades:detail-paciente-especialidade' especialidade.id%}"
+                                            class="pr-1"><i class="fas fa-solid fa-eye"></i></a>
+
+
+                                       </td>
+                                </tr>
+                                {% include 'paciente_especialidade/modal_delete_paciente_especialidade.html'%}
+                                {%endfor%}
+
+                            </tbody>
+                        </table>
+                        <br>
+                        {% include 'includes/paginacao.html'%}
+                    </div>
+                </div>
+      {%else%}
+      <h5 class="text-center">Nenhuma especialidade encontrado para este paciente.</h5>
+      {%endif%}
+       
+    <legend class="text-primary pt-3"><strong>Recibo TFDs</strong></legend>
+      <hr>
+      
+      {% if paciente_recibos_tfds %}
+      <div class="table-responsive-md">
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="tex-lelf">Nº</th>
+                                    <th class="tex-lelf">Paciente</th>
+                                    <th class="tex-lelf">Especialidade</th>
+                                    <th class="tex-lelf">Data do Recibo</th>
+                                    <th class="tex-lelf">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for p in paciente_recibos_tfds %}
+                                <tr>
+                                    <td>{{ p.id }} </td>
+                                    <td>{{p.paciente.nome_completo}}</td>
+                                    <td>{{p.especialidade}}</td>
+                                    <td>{{p.data|date:"d/m/Y"|default:'---'}}</td>
+                                    <td>{{p.total_gasto}}</td>                                    
+                                
+                                </tr>
+                                {%endfor%}
+
+                            </tbody>
+                        </table>
+                        <br>
+                        {% include 'includes/paginacao.html'%}
+                    </div>
+                </div>
+      {%else%}
+      <h5 class="text-center">Nenhum Recibo de TFD foi encontrado para este paciente.</h5>
+      {%endif%}
+                    <legend class="text-primary pt-3"><strong>Viagens</strong></legend>
+      <hr>
+      
+      {% if paciente_viagens %}
+      <div class="table-responsive-md">
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="tex-lelf">Nº</th>
+                                    <th class="tex-lelf">Paciente</th>
+                                    <th class="tex-lelf">Destino</th>
+                                    <th class="tex-lelf">Data da viagem</th>
+                                    <th class="tex-lelf">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for p in paciente_viagens %}
+                                <tr>
+                                    <td>{{ p.id }} </td>
+                                    <td>{{p.paciente.nome_completo}}</td>
+                                    <td>{{p.viagem.destino_viagem}}</td>
+                                    <td>{{p.viagem.data_viagem|date:"d/m/Y"|default:'---'}}</td>
+                                    <td>{{p.viagem.get_status_display}}</td>
+
+                                </tr>
+                                {%endfor%}
+
+                            </tbody>
+                        </table>
+                        <br>
+                        {% include 'includes/paginacao.html'%}
+                    </div>
+                </div>
+      {%else%}
+      <h5 class="text-center p-0">Nenhuma Viagem foi encontrado para este paciente.</h5>
+      {%endif%}
+
+
+    </fieldset>
+   
+    
+
+{% endblock %}
+
+{%block scripts %}
+
+{%endblock scripts%}

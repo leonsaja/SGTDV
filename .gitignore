@@ -104,6 +104,7 @@ __pypackages__/
 celerybeat-schedule
 celerybeat.pid
 sgtdv.sock
+gunicorn.sock
 # SageMath parsed files
 *.sage.py
 
@@ -116,7 +117,6 @@ ENV/
 env.bak/
 venv.bak/
 user.json
-
 # Spyder project settings
 .spyderproject
 .spyproject

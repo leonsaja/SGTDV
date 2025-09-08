@@ -31,10 +31,15 @@
   <div class="col-md-12 px-4">
     <br>
     <fieldset>
-      <legend class="text-primary"><strong>Dados Pessoais</strong></legend>
-      <hr>
-
-      <div class="row">
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                
+          <a style="text-decoration: none;" class="nav-link active" href="{% url 'cidadao:detail-cidadao' paciente.id %}">Dados Pessoais</a>
+          <a class="nav-link" style="text-decoration: none;" href="{% url 'cidadao:historico-cidadao' paciente.id %}">Histórico</a>
+        </div>
+      </nav>
+      
+      <div class="row pt-3">
         <div class="col-md-6">
           <label for="id_paciente" class="form-label">Nome Completo:</label>
           <h6 class="text-muted">{{paciente.nome_completo|upper}}</h6>

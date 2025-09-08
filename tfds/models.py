@@ -34,7 +34,7 @@ class ReciboTFD(models.Model):
       ('1','1500-1002'),
       ('2','1600-0000'),
    )
-   paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='paciente')
+   paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='recibo_tfd_paciente')
    municipio_origem=models.CharField(verbose_name='Município Origem', max_length=120,null=False,blank=False,default='Santo Antônio do Jacinto-MG')
    municipio_destino=models.CharField(verbose_name='Município Destino', max_length=120,null=False,blank=False)
    data=models.DateField(verbose_name='Data')

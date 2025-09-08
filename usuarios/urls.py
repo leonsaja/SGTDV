@@ -16,7 +16,7 @@ urlpatterns = [
         path('search/usuario',views.UsuarioSearchListView.as_view(),name='search-usuario'),
 
 
-        path('autenticacao/login', auth_views.LoginView.as_view(),name='login_usuario'),
+        path('autenticacao/login', auth_views.LoginView.as_view(redirect_authenticated_user = True),name='login_usuario'),
         path('autenticacao/logout', auth_views.LogoutView.as_view(),name='deslogar_usuario'),
         path('alterar_senha/usuario', views.PasswordChange.as_view(), name='alterar_senha'),
         

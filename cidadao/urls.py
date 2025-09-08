@@ -13,7 +13,6 @@ urlpatterns = [
     path('delete/<int:id>/cidadao', view_cidadao.cidadao_delete , name='del-cidadao' ),
     #path('importacao dados/cidadao', view_cidadao.importar_dados_excel , name='importar-dados-cidadao' ),
     path('cidadao-autocomplete/', view_cidadao.CidadaoAutocomplete.as_view(), name='cidadao-autocomplete'),
-
-    
+    path('historico/<int:id>/cidadao/',view_cidadao.cidadao_historico,name='historico-cidadao'),
     
 ]

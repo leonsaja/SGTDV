@@ -150,7 +150,12 @@
                         <div class="col-md-6">
                              <label for="id_carro" class="form-label">Criado Por:</label>
                              {%if viagem.criado_por%}
-                                 <h6 class="text-muted">{{viagem.criado_por|upper}}</h6>
+                                 <h6 class="text-muted">{{viagem.criado_por|upper}} -
+                                    {{viagem.created_at|date:"d/m/Y"|default:'---'}} às
+                                    {{viagem.created_at|time:"H:i"|default:'---'}}
+                                    
+
+                                 </h6>
                               {%else%}
                                  <h6 class="text-muted">-</h6>
                              {%endif%}
@@ -158,7 +163,12 @@
                         <div class="col-md-6">
                                 <label for="id_carro" class="form-label">Alterado Por:</label>
                                 {%if viagem.alterado_por%}
-                                        <h6 class="text-muted">{{viagem.alterado_por|upper}}</h6>
+                                        <h6 class="text-muted">{{viagem.alterado_por|upper}} - 
+                                        {{viagem.updated_at|date:"d/m/Y"|default:'---'}} às
+                                        {{viagem.updated_at|time:"H:i"|default:'---'}}
+
+
+                                        </h6>
                                 {%else%}
                                     <h6 class="text-muted">-</h6>
                                 {%endif%}
