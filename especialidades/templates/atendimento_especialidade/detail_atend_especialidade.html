@@ -74,10 +74,38 @@
                 </div>
                 <div class="col-md-6">
                     <label for="id_conta" class="form-label">Status:</label>
-                    <h6 class="text-muted">{{atendimento_especialidade.get_status_display}}</h6>
+                    <h6 class="text-muted">{{atendimento_especialidade.get_status_display}} - 
+                        {{atendimento_especialidade.created_at|date:"d/m/Y"|default:'---'}} às
+                        {{atendimento_especialidade.created_at|time:"H:i"|default:'---'}}
+                    </h6>
                 </div>
             </div>
+            <br>
+             <div class="row ">
 
+                <div class="col-md-6  ">
+                    <label for="id_conta" class="form-label">Criado Por:</label>
+                     {%if atendimento_especialidade.criado_por%}
+                        <h6 class="text-muted">{{atendimento_especialidade.criado_por|upper}} -
+                            {{atendimento_especialidade.created_at|date:"d/m/Y"|default:'---'}} às
+                            {{atendimento_especialidade.created_at|time:"H:i"|default:'---'}}
+                        </h6>
+                    {%else%}
+                        <h6 class="text-muted">-</h6>
+                    {%endif%}
+                </div>
+                <div class="col-md-6">
+                    <label for="id_conta" class="form-label">Alterado Por:</label>
+                    {%if atendimento_especialidade.alterado_por%}
+                        <h6 class="text-muted">{{atendimento_especialidade.alterado_por|upper}} - 
+                            {{atendimento_especialidade.updated_at|date:"d/m/Y"|default:'---'}} às
+                            {{atendimento_especialidade.updated_at|time:"H:i"|default:'---'}}
+                        </h6>
+                    {%else%}
+                        <h6 class="text-muted">-</h6>
+                    {%endif%}
+                </div>
+            </div>
         
         <br>
         

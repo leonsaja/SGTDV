@@ -4,6 +4,29 @@
 
 {% block head%} 
 <style>
+   @page{
+     @bottom-left {
+        content: element(footer-content);
+    }
+
+    /* Insere a numeração de página no rodapé */
+    @bottom-right {
+        content: "Pág. "counter(page) " de " counter(pages);
+        font-family: Arial, sans-serif;
+        font-size: 10pt;
+        
+    }
+   }
+
+#footer-content {
+    /* O nome 'footer-content' aqui deve ser o mesmo usado em 'content: element()'. */
+    position: running(footer-content);
+    /* Você pode adicionar estilos extras ao seu rodapé aqui */
+    text-align: left;
+    font-size: 10pt;
+
+    padding-bottom: 5px;
+}
       p{
         margin: 1px;
       }
@@ -79,8 +102,9 @@
       
 
   </div>
-  
-     <table class="table">
+  <br>
+  <br>
+     <table class="table pt-4">
       
       <thead>
           <th>N°</th>
@@ -118,6 +142,13 @@
     </table>
 
  
- </div>
-  </div>
+</div>
+
+  <div id="footer-content">
+    {% if atendimento_especialidade.criado_por %}
+        <p>Realizado por {{ atendimento_especialidade.criado_por|upper }} no dia
+            {{atendimento_especialidade.created_at|date:"d/m/Y"|default:'---'}} às
+            {{atendimento_especialidade.created_at|time:"H:i"|default:'---'}}</span></p>
+   
+    {% endif %}
  {% endblock content%}

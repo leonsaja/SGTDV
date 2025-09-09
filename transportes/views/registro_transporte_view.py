@@ -84,7 +84,7 @@ class RegistroTransporteSearchListView(HasRoleMixin,ListView):
             qs=qs.select_related('paciente','carro').filter(carro__placa__icontains=placa_carro).order_by('-created_at')
             
         return qs
-    
+"""    
 class ImportDadosTransporteView(View):
     template_name='registro_transporte/importar_dados.html'
 
@@ -110,8 +110,8 @@ class ImportDadosTransporteView(View):
             return redirect('cidadao:list-cidadao')
 
         return render(request, self.template_name, {'form': form})
-
-    def criar_cidadao_e_endereco(self, row):
+"""
+"""def criar_cidadao_e_endereco(self, row):
         
         
         status_choices_excel = row.get('ATENDIDO','')
@@ -177,3 +177,4 @@ class ImportDadosTransporteView(View):
 
         
         
+"""

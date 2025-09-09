@@ -33,6 +33,6 @@ urlpatterns = [
     path('detail/<int:pk>/registro-transporte',registro_transporte_view.RegistroTransporteDetailView.as_view(),name='detail-regis-transporte'),
     path('delete/<int:pk>/registro-transporte',registro_transporte_view.RegistroTransporteDeleteView.as_view(),name='del-regis-transporte'),
     path('search/registro-transporte',registro_transporte_view.RegistroTransporteSearchListView.as_view(),name='search-regis-transporte'),
-    path('importacao dados/transporte', registro_transporte_view.ImportDadosTransporteView.as_view() , name='importar-dados-transporte' ),
+    #path('importacao dados/transporte', registro_transporte_view.ImportDadosTransporteView.as_view() , name='importar-dados-transporte' ),
 
 ]

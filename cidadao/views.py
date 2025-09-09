@@ -6,7 +6,7 @@ from django.views.generic import DetailView, ListView,CreateView, UpdateView
 from cidadao.forms.cidadao_form import CidadaoForm, EnderecoForm
 from cidadao.models import Cidadao, Endereco
 from especialidades.models import PacienteSia
-from transportes.models import PassageiroViagem
+from transportes.models import PassageiroViagem,RegistroTransporte
 from django.contrib.messages import constants
 from django.contrib import messages
 from rolepermissions.decorators import has_role_decorator
@@ -192,4 +192,5 @@ def cidadao_historico(request,id):
     context['paciente_recibos_tfds']=paciente.recibo_tfd_paciente.all
     context['paciente_recibos_tfds']=paciente.recibo_tfd_paciente.all
     context['paciente_viagens']=PassageiroViagem.objects.select_related('paciente','viagem').filter(paciente=paciente)
+    context['registro_transportes']=RegistroTransporte.objects.select_related('paciente','carro').filter(paciente=paciente)
     return render(request,'cidadao/historico_cidadao.html',context)    

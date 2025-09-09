@@ -128,13 +128,11 @@ class ProcedimentosEspecialidade(models.Model):
         ordering = ["-nome_procedimento"]
   
 class PacienteSia(models.Model):
-    paciente=models.ForeignKey(PacienteEspecialidade,verbose_name='paciente_sia_paciente_especialidade',on_delete=models.PROTECT)
+    paciente=models.ForeignKey(PacienteEspecialidade,verbose_name='Paciente',related_name='paciente_sia_paciente_especialidade',on_delete=models.PROTECT)
     atendimento_paciente=models.ForeignKey(AtendimentoEspecialidade,on_delete=models.CASCADE,related_name='atend_paciente_especialidade')
     hora=models.TimeField(verbose_name='Horário',null=True,blank=True)
 
     class Meta:
-        # AQUI ESTÁ A VALIDAÇÃO:
-        # Garante que a combinação de atendimento_paciente e paciente seja única.
         unique_together = ('atendimento_paciente', 'paciente',)
         
         ordering = ["-paciente"]

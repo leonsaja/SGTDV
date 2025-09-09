@@ -10,7 +10,7 @@ from transportes.models import Carro
 from datetime import date, timedelta
 
 class ViagemForm(forms.ModelForm):
-
+    observacao=forms.CharField(label='Observação', required=False, widget=forms.Textarea( attrs={'rows':3,'cols':10}))
     data_viagem = forms.DateField(
         label='Data',
         widget=forms.DateInput(
@@ -31,23 +31,32 @@ class ViagemForm(forms.ModelForm):
         }
 
     def clean(self):
-
+        
+        
         cleaned_data = super().clean()
         carro = cleaned_data.get('carro')
         status = cleaned_data.get('status')
         motorista = cleaned_data.get('motorista')
         data=cleaned_data.get('data_viagem')
+        status = self.cleaned_data.get('status')
+        obs=self.cleaned_data.get('observacao')
         
         hoje=date.today()
         limite_minimo=hoje-timedelta(days=7)
         limite_maximo=hoje+timedelta(days=7)
+       
+
+        if status=='3':
+            if not obs:
+                self.add_error('observacao', 'Este campo é obrigatório. Por favor, informar motivo do cancelamento da viagem ')
     
-        if  data < limite_minimo or data > limite_maximo:
-            if not self.instance.pk:
-                self.add_error(
-                    f"data_viagem","A data deve estar entre 7 dias antes e 7 dias depois da data atual."
-                )
-        
+        if data:
+            if  data < limite_minimo or data > limite_maximo:
+                if not self.instance.pk:
+                    self.add_error(
+                        f"data_viagem","A data deve estar entre 7 dias antes e 7 dias depois da data atual."
+                    )
+            
         
         if status=='1':
              qs=Viagem.objects.select_related('carro','motorista').filter(carro=carro,status=status)

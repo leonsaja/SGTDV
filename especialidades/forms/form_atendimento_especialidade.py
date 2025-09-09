@@ -4,10 +4,11 @@ from django.forms import ValidationError, inlineformset_factory
 from especialidades.models import AtendimentoEspecialidade
 from django.utils import timezone
 from datetime import date,timedelta
+from datetime import date, timedelta
 
 class AtendimentoEspecialidadeForm(forms.ModelForm):
 
-    data = forms.DateTimeField(
+    data = forms.DateField(
         label='Data',
         widget=forms.DateInput(
             format='%Y-%m-%d',
@@ -19,14 +20,26 @@ class AtendimentoEspecialidadeForm(forms.ModelForm):
     observacao=forms.CharField(label='Observação', required=False, widget=forms.Textarea( attrs={'rows':3,'cols':10}))
 
    
+   
     class Meta:
         
         model=AtendimentoEspecialidade
-        fields='__all__'
+        exclude=('criado_por','alterado_por',)
 
+    def clean(self):
         
-     
-       
+        cleaned_data = super().clean()
+        data=cleaned_data.get('data')
+        hoje=date.today()
+        limite_minimo=hoje-timedelta(days=30)
+        limite_maximo=hoje+timedelta(days=30)
+        
+        if data:
+                if  data < limite_minimo or data > limite_maximo:
+                    if not self.instance.pk:
+                        self.add_error(
+                            f"data","A data do atendimento deve estar entre 30 dias antes e 30 dias depois da data atual."
+                        )
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['hora'].widget.attrs.update({'class':'mask-hora'})

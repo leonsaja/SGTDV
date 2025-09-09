@@ -21,6 +21,7 @@ class Viagem(models.Model):
    carro=models.ForeignKey('Carro',related_name='carro_viagens', on_delete=models.PROTECT)
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
+   observacao=models.TextField(verbose_name='Observação',null=True,blank=True)
 
    criado_por=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
    alterado_por=models.CharField(verbose_name='Alterado por ', max_length=200,null=True,blank=True)
@@ -114,7 +115,7 @@ class RegistroTransporte(models.Model):
       ('2','NÃO'),
    )
   
-   paciente=models.ForeignKey(Cidadao,null=False,blank=False,verbose_name='Paciente',on_delete=models.PROTECT)
+   paciente=models.ForeignKey(Cidadao,null=False,blank=False,verbose_name='Paciente',related_name='registro_transporte_paciente', on_delete=models.PROTECT)
    status=models.CharField(verbose_name='Transporte atendido',max_length=1, choices=STATUS_CHOICES)
    dt_atendimento=models.DateField(verbose_name='Data do atendimento')
    carro=models.ForeignKey(Carro, null=False, blank=False, verbose_name='Carro', related_name='carro_registro_transporte', on_delete=models.PROTECT)

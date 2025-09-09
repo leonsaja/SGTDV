@@ -229,6 +229,46 @@
       {%else%}
       <h5 class="text-center p-0">Nenhuma Viagem foi encontrado para este paciente.</h5>
       {%endif%}
+      
+
+      <legend class="text-primary pt-3"><strong>Transporte SUS</strong></legend>
+      <hr>
+       {% if registro_transportes %}
+      <div class="table-responsive-md">
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="tex-lelf">Nº</th>
+                                    <th class="tex-lelf">Paciente</th>
+                                    <th class="tex-lelf">Status</th>
+                                    <th class="tex-lelf">Data</th>
+                                    <th class="tex-lelf">Destino</th>
+                                    <th class="tex-lelf">Distância Percorrida</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for p in registro_transportes %}
+                                <tr>
+                                    <td>{{ p.id }} </td>
+                                    <td>{{p.paciente.nome_completo}}</td>
+                                    <td>{{p.get_status_display}}</td>
+                                    <td>{{p.dt_atendimento|date:"d/m/Y"|default:'---'}}</td>
+                                    <td>{{p.destino|upper}}</td>
+                                    <td>{{p.dist_percorrida}}</td>
+
+                                </tr>
+                                {%endfor%}
+
+                            </tbody>
+                        </table>
+                        <br>
+                        {% include 'includes/paginacao.html'%}
+                    </div>
+                </div>
+      {%else%}
+      <h5 class="text-center p-0">Nenhuma Registro de Viagem foi encontrado para este paciente.</h5>
+      {%endif%}
 
 
     </fieldset>

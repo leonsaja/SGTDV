@@ -29,19 +29,16 @@ def atend_especialidade_create(request):
         formset = AtendPacienteSet(request.POST, instance=atend_especialidade, prefix='paciente')
 
         if form.is_valid() and formset.is_valid():
-            form.save()
+            atendimento=form.save(commit=False)
+            atendimento.criado_por=request.user.nome_completo
+            atendimento.save()
             formset.save()
             messages.add_message(request, constants.SUCCESS, 'Atendimento salvo com sucesso!')
             return redirect('especialidades:list-atend_especialidade')
         else:
-            # SE O FORMSET TIVER ERROS, ENVIAMOS A MENSAGEM
-            # O erro de 'unique_together' fica em 'non_form_errors' ou 'non_field_errors'
             if formset.non_form_errors():
                 for error in formset.non_form_errors():
-                    messages.add_message(request, constants.ERROR, f'Paciente duplicado: {error}')
-
-            # Também é bom verificar os erros de cada formulário individual
-           
+                    messages.add_message(request, constants.ERROR, f'Paciente duplicado: {error}')       
     else:
         form = AtendimentoEspecialidadeForm(instance=atend_especialidade, prefix='atendimento')
         formset = AtendPacienteSet(instance=atend_especialidade, prefix='paciente')
@@ -59,14 +56,14 @@ def atend_especialidade_update(request,id):
         formset=AtendPacienteSet(request.POST,instance=atend_especialidade,prefix='paciente')
         if form.is_valid() and formset.is_valid():
             
-            form.save()
+            atendimento=form.save(commit=False)
+            atendimento.alterado_por=request.user.nome_completo
+            atendimento.save()
             formset.save()
             messages.add_message(request,constants.SUCCESS,'Atendimento salvo com sucesso')
             return redirect('especialidades:list-atend_especialidade')
         
         else:
-            # SE O FORMSET TIVER ERROS, ENVIAMOS A MENSAGEM
-            # O erro de 'unique_together' fica em 'non_form_errors' ou 'non_field_errors'
             if formset.non_form_errors():
                 for error in formset.non_form_errors():
                     messages.add_message(request, constants.ERROR, f'Paciente duplicado: {error}')
