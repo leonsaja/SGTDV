@@ -125,17 +125,23 @@ class ProcedimentosEspecialidade(models.Model):
         return f'{self.nome_procedimento}'
       
     class Meta:
-        ordering = ["-nome_procedimento"]
+        ordering = ["nome_procedimento"]
   
 class PacienteSia(models.Model):
+    STATUS=(
+        ('1','AUSENTE'),
+
+
+    )
     paciente=models.ForeignKey(PacienteEspecialidade,verbose_name='Paciente',related_name='paciente_sia_paciente_especialidade',on_delete=models.PROTECT)
     atendimento_paciente=models.ForeignKey(AtendimentoEspecialidade,on_delete=models.CASCADE,related_name='atend_paciente_especialidade')
     hora=models.TimeField(verbose_name='Horário',null=True,blank=True)
-
+    status=models.CharField(verbose_name='Status', choices=STATUS, max_length=1,null=True,blank=True)
+    
     class Meta:
         unique_together = ('atendimento_paciente', 'paciente',)
         
-        ordering = ["-paciente"]
+        ordering = ["paciente__procedimento__nome_procedimento"]
         
     def __str__(self):
         return f'{self.paciente}'

@@ -137,8 +137,8 @@ def atend_especialidade_pdf(request,id):
     context={}
 
     context['atendimento_especialidade']= AtendimentoEspecialidade.objects.select_related('especialidade').get(id=atendimento_especialidade.id)
-    context['pacientes_set']=PacienteSia.objects.select_related('paciente').filter(atendimento_paciente__id=context['atendimento_especialidade'].id)
-   
+    context['pacientes_set']=PacienteSia.objects.select_related('paciente').filter(atendimento_paciente__id=context['atendimento_especialidade'].id).order_by('hora')
+    print('teste')
                 
     response = HttpResponse(content_type='application/pdf')
     html_string = render_to_string('atendimento_especialidade/pdf_atend_especialidade.html', context)

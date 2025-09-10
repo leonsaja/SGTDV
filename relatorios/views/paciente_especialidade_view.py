@@ -12,7 +12,7 @@ from rolepermissions.decorators import has_role_decorator
 
 
 def relatorio_paciente_especialidade_pdf(request,context):
-    paciente_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').all()
+    paciente_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').order_by('paciente__nome_completo')
 
     especialidade=context['especialidade']
     profissional=context['profissional']

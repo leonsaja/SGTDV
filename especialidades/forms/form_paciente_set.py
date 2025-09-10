@@ -12,7 +12,7 @@ class PacienteSiaForm(forms.ModelForm):
      class Meta:
         
         model=PacienteSia
-        fields=('hora','paciente',)
+        fields=('hora','paciente','status',)
         widgets = {
             'paciente': autocomplete.ModelSelect2(
                 url='especialidades:paciente-autocomplete',
@@ -29,7 +29,7 @@ class PacienteSiaForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['paciente'].widget.attrs.update({'class':'form-control'})
         self.fields['hora'].widget.attrs.update({'class':'form-control'})
-
+        self.fields['status'].widget.attrs.update({'class':'form-control'})
         
         
 

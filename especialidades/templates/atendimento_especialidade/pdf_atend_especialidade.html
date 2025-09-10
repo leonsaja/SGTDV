@@ -130,8 +130,12 @@
           {%endif%}
           <td>{{p.paciente.paciente.nome_completo|upper}}</td>
            <td>{{p.paciente.paciente.form_cns}}</td>
-           <td>{{p.paciente.get_status_display}}</td>
-             
+           {%if p.status %}
+              <td>{{p.get_status_display}}</td>
+
+            {% else %}
+            <td>{{p.paciente.get_status_display}}</td>
+             {% endif %}
              <td>{{p.paciente.procedimento.nome_procedimento}}</td>
          
         </tr>

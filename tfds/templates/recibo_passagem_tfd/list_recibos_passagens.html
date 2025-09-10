@@ -96,7 +96,7 @@
                   <td>{{r.paciente.nome_completo|upper}}</td>
                   <td>{{r.paciente.formt_cpf}}</td>
 
-                  <td>{{r.paciente.cns}}</td>
+                  <td>{{r.paciente.form_cns}}</td>
                   <td>{{r.data_recibo|date:"d/m/Y"|default:'---'}}</td>
                   <td>
                     <a href="{% url 'tfds:detail-recibo_passagem' r.id %}" class="pr-2"><i
