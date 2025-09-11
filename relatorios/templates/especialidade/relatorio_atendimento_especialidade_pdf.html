@@ -75,6 +75,7 @@
           <th>CONCLUIDO</th>
           <th>AUSENTE</th>
           <th>ATENDIMENTO VIA</th>
+          <th>DATA DO ATENDIMENTO</th>
         
 
         </tr>
@@ -89,6 +90,7 @@
           <td>{{a.qta_paciente_especialidade_concluido}}</td>
           <td>{{a.qta_paciente_especialidade_ausente}}</td>
           <td>{{a.get_atendimento_via_display}}</td>
+          <td>{{a.data}}</td>
         </tr>
 
         {%endfor%}

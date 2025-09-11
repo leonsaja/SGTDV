@@ -7,7 +7,23 @@
 }*/
 @page {
         margin: 20px;
+      
+   
+
+    /* Usa o elemento HTML com o ID 'footer-content' como rodapé */
+    @bottom-left {
+        content: element(footer-content);
     }
+
+    /* Insere a numeração de página no rodapé */
+    @bottom-right {
+        content:"Pág " counter(page) " de " counter(pages);
+        font-family: Arial, sans-serif;
+        font-size: 10pt;
+        
+    }
+
+}
 
 
 .bordas{

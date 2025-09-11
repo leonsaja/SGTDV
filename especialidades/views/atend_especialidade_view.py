@@ -101,7 +101,7 @@ class AtendEspecialidadeListView(HasRoleMixin,ListView):
             queryset = qs.filter(data__iexact=data)
 
         if not buscar and not status and not data:
-                queryset=qs.exclude(status='2')
+                queryset=qs.filter(status='1')
         return queryset.order_by('-especialidade')
     
 class AtendEspecialidadeDetailView(HasRoleMixin,DetailView):
@@ -137,8 +137,7 @@ def atend_especialidade_pdf(request,id):
     context={}
 
     context['atendimento_especialidade']= AtendimentoEspecialidade.objects.select_related('especialidade').get(id=atendimento_especialidade.id)
-    context['pacientes_set']=PacienteSia.objects.select_related('paciente').filter(atendimento_paciente__id=context['atendimento_especialidade'].id).order_by('hora')
-    print('teste')
+    context['pacientes_set']=PacienteSia.objects.select_related('paciente').filter(atendimento_paciente__id=context['atendimento_especialidade'].id).order_by('paciente__paciente__nome_completo')
                 
     response = HttpResponse(content_type='application/pdf')
     html_string = render_to_string('atendimento_especialidade/pdf_atend_especialidade.html', context)

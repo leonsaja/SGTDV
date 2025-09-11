@@ -115,9 +115,12 @@ class AtendimentoEspecialidade(models.Model):
         total=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).filter(paciente__status='2').count()
         return total
     def qta_paciente_especialidade_ausente(self):
-        total=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).filter(paciente__status='4').count()
-        return total
- 
+        total=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).filter(status='1').count()
+        if total:
+            return total
+        else:
+            total=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).filter(paciente__status='4').count()
+            return total
 class ProcedimentosEspecialidade(models.Model):
     nome_procedimento=models.CharField(max_length=255,verbose_name='Procedimento',null=True,blank=False)
 
