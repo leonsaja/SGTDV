@@ -144,7 +144,7 @@ class PacienteSia(models.Model):
     class Meta:
         unique_together = ('atendimento_paciente', 'paciente',)
         
-        ordering = ["paciente__procedimento__nome_procedimento"]
+        ordering = ["paciente__paciente__nome_completo"]
         
     def __str__(self):
         return f'{self.paciente}'

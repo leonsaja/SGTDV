@@ -70,7 +70,12 @@
                                     <td>{{p.paciente.paciente.nome_completo}}</td>
                                     <td>{{p.atendimento_paciente.especialidade}}</td>
                                     <td>{{p.paciente.procedimento}}</td>
-                                    <td>{{p.atendimento_paciente.get_status_display}}</td>                                    
+                                    {% if p.status == 1%}
+                                        <td>{{p.get_status_display}}</td>
+                                    {%else%}
+                                        <td>{{p.paciente.get_status_display}}</td>
+                                    {%endif%}
+                                                                        
                                     <td>{{p.atendimento_paciente.data|date:"d/m/Y"|default:'---'}}</td>
                                     
                                     
