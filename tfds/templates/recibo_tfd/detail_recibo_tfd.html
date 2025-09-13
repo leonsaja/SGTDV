@@ -40,17 +40,17 @@
 
             </div>
             <div class="col-md-2">
-                <label for="id_cpf" class="form-label">CPF:
+                <label for="id_cpf" class="form-label">CPF:</label>
                     <h6 class="text-muted" id="id_cpf">{{recibo_tfd.paciente.formt_cpf}}</h6>
 
             </div>      
             <div class="col-md-2">
-                <label for="id_cns" class="form-label">CNS:
+                <label for="id_cns" class="form-label">CNS:</label>
                     <h6 class="text-muted" id="id_cns">{{recibo_tfd.paciente.cns}}</h6>
 
             </div> 
              <div class="col-md-2">
-                <label for="id_cns" class="form-label">RG :
+                <label for="id_cns" class="form-label">RG :</label>
                     {% if recibo_tfd.paciente.rg%}
                     <h6 class="text-muted">{{recibo_tfd.paciente.rg}}</h6>
                     {%else%}
@@ -58,7 +58,7 @@
                     {%endif%}
             </div>  
             <div class="col-md-2">
-                <label for="id_data" class="form-label">Data:
+                <label for="id_data" class="form-label">Data:</label>
                     <h6 class="text-muted">{{recibo_tfd.data|date:"d/m/Y"|default:'---'}}</h6>
 
             </div>       
@@ -69,7 +69,7 @@
         <div class="row">
            
             <div class="col-md-4">
-                <label for="id_acompanhante" class="form-label">Nome do acompanhante:
+                <label for="id_acompanhante" class="form-label">Nome do acompanhante:</label>
                     {% if recibo_tfd.acompanhante%}
                     <h6 class="text-muted">{{recibo_tfd.acompanhante.nome_completo|upper}}</h6>
                     {%else%}
@@ -78,7 +78,7 @@
     
             </div>
             <div class="col-md-2">
-                <label for="id_cpf" class="form-label">CPF:
+                <label for="id_cpf" class="form-label">CPF:</label>
                     {% if recibo_tfd.acompanhante.cpf%}
                     <h6 class="text-muted">{{recibo_tfd.acompanhante.formt_cpf}}</h6>
                     {%else%}
@@ -86,7 +86,7 @@
                     {%endif%}
             </div>
             <div class="col-md-2">
-                <label for="id_cns" class="form-label">CNS:
+                <label for="id_cns" class="form-label">CNS:</label>
                     {% if recibo_tfd.acompanhante.cns%}
                     <h6 class="text-muted">{{recibo_tfd.acompanhante.cns}}</h6>
                     {%else%}
@@ -94,7 +94,7 @@
                     {%endif%}
             </div>
             <div class="col-md-2">
-                <label for="id_cns" class="form-label">RG :
+                <label for="id_cns" class="form-label">RG :</label>
                     {% if recibo_tfd.acompanhante.rg%}
                     <h6 class="text-muted">{{recibo_tfd.acompanhante.rg}}</h6>
                     {%else%}
@@ -109,7 +109,7 @@
         <legend class="text-primary"><b>Dados do Recibo</b></legend>
         <div class="row mt-2">
             <div class="col-md-3">
-                <label for="id_grs" class="form-label">GRS:
+                <label for="id_grs" class="form-label">GRS:</label>
                     <h6 class="text-muted">{{recibo_tfd.grs|upper}}</h6>
 
             </div>
@@ -131,34 +131,47 @@
             </div>
         </div>
          <hr>
-        <legend class="text-primary"><b> Dados do Bancário</b></legend>
+        <legend class="text-primary"><b> Dados Bancário</b></legend>
         <div class="row mt-2">
 
             {%if recibo_tfd.pagamento_por == "1"%}
             <div class="col-md-3">
-                <label for="id_grs" class="form-label">PIX:
+                <label for="id_grs" class="form-label">PIX:</label>
                     <h6 class="text-muted">{{recibo_tfd.pix|upper}}</h6>
 
             </div>
             {%else%}
             <div class="col-md-3">
-                <label for="id_grs" class="form-label">Agência:
+                <label for="id_grs" class="form-label">Agência:</label>
                     <h6 class="text-muted">{{recibo_tfd.agencia|upper}}</h6>
 
             </div>
             <div class="col-md-3">
-                <label for="id_grs" class="form-label">Conta:
+                <label for="id_grs" class="form-label">Conta:</label>
                     <h6 class="text-muted">{{recibo_tfd.conta|upper}}</h6>
 
             </div>
+            
+            {%endif%}
             <div class="col-md-3">
-                <label for="id_grs" class="form-label">Atendimento  fora do estado:
+                <label for="id_grs" class="form-label">Atendimento  fora do estado:</label>
                     <h6 class="text-muted">{{recibo_tfd.get_atend_fora_estado_display}}</h6>
 
             </div>
-        
-
-            {%endif%}
+           
+            
+        </div>
+        <hr>
+        <div class="row">
+            <legend class="text-primary"><b>Fonte de Pagamento</b></legend>
+            <div class="col-md-3">
+                <label for="id_pg_fonte" class="form-label">Fonte:</label>
+               <h6 class="text-muted">{{recibo_tfd.get_pg_fonte_display}}</h6>
+            </div>
+             <div class="col-md-3">
+               <label for="id_pg_conta" class="form-label">Conta:</label>
+               <h6 class="text-muted">{{recibo_tfd.get_pg_conta_display}}</h6>
+            </div>
            
         </div>
         <br>

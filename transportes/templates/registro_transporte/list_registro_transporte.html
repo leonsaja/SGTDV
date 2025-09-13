@@ -105,8 +105,8 @@
                                     <th>ID</th>
                                     <th>Paciente</th>
                                     <th>Data de Atendimento</th>
-                                    <td>Destino</td>
-                                    <td>KM</td>
+                                    <th>Destino</th>
+                                    <th>KM</th>
                                     <th>Placa do Carro</th>
                                     <th>Ação</th>
                                 </tr>
@@ -114,7 +114,7 @@
                             <tbody>
                                 {%for transporte in transportes %}
                                 <tr>
-                                    <th>{{transporte.id}}</th>
+                                    <td>{{transporte.id}}</td>
                                     <td>{{transporte.paciente.nome_completo}}</td>
                                     <td>{{transporte.dt_atendimento|date:"d/m/Y"|default:'---'}}</td>
                                     

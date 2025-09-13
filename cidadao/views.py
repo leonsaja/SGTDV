@@ -134,7 +134,7 @@ class CidadaoSearchListView(HasRoleMixin,ListView):
             elif len(cpf_cns_limpo) == 15:
                 qs = qs.filter(cns=cpf_cns_limpo)
             else:
-                qs = qs.filter(nome_completo__icontains=search_nome_cpf_cns)
+                qs = qs.filter(nome_completo__unaccent__icontains=search_nome_cpf_cns)
 
         if search_nome_mae:
             qs=qs.filter(nome_mae__icontains=search_nome_mae)
@@ -161,7 +161,6 @@ class CidadaoAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         
         if not self.request.user.is_authenticated:
-            print('Teste')
             return Cidadao.objects.none()
 
         qs = Cidadao.objects.select_related('microarea').all()
@@ -175,7 +174,7 @@ class CidadaoAutocomplete(autocomplete.Select2QuerySetView):
             elif len(cpf_cns_limpo) == 15:
                 qs = qs.filter(cns=cpf_cns_limpo)
             else:
-                qs = qs.filter(nome_completo__icontains=self.q)
+                qs = qs.filter(nome_completo__unaccent__icontains=self.q)
                 
         return qs
     

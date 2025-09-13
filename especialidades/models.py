@@ -6,8 +6,12 @@ from profissionais.models import Profissional
 
 
 class Especialidade(models.Model):
-    
+    TIPO=(
+        ('1','ESPECIALIDADE'),
+        ('2','PROCEDIMENTO'),
+    )
     nome=models.CharField(max_length=255, verbose_name='Nome', unique=True)
+    tipo=models.CharField(max_length=1, verbose_name='Tipo',choices=TIPO,null=True,blank=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -121,6 +125,7 @@ class AtendimentoEspecialidade(models.Model):
         else:
             total=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).filter(paciente__status='4').count()
             return total
+        
 class ProcedimentosEspecialidade(models.Model):
     nome_procedimento=models.CharField(max_length=255,verbose_name='Procedimento',null=True,blank=False)
 

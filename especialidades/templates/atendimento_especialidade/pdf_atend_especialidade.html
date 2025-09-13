@@ -86,15 +86,16 @@
           
         </p>
       </div>
-      {%if atendimento_especialidade.observacao%}
+     
       <div class="col-md-12 ">
         <p class="mt-1">
-              <b>OBSERVAÇÃO: </b>
+          <b>OBSERVAÇÃO: </b>
+           {%if atendimento_especialidade.observacao%}
                  {{atendimento_especialidade.observacao|upper}}
-           
+           {%endif%}
         </p>
       </div>
-       {%endif%}
+       
       
     </div>
     

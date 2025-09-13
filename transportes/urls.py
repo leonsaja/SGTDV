@@ -1,6 +1,6 @@
 from django.urls import path
 
-from transportes.views import carro_view, registro_transporte_view, viagem_view
+from transportes.views import carro_view, registro_transporte_view, viagem_view,paciente_viagem_view
 
 app_name='transportes'
 
@@ -14,6 +14,7 @@ urlpatterns = [
     path('detail/<int:pk>/viagem',viagem_view.DetailViagemView.as_view(),name='detail-viagem'),
     path('delete/<int:pk>/viagem',viagem_view.ViagemDeleteView.as_view(),name='del-viagem'),
     path('pdf/<int:id>/viagem',viagem_view.viagemPdf, name='pdf-viagem'),
+    path('buscar/paciente_viagem', paciente_viagem_view.PacienteViagemSearchView.as_view(), name='buscar-paciente-viagem' ),  
 
 
     # Carro

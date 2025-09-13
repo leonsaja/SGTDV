@@ -34,14 +34,9 @@ class RegistroTransporteListView(HasRoleMixin,ListView):
     model=RegistroTransporte
     template_name='registro_transporte/list_registro_transporte.html'
     context_object_name='transportes'
+    ordering='-created_at'
     paginate_by=10
     allowed_roles=['coordenador','secretario','recepcao','regulacao']
-
-    
-    def get_queryset(self, *args, **kwargs):
-        qs = super(RegistroTransporteListView,self).get_queryset(*args, **kwargs)
-        qs = qs.select_related('paciente','carro').order_by('-created_at').all()
-        return qs
        
 class RegistroTransporteDetailView(HasRoleMixin,DetailView):
     model=RegistroTransporte
@@ -67,7 +62,7 @@ class RegistroTransporteSearchListView(HasRoleMixin,ListView):
 
 
     def get_queryset(self):
-        qs=super().get_queryset()
+        qs=super().get_queryset().select_related('paciente','carro').order_by('-created_at')
         
         nome_paciente=self.request.GET.get('nome_paciente',None).rsplit()
         dt_atendimento=self.request.GET.get('data',None)
@@ -75,7 +70,7 @@ class RegistroTransporteSearchListView(HasRoleMixin,ListView):
         
     
         if nome_paciente:
-            qs=qs.select_related('paciente','carro').filter(Q(paciente__nome_completo__icontains=nome_paciente) |Q(paciente__cpf__icontains=nome_paciente)|Q(paciente__cns__icontains=nome_paciente)).order_by('-created_at')
+            qs=qs.filter(Q(paciente__nome_completo__unaccent__icontains=nome_paciente) |Q(paciente__cpf__icontains=nome_paciente)|Q(paciente__cns__icontains=nome_paciente))
         
         if dt_atendimento:
             qs=qs.select_related('paciente','carro').filter(dt_atendimento=dt_atendimento).order_by('-created_at')

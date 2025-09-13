@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% load permission_tags %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+    {% include 'especialidade/abas_especialidade.html' %}
+    {% include 'includes/mensagens.html'%}
+    {% if user|has_role:'recepcao,regulacao' %}
+
+
+    {%endif%}
+
+
+    <div class="row row">
+        <div class=" col-md-12">
+            <h4 class="text-center text-primary"><strong>Buscar Paciente na Viagem</strong></h4>
+        </div>
+
+    </div>
+    <br>
+    <div class="row ">
+        <div class="container">
+            <div class="row justify-content-center">
+
+                <form class="col-md-8  needs-validation"
+                    action="{% url 'transportes:buscar-paciente-viagem' %}" method="GET"
+                    id="validar-form">
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-10">
+                            <div class="alert alert-danger d-none" role="alert">
+                                Insira algum filtro para realizar a busca.
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row  justify-content-center">
+                        <div class="col-md-8">
+                            <label for="buscar"><strong> Busque pelo Nome/CPF</strong></label>
+                            <input type="search" name="buscar" class="form-control" value="{{request.GET.buscar}}"
+                                id="buscar">
+
+                        </div>
+                    </div>
+                   
+                   
+                    <div class="row justify-content-center ">
+                        <div class="col-md-8 mt-3">
+                            <div class="float-right">
+
+                                <a class="btn " href="{% url 'transportes:buscar-paciente-viagem' %}"
+                                    style="background-color:#DADADA;"> Limpar
+                                    Filtros</a>
+                                <button type="submit" class=" btn btn-primary ">Buscar</button>
+
+                                </div>
+
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="logo">Especialidade</h3>
+
+                </div>
+                <!-- /.card-header -->
+                <div class="table-responsive-md">
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <td>N:</td>
+                                    <th>Paciente</th>
+                                    <th>CNS</th>
+                                    <th>Destino</th>
+                                    <th>Data da Viagem</th>
+                                    <th>Status da Viagem</th>
+                                    <th>Ação</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for p in page_obj %}
+                                <tr>
+                                    <td class="text-center">{{ p.id }} </td>
+                                    <td>{{p.paciente.nome_completo}}</td>
+                                    <td>{{p.paciente.form_cns}}</td>
+                                    <td>{{p.viagem.destino_viagem}}</td>
+                                    <td>{{p.viagem.data_viagem|date:"d/m/Y"|default:'---' }}</td>
+                                     <td>{{p.viagem.get_status_display}}</td>
+                                      <td>
+
+                                        <a href="{% url 'transportes:detail-viagem' p.viagem.id%}"
+                                            class="pr-1"><i class="fas fa-solid fa-eye"></i></a>
+
+
+                                       </td>
+                                </tr>
+                                {%endfor%}
+
+                            </tbody>
+                        </table>
+                        <br>
+                        {% include 'includes/paginacao.html'%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'includes/modal_delete.html'%}
+<!-- Button trigger modal -->
+{% endblock content %} {% block scripts %}
+<script>
+    $('#validar-form').submit(function () {
+        let buscar = $('#buscar')
+        let data = $('#id_data')
+        let status= $('#id_status')
+
+        let erro = $('.alert')
+
+       
+        if (buscar.val() == '' && data.val() == '' && status.val()=='') {
+            erro.removeClass('d-none')
+            return false
+        }
+
+        return true
+    })
+</script>
+
+{% endblock scripts %}

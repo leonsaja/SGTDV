@@ -178,15 +178,12 @@ def load_pacientes_by_especialidade(request):
 class PacienteAutocomplete(autocomplete.Select2QuerySetView):
     
     def get_queryset(self):
-
-        print('Teste')
-
+        
         if not self.request.user.is_authenticated:
-            print('Teste')
             return PacienteEspecialidade.objects.none()
 
         especialidade_id = self.forwarded.get('atendimento-especialidade', None)        
-        
+    
         if especialidade_id:
             qs = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(Q(status='1')|Q(status='4'),especialidade__id=especialidade_id).order_by('paciente__nome_completo')
         else:
@@ -194,7 +191,7 @@ class PacienteAutocomplete(autocomplete.Select2QuerySetView):
 
         if self.q:
             qs = qs.filter(
-                Q(paciente__nome_completo__icontains=self.q) |
+                Q(paciente__nome_completo__unaccent__icontains=self.q) |
                 Q(paciente__cns__icontains=self.q)
             ).filter(status='1')
 

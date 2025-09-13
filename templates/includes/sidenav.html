@@ -263,9 +263,10 @@
 
                   <a href="{% url 'relatorios:relatorio-registro-transporte'%}" target="_blank"
                     class="nav-link link-houver">
-                    <p class=" text-sm text-muted">Registro Transportes</p>
+                    <p class=" text-sm text-muted">Registro Transporte22s</p>
                   </a>
                 </li>
+                
                 <li class="nav-item">
 
                   <a href="{% url 'relatorios:relatorio-viagem'%}" class="nav-link link-houver">
@@ -273,6 +274,7 @@
                     <p class=" text-sm text-muted">Viagens </p>
                   </a>
                 </li>
+                
               </ul>
             </li>
             {%endif%}
@@ -365,6 +367,13 @@
                 <p class="text-sm text-muted"> Viagens</p>
               </a>
             </li>
+             <li class="nav-item">
+
+                  <a href="{% url 'transportes:buscar-paciente-viagem'%}" class="nav-link link-houver">
+
+                    <p class=" text-sm text-muted">Buscar paciente na Viagem </p>
+                  </a>
+                </li>
             {% if user|has_role:'coordenador,regulacao,secretario,digitador,recepcao' %}
             <li class="nav-item">
               <a href="{% url 'transportes:list-carro'%}" class="nav-link link-houver">

@@ -2,7 +2,8 @@ from django.http import JsonResponse
 from django.shortcuts import render
 import locale
 from django.db.models import Q
-
+from django.http import JsonResponse
+import json
 from cidadao.models import Cidadao
 from despesas.models import Diaria,Reembolso
 from especialidades.models import Especialidade, PacienteEspecialidade
@@ -12,6 +13,7 @@ from rolepermissions.decorators import has_role_decorator
 from django.contrib.auth.decorators import login_required
 from especialidades.models import AtendimentoEspecialidade
 from datetime import datetime
+from core.models import Event
 from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
@@ -99,3 +101,50 @@ def home(request):
 
 def page_not_found_view(request, exception):
     return render(request, '404.html', status=404)
+"""
+  
+def calendar_view(request):
+    return render(request, 'agenda.html')
+
+def event_list_create(request):
+    if request.method == 'GET':
+        events = Event.objects.all()
+        data = [
+            {
+                'id': event.id,
+                'title': event.title,
+                'start': event.start_time.isoformat(),
+                'end': event.end_time.isoformat(),
+            }
+            for event in events
+        ]
+        return JsonResponse(data, safe=False)
+
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        event = Event.objects.create(
+            user=request.user, # Você precisará de autenticação para isso funcionar
+            title=data['title'],
+            start_time=datetime.fromisoformat(data['start']),
+            end_time=datetime.fromisoformat(data['end']),
+        )
+        return JsonResponse({'status': 'success', 'id': event.id})
+
+
+def event_detail(request, pk):
+    try:
+        event = Event.objects.get(pk=pk)
+    except Event.DoesNotExist:
+        return JsonResponse({'error': 'Event not found'}, status=404)
+
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+        event.title = data['title']
+        event.start_time = datetime.fromisoformat(data['start'])
+        event.end_time = datetime.fromisoformat(data['end'])
+        event.save()
+        return JsonResponse({'status': 'success'})
+
+    if request.method == 'DELETE':
+        event.delete()
+        return JsonResponse({'status': 'success'})"""

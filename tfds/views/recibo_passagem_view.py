@@ -70,14 +70,14 @@ class ReciboPassagemSearchListView(HasRoleMixin,ListView):
         
         search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
         search_data_recibo=self.request.GET.get('data',None)
-
+        qs=qs.select_related('paciente').order_by('-paciente__nome_completo')
+        
         
         if search_nome_cpf:
-            qs=qs.select_related('paciente').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)|\
-                Q(paciente__cpf__icontains=search_nome_cpf)).order_by('paciente__nome_completo')
+            qs=qs.filter(Q(paciente__nome_completo__unaccent__icontains=search_nome_cpf)|Q(paciente__cpf__icontains=search_nome_cpf))
         
         if search_data_recibo:     
-             qs=qs.select_related('paciente').filter(data_recibo__iexact=search_data_recibo).order_by('paciente__nome_completo')
+             qs=qs.filter(data_recibo__iexact=search_data_recibo)
         
         return qs
         

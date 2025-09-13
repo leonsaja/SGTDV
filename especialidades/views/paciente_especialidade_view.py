@@ -35,22 +35,23 @@ class PacienteEspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,CreateVie
         status = form.cleaned_data.get('status')
 
         
-        if procedimento.nome_procedimento =='RETORNO' or procedimento.nome_procedimento =='RETORNO EXAMES PRONTOS':
+        if procedimento.nome_procedimento =='CONSULTA' or procedimento.nome_procedimento =='RETORNO' or procedimento.nome_procedimento =='RETORNO EXAMES PRONTOS':
 
             qs = PacienteEspecialidade.objects.filter(
                 paciente=paciente,
                 especialidade=especialidade_obj,
-                procedimento__nome_procedimento='CONSULTA',
                 status='1',
-            ).first()
+            ).filter(Q(procedimento__nome_procedimento='CONSULTA')|Q(procedimento__nome_procedimento='RETORNO')| Q(procedimento__nome_procedimento='RETORNO EXAMES PRONTOS')).first()
 
             if qs:
 
                 form.add_error(
                     'paciente', 
-                    'Este paciente já possui um cadastro  nessa especialidade, "STATUS AGUARDANDO".'
+                    'Este paciente já possui um cadastro  nessa especialidade, EM ABERTO.'
                 )
                 return self.form_invalid(form)
+        
+                    
         else:
                 qs = PacienteEspecialidade.objects.filter(
                     paciente=paciente,
@@ -120,7 +121,7 @@ class PacienteEspecialidadeListView(HasRoleMixin,ListView):
         if buscar:
             buscar=buscar.rstrip()
             queryset = queryset.filter(
-                Q(paciente__nome_completo__icontains=buscar) | Q(paciente__cpf__icontains=buscar)
+                Q(paciente__nome_completo__unaccent__icontains=buscar) | Q(paciente__cpf__icontains=buscar)
             )
 
         if data:

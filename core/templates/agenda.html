@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load permission_tags %}
+{% block header%}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+<style>
+        body { font-family: sans-serif; }
+        #calendar-container { max-width: 900px; margin: 40px auto; }
+    </style>
+{% endblock header %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">{% include 'includes/mensagens.html'%}</div>
+    </div>
+   
+
+<div id="calendar-container">
+    <h1>Meu Calendário de Agendamentos</h1>
+    <div id="calendar"></div>
+</div>
+
+
+
+
+
+
+</div>
+{% endblock content %}
+
+
+
+{%block scripts %}
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    const csrftoken = "{{ csrf_token }}";
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'pt-br', // Define o idioma para português
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        editable: true,
+        selectable: true,
+
+        // Carregar eventos da API
+        events: '/api/events/',
+
+        // Lidar com a criação de novos eventos
+        dateClick: function(info) {
+            let title = prompt('Nome do agendamento:');
+            if (title) {
+                let startTime = info.dateStr;
+                let endTime = new Date(info.date.getTime() + 60 * 60 * 1000).toISOString().slice(0, 19);
+
+                fetch('/api/events/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Em produção, você precisaria adicionar o token CSRF
+                    },
+                    body: JSON.stringify({
+                        title: title,
+                        start: startTime,
+                        end: endTime,
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        calendar.addEvent({
+                            id: data.id,
+                            title: title,
+                            start: startTime,
+                            end: endTime
+                        });
+                    }
+                });
+            }
+        },
+
+        // Lidar com a atualização de eventos (arrastar e redimensionar)
+        eventDrop: function(info) {
+            updateEvent(info.event);
+        },
+        eventResize: function(info) {
+            updateEvent(info.event);
+        },
+
+        // Lidar com o clique em um evento (edição/exclusão)
+        eventClick: function(info) {
+            if (confirm("Deseja deletar este agendamento?")) {
+                fetch(`/api/events/${info.event.id}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken 
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        info.event.remove();
+                    }
+                });
+            }
+        }
+    });
+
+    calendar.render();
+
+    function updateEvent(event) {
+        fetch(`/api/events/${event.id}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: event.title,
+                start: event.startStr,
+                end: event.endStr
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status !== 'success') {
+                alert('Erro ao atualizar agendamento');
+            }
+        });
+    }
+});
+</script>
+
+{% endblock scripts %}

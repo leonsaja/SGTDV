@@ -87,11 +87,6 @@
           <th>Paciente</th>
           <th>ACS</th>
           <th>Procedimento</th>
-            {% if  procedimento%}
-            <th>
-             Procedimento
-            </th>
-            {% endif %}
             <th>
              Observação
             </th>
@@ -118,11 +113,6 @@
           <td>{{p.paciente.nome_completo|upper}}</td>
           <td>{{p.paciente.microarea.profissional.acs|upper}}</td>
           <td>{{p.procedimento}}</td>
-            {% if  procedimento%}
-            <td>
-              {{p.procedimento}}
-            </td>
-            {% endif %}
              {% if p.observacao%}
             <td>
               {{p.observacao}}

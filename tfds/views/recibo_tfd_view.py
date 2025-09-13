@@ -102,13 +102,9 @@ class ReciboTFDListView(HasRoleMixin,ListView):
     model=ReciboTFD
     template_name='recibo_tfd/list_recibos_tfds.html'
     context_object_name='recibos_tfds'
+    ordering='-created_at'
     paginate_by=10
     allowed_roles=['regulacao','secretario','coordenador']
-
-    def get_queryset(self, *args, **kwargs):
-        qs = super(ReciboTFDListView,self).get_queryset(*args, **kwargs)
-        qs=qs.select_related('paciente','especialidade','acompanhante').order_by('-created_at')
-        return qs
     
 class ReciboTFDSearchListView(HasRoleMixin,ListView):
    
@@ -124,13 +120,14 @@ class ReciboTFDSearchListView(HasRoleMixin,ListView):
         
         search_nome_cpf=self.request.GET.get('search_nome_cpf',None).rstrip()
         data=self.request.GET.get('data',None)
-      
+        
+        qs=qs.select_related('paciente','especialidade','acompanhante').order_by('-paciente__nome_completo')
+        
         if search_nome_cpf:
-            qs=qs.select_related('paciente','especialidade','acompanhante').filter(Q(paciente__nome_completo__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))\
-            .order_by('-data')
+            qs=qs.filter(Q(paciente__nome_completo__unaccent__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))
            
         if data:
-             qs=qs.select_related('paciente','especialidade','acompanhante').filter(data__iexact=data).order_by('-created_at')
+             qs=qs.filter(data__iexact=data)
         
         return qs
 
