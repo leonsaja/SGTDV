@@ -20,7 +20,7 @@ class PacienteEspecialidadeSearchView(HasRoleMixin,ListView):
         if buscar:
             buscar=buscar.rstrip()
             queryset = queryset.filter(
-                Q(paciente__nome_completo__unaccent__icontainss=buscar) | Q(paciente__cpf__icontains=buscar)
+                Q(paciente__nome_completo__unaccent__icontains=buscar) | Q(paciente__cpf__icontains=buscar)
             )
             
         return queryset
