@@ -1,14 +1,12 @@
 from django.urls import path
 
-from . import views
-
+from core.views import home
 app_name='core'
 from core.views import page_not_found_view
 urlpatterns = [
-   path('',views.home,name='home'),
-   #path('agenda', views.calendar_view, name='agenda_view'),
-   #path('api/events/', views.event_list_create, name='event_list_create'),
-   #path('api/events/<int:pk>/', views.event_detail, name='event_detail'),
-
+   path('',home,name='home'),
+   #path('calendario/', calendario_view, name='calendario'),
+   #path('agendamentos_json/',agendamentos_json, name='agendamentos_json'),
+   #path('agendamento/criar/', agendamento_criar_ajax, name='agendamento_criar_ajax'),
 ]
 handler404 = 'core.views.page_not_found_view'

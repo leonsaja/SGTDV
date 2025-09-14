@@ -13,12 +13,12 @@ from rolepermissions.decorators import has_role_decorator
 from django.contrib.auth.decorators import login_required
 from especialidades.models import AtendimentoEspecialidade
 from datetime import datetime
-from core.models import Event
+from core.models import Agenda
 from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
-
-from django.shortcuts import render
+from core.form import AgendamentoForm
+from django.shortcuts import render,redirect
 
 @login_required
 def home(request):
@@ -102,49 +102,55 @@ def home(request):
 def page_not_found_view(request, exception):
     return render(request, '404.html', status=404)
 """
-  
-def calendar_view(request):
-    return render(request, 'agenda.html')
+def calendario_view(request):
+    form = AgendamentoForm()
+    return render(request, 'agenda.html', {'form': form})
 
-def event_list_create(request):
-    if request.method == 'GET':
-        events = Event.objects.all()
-        data = [
-            {
-                'id': event.id,
-                'title': event.title,
-                'start': event.start_time.isoformat(),
-                'end': event.end_time.isoformat(),
-            }
-            for event in events
-        ]
-        return JsonResponse(data, safe=False)
-
+# Esta será a nova vista que lida com a submissão do formulário via AJAX
+# Assuma que a URL para esta vista é 'agendamentos/criar/'
+def agendamento_criar_ajax(request):
+    print('criar')
     if request.method == 'POST':
-        data = json.loads(request.body)
-        event = Event.objects.create(
-            user=request.user, # Você precisará de autenticação para isso funcionar
-            title=data['title'],
-            start_time=datetime.fromisoformat(data['start']),
-            end_time=datetime.fromisoformat(data['end']),
-        )
-        return JsonResponse({'status': 'success', 'id': event.id})
+        form = AgendamentoForm(request.POST)
+        if form.is_valid():
+            novo_agendamento = form.save()
+            # Retorna uma resposta JSON com o ID e os dados do novo evento
+            return JsonResponse({
+                'status': 'success',
+                'id': novo_agendamento.pk,
+                'title': novo_agendamento.title,
+                'start_time': novo_agendamento.start_time,
+                'end_time': novo_agendamento.end_time,
+            })
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
+    
+    return JsonResponse({'status': 'error', 'message': 'Método não permitido'}, status=405)
+# A função agendamentos_json() não precisa de ser alterada
 
 
-def event_detail(request, pk):
-    try:
-        event = Event.objects.get(pk=pk)
-    except Event.DoesNotExist:
-        return JsonResponse({'error': 'Event not found'}, status=404)
+def agendamentos_json(request):
+    print('teste213')
+    start_str = request.GET.get('start', None)
+    end_str = request.GET.get('end', None)
 
-    if request.method == 'PUT':
-        data = json.loads(request.body)
-        event.title = data['title']
-        event.start_time = datetime.fromisoformat(data['start'])
-        event.end_time = datetime.fromisoformat(data['end'])
-        event.save()
-        return JsonResponse({'status': 'success'})
+    if start_str and end_str:
+        start_str = datetime.fromisoformat(start_str.replace('Z', '+00:00'))
+        end_str = datetime.fromisoformat(end_str.replace('Z', '+00:00'))
+        
+        eventos = Agenda.objects.filter(start_time__gte=start_str, end_time__lte=end_str)
+        lista_eventos = []
+        for evento in eventos:
+            lista_eventos.append({
+                'title': evento.title,
+                'start_time': evento.start_time.isoformat(),
+                'end_time': evento.end_time.isoformat(),
+            })
+            print(lista_eventos)
+        
+        return JsonResponse(lista_eventos, safe=False)
+            
+    return JsonResponse([])
 
-    if request.method == 'DELETE':
-        event.delete()
-        return JsonResponse({'status': 'success'})"""
+
+"""

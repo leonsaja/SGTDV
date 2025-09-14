@@ -90,7 +90,7 @@
           <td>{{a.qta_paciente_especialidade_concluido}}</td>
           <td>{{a.qta_paciente_especialidade_ausente}}</td>
           <td>{{a.get_atendimento_via_display}}</td>
-          <td>{{a.data}}</td>
+          <td>{{a.data|date:"d/m/Y"|default:'---'}}</td>
         </tr>
 
         {%endfor%}

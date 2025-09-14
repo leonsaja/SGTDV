@@ -1,10 +1,20 @@
 {% extends 'base.html' %}
 {% load permission_tags %}
-{% block header%}
+
+{% block header %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
-<style>
+    <style>
         body { font-family: sans-serif; }
-        #calendar-container { max-width: 900px; margin: 40px auto; }
+        .container { max-width: 1100px; margin: 0 auto; display: flex; gap: 20px; }
+        #calendar { flex: 1; }
+        .form-section {
+            flex: 0 0 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            display: none; /* Ocultar o formulário por padrão */
+        }
+        .form-section h2 { margin-top: 0; }
     </style>
 {% endblock header %}
 
@@ -13,38 +23,53 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">{% include 'includes/mensagens.html'%}</div>
+        <div class="col-md-12">{% include 'includes/mensagens.html' %}</div>
     </div>
-   
-
-<div id="calendar-container">
-    <h1>Meu Calendário de Agendamentos</h1>
-    <div id="calendar"></div>
 </div>
 
+<div class="container">
+    <div id="eventos-do-dia" style="display:none; padding:15px; border:1px solid #ccc; margin-top:20px;">
+        <h3>Eventos do dia</h3>
+        <ul id="lista-eventos"></ul>
+    </div>
+    <div id="agendamento-form-container" class="form-section">
+        <h2>Novo Agendamento</h2>
+        <form id="agendamento-form" method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit">Guardar Agendamento</button>
+        </form>
+        <button id="close-form-btn" class="btn btn-secondary mt-2">Fechar</button>
+    </div>
 
-
-
-
-
+    <div id="calendar-container">
+        <h1>Meu Calendário de Agendamentos</h1>
+        <div id="calendar"></div>
+    </div>
 </div>
+
 {% endblock content %}
 
 
-
-{%block scripts %}
+{% block scripts %}
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
 <script>
-
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
-    const csrftoken = "{{ csrf_token }}";
+    var formContainer = document.getElementById('agendamento-form-container');
+    var closeFormBtn = document.getElementById('close-form-btn');
+
+    // Usar os IDs dos campos que você definiu no forms.py
+    var titleInput = document.getElementById('id_title');
+    var startInput = document.getElementById('id_start_time');
+    var endInput = document.getElementById('id_end_time');
+   
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        locale: 'pt-br', // Define o idioma para português
+        locale: 'pt-br',
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
@@ -54,76 +79,102 @@ document.addEventListener('DOMContentLoaded', function() {
         selectable: true,
 
         // Carregar eventos da API
-        events: '/api/events/',
-
-        // Lidar com a criação de novos eventos
+        events: '/agendamentos_json/', // Mantenha a URL da vista que criamos anteriormente
+        
+        // Lidar com a criação de novos eventos clicando numa data
         dateClick: function(info) {
-            let title = prompt('Nome do agendamento:');
-            if (title) {
-                let startTime = info.dateStr;
-                let endTime = new Date(info.date.getTime() + 60 * 60 * 1000).toISOString().slice(0, 19);
+        // --- PEGAR EVENTOS DO DIA CLICADO ---
+        var clickedDate = info.date; // objeto Date do clique
+        var startOfDay = new Date(clickedDate);
+        startOfDay.setHours(0,0,0,0);
+        var endOfDay = new Date(clickedDate);
+        endOfDay.setHours(23,59,59,999);
 
-                fetch('/api/events/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        // Em produção, você precisaria adicionar o token CSRF
-                    },
-                    body: JSON.stringify({
-                        title: title,
-                        start: startTime,
-                        end: endTime,
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        calendar.addEvent({
-                            id: data.id,
-                            title: title,
-                            start: startTime,
-                            end: endTime
-                        });
-                    }
-                });
+        // pega todos eventos carregados no calendário
+        var allEvents = calendar.getEvents();
+
+        // filtrar os eventos do dia
+        var eventsOfDay = allEvents.filter(function(event){
+            // pega início e fim do evento
+            var evStart = event.start;
+            var evEnd = event.end || event.start; // se não tiver fim, usa o início
+
+            return (evStart < endOfDay && evEnd > startOfDay);
+        });
+
+        // --- MOSTRAR LISTA ---
+        var lista = document.getElementById('lista-eventos');
+        lista.innerHTML = ''; // limpar
+        if (eventsOfDay.length === 0) {
+            lista.innerHTML = '<li>Nenhum evento para este dia</li>';
+        } else {
+            eventsOfDay.forEach(function(ev){
+            var li = document.createElement('li');
+            li.textContent = ev.title + ' - ' +
+                ev.start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) +
+                (ev.end? ' às ' + ev.end.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '');
+            lista.appendChild(li);
+            });
+        }
+
+        document.getElementById('eventos-do-dia').style.display = 'block';
+
+        // --- AINDA PODE ABRIR FORM SE QUISER ---
+        formContainer.style.display = 'block';
+        document.getElementById("agendamento-form").reset();
+
+        // preencher form com hora padrão para novo agendamento
+        var startDate = new Date(info.dateStr + 'T09:00:00'); // 9h
+        var endDate   = new Date(info.dateStr + 'T10:00:00'); // 10h
+        startInput.value = startDate.toISOString().slice(0,16);
+        endInput.value = endDate.toISOString().slice(0,16);
+        titleInput.focus();
+        },
+        eventClick: function(info) {
+            // Prevenir o comportamento padrão
+            info.jsEvent.preventDefault();
+
+            // Mostrar o formulário
+            formContainer.style.display = 'block';
+
+            // Preencher o formulário com os dados do evento
+            titleInput.value = info.event.title;
+            // O FullCalendar fornece as datas já em formato ISO para preencher o input
+            startInput.value = info.event.startStr.slice(0, 16);
+            if (info.event.endStr) {
+                 endInput.value = info.event.endStr.slice(0, 16);
+            } else {
+                 // Lógica para eventos sem hora de fim
+                 const eventEnd = new Date(info.event.start.getTime() + 60 * 60 * 1000);
+                 endInput.value = eventEnd.toISOString().slice(0, 16);
             }
         },
-
-        // Lidar com a atualização de eventos (arrastar e redimensionar)
+        // As lógicas de update, resize e delete via API estão corretas
+        // desde que você tenha os endpoints corretos no Django
+        // e que você use a autenticação de CSRF corretamente.
+        // O seu código para isso é avançado e parece estar no caminho certo.
         eventDrop: function(info) {
             updateEvent(info.event);
         },
         eventResize: function(info) {
             updateEvent(info.event);
         },
-
-        // Lidar com o clique em um evento (edição/exclusão)
-        eventClick: function(info) {
-            if (confirm("Deseja deletar este agendamento?")) {
-                fetch(`/api/events/${info.event.id}/`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrftoken 
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        info.event.remove();
-                    }
-                });
-            }
-        }
+       
     });
 
     calendar.render();
 
+    // Adicionar funcionalidade para fechar o formulário
+    closeFormBtn.addEventListener('click', function() {
+        formContainer.style.display = 'none';
+    });
+
     function updateEvent(event) {
-        fetch(`/api/events/${event.id}/`, {
+        fetch(`/agendamentos_json/${event.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
             },
             body: JSON.stringify({
                 title: event.title,
