@@ -113,6 +113,7 @@
                   <th>Nome Completo</th>
                   <th>CPF</th>
                   <th>CNS</th>
+                  <th class="text-red">ACS</th>
                   <th>Data de Nascimento</th>
                   <th>Mãe</th>
                   <th>Ação</th>
@@ -129,6 +130,7 @@
                   <td>{{paciente.formt_cpf}}</td>
                   
                   <td>{{paciente.form_cns}}</td>
+                  <td>{{paciente.microarea.profissional.acs}}</td>
                   <td>{{paciente.dt_nascimento|date:"d/m/Y"|default:'---'}}</td>
                    {% if paciente.nome_mae%}
                   <td>{{paciente.nome_mae}}</td>

@@ -60,7 +60,7 @@ def especialidadeDetail(request,pk):
     
     especialidade=get_object_or_404(Especialidade,id=pk)
     context['especialidade']=especialidade
-    pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade').filter(especialidade_id=especialidade.id).filter(Q(status='1') |Q(status='5') |Q(status='7')).order_by('data_pedido')
+    pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade').filter(especialidade_id=especialidade.id).filter(Q(status='1') |Q(status='5') |Q(status='7')).exclude(status='3').order_by('-classificacao','data_pedido')
     
     paginator = Paginator(pacientes_especialidade,10)  
     page_number = request.GET.get("page")

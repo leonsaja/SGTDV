@@ -116,7 +116,7 @@ class PacienteEspecialidadeListView(HasRoleMixin,ListView):
 
         queryset = PacienteEspecialidade.objects.select_related(
             'paciente', 'especialidade', 'procedimento'
-        ).filter(especialidade__id=especialidade_id).order_by('data_pedido')
+        ).filter(especialidade__id=especialidade_id).order_by('classificacao','data_pedido')
 
         if buscar:
             buscar=buscar.rstrip()
@@ -148,7 +148,7 @@ class PacienteEspecialidadeDetailView(HasRoleMixin,DetailView):
     def get_context_data(self, *args, **kwargs):
         context= super().get_context_data(*args, **kwargs)
         paciente_especialidade=PacienteEspecialidade.objects.select_related('paciente','procedimento','especialidade').get(id=self.kwargs['pk'])
-        context['especialiadade']=paciente_especialidade.especialidade
+        context['especialidade']=paciente_especialidade.especialidade
         context['paciente_especialidade']=paciente_especialidade
        
         return context

@@ -16,12 +16,12 @@ class PacienteViagemSearchView(HasRoleMixin,ListView):
     def get_queryset(self):
         buscar = self.request.GET.get('buscar', None)
         queryset = PassageiroViagem.objects.select_related(
-            'paciente','viagem').all().order_by('-viagem__data_viagem')
+            'paciente','viagem').all().order_by('-viagem')
 
         if buscar:
             buscar=buscar.rstrip()
             queryset = queryset.filter(
-                Q(paciente__nome_completo__unaccent__icontainss=buscar) | Q(paciente__cpf__icontains=buscar)
+                Q(paciente__nome_completo__unaccent__icontains=buscar) | Q(paciente__cpf__icontains=buscar)
             )
             
         return queryset
