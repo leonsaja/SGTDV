@@ -9,7 +9,7 @@ from datetime import datetime
 from rolepermissions.decorators import has_role_decorator
 
 
-has_role_decorator(['regulacao','coordenador','secretario'])
+@has_role_decorator(['regulacao','coordenador','secretario'])
 
 def relatorio_especialidade(request):
     context={}

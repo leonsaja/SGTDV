@@ -13,7 +13,7 @@ from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
 from transportes.models import PassageiroViagem
 
-has_role_decorator(['recepcao','regulacao'])
+@has_role_decorator(['recepcao','regulacao'])
 def viagemCreate(request):
     viagem=Viagem()
     if request.method == 'POST':
@@ -36,7 +36,7 @@ def viagemCreate(request):
     
     return render(request, 'viagem/form_viagem.html', {'form': form,'formset':formset})
 
-has_role_decorator(['recepcao','regulacao'])
+@has_role_decorator(['recepcao','regulacao'])
 def viagemUpdate(request,id):
 
     viagem=Viagem.objects.get(id=id)
@@ -129,7 +129,7 @@ class ViagemDeleteView(HasRoleMixin,SuccessMessageMixin,DeleteView):
     def get(self, request,*args, **kwargs):
          return self.post(request, *args, **kwargs)
 
-has_role_decorator(['recepcao','digitador','regulacao'])
+@has_role_decorator(['recepcao','digitador','regulacao'])
 def viagemPdf(request,id):
     context={}
     viagem=get_object_or_404(Viagem,id=id)

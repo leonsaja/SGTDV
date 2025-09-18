@@ -5,9 +5,11 @@ from django.template.loader import render_to_string
 from especialidades.models import AtendimentoEspecialidade
 from relatorios.forms.atendimento_especialidade_form import RelatorioAtendimentoEspecialidadeForm
 from weasyprint import HTML
+from django.contrib.auth.decorators import login_required
 
 
 
+@login_required
 def relatorio_atendimento_pdf(request,context):
     response = HttpResponse(content_type='application/pdf')
     atendimentos=AtendimentoEspecialidade.objects.select_related('especialidade').all()
@@ -46,7 +48,7 @@ def relatorio_atendimento_pdf(request,context):
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
     return response
 
-
+@login_required
 def relatorio_atendimento_especialidade(request):
     context={}
     

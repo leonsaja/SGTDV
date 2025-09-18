@@ -9,8 +9,9 @@ from especialidades.models import PacienteEspecialidade
 from django.db.models import Q
 from datetime import datetime
 from rolepermissions.decorators import has_role_decorator
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def relatorio_paciente_especialidade_pdf(request,context):
     paciente_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').order_by('paciente__nome_completo')
 
@@ -47,7 +48,7 @@ def relatorio_paciente_especialidade_pdf(request,context):
     
     return response
 
-has_role_decorator(['regulacao','coordenador','secretario'])
+@has_role_decorator(['regulacao','coordenador','secretario'])
 def relatorio_pacientes_especialidade(request):
     
     context={}

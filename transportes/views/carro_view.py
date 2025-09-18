@@ -58,7 +58,7 @@ class DetailCarraView(HasRoleMixin,DetailView):
     context_object_name='carro'
     allowed_roles=['coordenador','secretario','regulacao','recepcao']
 
-has_role_decorator(['coordenador'])
+@has_role_decorator(['coordenador'])
 def carroDelete(request, id):
 
     carro=get_object_or_404(Carro,id=id)

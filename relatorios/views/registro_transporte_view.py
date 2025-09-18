@@ -71,7 +71,7 @@ def relatorio_registro_transporte_pdf(request,context):
         messages.add_message(request,constants.ERROR,'Data inicial e Data final são Campos o obrigatório')
         return render(request,'transporte/registro_transporte/relatorio_registro_transporte.html',context)
         
-has_role_decorator(['coordenador','secretario','regulacao'])
+@has_role_decorator(['coordenador','secretario','regulacao'])
 def relatorio_registro_transporte(request):
     context={}
     transportes= RegistroTransporte.objects.select_related('paciente','carro').order_by('-created_at').all()
