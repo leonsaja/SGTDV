@@ -1,6 +1,7 @@
 from django.urls import path
 
-from core.views import home
+from core.views import home #agendamentos_json,agendamento_criar_ajax,calendario_view
+
 app_name='core'
 from core.views import page_not_found_view
 urlpatterns = [

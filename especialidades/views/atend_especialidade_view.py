@@ -190,6 +190,7 @@ class PacienteAutocomplete(autocomplete.Select2QuerySetView):
             return PacienteEspecialidade.objects.none()
 
         if self.q:
+            self.q=self.q.rstrip()
             qs = qs.filter(
                 Q(paciente__nome_completo__unaccent__icontains=self.q) |
                 Q(paciente__cns__icontains=self.q)

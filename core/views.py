@@ -97,8 +97,6 @@ def home(request):
     
    return render(request,'home.html',context)
 
-
-
 def page_not_found_view(request, exception):
     return render(request, '404.html', status=404)
 """
@@ -106,8 +104,6 @@ def calendario_view(request):
     form = AgendamentoForm()
     return render(request, 'agenda.html', {'form': form})
 
-# Esta será a nova vista que lida com a submissão do formulário via AJAX
-# Assuma que a URL para esta vista é 'agendamentos/criar/'
 def agendamento_criar_ajax(request):
     print('criar')
     if request.method == 'POST':
@@ -126,8 +122,6 @@ def agendamento_criar_ajax(request):
             return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
     
     return JsonResponse({'status': 'error', 'message': 'Método não permitido'}, status=405)
-# A função agendamentos_json() não precisa de ser alterada
-
 
 def agendamentos_json(request):
     print('teste213')
@@ -151,6 +145,5 @@ def agendamentos_json(request):
         return JsonResponse(lista_eventos, safe=False)
             
     return JsonResponse([])
-
 
 """

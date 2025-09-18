@@ -165,15 +165,17 @@ class CidadaoAutocomplete(autocomplete.Select2QuerySetView):
 
         qs = Cidadao.objects.select_related('microarea').all()
         
-   
+        print("NOME PESQUISADO 1",self.q)
         if self.q:
             cpf_cns_limpo = re.sub(r'\D', '', self.q)
-         
+            print("NOME PESQUISADO 1",self.q)
+
             if len(cpf_cns_limpo) == 11:
                 qs = qs.filter(cpf=cpf_cns_limpo)
             elif len(cpf_cns_limpo) == 15:
                 qs = qs.filter(cns=cpf_cns_limpo)
             else:
+                self.q=self.q.rstrip()
                 qs = qs.filter(nome_completo__unaccent__icontains=self.q)
                 
         return qs

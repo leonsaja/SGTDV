@@ -43,7 +43,7 @@ def relatorio_recibo_tfd_pdf(request,context):
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
     return response
 
-@has_role_decorator(['coordenador','secretario','recepcao'])
+@has_role_decorator(['coordenador','secretario','regulacao'])
 def relatorio_recibo_tfd(request):
     context={}
     

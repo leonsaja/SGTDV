@@ -8,11 +8,26 @@
 
 <div class="container-fluid">
     {% include 'especialidade/abas_especialidade.html' %}
-    {% include 'includes/mensagens.html'%}
-    {% if user|has_role:'recepcao,regulacao' %}
-
+    <div class="row">
+        <div class="col-md-12">
+            {% include 'includes/mensagens.html'%}
+        </div>
+    </div>
+   
+     {% if user|has_role:'recepcao,regulacao' %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <br>
+                        <div class="text-right">
+                            <a href="{% url 'especialidades:add-paciente-especialidade' especialidade.id %}"
+                                class="btn btn-primary"><b>Adicionar Paciente</b>
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
     {%endif%}
+
 
 
     <div class="row row">
@@ -84,20 +99,7 @@
 
                 </form>
 
-                {% if user|has_role:'recepcao,regulacao' %}
-                <div class="row">
-                    <div class="col-md-12">
-                        <br>
-                        <div class="text-right">
-                            <a href="{% url 'especialidades:add-paciente-especialidade' especialidade.id %}"
-                                class="btn btn-primary"><b>Adicionar Paciente</b>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                {%endif%}
-
+               
 
 
             </div>

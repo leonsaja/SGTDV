@@ -35,7 +35,6 @@ class ListCarroView(HasRoleMixin,ListView):
     model=Carro
     template_name='carro/list_carros.html'
     context_object_name='carros'
-    ordering='-created_at'
     allowed_roles=['coordenador','secretario','regulacao','recepcao']
     paginate_by=10  
 
