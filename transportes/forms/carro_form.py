@@ -27,7 +27,11 @@ class CarroForm(forms.ModelForm):
         fields='__all__'
 
     
-  
+    def clean_foto(self):
+        foto = self.cleaned_data.get('foto')
+        if foto and foto.size > 5 * 1024 * 1024:  # Limite de 2MB
+            raise ValidationError("O arquivo é muito grande. O tamanho máximo permitido é 5 MB.")
+        return foto
 
 
 

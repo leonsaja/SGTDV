@@ -21,6 +21,7 @@ class CarroCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
     success_message='Cadastro realizado com sucesso'
     allowed_roles=['coordenador','recepcao']
 
+   
 class CarroUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):  
 
     model=Carro

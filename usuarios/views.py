@@ -111,7 +111,6 @@ class UsuarioDetailView(HasRoleMixin,DetailView):
     context_object_name='usuario'
     allowed_roles = ['secretario','coordenador']
 
-
 class PasswordChange(SuccessMessageMixin,LoginRequiredMixin,PasswordChangeView):
      form_class = PasswordChangeForm
      template_name='registration/alterar_senha.html'

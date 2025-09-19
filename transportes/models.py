@@ -1,8 +1,9 @@
-from django.contrib import messages
 from django.db import models
 from cidadao.models import Cidadao
 from profissionais.models import Profissional
-
+import os
+import uuid
+from django.core.validators import FileExtensionValidator
 
 class Viagem(models.Model):
 
@@ -56,7 +57,20 @@ class PassageiroViagem(models.Model):
    
    class Meta:
         ordering = ["paciente__nome_completo"]
-   
+
+
+
+def get_upload_path(instance, filename):
+    # Obtém a extensão do arquivo
+    ext = filename.split('.')[-1]
+    
+    # Gera um nome de arquivo único e seguro com um UUID
+    new_filename = f'{uuid.uuid4()}.{ext}'
+    
+    # Define o caminho de upload
+    return os.path.join('media/carros', new_filename)
+
+
 class Carro(models.Model):
    
    CHOICES_TIPO_TRANSPORTE=(
@@ -75,7 +89,7 @@ class Carro(models.Model):
    
    nome=models.CharField(verbose_name='Nome do Carro', max_length=180, null=False, blank=False)
    placa=models.CharField(verbose_name='Placa do Carro', max_length=7,unique=True, help_text='Sem caracteres especiais(-)')
-   foto=models.ImageField(verbose_name='Foto do carro', upload_to='media/carros', null=False, blank=False, default='')
+   foto=models.ImageField(verbose_name='Foto do carro', upload_to=get_upload_path, null=False, blank=False,validators=[FileExtensionValidator(['jpg', 'jpeg', 'png', 'gif'])])
    tipo_transporte=models.CharField(verbose_name='Tipo de Transporte',max_length=1,choices=CHOICES_TIPO_TRANSPORTE, null=True,blank=False)
    cor=models.CharField(verbose_name='Cor do Carro',max_length=100, null=True,blank=False)
    ano_fabricacao=models.IntegerField(verbose_name='Ano de Fabricação',null=True, blank=False)
