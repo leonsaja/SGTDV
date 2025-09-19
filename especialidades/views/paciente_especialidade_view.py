@@ -40,8 +40,7 @@ class PacienteEspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,CreateVie
             qs = PacienteEspecialidade.objects.filter(
                 paciente=paciente,
                 especialidade=especialidade_obj,
-                status='1',
-            ).filter(Q(procedimento__nome_procedimento='CONSULTA')|Q(procedimento__nome_procedimento='RETORNO')| Q(procedimento__nome_procedimento='RETORNO EXAMES PRONTOS')).first()
+            ).filter(Q(status='1')|Q(status='5')).filter(Q(procedimento__nome_procedimento='CONSULTA')|Q(procedimento__nome_procedimento='RETORNO')| Q(procedimento__nome_procedimento='RETORNO EXAMES PRONTOS')).first()
 
             if qs:
 
@@ -57,8 +56,8 @@ class PacienteEspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,CreateVie
                     paciente=paciente,
                     especialidade=especialidade_obj,
                     procedimento=procedimento,
-                    status='1',
-                ).first()
+                    
+                ).filter(Q(status='1')|Q(status='5')).first()
 
                 if qs:
 

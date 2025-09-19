@@ -88,7 +88,8 @@
 
                                  </h6>
                               {%else%}
-                                 <h6 class="text-muted">-</h6>
+                                 <h6 class="text-muted">{{paciente_especialidade.created_at|date:"d/m/Y"|default:'---'}} às
+                                            {{paciente_especialidade.created_at|time:"H:i"|default:'---'}}</h6>
                              {%endif%}
                         </div>
                         <div class="col-md-6">
@@ -99,7 +100,8 @@
                                             {{paciente_especialidade.updated_at|time:"H:i"|default:'---'}}
                                            </h6>
                                 {%else%}
-                                    <h6 class="text-muted">-</h6>
+                                    <h6 class="text-muted">{{paciente_especialidade.updated_at|date:"d/m/Y"|default:'---'}} às
+                                            {{paciente_especialidade.updated_at|time:"H:i"|default:'---'}}</h6>
                                 {%endif%}
                          </div>
                     </div>
