@@ -92,17 +92,17 @@ class AtendEspecialidadeListView(HasRoleMixin,ListView):
         data = self.request.GET.get('data', None)
 
         if buscar:
-            queryset=qs.filter(especialidade__nome__icontains=buscar)
+            qs=qs.filter(especialidade__nome__icontains=buscar)
     
         if status:
-            queryset=qs.filter(status=status)
+            qs=qs.filter(status=status)
 
         if data:
-            queryset = qs.filter(data__iexact=data)
+            qs = qs.filter(data__iexact=data)
 
         if not buscar and not status and not data:
-                queryset=qs.filter(status='1')
-        return queryset.order_by('-especialidade')
+                qs=qs.filter(status='1')
+        return qs.order_by('-especialidade')
     
 class AtendEspecialidadeDetailView(HasRoleMixin,DetailView):
 

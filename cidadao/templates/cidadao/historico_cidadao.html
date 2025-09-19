@@ -70,11 +70,30 @@
                                     <td>{{p.paciente.paciente.nome_completo}}</td>
                                     <td>{{p.atendimento_paciente.especialidade}}</td>
                                     <td>{{p.paciente.procedimento}}</td>
-                                    {% if p.status == 1%}
-                                        <td>{{p.get_status_display}}</td>
+                                    {% if p.status == '1'%}
+
+                                        <td style="background-color: red; color: white;">
+
+                                        {{p.get_status_display}}</td>
                                     {%else%}
-                                        <td>{{p.paciente.get_status_display}}</td>
+                                         {% if p.paciente.status == '1'%}
+                                        <td style="background-color:#FFFF00; color: black;">
+                                            {{p.paciente.get_status_display}}
+
+                                        </td>
+                                        {% elif p.paciente.status == '3' %}
+                                        <td style="background-color: red; color: white;">
+                                            {{p.paciente.get_status_display}}
+                                        </td>
+                                        {% elif p.paciente.status == '2' %}
+                                        <td style="background-color: greenyellow; color: black;">
+                                            {{p.paciente.get_status_display}}
+                                        </td>
+                                        {%else%}
+                                            <td>{{p.paciente.get_status_display}}</td>
+                                        {%endif%}
                                     {%endif%}
+
                                                                         
                                     <td>{{p.atendimento_paciente.data|date:"d/m/Y"|default:'---'}}</td>
                                     
@@ -120,7 +139,23 @@
                                     <td>{{especialidade.paciente.formt_cpf}}</td>
                                     <td>{{especialidade.especialidade}}</td>
                                     <td>{{especialidade.procedimento }}</td>
+                                    {% if especialidade.status == '1'%}
+                                    <td style="background-color:#FFFF00; color: black;">
+                                        {{especialidade.get_status_display}}
+
+                                    </td>
+                                    {% elif especialidade.status == '3' %}
+                                    <td style="background-color: red; color: white;">
+                                        {{especialidade.get_status_display}}
+                                    </td>
+                                    {% elif especialidade.status == '2' %}
+                                    <td style="background-color: greenyellow; color: black;">
+                                        {{especialidade.get_status_display}}
+                                    </td>
+                                    {%else%}
                                     <td>{{especialidade.get_status_display}}</td>
+                                    {%endif%}
+
                                     {% if especialidade.classificacao == '2'%}
                                     <td style="background-color:#FFFF00; color: black;">
                                         {{especialidade.get_classificacao_display}}
