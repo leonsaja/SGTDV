@@ -161,7 +161,7 @@ def atend_especialidade_pdf(request, id):
     
     # 6. Prepara a resposta HTTP para download.
     response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
-    response['Content-Disposition'] = f'inline; filename="atendimento_{id}.pdf"'
+    response['Content-Disposition'] = f'inline; filename="Atendimento_{id}.pdf"'
     
     return response
 

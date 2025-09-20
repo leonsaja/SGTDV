@@ -1,4 +1,3 @@
-from django.db.models import Q
 from django.contrib.auth import get_user_model
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -6,7 +5,7 @@ from django.views.generic import DetailView, ListView
 from weasyprint import HTML
 from django.template.loader import render_to_string
 from django.db.models import Q
-
+from io import BytesIO
 from despesas.forms.reembolso_form import ReembolFormSet,DescricaoReembolsoForm
 from despesas.models import Diaria, Reembolso
 from django.contrib.messages import constants
@@ -106,17 +105,20 @@ class ReembolsoDetailView(HasRoleMixin,DetailView):
 
 @has_role_decorator(['digitador','coordenador','secretario'])
 def reembolso_pdf(request,id):
-
-    diaria=get_object_or_404(Diaria,id=id)
     context={}
-    context['diaria']=diaria
-    context['reembolsos'] =Reembolso.objects.select_related('diaria').filter(diaria__id=diaria.id)
-    response = HttpResponse(content_type='application/pdf')
+    diaria=get_object_or_404(Diaria,id=id)
     User=get_user_model()
+   
+    context['diaria']=diaria
+    context['reembolsos'] =diaria.reembolsos.all().select_related('diaria')
     context['profissional']=User.objects.filter(is_active=True).filter(perfil='5').first()
     
+    buffer = BytesIO()
     html_string = render_to_string('reembolso/pdf_reembolso.html', context)
-    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(buffer)
+    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="Reembolso_{id}.pdf"'
+
     return response
     
    

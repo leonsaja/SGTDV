@@ -12,6 +12,8 @@ from django.contrib.messages import constants
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
 from transportes.models import PassageiroViagem
+from io import BytesIO
+from django.db.models import  Q
 
 @has_role_decorator(['recepcao','regulacao'])
 def viagemCreate(request):
@@ -132,6 +134,7 @@ class ViagemDeleteView(HasRoleMixin,SuccessMessageMixin,DeleteView):
 @has_role_decorator(['recepcao','digitador','regulacao'])
 def viagemPdf(request,id):
     context={}
+
     viagem=get_object_or_404(Viagem,id=id)
     total=0
     for passageiro in viagem.passageiros_viagens.all():
@@ -159,14 +162,17 @@ def viagemPdf(request,id):
     context['micro_onibus']=micro_onibus
     capacidade=range(capacidade)
     context['capacidade']=capacidade
-    response = HttpResponse(content_type='application/pdf')
+   
     if micro_onibus:
        html_string = render_to_string('viagem/pdf_viagem_micro.html',context)
     
     else:
         html_string = render_to_string('viagem/pdf_viagem.html',context)
     
-    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+    buffer = BytesIO()
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(buffer)
+    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="Viagem_{viagem.destino_viagem}_{viagem.data_viagem.strftime("%d/%m/%Y")}.pdf"'
 
     return response
 

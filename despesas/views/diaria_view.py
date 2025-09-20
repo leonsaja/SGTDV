@@ -13,6 +13,7 @@ from ..models import Diaria, Reembolso
 from django.contrib.messages import constants
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from io import BytesIO
 
 
 class DiariaCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
@@ -121,14 +122,16 @@ def diaria_delete(request, id):
 @has_role_decorator(['digitador','coordenador','secretario'])
 def diaria_pdf(request,id):
    
+
     diaria=get_object_or_404(Diaria,id=id)
     User=get_user_model()
+
     profissional=User.objects.filter(is_active=True).filter(perfil='5').first()
-
-    response = HttpResponse(content_type='application/pdf')
-    html_string = render_to_string('diaria/pdf_diaria.html',{'diaria':diaria,'profissional':profissional})
     
-    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+    buffer = BytesIO()
+    html_string = render_to_string('diaria/pdf_diaria.html',{'diaria':diaria,'profissional':profissional})
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(buffer)
+    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="Diaria_{diaria.id}.pdf"'
 
-   
     return response
