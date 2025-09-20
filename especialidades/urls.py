@@ -15,7 +15,7 @@ urlpatterns = [
     path('create/especialidade/',  view_especialidade.EspecialidadeCreateView.as_view(), name='add-especialidade' ),  
     path('update/<int:pk>/especialidade/',  view_especialidade.EspecialidadeUpdateView.as_view(), name='edit-especialidade' ),  
     path('list/especialidades/',  view_especialidade.EspecialidadeListView.as_view(), name='list-especialidade' ),  
-    path('detail/<int:pk>/especialidade/',  view_especialidade.especialidadeDetail, name='detail-especialidade' ),  
+    path('detail/<int:pk>/especialidade/',  view_especialidade.EspecialidadeDetailView.as_view(), name='detail-especialidade' ),  
     path('delete/<int:id>/especialidade/',  view_especialidade.especialidadeDelete, name='del-especialidade' ),  
 
 
@@ -37,7 +37,6 @@ urlpatterns = [
     path('detail/<int:pk>/atendimento', atend_especialidade_view.AtendEspecialidadeDetailView.as_view(), name='detail-atend_especialidade' ),
     path('delete/<int:pk>/atendimento', atend_especialidade_view.AtendEspecialidadeDeleteView.as_view(), name='del-atend-especialidade' ),  
     path("pdf/<int:id>/atendimento",atend_especialidade_view.atend_especialidade_pdf,name='pdf-atend_especialidade'),
-    #path('load-pacientes-by-especialidade/', atend_especialidade_view.load_pacientes_by_especialidade, name='load_pacientes_by_especialidade'),
     #path('search-pacientes/', atend_especialidade_view.search_pacientes, name='search_pacientes'),
     path('paciente-autocomplete/',atend_especialidade_view.PacienteAutocomplete.as_view(),name='paciente-autocomplete'),
 

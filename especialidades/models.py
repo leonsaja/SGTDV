@@ -126,6 +126,9 @@ class AtendimentoEspecialidade(models.Model):
             total=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).filter(paciente__status='4').count()
             return total
         
+    class Meta:
+        ordering = ["data"]
+        
 class ProcedimentosEspecialidade(models.Model):
     nome_procedimento=models.CharField(max_length=255,verbose_name='Procedimento',null=True,blank=False)
 

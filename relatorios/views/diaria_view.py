@@ -8,11 +8,12 @@ from despesas.models import Diaria
 from relatorios.forms.diaria_form import RelatorioDiariaForm
 from datetime import datetime
 from django.db.models import Q
-
 from rolepermissions.decorators import has_role_decorator
 from django.core.paginator import Paginator
 from django.db.models import Count, Sum
 from profissionais.models import Profissional
+
+
 def relatorio_diaria_pdf(request,context):
     response = HttpResponse(content_type='application/pdf')
     diarias=Diaria.objects.select_related('profissional').filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])

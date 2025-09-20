@@ -39,25 +39,10 @@ class DescricaoReembolsoListView(HasRoleMixin,ListView):
     allowed_roles=['digitador','secretario']
 
 
-class DescricaoReembolsoDetaiView(DetailView):
+class DescricaoReembolsoDetaiView(HasRoleMixin,DetailView):
     
     model=DescricaoReembolso
     template_name='descricao_reembolso/detail_descricao_reembolso.html' 
     allowed_roles = ['digitador','secretario']
     context_object_name='descricao'
     
-"""@has_role_decorator(['coordenador'])
-def especialidadeDelete(request, id):
-    especialidade=Especialidade.objects.get(id=id)
-    
-    if not especialidade:
-        raise Http404()
-    try:
-        especialidade.delete()
-        messages.add_message(request,constants.SUCCESS,'Registro excluido com sucesso')
-        
-    except ProtectedError:
-        messages.add_message(request,constants.ERROR, "Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
-    finally:
-        return redirect('especialidades:list-especialidade')
-       """

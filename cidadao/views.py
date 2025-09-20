@@ -13,6 +13,9 @@ from rolepermissions.decorators import has_role_decorator
 from rolepermissions.mixins import HasRoleMixin
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
+
 import re
 
 class CidadaoCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
@@ -156,19 +159,19 @@ def cidadao_delete(request,id):
         messages.add_message(request, constants.ERROR ,"Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
     finally:
         return redirect('cidadao:list-cidadao')
-    
+
+
 class CidadaoAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         
         if not self.request.user.is_authenticated:
+            print('teste 1000')
             return Cidadao.objects.none()
 
         qs = Cidadao.objects.select_related('microarea').all()
         
-        print("NOME PESQUISADO 1",self.q)
         if self.q:
             cpf_cns_limpo = re.sub(r'\D', '', self.q)
-            print("NOME PESQUISADO 1",self.q)
 
             if len(cpf_cns_limpo) == 11:
                 qs = qs.filter(cpf=cpf_cns_limpo)
@@ -180,7 +183,7 @@ class CidadaoAutocomplete(autocomplete.Select2QuerySetView):
                 
         return qs
     
-    
+@login_required
 def cidadao_historico(request,id):
     paciente=get_object_or_404(Cidadao,id=id)
     context={}

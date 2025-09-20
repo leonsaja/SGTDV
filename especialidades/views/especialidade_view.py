@@ -6,7 +6,7 @@ from django.db.models import ProtectedError
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, ListView,UpdateView)
+from django.views.generic import CreateView, ListView,UpdateView,DetailView
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
 from django.contrib.messages.views import SuccessMessageMixin
@@ -15,7 +15,7 @@ from especialidades.models import Especialidade, PacienteEspecialidade
 from django.db.models import ProtectedError, Q
 
 
-class EspecialidadeCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
+class EspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
     model=Especialidade
     form_class=EspecialidadeForm
     success_url=reverse_lazy('especialidades:list-especialidade')
@@ -24,7 +24,7 @@ class EspecialidadeCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
     success_message='Cadastro realizado com sucesso'
     allowed_roles=['regulacao','recepcao']
 
-class EspecialidadeUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
+class EspecialidadeUpdateView(SuccessMessageMixin,HasRoleMixin,UpdateView):
     model=Especialidade
     form_class=EspecialidadeForm
     template_name='especialidade/form_especialidade.html'
@@ -53,19 +53,26 @@ class EspecialidadeListView(HasRoleMixin,ListView):
         
         return qs
 
-@has_role_decorator(['regulacao','secretario','recepcao','coordenador','acs'])
-def especialidadeDetail(request,pk):
-    context={}
-    template='especialidade/detail_especialidade.html'
-    
-    especialidade=get_object_or_404(Especialidade,id=pk)
-    context['especialidade']=especialidade
-    pacientes_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade').filter(especialidade_id=especialidade.id).filter(Q(status='1') |Q(status='5') |Q(status='7')).exclude(status='3').order_by('-classificacao','data_pedido')
-    
-    paginator = Paginator(pacientes_especialidade,10)  
-    page_number = request.GET.get("page")
-    context['page_obj']= paginator.get_page(page_number)
-    return render(request,template, context)
+class EspecialidadeDetailView(HasRoleMixin,DetailView):
+    model = Especialidade
+    template_name = 'especialidade/detail_especialidade.html'
+    context_object_name = 'especialidade'  # Opcional, mas recomendado para manter o mesmo nome do contexto.
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        especialidade = self.get_object()
+
+        pacientes_especialidade = PacienteEspecialidade.objects.select_related('paciente', 'especialidade','procedimento').filter(
+            especialidade_id=especialidade.id
+        ).filter(
+            Q(status='1') | Q(status='5') | Q(status='7')
+        ).exclude(status='3').order_by('-classificacao', 'data_pedido')
+
+        paginator = Paginator(pacientes_especialidade, 10)
+        page_number = self.request.GET.get("page")
+        context['page_obj'] = paginator.get_page(page_number)
+
+        return context
      
 @has_role_decorator(['coordenador'])
 def especialidadeDelete(request, id):

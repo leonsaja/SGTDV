@@ -12,12 +12,13 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404 
 from django.urls import reverse_lazy
 from rolepermissions.decorators import has_role_decorator
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from django.db.models import Q
 from dal import autocomplete
+from io import BytesIO
+
 
 
 @has_role_decorator(['regulacao'])   
@@ -67,8 +68,6 @@ def atend_especialidade_update(request,id):
             if formset.non_form_errors():
                 for error in formset.non_form_errors():
                     messages.add_message(request, constants.ERROR, f'Paciente duplicado: {error}')
-
-
     else:
         form = AtendimentoEspecialidadeForm(request.POST or None,instance=atend_especialidade,prefix='atendimento')
         formset=AtendPacienteSet(request.POST or None,instance=atend_especialidade,prefix='paciente')
@@ -87,7 +86,7 @@ class AtendEspecialidadeListView(HasRoleMixin,ListView):
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs).select_related('especialidade')
 
-        buscar=self.request.GET.get('buscar',None)
+        buscar=self.request.GET.get('buscar',None).rstrip()
         status=self.request.GET.get('status',None)
         data = self.request.GET.get('data', None)
 
@@ -102,7 +101,7 @@ class AtendEspecialidadeListView(HasRoleMixin,ListView):
 
         if not buscar and not status and not data:
                 qs=qs.filter(status='1')
-        return qs.order_by('-especialidade')
+        return qs.order_by('-data')
     
 class AtendEspecialidadeDetailView(HasRoleMixin,DetailView):
 
@@ -132,47 +131,39 @@ class AtendEspecialidadeDeleteView(HasRoleMixin,SuccessMessageMixin, DeleteView)
         return self.post().get(request, *args, **kwargs)
     
 @has_role_decorator(['regulacao','coordenador','recepcao','secretario'])  
-def atend_especialidade_pdf(request,id):
-    atendimento_especialidade=get_object_or_404(AtendimentoEspecialidade,id=id)
-    context={}
+def atend_especialidade_pdf(request, id):
+    atendimento_especialidade = get_object_or_404(
+        AtendimentoEspecialidade.objects.select_related('especialidade'),
+        id=id
+    )
 
-    context['atendimento_especialidade']= AtendimentoEspecialidade.objects.select_related('especialidade').get(id=atendimento_especialidade.id)
-    context['pacientes_set']=PacienteSia.objects.select_related('paciente').filter(atendimento_paciente__id=context['atendimento_especialidade'].id).order_by('paciente__paciente__nome_completo')
-                
-    response = HttpResponse(content_type='application/pdf')
-    html_string = render_to_string('atendimento_especialidade/pdf_atend_especialidade.html', context)
-    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+    # 2. Busca a lista de pacientes relacionada, também otimizando.
+    lista_pacientes = PacienteSia.objects.select_related('paciente').filter(
+        atendimento_paciente=atendimento_especialidade
+    ).order_by('paciente__paciente__nome_completo')
 
+    context = {
+        'atendimento_especialidade': atendimento_especialidade,
+        'pacientes_set': lista_pacientes,
+    }
 
+    # 3. Renderiza o template HTML.
+    html_string = render_to_string(
+        'atendimento_especialidade/pdf_atend_especialidade.html',
+        context
+    )
+
+    # 4. Cria um buffer na memória para o PDF.
+    buffer = BytesIO()
+
+    # 5. Gera o PDF usando WeasyPrint e salva no buffer.
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(buffer)
+    
+    # 6. Prepara a resposta HTTP para download.
+    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="atendimento_{id}.pdf"'
+    
     return response
-
-@login_required
-def load_pacientes_by_especialidade(request):
-    especialidade_id = request.GET.get('especialidade_id')
-    pacientes_data = []
-
-    if especialidade_id:
-        try:
-            
-            pacientes_especialidade = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(Q(status='1')|Q(status='4'),especialidade_id=especialidade_id).order_by('paciente__nome_completo')
-            
-            for pe in pacientes_especialidade:
-                
-                pacientes_data.append({
-                    'id': pe.id,
-                    'nome_completo': pe.paciente.nome_completo,
-                    
-                   
-                })
-                
-        except ValueError:
-            pass 
-        except Exception as e:
-            print(f"Erro ao carregar pacientes: {e}")
-            pass
-
-    return JsonResponse(pacientes_data, safe=False)
-
 
 
 class PacienteAutocomplete(autocomplete.Select2QuerySetView):
@@ -185,7 +176,7 @@ class PacienteAutocomplete(autocomplete.Select2QuerySetView):
         especialidade_id = self.forwarded.get('atendimento-especialidade', None)        
     
         if especialidade_id:
-            qs = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(Q(status='1')|Q(status='4'),especialidade__id=especialidade_id).order_by('paciente__nome_completo')
+            qs = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(Q(status='1')|Q(status='4')|Q(status='5'),especialidade__id=especialidade_id).order_by('paciente__nome_completo')
         else:
             return PacienteEspecialidade.objects.none()
 
@@ -194,6 +185,6 @@ class PacienteAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(
                 Q(paciente__nome_completo__unaccent__icontains=self.q) |
                 Q(paciente__cns__icontains=self.q)
-            ).filter(status='1')
+            ).filter(Q(status='1')|Q(status='5'))
 
         return qs
