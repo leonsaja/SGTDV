@@ -55,7 +55,8 @@ class Profissional(models.Model):
             if len(cpf) == 11:
                 return ('{}.{}.{}-{}'.format( cpf[:3], cpf[3:6], cpf[6:9], cpf[9:]))
         return cpf
- 
+    def profis(self):
+        return self.nome_completo.split()[0]
     def acs(self):    
         return self.nome_completo.split()[0]
 

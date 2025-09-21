@@ -61,6 +61,8 @@ class ReciboTFD(models.Model):
 
    status=models.CharField(verbose_name='Avaliar Recibo Pag. de TFD',max_length=1,choices=STATUS,default='1')
    criado_por=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
+   alterado_por=models.CharField(verbose_name='Alterado por ', max_length=200,null=True,blank=True)
+
    aprovado_por=models.CharField(verbose_name='Aprovado por ',max_length=200,null=True,blank=True)
 
    created_at = models.DateTimeField(auto_now_add=True)

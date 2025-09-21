@@ -39,7 +39,7 @@ class ReciboTFDForm(forms.ModelForm):
 
     class Meta:
         model=ReciboTFD
-        exclude=('status','aprovado_por',)
+        exclude=('status','aprovado_por','criado_por','alterado_por')
         widgets = {
             'paciente': autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
             'acompanhante':autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
@@ -62,7 +62,7 @@ class ReciboTFDForm(forms.ModelForm):
         data=cleaned_data.get('data')
         paciente=cleaned_data.get('paciente')
         hoje=date.today()
-        limite_minimo=hoje-timedelta(days=7)
+        limite_minimo=hoje-timedelta(days=1)
 
         pg_fonte=cleaned_data.get('pg_fonte')
         pg_conta=cleaned_data.get('pg_conta')

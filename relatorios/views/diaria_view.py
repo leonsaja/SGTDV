@@ -1,9 +1,8 @@
 
-from django.http import FileResponse, HttpResponse
+from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
-from django.shortcuts import get_object_or_404, render,redirect
-from reportlab.lib.pagesizes import A4
+from django.shortcuts import render
 from despesas.models import Diaria
 from relatorios.forms.diaria_form import RelatorioDiariaForm
 from datetime import datetime
@@ -12,10 +11,11 @@ from rolepermissions.decorators import has_role_decorator
 from django.core.paginator import Paginator
 from django.db.models import Count, Sum
 from profissionais.models import Profissional
+from io import BytesIO
+from datetime import date
 
 
 def relatorio_diaria_pdf(request,context):
-    response = HttpResponse(content_type='application/pdf')
     diarias=Diaria.objects.select_related('profissional').filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
     
     if context['profissional']:
@@ -69,9 +69,12 @@ def relatorio_diaria_pdf(request,context):
     context['total_diarias']=total
     context['total_reembolsos']=total_reembolsos
     
-
+    buffer = BytesIO()
     html_string = render_to_string('diaria/relatorio_diaria_pdf.html',context)
-    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(buffer)
+    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="Relatorio_Diarias_{date.today().strftime("%d/%m/%Y")}.pdf"'
+
     return response
 
 @has_role_decorator(['secretario','digitador','coordenador'])

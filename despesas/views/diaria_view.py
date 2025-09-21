@@ -132,6 +132,6 @@ def diaria_pdf(request,id):
     html_string = render_to_string('diaria/pdf_diaria.html',{'diaria':diaria,'profissional':profissional})
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(buffer)
     response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
-    response['Content-Disposition'] = f'inline; filename="Diaria_{diaria.id}.pdf"'
+    response['Content-Disposition'] = f'inline; filename="Diaria_{diaria.profissional.profis()}_{diaria.data_diaria.strftime("%d/%m/%Y")}.pdf"'
 
     return response

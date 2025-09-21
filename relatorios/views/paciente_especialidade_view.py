@@ -10,6 +10,8 @@ from django.db.models import Q
 from datetime import datetime
 from rolepermissions.decorators import has_role_decorator
 from django.contrib.auth.decorators import login_required
+from io import BytesIO
+from datetime import date
 
 @login_required
 def relatorio_paciente_especialidade_pdf(request,context):
@@ -42,10 +44,12 @@ def relatorio_paciente_especialidade_pdf(request,context):
         if context['procedimento'].nome_procedimento=='EXAMES':
             context['exames']=context['procedimento']
     
-    response = HttpResponse(content_type='application/pdf')   
+
+    buffer = BytesIO()
     html_string = render_to_string('paciente_especialidade/relatorio_paciente_especialidade_pdf.html',context)
-    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
-    
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(buffer)
+    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="Relatorio_Paciente_Especialidade_{date.today().strftime("%d/%m/%Y")}.pdf"'
     return response
 
 @has_role_decorator(['regulacao','coordenador','secretario'])

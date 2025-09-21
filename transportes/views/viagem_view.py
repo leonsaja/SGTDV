@@ -1,72 +1,92 @@
 from django.template.loader import render_to_string
-from django.http import Http404, HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import DeleteView, DetailView, ListView
+from django.views.generic import DeleteView, DetailView, ListView,UpdateView,CreateView
 from weasyprint import HTML
 from ..forms.viagem_form import PassageiroViagemSet, ViagemForm
 from ..models import Viagem
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
-from django.contrib.messages import constants
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
 from transportes.models import PassageiroViagem
+from django.urls import reverse_lazy
 from io import BytesIO
 from django.db.models import  Q
 
-@has_role_decorator(['recepcao','regulacao'])
-def viagemCreate(request):
-    viagem=Viagem()
-    if request.method == 'POST':
 
-        form = ViagemForm(request.POST,instance=viagem,prefix='viagem' )
-        formset=PassageiroViagemSet(request.POST,instance=viagem,prefix='passageiro')
-        if form.is_valid() and formset.is_valid():
-            
-            viagem=form.save(commit=False)
-            viagem.criado_por=request.user.nome_completo
-            viagem.save()
-            formset.instance=viagem
-            formset.save()
-            messages.add_message(request,constants.SUCCESS,'Viagem cadastrada com sucesso')
-           
-            return redirect('transportes:list-viagem')
-
-    form = ViagemForm(request.POST or None,instance=viagem,prefix='viagem')
-    formset=PassageiroViagemSet(request.POST or None,instance=viagem,prefix='passageiro')
+class ViagemCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
+    model=Viagem
+    form_class=ViagemForm
+    template_name='viagem/form_viagem.html'
+    success_url=reverse_lazy('transportes:list-viagem')
+    success_message='Viagem cadastrada com sucesso'
+    allowed_roles=['recepcao','regulacao']
     
-    return render(request, 'viagem/form_viagem.html', {'form': form,'formset':formset})
+    def get_context_data(self, **kwargs):
+        context= super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = PassageiroViagemSet(self.request.POST, prefix='passageiro')
+        else:
+            context['formset'] = PassageiroViagemSet(prefix='passageiro')
+        return context
 
-@has_role_decorator(['recepcao','regulacao'])
-def viagemUpdate(request,id):
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
 
-    viagem=Viagem.objects.get(id=id)
-
-    if not viagem:
-        not Http404()
-
-    if request.method == 'POST':
-
-        form = ViagemForm(request.POST,instance=viagem,prefix='viagem' )
-        formset=PassageiroViagemSet(request.POST,instance=viagem,prefix='passageiro')
-        if form.is_valid() and formset.is_valid(): 
-            
-            viagem=form.save(commit=False)
-            viagem.alterado_por=request.user.nome_completo
-            viagem.save()
-            formset.instance=viagem
+        if formset.is_valid():
+            self.object = form.save(commit=False)
+            self.object.criado_por = self.request.user.nome_completo
+            self.object.save()
+            formset.instance = self.object
             formset.save()
-            messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
-            return redirect('transportes:list-viagem')
-         
-         
-        print(formset.errors)
+            return super().form_valid(form)
+        else:
+            return self.form_invalid(form)
 
-    form = ViagemForm(request.POST or None,instance=viagem,prefix='viagem')
-    formset=PassageiroViagemSet(request.POST or None,instance=viagem,prefix='passageiro')
+    def form_invalid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+class ViagemUpdateView(SuccessMessageMixin,HasRoleMixin, UpdateView):
+    model = Viagem
+    form_class = ViagemForm
+    template_name = 'viagem/form_viagem.html'
+    success_url = reverse_lazy('transportes:list-viagem')
+    allowed_roles=['recepcao','regulacao']
+    success_message='Viagem atualizada com sucesso'
     
-    return render(request, 'viagem/form_viagem.html', {'form': form,'formset':formset})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = PassageiroViagemSet(self.request.POST, instance=self.object, prefix='passageiro')
+        else:
+            context['formset'] = PassageiroViagemSet(instance=self.object, prefix='passageiro')
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+
+        if formset.is_valid():
+            self.object = form.save(commit=False)
+            self.object.alterado_por = self.request.user.nome_completo
+            self.object.save()
+            formset.instance = self.object
+            formset.save()
+            return super().form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_invalid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+        
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
 class ViagemListView(HasRoleMixin,ListView): 
     model=Viagem
@@ -175,7 +195,6 @@ def viagemPdf(request,id):
     response['Content-Disposition'] = f'inline; filename="Viagem_{viagem.destino_viagem}_{viagem.data_viagem.strftime("%d/%m/%Y")}.pdf"'
 
     return response
-
 
 class PacienteViagemSearchView(HasRoleMixin,ListView):
    

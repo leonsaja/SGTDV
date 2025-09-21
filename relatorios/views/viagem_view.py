@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from relatorios.forms.viagem_form import RelatorioViagemForm
 from transportes.models import Viagem
-from django.http import FileResponse, HttpResponse
+from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from datetime import datetime
-from django.db.models import Count
+from io import BytesIO
+from datetime import date
 from django.contrib.messages import constants
 from django.contrib import messages
 from rolepermissions.decorators import has_role_decorator
@@ -38,10 +39,13 @@ def relatorio_viagem_pdf(request,context):
 
         context['viagens']=viagens.all()
         
-        response = HttpResponse(content_type='application/pdf')
+        buffer = BytesIO()
         html_string = render_to_string('transporte/viagem/relatorio_viagem_pdf.html',context)
-        HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+        HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(buffer)
+        response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+        response['Content-Disposition'] = f'inline; filename="Relatorio_Viagens_{date.today().strftime("%d/%m/%Y")}.pdf"'
         return response
+
     
     else:
         messages.add_message(request,constants.ERROR,'Data inicial e Data final são Campos o obrigatório')

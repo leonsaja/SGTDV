@@ -6,7 +6,8 @@ from django.template.loader import render_to_string
 from weasyprint import HTML
 from datetime import datetime
 from django.core.paginator import Paginator
-
+from io import BytesIO
+from datetime import date
 from rolepermissions.decorators import has_role_decorator
 
 def relatorio_recibo_tfd_pdf(request,context):
@@ -38,9 +39,11 @@ def relatorio_recibo_tfd_pdf(request,context):
 
 
 
-    response = HttpResponse(content_type='application/pdf')
+    buffer = BytesIO()
     html_string = render_to_string('tfds/recibo_tfd/relatorio_recibo_tfd_pdf.html',context)
-    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(buffer)
+    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="Relatorio_Recibo_TFDs_{date.today().strftime("%d/%m/%Y")}.pdf"'
     return response
 
 @has_role_decorator(['coordenador','secretario','regulacao'])

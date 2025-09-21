@@ -51,6 +51,10 @@ class Cidadao(models.Model):
                 return ('{}.{}.{}-{}'.format( cpf[:3], cpf[3:6], cpf[6:9], cpf[9:]))
         
         return '-'
+    
+    def nome_cidadao(self):
+        return self.nome_completo.split()[0]
+    
     def form_cns(self):
         if not self.cns:
             return '-'

@@ -176,7 +176,32 @@
         </div>
         <br>
         <hr>
-        
+          <div class="row">
+                        <div class="col-md-6">
+                             <label for="id_carro" class="form-label">Criado Por:</label>
+                             {%if recibo_tfd.criado_por%}
+                                 <h6 class="text-muted">{{recibo_tfd.criado_por|upper}} - 
+                                    {{recibo_tfd.created_at|date:"d/m/Y"|default:'---'}} às
+                                            {{recibo_tfd.created_at|time:"H:i"|default:'---'}}
+
+                                 </h6>
+                              {%else%}
+                                 <h6 class="text-muted">-</h6>
+                             {%endif%}
+                        </div>
+                        <div class="col-md-6">
+                                <label for="id_carro" class="form-label">Alterado Por:</label>
+                                {%if recibo_tfd.alterado_por%}
+                                        <h6 class="text-muted">{{recibo_tfd.alterado_por|upper}} - 
+                                            {{recibo_tfd.updated_at|date:"d/m/Y"|default:'---'}} às
+                                            {{recibo_tfd.updated_at|time:"H:i"|default:'---'}}
+                                        </h6>
+                                {%else%}
+                                    <h6 class="text-muted">-</h6>
+                                {%endif%}
+                         </div>
+                    </div>
+
         
         </div>
         <br>

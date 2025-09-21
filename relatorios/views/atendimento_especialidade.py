@@ -7,12 +7,13 @@ from relatorios.forms.atendimento_especialidade_form import RelatorioAtendimento
 from weasyprint import HTML
 from django.contrib.auth.decorators import login_required
 from rolepermissions.decorators import has_role_decorator
-
+from io import BytesIO
+from datetime import date, timedelta
 
 
 @login_required
 def relatorio_atendimento_pdf(request,context):
-    response = HttpResponse(content_type='application/pdf')
+
     atendimentos=AtendimentoEspecialidade.objects.select_related('especialidade').all()
     especialidade= context['especialidade']
     data_inicial=context['inicial']
@@ -44,9 +45,13 @@ def relatorio_atendimento_pdf(request,context):
     for a in atendimentos:
        total=a.atend_paciente_especialidade.count()    
     context['total']=total
-    
+    data=date
+    buffer = BytesIO()
     html_string = render_to_string('especialidade/relatorio_atendimento_especialidade_pdf.html',context)
-    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(buffer)
+    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="Relatorio_Atendimento_{date.today().strftime("%d/%m/%Y")}.pdf"'
+
     return response
 
 @has_role_decorator(['regulacao','coordenador','secretario'])

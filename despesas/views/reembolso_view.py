@@ -117,7 +117,7 @@ def reembolso_pdf(request,id):
     html_string = render_to_string('reembolso/pdf_reembolso.html', context)
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(buffer)
     response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
-    response['Content-Disposition'] = f'inline; filename="Reembolso_{id}.pdf"'
+    response['Content-Disposition'] = f'inline; filename="Reembolso_{diaria.profissional.profis()}_{diaria.data_diaria.strftime("%d/%m/%Y")}.pdf"'
 
     return response
     

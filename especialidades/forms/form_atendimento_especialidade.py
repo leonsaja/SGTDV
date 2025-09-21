@@ -30,9 +30,11 @@ class AtendimentoEspecialidadeForm(forms.ModelForm):
         
         cleaned_data = super().clean()
         data=cleaned_data.get('data')
+        especialidade=cleaned_data.get('especialidade')
         hoje=date.today()
         limite_minimo=hoje-timedelta(days=30)
         limite_maximo=hoje+timedelta(days=30)
+        
         
         if data:
                 if  data < limite_minimo or data > limite_maximo:
@@ -40,6 +42,17 @@ class AtendimentoEspecialidadeForm(forms.ModelForm):
                         self.add_error(
                             f"data","A data do atendimento deve estar entre 30 dias antes e 30 dias depois da data atual."
                         )
+        print('especialidade',especialidade)   
+                
+        qs=AtendimentoEspecialidade.objects.filter(data=data,especialidade__nome=especialidade)
+        print('quers',qs)
+        if self.instance.pk:
+                qs = qs.exclude(pk=self.instance.pk)
+                
+        if qs.exists():
+                print('test')
+                self.add_error(f"data",'Já existe um atendimento especialidade com essa data. ')
+                        
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['hora'].widget.attrs.update({'class':'mask-hora'})

@@ -7,7 +7,7 @@ from django.contrib.messages import constants
 from django.contrib.messages.views import SuccessMessageMixin
 from especialidades.forms.form_paciente_set import AtendPacienteSet
 from rolepermissions.mixins import HasRoleMixin
-from django.views.generic import DetailView, ListView,DeleteView
+from django.views.generic import DetailView, ListView,DeleteView,CreateView,UpdateView
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404 
 from django.urls import reverse_lazy
@@ -19,60 +19,81 @@ from django.db.models import Q
 from dal import autocomplete
 from io import BytesIO
 
+class AtendimentoEspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
+    model = AtendimentoEspecialidade
+    form_class = AtendimentoEspecialidadeForm
+    template_name = 'atendimento_especialidade/form_atend_especialidade.html'
+    success_url = reverse_lazy('especialidades:list-atend_especialidade')
+    allowed_roles=['regulacao']
+    success_message= 'Atendimento cadastrado com sucesso!'
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['prefix'] = 'atendimento'
+        return kwargs
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = AtendPacienteSet(self.request.POST, instance=self.object, prefix='paciente')
+        else:
+            context['formset'] = AtendPacienteSet(instance=self.object, prefix='paciente')
+        return context
 
-@has_role_decorator(['regulacao'])   
-def atend_especialidade_create(request):
-    atend_especialidade = AtendimentoEspecialidade()
-
-    if request.method == 'POST':
-        form = AtendimentoEspecialidadeForm(request.POST, instance=atend_especialidade, prefix='atendimento')
-        formset = AtendPacienteSet(request.POST, instance=atend_especialidade, prefix='paciente')
-
-        if form.is_valid() and formset.is_valid():
-            atendimento=form.save(commit=False)
-            atendimento.criado_por=request.user.nome_completo
-            atendimento.save()
+    def form_valid(self, form):
+  
+        formset = self.get_context_data()['formset']      
+        if formset.is_valid():
+            self.object = form.save(commit=False)
+            self.object.criado_por = self.request.user.nome_completo
+            self.object.save()
+            formset.instance = self.object  # Garante que o formset esteja ligado ao novo objeto
             formset.save()
-            messages.add_message(request, constants.SUCCESS, 'Atendimento salvo com sucesso!')
-            return redirect('especialidades:list-atend_especialidade')
+            return super().form_valid(form)
         else:
             if formset.non_form_errors():
                 for error in formset.non_form_errors():
-                    messages.add_message(request, constants.ERROR, f'Paciente duplicado: {error}')       
-    else:
-        form = AtendimentoEspecialidadeForm(instance=atend_especialidade, prefix='atendimento')
-        formset = AtendPacienteSet(instance=atend_especialidade, prefix='paciente')
-
-    return render(request, 'atendimento_especialidade/form_atend_especialidade.html', {'form': form, 'formset': formset})
-
-@has_role_decorator(['regulacao'])  
-def atend_especialidade_update(request,id):
-    
-    atend_especialidade=get_object_or_404(AtendimentoEspecialidade,pk=id)
-   
-    if request.method == 'POST':
-
-        form = AtendimentoEspecialidadeForm(request.POST,instance=atend_especialidade,prefix='atendimento' )
-        formset=AtendPacienteSet(request.POST,instance=atend_especialidade,prefix='paciente')
-        if form.is_valid() and formset.is_valid():
+                    messages.error(self.request, f'Paciente duplicado: {error}')
             
-            atendimento=form.save(commit=False)
-            atendimento.alterado_por=request.user.nome_completo
-            atendimento.save()
-            formset.save()
-            messages.add_message(request,constants.SUCCESS,'Atendimento salvo com sucesso')
-            return redirect('especialidades:list-atend_especialidade')
+            return self.form_invalid(form)
+
+class AtendimentoEspecialidadeUpdateView(SuccessMessageMixin,HasRoleMixin,UpdateView):
+    model = AtendimentoEspecialidade
+    form_class = AtendimentoEspecialidadeForm
+    template_name = 'atendimento_especialidade/form_atend_especialidade.html'
+    success_url = reverse_lazy('especialidades:list-atend_especialidade')
+    allowed_roles=['regulacao']
+    success_message='Atendimento alterado com sucesso'
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['prefix'] = 'atendimento'
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = AtendPacienteSet(self.request.POST, instance=self.object, prefix='paciente')
+        else:
+            context['formset'] = AtendPacienteSet(instance=self.object, prefix='paciente')
+        return context
+    
+    def form_valid(self, form):
         
+        formset = self.get_context_data()['formset']      
+        if formset.is_valid():
+            self.object = form.save(commit=False)
+            self.object.alterado_por = self.request.user.nome_completo
+            self.object.save()
+            formset.instance = self.object  # Garante que o formset esteja ligado ao novo objeto
+            formset.save()
+            return super().form_valid(form)
         else:
             if formset.non_form_errors():
                 for error in formset.non_form_errors():
-                    messages.add_message(request, constants.ERROR, f'Paciente duplicado: {error}')
-    else:
-        form = AtendimentoEspecialidadeForm(request.POST or None,instance=atend_especialidade,prefix='atendimento')
-        formset=AtendPacienteSet(request.POST or None,instance=atend_especialidade,prefix='paciente')
-    
-    return render(request, 'atendimento_especialidade/form_atend_especialidade.html', {'form': form,'formset':formset})
+                    messages.error(self.request, f'Paciente duplicado: {error}')
+            
+            return self.form_invalid(form)
 
 class AtendEspecialidadeListView(HasRoleMixin,ListView):
 
@@ -161,10 +182,9 @@ def atend_especialidade_pdf(request, id):
     
     # 6. Prepara a resposta HTTP para download.
     response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
-    response['Content-Disposition'] = f'inline; filename="Atendimento_{id}.pdf"'
+    response['Content-Disposition'] = f'inline; filename="Atendimento_{atendimento_especialidade.especialidade.nome}_{atendimento_especialidade.data.strftime("%d/%m/%Y")}.pdf"'
     
     return response
-
 
 class PacienteAutocomplete(autocomplete.Select2QuerySetView):
     
@@ -179,7 +199,7 @@ class PacienteAutocomplete(autocomplete.Select2QuerySetView):
             qs = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(Q(status='1')|Q(status='4')|Q(status='5'),especialidade__id=especialidade_id).order_by('paciente__nome_completo')
         else:
             return PacienteEspecialidade.objects.none()
-
+        print('teste')
         if self.q:
             self.q=self.q.rstrip()
             qs = qs.filter(

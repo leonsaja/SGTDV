@@ -8,8 +8,8 @@ app_name='tfds'
 urlpatterns = [
    
      #Recibo de TFDs
-     path("recibo-tfd/create/recibo-tfd",view_r_t.reciboTFD_create,name='add-recibo_tfd'),
-     path("recibo-tfd/update/<int:id>/recibo-tfd",view_r_t.reciboTFD_update,name='edit-recibo_tfd'),
+     path("recibo-tfd/create/recibo-tfd",view_r_t.ReciboTFDCreateView.as_view(),name='add-recibo_tfd'),
+     path("recibo-tfd/update/<int:pk>/recibo-tfd",view_r_t.ReciboTFDUpdateView.as_view(),name='edit-recibo_tfd'),
      
      path("recibo-tfd/update/<int:id>/status",view_r_t.reciboStatusUpdate,name='status-recibo-tfd'),
      path("recibo-tfd/list/recibos-tfds",view_r_t.ReciboTFDListView.as_view(),name='list-recibo_tfd'),

@@ -10,6 +10,8 @@ from tfds.models import ReciboPassagemTFD
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
+from io import BytesIO
+
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
 
@@ -108,10 +110,11 @@ def reciboPassagemPdf(request,id):
     context={}
 
     context['recibo_passagem']= ReciboPassagemTFD.objects.select_related('paciente').get(id=recibo_passagem.id)
-   
-    response = HttpResponse(content_type='application/pdf')
+    buffer = BytesIO()
     html_string = render_to_string('recibo_passagem_tfd/pdf_recibo_passagem.html', context)
-    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(buffer)
+    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="ReciboPassagem_{recibo_passagem.paciente.nome_cidadao()}_{recibo_passagem.data_recibo.strftime("%d/%m/%Y")}.pdf"'
 
 
     return response
