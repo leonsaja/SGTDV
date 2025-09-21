@@ -2,7 +2,7 @@ from rolepermissions.mixins import HasRoleMixin
 from django.views.generic import ListView
 from especialidades.models import PacienteEspecialidade
 from django.db.models import Q
-
+import re
 
 class PacienteEspecialidadeSearchView(HasRoleMixin,ListView):
    
@@ -14,13 +14,16 @@ class PacienteEspecialidadeSearchView(HasRoleMixin,ListView):
 
     def get_queryset(self):
         buscar = self.request.GET.get('buscar', None)
-        queryset = PacienteEspecialidade.objects.select_related(
-            'paciente', 'especialidade', 'procedimento').all()
+        qs = PacienteEspecialidade.objects.select_related('paciente', 'especialidade', 'procedimento').all()
 
         if buscar:
-            buscar=buscar.rstrip()
-            queryset = queryset.filter(
-                Q(paciente__nome_completo__unaccent__icontains=buscar) | Q(paciente__cpf__icontains=buscar)
-            )
+            cpf_cns_limpo = re.sub(r'\D', '', buscar)
             
-        return queryset
+            if len(cpf_cns_limpo) == 11:
+                qs = qs.filter(paciente__cpf=cpf_cns_limpo)
+            elif len(cpf_cns_limpo) == 15:
+                qs = qs.filter(paciente__cns=cpf_cns_limpo)
+            else:
+                qs = qs.filter(paciente__nome_completo__unaccent__icontains=buscar)
+            
+        return qs

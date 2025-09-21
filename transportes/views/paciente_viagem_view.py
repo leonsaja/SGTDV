@@ -3,7 +3,7 @@ from django.views.generic import ListView
 from especialidades.models import PacienteEspecialidade
 from transportes.models import PassageiroViagem
 from django.db.models import Q
-
+import re
 
 class PacienteViagemSearchView(HasRoleMixin,ListView):
    
@@ -15,13 +15,17 @@ class PacienteViagemSearchView(HasRoleMixin,ListView):
 
     def get_queryset(self):
         buscar = self.request.GET.get('buscar', None)
-        queryset = PassageiroViagem.objects.select_related(
-            'paciente','viagem').all().order_by('-viagem')
+        qs = PassageiroViagem.objects.select_related('paciente','viagem').all().order_by('-viagem')
 
         if buscar:
-            buscar=buscar.rstrip()
-            queryset = queryset.filter(
-                Q(paciente__nome_completo__unaccent__icontains=buscar) | Q(paciente__cpf__icontains=buscar)
-            )
             
-        return queryset
+            cpf_cns_limpo = re.sub(r'\D', '', buscar)
+         
+            if len(cpf_cns_limpo) == 11:
+                qs = qs.filter(paciente__cpf=cpf_cns_limpo)
+            elif len(cpf_cns_limpo) == 15:
+                qs = qs.filter(paciente__cns=cpf_cns_limpo)
+            else:
+                qs = qs.filter(paciente__nome_completo__unaccent__icontains=buscar)
+           
+        return qs

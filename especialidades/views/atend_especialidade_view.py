@@ -86,12 +86,12 @@ class AtendEspecialidadeListView(HasRoleMixin,ListView):
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs).select_related('especialidade')
 
-        buscar=self.request.GET.get('buscar',None).rstrip()
+        buscar=self.request.GET.get('buscar',None)
         status=self.request.GET.get('status',None)
         data = self.request.GET.get('data', None)
 
         if buscar:
-            qs=qs.filter(especialidade__nome__icontains=buscar)
+            qs=qs.filter(especialidade__nome__icontains=buscar.rstrip())
     
         if status:
             qs=qs.filter(status=status)
