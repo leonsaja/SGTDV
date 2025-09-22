@@ -36,8 +36,6 @@ INSTALLED_APPS = [
     'dal_select2',
 
     #Pacote
-    # 'axes',
-    
     "widget_tweaks",
     'crispy_forms',
     "crispy_bootstrap5",
@@ -78,19 +76,15 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
-
 MIDDLEWARE = [
-   
     'django.middleware.security.SecurityMiddleware',
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
-    #'axes.middleware.AxesMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
 
 ROOT_URLCONF = 'sgtdv.urls'
@@ -251,9 +245,3 @@ if not DEBUG:
 
 #configiracao de bloqueio de login após varias tentivas
 
-"""AXES_FAILURE_LIMIT = 2
-AXES_LOCKOUT_URL = 'usuarios:login_bloqueado'
-#bloqueia usuario e IP QUANDO TIVE True
-AXES_ONLY_USER_LOCKOUTS = False
-AXES_DISABLE_LOCKOUTS = False
-"""

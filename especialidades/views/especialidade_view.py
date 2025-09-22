@@ -57,7 +57,8 @@ class EspecialidadeDetailView(HasRoleMixin,DetailView):
     model = Especialidade
     template_name = 'especialidade/detail_especialidade.html'
     context_object_name = 'especialidade'  # Opcional, mas recomendado para manter o mesmo nome do contexto.
-
+    allowed_roles=['regulacao','secretario','recepcao','coordenador']
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         especialidade = self.get_object()
