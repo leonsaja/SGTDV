@@ -1,0 +1,34 @@
+{% extends 'baseP.html' %} {% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}bloqueio a  Senha {% endblock %} {% block content %}
+
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-4 "><br><br>
+             <img src="/static/img/LOGOSAJA.png" width="80%" height="auto" alt="Logo-Saude">
+
+            <br><br>
+            <h4 class="text-center"><b>Bloqueio de Senha</b></h4>
+            <br>
+                <h3>Senha Bloqueiada, por favor entrar em contato com suporte. </h3>
+
+                <br>
+                <div class="row jeustify-content-centr">
+                    <div class="col-md-12 mb-5">
+                        <div class="text-right">
+                            <a href="{% url 'usuarios:reset_Senha' %}" class="btn btn-outline-danger mr-2">Redefinir senha</a>
+                        </div>
+                    </div>
+                </div>
+
+            
+
+
+
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

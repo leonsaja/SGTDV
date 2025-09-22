@@ -123,6 +123,7 @@
                                             <th class="text-left">N°</th>
                                             <th class="text-left">Horario</th>
                                             <th class="text-left">Paciente</th>
+                                            <th class="text-left">Status</th>
                                             
                                            
                                         </tr>
@@ -147,7 +148,15 @@
                                                 <td class="text-left">
                                                    {{p.paciente}}
                                                 </td>
-                                                
+                                                 {%if p.status %}
+                                                <td class="text-left">
+                                                    {{p.get_status_display}}
+                                                </td>
+                                                {%else%}
+                                                     <td class="text-left">
+                                                    ----
+                                                </td>
+                                                {%endif%}
                                               
 
 

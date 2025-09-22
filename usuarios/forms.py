@@ -4,7 +4,16 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import ValidationError
 from utils.django_form import validarCpf
+from django.contrib.auth.forms import AuthenticationForm
+from django import forms
 
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(label='Usuário')
+    
+    error_messages = {
+        'invalid_login': "Usuário ou senha inválidos. Por favor, tente novamente.",
+        'inactive': "Sua conta está inativa. Entre em contato com o suporte.",
+    }
 
 class CadastroUsuarioForm(UserCreationForm):
 

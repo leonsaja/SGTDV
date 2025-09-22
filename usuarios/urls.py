@@ -2,6 +2,8 @@ from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
+from .forms import CustomAuthenticationForm
+from django.views.generic import TemplateView
 
 from usuarios import views
 
@@ -14,9 +16,10 @@ urlpatterns = [
         path('detail/<int:pk>/usuario',views.UsuarioDetailView.as_view(),name='detail-usuario'),
         path('list/usuarios',views.UsuarioListView.as_view(),name='list-usuario'),
         path('search/usuario',views.UsuarioSearchListView.as_view(),name='search-usuario'),
+        #path('login_bloqueado', TemplateView.as_view(template_name='usuario/login_bloqueado'), name='login_bloqueado'),
 
 
-        path('autenticacao/login', auth_views.LoginView.as_view(redirect_authenticated_user = True),name='login_usuario'),
+        path('autenticacao/login', auth_views.LoginView.as_view(authentication_form=CustomAuthenticationForm,redirect_authenticated_user = True),name='login_usuario'),
         path('autenticacao/logout', auth_views.LogoutView.as_view(),name='deslogar_usuario'),
         path('alterar_senha/usuario', views.PasswordChange.as_view(), name='alterar_senha'),
         

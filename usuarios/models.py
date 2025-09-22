@@ -4,25 +4,6 @@ from localflavor.br.models import BRCPFField
 from .managers import UsuarioManager
 
 
-
-"""class PerfilUsuario(models.Model):
-      TIPO_PERFIL=(
-        ('1','1-ACS'),
-        ('2','2-Coordenador'),
-        ('3','3-Digitador'),
-        ('4','4-Recepção'),
-        ('5','5-Secretario'),
-        ('6','6-Regulação'),
-       
-      )
-      perfil=models.CharField(verbose_name='Tipo de perfil',choices=TIPO_PERFIL,unique=True, max_length=1, null=True,blank=False)
-
-      class Meta:
-         ordering = ["perfil"]
-
-      def __str__(self):
-          return  self.get_perfil_display()"""
-
 class Usuario(AbstractUser):
      
 

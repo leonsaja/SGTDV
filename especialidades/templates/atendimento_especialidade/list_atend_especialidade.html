@@ -12,20 +12,22 @@
         {% include 'includes/mensagens.html'%}
     </div>
 </div>
-{% if user|has_role:'regulacao' %}
 
   <div class="row ">
     <div class="col-md-12">
+      {% if user|has_role:'regulacao' %}
+
       <div class="text-right">
         <a href="{% url 'especialidades:add-atend_especialidade' %}" class="btn btn-primary"><b>Cadastrar Atendimento</b>
         </a>
       </div>
+        {%endif%}
     </div>
   </div>
-  {%endif%}
+
   <div class="row justify-content-center ">
     <div class="col-md-8  ">
-      <h4 class=" text-primary text-center"><strong>Atendimentos</strong> </h4>
+      <h4 class=" text-primary"><strong>Atendimentos</strong> </h4>
     </div>
   </div>
   <br>
@@ -44,21 +46,21 @@
 
           </div>
           <div class="row   justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-12">
               <label for="buscar">Busque pelo Nome: </label>
               <input type="search" name="buscar" class="form-control" value="{{request.GET.buscar}}"
                 id="buscar">
 
             </div>
           </div>
-          <div class="row  justify-content-center ">
+          <div class="row">
 
-                    <div class="col-md-4 mt-2">
+                    <div class="col-md-6 mt-2">
                         <label for="id_data">Data do Atendimento</label>
                         <input type="date" name="data" class="form-control" id="id_data"
                             value="{{request.GET.data}}">
                     </div>
-                    <div class="col-md-4 mt-2">
+                    <div class="col-md-6 mt-2">
                         <label for="id_status">Status:</label>
                         <select class="form-select" id="id_status" name="status">
                             <option value="" {% if request.GET.status == '0' %}selected{% endif %}>Selecione uma opção</option>

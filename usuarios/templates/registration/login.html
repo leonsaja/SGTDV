@@ -7,12 +7,13 @@
 
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-4 ">
+        <div class="col-md-4">
 
             <br><br><br>
+             <img src="/static/img/LOGOSAJA.png" width="80%" height="auto" alt="Logo-Saude">
             <form method="POST" class="col-md-10 needs-validation" novalidate>
-                <img src="/static/img/LOGOSAJA.png" width="100%" height="auto" alt="Logo-Saude">
-
+               
+                <br>
                 {% csrf_token %}
                 {% bootstrap_form form %}
                 
