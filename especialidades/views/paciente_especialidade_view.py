@@ -121,7 +121,7 @@ class PacienteEspecialidadeListView(HasRoleMixin,ListView):
             buscar=buscar.rstrip()
             queryset = queryset.filter(
                 Q(paciente__nome_completo__unaccent__icontains=buscar) | Q(paciente__cpf__icontains=buscar)
-            )
+            ).exclude(status='3')
 
         if data:
             queryset = queryset.filter(data_pedido__iexact=data)

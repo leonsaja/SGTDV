@@ -31,7 +31,9 @@ def relatorio_paciente_especialidade_pdf(request,context):
         paciente_especialidade=paciente_especialidade.filter(procedimento=procedimento)
     if classificacao:
         paciente_especialidade=paciente_especialidade.filter(classificacao=classificacao)
-    if status:
+    if not status:
+            paciente_especialidade=paciente_especialidade.exclude(status='3')
+    elif status:
         paciente_especialidade=paciente_especialidade.filter(status=status)
 
 
