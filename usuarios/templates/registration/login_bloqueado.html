@@ -1,0 +1,52 @@
+<!-- templates/lockout.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Acesso Bloqueado</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      text-align: center;
+      padding: 50px;
+    }
+    .box {
+      background: white;
+      max-width: 500px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 { color: #b71c1c; }
+    p { color: #555; }
+    a.button {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #1976d2;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    a.button:hover {
+      background: #0d47a1;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Seu acesso foi temporariamente bloqueado</h1>
+    <p>Detectamos várias tentativas de login incorretas.</p>
+    {% if username %}
+      <p><strong>Usuário:</strong> {{ username }}</p>
+    {% endif %}
+    {% if ip %}
+      <p><strong>IP:</strong> {{ ip }}</p>
+    {% endif %}
+    <p>Tente novamente após algum tempo ou entre em contato com o suporte.</p>
+    <a href="{%url 'usuarios:login_usuario'%}" class="button">Voltar para o login</a>
+  </div>
+</body>
+</html>

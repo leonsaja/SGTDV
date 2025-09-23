@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -116,3 +117,27 @@ class PasswordChange(SuccessMessageMixin,LoginRequiredMixin,PasswordChangeView):
      template_name='registration/alterar_senha.html'
      success_url=reverse_lazy('core:home')
      success_message='Senha alterado com sucesso'
+     
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+
+""""
+
+def custom_lockout(request, credentials=None, *args, **kwargs):
+    username = credentials.get('username') if credentials else ''
+    # monta a URL com o parâmetro
+    url = reverse('usuarios:login_bloqueado') + f'?username={username}'
+    return HttpResponseRedirect(url)
+
+
+def usuario_bloqueado(request):
+    
+    # Você pode capturar informações do request se quiser:
+    username = request.GET.get('username', '')
+    ip = request.META.get('REMOTE_ADDR')
+
+    return render(request, 'registration/login_bloqueado.html', {
+        'username': username,
+        'ip': ip,
+    })
+"""
