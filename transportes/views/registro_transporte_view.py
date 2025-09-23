@@ -64,12 +64,13 @@ class RegistroTransporteSearchListView(HasRoleMixin,ListView):
     def get_queryset(self):
         qs=super().get_queryset().select_related('paciente','carro').order_by('-created_at')
         
-        nome_paciente=self.request.GET.get('nome_paciente',None).rsplit()
+        nome_paciente=self.request.GET.get('nome_paciente',None)
         dt_atendimento=self.request.GET.get('data',None)
         placa_carro=self.request.GET.get('placa_carro',None)
         
     
         if nome_paciente:
+            nome_paciente=nome_paciente.rsplit()
             qs=qs.filter(Q(paciente__nome_completo__unaccent__icontains=nome_paciente) |Q(paciente__cpf__icontains=nome_paciente)|Q(paciente__cns__icontains=nome_paciente))
         
         if dt_atendimento:

@@ -45,13 +45,12 @@ class AtendimentoEspecialidadeForm(forms.ModelForm):
         print('especialidade',especialidade)   
                 
         qs=AtendimentoEspecialidade.objects.filter(data=data,especialidade__nome=especialidade)
-        print('quers',qs)
-        if self.instance.pk:
+        """if self.instance.pk:
                 qs = qs.exclude(pk=self.instance.pk)
                 
         if qs.exists():
                 print('test')
-                self.add_error(f"data",'Já existe um atendimento especialidade com essa data. ')
+                self.add_error(f"data",'Já existe um atendimento especialidade com essa data. ')"""
                         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
