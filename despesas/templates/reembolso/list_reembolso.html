@@ -2,7 +2,9 @@
 
 {% block title%}Lista Reembolsos {%endblock title%}
 
-{% load permission_tags %} {% block content %}
+{% load permission_tags %} 
+
+{% block content %}
 <div class="container-fluid">
   {% include 'reembolso/abas_reembolso.html' %}
   <div class="row">
@@ -177,3 +179,4 @@
 </div>
 <!-- Button trigger modal -->
 
+{% endblock content %}
