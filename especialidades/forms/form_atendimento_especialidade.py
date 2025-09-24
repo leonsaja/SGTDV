@@ -37,13 +37,13 @@ class AtendimentoEspecialidadeForm(forms.ModelForm):
         
         
         if data:
-                if  data < limite_minimo or data > limite_maximo:
+                if  data < limite_minimo:
                     if not self.instance.pk:
                         self.add_error(
                             f"data","A data do atendimento deve estar entre 30 dias antes e 30 dias depois da data atual."
                         )
                 
-        qs=AtendimentoEspecialidade.objects.filter(data=data,especialidade__nome=especialidade)
+        #qs=AtendimentoEspecialidade.objects.filter(data=data,especialidade__nome=especialidade)
         
         """if self.instance.pk:
                 qs = qs.exclude(pk=self.instance.pk)

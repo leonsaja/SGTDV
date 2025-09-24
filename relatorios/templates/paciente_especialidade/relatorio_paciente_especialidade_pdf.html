@@ -86,6 +86,7 @@
           <th>Itens</th>
           <th>Paciente</th>
           <th>ACS</th>
+          <th>PSF</th>
           <th>Procedimento</th>
             <th>
              Observação
@@ -112,6 +113,11 @@
           <td>{{ forloop.counter }}</td>
           <td>{{p.paciente.nome_completo|upper}}</td>
           <td>{{p.paciente.microarea.profissional.acs|upper}}</td>
+          {% if p.paciente.microarea.estabelecimento%}
+            <td>{{p.paciente.microarea.estabelecimento|upper}}</td>
+          {%else%}
+              <td>----</td>
+          {%endif%}
           <td>{{p.procedimento}}</td>
              {% if p.observacao%}
             <td>
