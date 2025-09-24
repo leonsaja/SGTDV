@@ -7,13 +7,15 @@ from .models import AtendimentoEspecialidade, PacienteSia, PacienteEspecialidade
 def update_pacientes_status(sender, instance, created, **kwargs):
     # Verificamos se o status do AtendimentoEspecialidade foi atualizado para '2' (Concluído)
     if instance.status == '2':
-        # Encontra TODOS os objetos PacienteSia que estão linkados a este atendimento.
-        # Usa .filter() para obter um QuerySet que pode conter múltiplos objetos.
+        
         pacientes_sia = PacienteSia.objects.filter(atendimento_paciente=instance)
 
         # Se houver pacientes associados a este atendimento, itera sobre eles.
         if pacientes_sia.exists():
             for paciente_sia in pacientes_sia:
+                
+                """ if instance.especialidade!=paciente_sia.paciente.especialidade:
+                    continue"""
 
                 if not paciente_sia.status=='1':
                     # Pega o objeto PacienteEspecialidade associado.

@@ -42,9 +42,9 @@ class AtendimentoEspecialidadeForm(forms.ModelForm):
                         self.add_error(
                             f"data","A data do atendimento deve estar entre 30 dias antes e 30 dias depois da data atual."
                         )
-        print('especialidade',especialidade)   
                 
         qs=AtendimentoEspecialidade.objects.filter(data=data,especialidade__nome=especialidade)
+        
         """if self.instance.pk:
                 qs = qs.exclude(pk=self.instance.pk)
                 

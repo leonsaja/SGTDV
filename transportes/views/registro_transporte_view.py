@@ -68,9 +68,9 @@ class RegistroTransporteSearchListView(HasRoleMixin,ListView):
         dt_atendimento=self.request.GET.get('data',None)
         placa_carro=self.request.GET.get('placa_carro',None)
         
-    
+        
         if nome_paciente:
-            nome_paciente=nome_paciente.rsplit()
+            nome_paciente=nome_paciente.rstrip()
             qs=qs.filter(Q(paciente__nome_completo__unaccent__icontains=nome_paciente) |Q(paciente__cpf__icontains=nome_paciente)|Q(paciente__cns__icontains=nome_paciente))
         
         if dt_atendimento:
