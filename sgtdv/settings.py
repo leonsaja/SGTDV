@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'dal_select2',
 
     #Pacote
-    # 'axes',
+    
     
     "widget_tweaks",
     'crispy_forms',
@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',  
     'django_bootstrap5',
     'django.contrib.postgres',
-    
+    #'axes',
     
     
     
@@ -83,7 +83,6 @@ MIDDLEWARE = [
    
     'django.middleware.security.SecurityMiddleware',
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
-    #'axes.middleware.AxesMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -91,7 +90,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
+    #'axes.middleware.AxesMiddleware',
+    
 ]
+"""
+AUTHENTICATION_BACKENDS = [
+    # AxesStandaloneBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
+    'axes.backends.AxesStandaloneBackend',
+
+    # Django ModelBackend is the default authentication backend.
+    'django.contrib.auth.backends.ModelBackend',
+]"""
 
 ROOT_URLCONF = 'sgtdv.urls'
 
@@ -251,9 +260,10 @@ if not DEBUG:
 
 #configiracao de bloqueio de login após varias tentivas
 
-"""AXES_FAILURE_LIMIT = 2
+"""AXES_FAILURE_LIMIT = 3
 AXES_LOCKOUT_URL = 'usuarios:login_bloqueado'
 #bloqueia usuario e IP QUANDO TIVE True
-AXES_ONLY_USER_LOCKOUTS = False
+AXES_LOCKOUT_CALLABLE='usuarios.views.custom_lockout'
+AXES_ONLY_USER_LOCKOUTS = True
 AXES_DISABLE_LOCKOUTS = False
 """

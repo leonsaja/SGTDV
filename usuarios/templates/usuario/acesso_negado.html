@@ -1,0 +1,47 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title%} Acesso negado {%endblock title%}
+{% load permission_tags %}
+   {% block header%}
+<style>
+   
+    .box {
+      background: white;
+      max-width: 500px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 { color: #b71c1c; }
+    p { color: #555; }
+    a.button {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #1976d2;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    a.button:hover {
+      background: #0d47a1;
+    }
+  </style>
+  {% endblock header %}
+{% block content %}
+<br>
+  <br>
+  <br>
+ <div class="box">
+  
+    <h1>Ops! Acesso negado.</h1>
+    <br>
+    <p>Você não tem acesso para acessar essa pagina.</p>
+  
+    <p>Entre em contato com o suporte.</p>
+    <a href="{%url 'core:home'%}" class="button">Voltar</a>
+  </div>
+
+{% endblock content %}

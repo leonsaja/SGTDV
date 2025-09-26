@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -10,6 +9,7 @@ from rolepermissions.mixins import HasRoleMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import PasswordChangeForm
+from django.views.generic import TemplateView
 
 
 class UsuarioCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
@@ -118,12 +118,11 @@ class PasswordChange(SuccessMessageMixin,LoginRequiredMixin,PasswordChangeView):
      success_url=reverse_lazy('core:home')
      success_message='Senha alterado com sucesso'
      
-from django.urls import reverse
-from django.http import HttpResponseRedirect
-
-""""
-
-def custom_lockout(request, credentials=None, *args, **kwargs):
+class AcessoNegadoView(LoginRequiredMixin, TemplateView):
+  
+    template_name = 'usuario/acesso_negado.html'
+        
+"""def custom_lockout(request, credentials=None, *args, **kwargs):
     username = credentials.get('username') if credentials else ''
     # monta a URL com o parâmetro
     url = reverse('usuarios:login_bloqueado') + f'?username={username}'

@@ -54,9 +54,8 @@ def relatorio_paciente_especialidade_pdf(request,context):
     response['Content-Disposition'] = f'inline; filename="Relatorio_Paciente_Especialidade_{date.today().strftime("%d/%m/%Y")}.pdf"'
     return response
 
-@has_role_decorator(['regulacao','coordenador','secretario'])
+@has_role_decorator(['regulacao','coordenador','secretario'],redirect_url='usuarios:acesso_negado')
 def relatorio_pacientes_especialidade(request):
-    
     context={}
     if request.method == 'POST':
         form=RelatorioPacienteEspecialidadeForm(request.POST or None)
