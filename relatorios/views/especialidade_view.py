@@ -11,7 +11,7 @@ from io import BytesIO
 from datetime import date
 
 
-@has_role_decorator(['regulacao','coordenador','secretario'])
+@has_role_decorator(['regulacao','coordenador','secretario'],redirect_url='usuarios:acesso_negado')
 
 def relatorio_especialidade(request):
     context={}

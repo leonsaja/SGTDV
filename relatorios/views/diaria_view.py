@@ -77,7 +77,7 @@ def relatorio_diaria_pdf(request,context):
 
     return response
 
-@has_role_decorator(['secretario','digitador','coordenador'])
+@has_role_decorator(['secretario','digitador','coordenador'],redirect_url='usuarios:acesso_negado')
 def relatorio_diaria(request):
     context={}
     diarias=Diaria.objects.select_related('profissional').order_by('-created_at')

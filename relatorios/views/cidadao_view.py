@@ -10,7 +10,7 @@ from datetime import datetime
 from rolepermissions.decorators import has_role_decorator
 
 
-@has_role_decorator(['coordenador'])
+@has_role_decorator(['coordenador'],redirect_url='usuarios:acesso_negado')
 
 def relatorio_cadastro_cidadao(request):
     context={}

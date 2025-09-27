@@ -147,7 +147,7 @@ class CidadaoSearchListView(HasRoleMixin,ListView):
 
         return qs.select_related('microarea')
 
-@has_role_decorator(['coordenador'])
+@has_role_decorator(['coordenador'],redirect_url='usuarios:acesso_negado')
 def cidadao_delete(request,id):
     cidadao=get_object_or_404(Cidadao,id=id)
 
