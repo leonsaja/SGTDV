@@ -9,20 +9,19 @@ from ..models import Carro
 from django.contrib.messages.views import SuccessMessageMixin
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
+from django.utils.decorators import method_decorator
 
-
-class CarroCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
-
+@method_decorator(has_role_decorator(['recepcao','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class CarroCreateView(SuccessMessageMixin,CreateView):
     model=Carro
     form_class=CarroForm
     template_name='carro/form_carro.html'
     context_object_name='form'
     success_url=reverse_lazy('transportes:list-carro')
     success_message='Cadastro realizado com sucesso'
-    allowed_roles=['coordenador','recepcao']
 
-   
-class CarroUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):  
+@method_decorator(has_role_decorator(['recepcao','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class CarroUpdateView(SuccessMessageMixin,UpdateView):  
 
     model=Carro
     form_class=CarroForm
@@ -30,15 +29,13 @@ class CarroUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
     context_object_name='form'
     success_url=reverse_lazy('transportes:list-carro')
     success_message='Dados atualizado com sucesso'
-    allowed_roles=['coordenador','recepcao']
 
-class ListCarroView(HasRoleMixin,ListView):
+@method_decorator(has_role_decorator(['coordenador','secretario','regulacao','recepcao','digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ListCarroView(ListView):
     model=Carro
     template_name='carro/list_carros.html'
     context_object_name='carros'
-    allowed_roles=['coordenador','secretario','regulacao','recepcao']
     paginate_by=10  
-
 
     def get_queryset(self):
         qs=super(ListCarroView,self).get_queryset()
@@ -52,13 +49,13 @@ class ListCarroView(HasRoleMixin,ListView):
         
         return qs
 
-class DetailCarraView(HasRoleMixin,DetailView):
+@method_decorator(has_role_decorator(['coordenador','secretario','regulacao','recepcao','digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class DetailCarraView(DetailView):
     model=Carro
     template_name='carro/detail_carro.html'
     context_object_name='carro'
-    allowed_roles=['coordenador','secretario','regulacao','recepcao']
 
-@has_role_decorator(['coordenador'])
+@has_role_decorator(['coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def carroDelete(request, id):
 
     carro=get_object_or_404(Carro,id=id)

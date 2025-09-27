@@ -125,7 +125,7 @@
         {%endif%}
 
         <!-- CIDADAO -->
-        {% if user|has_role:'secretario,coordenador,recepcao,regulacao,acs' %}
+        {% if user|has_role:'secretario,coordenador,recepcao,regulacao,acs,digitador' %}
         <li class="nav-item">
            <a href="{% url 'cidadao:list-cidadao'%}" class="nav-link link-houver">
 
@@ -263,7 +263,7 @@
 
                   <a href="{% url 'relatorios:relatorio-registro-transporte'%}" target="_blank"
                     class="nav-link link-houver">
-                    <p class=" text-sm text-muted">Registro Transporte22s</p>
+                    <p class=" text-sm text-muted">Registro Transporte</p>
                   </a>
                 </li>
                 

@@ -5,8 +5,7 @@ __pycache__/
 
 # C extensions
 *.so
-dados.json
-bd_12_08.json
+.json
 # Distribution / packaging
 .Python
 build/

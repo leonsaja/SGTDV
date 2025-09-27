@@ -14,10 +14,10 @@ from rolepermissions.mixins import HasRoleMixin
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
-
 import re
+from django.utils.decorators import method_decorator
 
+@method_decorator(has_role_decorator(['acs','recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class CidadaoCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
     model = Cidadao
     form_class = CidadaoForm
@@ -25,7 +25,6 @@ class CidadaoCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
     success_url = reverse_lazy('cidadao:list-cidadao')
     success_message='Cadastro realizado com sucesso'
     allowed_roles=['acs','recepcao','regulacao']
-    success_message='Cadastro realizado com sucesso'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -51,12 +50,12 @@ class CidadaoCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
         context = self.get_context_data()
         return self.render_to_response(context)
 
-class CidadaoUpdateView(SuccessMessageMixin,HasRoleMixin,UpdateView):
+@method_decorator(has_role_decorator(['acs','recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class CidadaoUpdateView(SuccessMessageMixin,UpdateView):
     model = Cidadao
     form_class = CidadaoForm
     template_name = 'cidadao/form_cidadao.html' 
     success_url = reverse_lazy('cidadao:list-cidadao')
-    allowed_roles=['acs','recepcao','regulacao']
     success_message='Dados atualizados com sucesso'
 
     def get_object(self, queryset=None):
@@ -92,10 +91,10 @@ class CidadaoUpdateView(SuccessMessageMixin,HasRoleMixin,UpdateView):
         context = self.get_context_data()
         return self.render_to_response(context)
 
-class CidadaoDetailView(HasRoleMixin,DetailView):
+@method_decorator(has_role_decorator(['acs','coordenador','regulacao','recepcao','digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class CidadaoDetailView(DetailView):
     model=Cidadao
     template_name='cidadao/detail_cidadao.html'
-    allowed_roles = ['acs','coordenador','regulacao','recepcao']
 
     def get_context_data(self, *args, **kwargs):
         context=super().get_context_data(*args, **kwargs)
@@ -106,20 +105,20 @@ class CidadaoDetailView(HasRoleMixin,DetailView):
             context['endereco']=Endereco(cidadao=context['paciente'])
         return context
 
-class CidadaoListView(HasRoleMixin,ListView):
+@method_decorator(has_role_decorator(['acs','coordenador','regulacao','recepcao','digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class CidadaoListView(ListView):
     model=Cidadao
     template_name='cidadao/list_cidadao.html'
     context_object_name='pacientes'
     paginate_by=15
-    allowed_roles = ['acs','coordenador','regulacao','recepcao']
-   
-class CidadaoSearchListView(HasRoleMixin,ListView):
+
+@method_decorator(has_role_decorator(['acs','coordenador','regulacao','recepcao','digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class CidadaoSearchListView(ListView):
     
     model=Cidadao
     template_name='cidadao/list_cidadao.html'
     context_object_name='pacientes'
     paginate_by=10
-    allowed_roles = ['acs','coordenador','regulacao','recepcao']
    
     def get_queryset(self, *args, **kwargs):
         qs = super(CidadaoSearchListView,self).get_queryset(*args, **kwargs)
@@ -159,7 +158,6 @@ def cidadao_delete(request,id):
         messages.add_message(request, constants.ERROR ,"Infelizmente não foi possível, pois existe  uma ou mais referências e não pode ser excluído.")
     finally:
         return redirect('cidadao:list-cidadao')
-
 
 class CidadaoAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):

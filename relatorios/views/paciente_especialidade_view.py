@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from django.http import  HttpResponse
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from weasyprint import HTML
 from django.shortcuts import render
 from relatorios.forms.paciente_especialidade_form import RelatorioPacienteEspecialidadeForm
@@ -54,7 +55,7 @@ def relatorio_paciente_especialidade_pdf(request,context):
     response['Content-Disposition'] = f'inline; filename="Relatorio_Paciente_Especialidade_{date.today().strftime("%d/%m/%Y")}.pdf"'
     return response
 
-@has_role_decorator(['regulacao','coordenador','secretario'],redirect_url='usuarios:acesso_negado')
+@has_role_decorator(['regulacao','coordenador','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def relatorio_pacientes_especialidade(request):
     context={}
     if request.method == 'POST':

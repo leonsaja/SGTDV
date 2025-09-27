@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from relatorios.forms.viagem_form import RelatorioViagemForm
 from transportes.models import Viagem
 from django.http import HttpResponse
@@ -51,7 +52,7 @@ def relatorio_viagem_pdf(request,context):
         messages.add_message(request,constants.ERROR,'Data inicial e Data final são Campos o obrigatório')
         return render(request,'transporte/viagem/relatorio_viagem.html',context)
         
-@has_role_decorator(['regulacao','recepcao','coordenador','secretario'],redirect_url='usuarios:acesso_negado')
+@has_role_decorator(['regulacao','recepcao','coordenador','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def relatorio_viagem(request):
     context={}
     viagens=Viagem.objects.select_related('carro','motorista').all().order_by('-data_viagem')

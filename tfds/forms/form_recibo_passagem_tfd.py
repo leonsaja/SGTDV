@@ -70,7 +70,7 @@ class ReciboPassagemTFDForm(forms.ModelForm):
         data_recibo=cleaned_data.get('data_recibo')
         paciente=cleaned_data.get('paciente')
         hoje=date.today()
-        limite_minimo=hoje-timedelta(days=7)
+        limite_minimo=hoje-timedelta(days=1)
 
         qs=ReciboPassagemTFD.objects.select_related('paciente','acompanhante').filter(paciente=paciente, data_recibo=data_recibo)
 
@@ -83,7 +83,7 @@ class ReciboPassagemTFDForm(forms.ModelForm):
         if  data_recibo < limite_minimo:
             if not self.instance.pk:
                 self.add_error(
-                    f"data_recibo","A data do recibo não pode ser anterior a 7 dias atrás."
+                    f"data_recibo","A data do recibo não pode ser anterior a 1 dias atrás."
                 )
 
 

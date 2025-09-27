@@ -141,17 +141,16 @@ class ProcedimentosEspecialidade(models.Model):
 class PacienteSia(models.Model):
     STATUS=(
         ('1','AUSENTE'),
+        ('2','CONCLUIDO'),
 
 
     )
     paciente=models.ForeignKey(PacienteEspecialidade,verbose_name='Paciente',related_name='paciente_sia_paciente_especialidade',on_delete=models.PROTECT)
     atendimento_paciente=models.ForeignKey(AtendimentoEspecialidade,on_delete=models.CASCADE,related_name='atend_paciente_especialidade')
     hora=models.TimeField(verbose_name='Horário',null=True,blank=True)
-    status=models.CharField(verbose_name='Status', choices=STATUS, max_length=1,null=True,blank=True)
-    
+    status=models.CharField(verbose_name='Status', choices=STATUS, max_length=1,null=True,blank=True,help_text='Somente usa quando paciente faltou no atendimento')    
     class Meta:
         unique_together = ('atendimento_paciente', 'paciente',)
-        
         ordering = ["paciente__paciente__nome_completo"]
         
     def __str__(self):

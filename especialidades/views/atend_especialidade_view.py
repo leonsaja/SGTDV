@@ -47,16 +47,17 @@ class AtendimentoEspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,Create
             self.object = form.save(commit=False)
             self.object.criado_por = self.request.user.nome_completo
             self.object.save()
-            formset.instance = self.object  # Garante que o formset esteja ligado ao novo objeto
+            formset.instance = self.object  
             formset.save()
             return super().form_valid(form)
         else:
-            if formset.non_form_errors():
-                for error in formset.non_form_errors():
-                    messages.error(self.request, f'Paciente duplicado: {error}')
-            
             return self.form_invalid(form)
-
+        
+    def form_invalid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))    
+          
 class AtendimentoEspecialidadeUpdateView(SuccessMessageMixin,HasRoleMixin,UpdateView):
     model = AtendimentoEspecialidade
     form_class = AtendimentoEspecialidadeForm
@@ -89,11 +90,12 @@ class AtendimentoEspecialidadeUpdateView(SuccessMessageMixin,HasRoleMixin,Update
             formset.save()
             return super().form_valid(form)
         else:
-            if formset.non_form_errors():
-                for error in formset.non_form_errors():
-                    messages.error(self.request, f'Paciente duplicado: {error}')
-            
             return self.form_invalid(form)
+            
+    def form_invalid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))    
 
 class AtendEspecialidadeListView(HasRoleMixin,ListView):
 

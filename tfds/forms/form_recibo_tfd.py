@@ -67,8 +67,6 @@ class ReciboTFDForm(forms.ModelForm):
         pg_fonte=cleaned_data.get('pg_fonte')
         pg_conta=cleaned_data.get('pg_conta')
 
-        print('pg_fonte',pg_fonte)
-        print('pg_conta',type(pg_conta))
         
         if pg_fonte and pg_conta:
             
@@ -92,7 +90,7 @@ class ReciboTFDForm(forms.ModelForm):
             if  data < limite_minimo:
                 if not self.instance.pk:
                     self.add_error(
-                        f"data","A data do recibo não pode ser anterior a 7 dias atrás."
+                        f"data","A data do recibo não pode ser anterior a 1 dias atrás."
                     )
         
         if tem_acompanhante == '1':

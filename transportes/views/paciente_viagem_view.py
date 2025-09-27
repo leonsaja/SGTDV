@@ -4,14 +4,16 @@ from especialidades.models import PacienteEspecialidade
 from transportes.models import PassageiroViagem
 from django.db.models import Q
 import re
+from rolepermissions.decorators import has_role_decorator
+from django.utils.decorators import method_decorator
 
-class PacienteViagemSearchView(HasRoleMixin,ListView):
+@method_decorator(has_role_decorator(['recepcao','regulacao','secretario','digitador','coordenador','acs'], redirect_url='usuarios:acesso_negado'), name='dispatch')
+class PacienteViagemSearchView(ListView):
    
     model = PassageiroViagem
     template_name = 'viagem/buscar_paciente_viagem.html'
     paginate_by = 10
     pk_url_kwarg = 'id'
-    allowed_roles=['recepcao','regulacao','secretario','coordenador','acs']
 
     def get_queryset(self):
         buscar = self.request.GET.get('buscar', None)

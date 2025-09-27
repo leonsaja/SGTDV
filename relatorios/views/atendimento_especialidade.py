@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from especialidades.models import AtendimentoEspecialidade
@@ -8,7 +9,7 @@ from weasyprint import HTML
 from django.contrib.auth.decorators import login_required
 from rolepermissions.decorators import has_role_decorator
 from io import BytesIO
-from datetime import date, timedelta
+from datetime import date
 
 
 @login_required
@@ -54,7 +55,7 @@ def relatorio_atendimento_pdf(request,context):
 
     return response
 
-@has_role_decorator(['regulacao','coordenador','secretario'],redirect_url='usuarios:acesso_negado')
+@has_role_decorator(['regulacao','coordenador','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def relatorio_atendimento_especialidade(request):
     context={}
     

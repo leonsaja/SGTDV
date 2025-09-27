@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from relatorios.forms.recibo_tfd_form import RelatorioReciboTfdsForm
 from tfds.models import ReciboTFD
 from django.http import FileResponse, HttpResponse
@@ -11,7 +12,7 @@ from datetime import date
 from rolepermissions.decorators import has_role_decorator
 
 def relatorio_recibo_tfd_pdf(request,context):
-    recibo_tfds=ReciboTFD.objects.select_related('paciente').filter(data__gte=context['inicial']).filter(data__lte=context['final']).order_by('paciente__nome_completo')
+    recibo_tfds=ReciboTFD.objects.select_related('paciente','especialidade','acompanhante').filter(data__gte=context['inicial']).filter(data__lte=context['final']).order_by('paciente__nome_completo').exclude(status='3')
   
     if context['paciente']:
         recibo_tfds=recibo_tfds.filter(paciente=context['paciente'])
@@ -46,7 +47,7 @@ def relatorio_recibo_tfd_pdf(request,context):
     response['Content-Disposition'] = f'inline; filename="Relatorio_Recibo_TFDs_{date.today().strftime("%d/%m/%Y")}.pdf"'
     return response
 
-@has_role_decorator(['coordenador','secretario','regulacao'],redirect_url='usuarios:acesso_negado')
+@has_role_decorator(['coordenador','secretario','regulacao'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def relatorio_recibo_tfd(request):
     context={}
     

@@ -1,5 +1,6 @@
 from django.http import FileResponse, HttpResponse
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from weasyprint import HTML
 from django.db.models import Q
 
@@ -10,7 +11,7 @@ from datetime import datetime
 from rolepermissions.decorators import has_role_decorator
 
 
-@has_role_decorator(['coordenador'],redirect_url='usuarios:acesso_negado')
+@has_role_decorator(['coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 
 def relatorio_cadastro_cidadao(request):
     context={}

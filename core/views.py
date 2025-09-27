@@ -45,12 +45,12 @@ def home(request):
    page_number = request.GET.get("page")
    context['page_obj']= paginator.get_page(page_number)
   
-
+   #Gasto com TFDs
    gastos_tfd_por_mes = ReciboTFD.objects.annotate(
         mes=TruncMonth('data')
     ).values('mes').annotate(
         total_gasto_mes=Sum('total_gasto')
-    ).order_by('mes')
+    ).exclude(status='3').order_by('mes')
     
     # Prepara os dados para o Chart.js
    labels_tfd = [item['mes'].strftime('%B de %Y') for item in gastos_tfd_por_mes]
@@ -59,11 +59,12 @@ def home(request):
    context['labels_tfd'] = labels_tfd
    context['valores_tfd'] =  valores_tfd 
    
+   #Gasto com Diárias
    gastos_diarias_por_mes = Diaria.objects.annotate(
        mes=TruncMonth('data_diaria')
    ).values('mes').annotate(
        total_diarias=Sum('total')
-   ).order_by('mes')   
+   ).exclude(status='3').order_by('mes')   
    # Agrupa os reembolsos por mês e soma os valores
    # A data do reembolso está indiretamente ligada à Diaria,
    # então usamos a data da Diaria

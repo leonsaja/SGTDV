@@ -21,9 +21,15 @@
 
         <div class="col-md-12">
             <div class="text-right">
-                <a href="{% url 'especialidades:edit-atend_especialidade' atendimento_especialidade.id %}" class="btn btn-primary"><strong>Editar
+                {% if atendimento_especialidade.status != '2' or atendimento_especialidade.status != '3' %}
+                    <a href="{% url 'especialidades:edit-atend_especialidade' atendimento_especialidade.id %}" class="btn btn-primary"><strong>Editar
                         Atendimento</strong>
-                </a>
+                    </a>
+                    {% elif atendimento_especialidade.status == '2' and user|has_role:'coordenador' %}
+                       <a href="{% url 'especialidades:edit-atend_especialidade' atendimento_especialidade.id %}" class="btn btn-primary"><strong>Editar
+                        Atendimento</strong>
+                        </a>
+                {%endif%}
             </div>
         </div>
     </div>

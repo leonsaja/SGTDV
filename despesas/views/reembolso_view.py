@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from weasyprint import HTML
 from django.template.loader import render_to_string
@@ -10,10 +11,11 @@ from despesas.forms.reembolso_form import ReembolFormSet,DescricaoReembolsoForm
 from despesas.models import Diaria, Reembolso
 from django.contrib.messages import constants
 from django.contrib import messages
+from django.utils.decorators import method_decorator
 from rolepermissions.decorators import has_role_decorator
 from rolepermissions.mixins import HasRoleMixin
 
-@has_role_decorator(['digitador'])
+@has_role_decorator(['digitador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def reembolso_create(request,id):
     diaria=get_object_or_404(Diaria,id=id)
     
@@ -35,7 +37,7 @@ def reembolso_create(request,id):
     
     return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset,'form':form})
 
-@has_role_decorator(['digitador'])
+@has_role_decorator(['digitador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def reembolso_update(request, id):
    diaria=get_object_or_404(Diaria,id=id)
     
@@ -58,6 +60,7 @@ def reembolso_update(request, id):
 
    return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset,'form':form})
 
+@method_decorator(has_role_decorator(['digitador','coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
 class ReembolsoListView(HasRoleMixin,ListView):
    
    model=Diaria
@@ -66,14 +69,13 @@ class ReembolsoListView(HasRoleMixin,ListView):
    queryset=Diaria.objects.select_related('profissional').filter(reembolso=1)
    ordering='-created_at'
    paginate_by=10
-   allowed_roles=['digitador','coordenador','secretario']
-   
+
+@method_decorator(has_role_decorator(['digitador','coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
 class ReembolsoSearchListView(HasRoleMixin,ListView):
    model=Diaria
    template_name='reembolso/list_reembolso.html'
    context_object_name='diarias'
    paginate_by=10
-   allowed_roles=['digitador','coordenador','secretario']
 
    def get_queryset(self, *args, **kwargs):
         qs = super(ReembolsoSearchListView,self).get_queryset(*args, **kwargs)
@@ -90,10 +92,10 @@ class ReembolsoSearchListView(HasRoleMixin,ListView):
             
         return qs 
 
+@method_decorator(has_role_decorator(['digitador','coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
 class ReembolsoDetailView(HasRoleMixin,DetailView):
     model=Diaria
     template_name='reembolso/detail_reembolso.html'
-    allowed_roles=['digitador','coordenador','secretario']
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -103,7 +105,7 @@ class ReembolsoDetailView(HasRoleMixin,DetailView):
         
         return context
 
-@has_role_decorator(['digitador','coordenador','secretario'])
+@has_role_decorator(['digitador','coordenador','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def reembolso_pdf(request,id):
     context={}
     diaria=get_object_or_404(Diaria,id=id)

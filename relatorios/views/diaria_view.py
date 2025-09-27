@@ -1,6 +1,7 @@
 
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from weasyprint import HTML
 from django.shortcuts import render
 from despesas.models import Diaria
@@ -16,7 +17,7 @@ from datetime import date
 
 
 def relatorio_diaria_pdf(request,context):
-    diarias=Diaria.objects.select_related('profissional').filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final'])
+    diarias=Diaria.objects.select_related('profissional').filter(data_diaria__gte=context['inicial']).filter(data_diaria__lte=context['final']).exclude(status='3')
     
     if context['profissional']:
         diarias=diarias.filter(profissional=context['profissional'])
@@ -77,7 +78,7 @@ def relatorio_diaria_pdf(request,context):
 
     return response
 
-@has_role_decorator(['secretario','digitador','coordenador'],redirect_url='usuarios:acesso_negado')
+@has_role_decorator(['secretario','digitador','coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def relatorio_diaria(request):
     context={}
     diarias=Diaria.objects.select_related('profissional').order_by('-created_at')

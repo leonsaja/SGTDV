@@ -1,5 +1,6 @@
 from django.http import FileResponse, HttpResponse
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from weasyprint import HTML
 from django.shortcuts import get_object_or_404, render,redirect
 from reportlab.lib.pagesizes import A4
@@ -11,7 +12,7 @@ from io import BytesIO
 from datetime import date
 
 
-@has_role_decorator(['regulacao','coordenador','secretario'],redirect_url='usuarios:acesso_negado')
+@has_role_decorator(['regulacao','coordenador','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 
 def relatorio_especialidade(request):
     context={}

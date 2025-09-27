@@ -14,13 +14,23 @@
 
         <div class="col-md-12">
             <div class="text-right">
-                <a href="{% url 'transportes:edit-viagem' viagem.id %}" class="btn btn-primary"><b>Editar Viagem
+
+                 {% if viagem.status != '2' or viagem.status != '3'%}
+                      <a href="{% url 'transportes:edit-viagem' viagem.id %}" class="btn btn-primary"><b>Editar Viagem
                 </a>
+
+                {% elif viagem.status == '2' and user|has_role:'coordenador' %}
+                     <a href="{% url 'transportes:edit-viagem' viagem.id %}" class="btn btn-primary"><b>Editar Viagem
+                </a>
+                {%endif%}
+               
             </div>
         </div>
 
     </div>
     {%endif%}
+
+    
 
     <div class="col-md-12 px-4">
         <br />

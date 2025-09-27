@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from relatorios.forms.recibo_passagem_form import RelatorioReciboPassagemForm
 from tfds.models import ReciboPassagemTFD
 from django.http import  HttpResponse
@@ -43,7 +44,7 @@ def relatorio_recibo_passagem_pdf(request,context):
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
     return response
 
-@has_role_decorator(['coordenador','regulacao','secretario'],redirect_url='usuarios:acesso_negado')
+@has_role_decorator(['coordenador','regulacao','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def relatorio_recibo_passagem(request):
     context={}
     recibos=ReciboPassagemTFD.objects.select_related('paciente').all()
