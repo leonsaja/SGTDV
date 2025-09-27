@@ -11,7 +11,7 @@ from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
 
 
-class EstabelecimentoCreateView(HasRoleMixin,SuccessMessageMixin, CreateView):
+class EstabelecimentoCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
     model=Estabelecimento
     form_class=EstabelecimentoForm
     context_object_name='form'
@@ -20,7 +20,7 @@ class EstabelecimentoCreateView(HasRoleMixin,SuccessMessageMixin, CreateView):
     success_message='Cadastro realizado com sucesso'
     allowed_roles=['coordenador']
     
-class EstabelecimentoUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
+class EstabelecimentoUpdateView(SuccessMessageMixin,HasRoleMixin,UpdateView):
    
     model=Estabelecimento
     form_class=EstabelecimentoForm

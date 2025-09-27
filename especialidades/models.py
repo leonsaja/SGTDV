@@ -2,6 +2,7 @@ from django.db import models
 
 from cidadao.models import Cidadao
 from profissionais.models import Profissional
+from django.db.models import Q
 
 
 
@@ -21,11 +22,11 @@ class Especialidade(models.Model):
        return f'{self.nome}'
     
     def qta_pessoas_especialidade(self):
-        pacientes=self.paciente_especialidades.filter().count()
+        pacientes=self.paciente_especialidades.filter(Q(status='1')|Q(status='5')).count()
         return pacientes
     
     def qta_pessoas_eletivo_especialidade(self):
-        pacientes=self.paciente_especialidades.filter(classificacao='1').exclude(status='2').count()
+        pacientes=self.paciente_especialidades.filter(classificacao='1').filter(Q(status='1')|Q(status='5')).count()
         return pacientes
     
     def qta_pessoas_concluido_especialidade(self):
@@ -33,17 +34,12 @@ class Especialidade(models.Model):
         return pacientes
     
     def qta_pessoas_prioridade_especialidade(self):
-        pacientes=self.paciente_especialidades.filter(classificacao='2').exclude(status='2').count()
+        pacientes=self.paciente_especialidades.filter(classificacao='2').filter(Q(status='1')|Q(status='5')).count()
         return pacientes
     def qta_pessoas_urgencia_especialidade(self):
-        pacientes=self.paciente_especialidades.filter(classificacao='3').exclude(status='2').count()
+        pacientes=self.paciente_especialidades.filter(classificacao='3').filter(Q(status='1')|Q(status='5')).count()
         return pacientes
     
-    
-    def form_tipo(self):
-        if not self.tipo:
-            return '-'
-        return self.tipo
     
     class Meta:
         ordering = ["nome"]

@@ -11,14 +11,14 @@ from django.views.generic import DetailView, CreateView,UpdateView,ListView
 from django.contrib.messages.views import SuccessMessageMixin
 from rolepermissions.decorators import has_role_decorator
 from rolepermissions.mixins import HasRoleMixin
+from django.utils.decorators import method_decorator
 
-
-class PacienteEspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
+@method_decorator(has_role_decorator(['recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class PacienteEspecialidadeCreateView(SuccessMessageMixin,CreateView):
     model = PacienteEspecialidade
     form_class = PacienteEspecialidadeForm
     template_name = 'paciente_especialidade/form_paciente_especialidade.html'
     success_message='Cadastro realizado com sucesso'
-    allowed_roles=['recepcao','regulacao']
      
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -79,14 +79,14 @@ class PacienteEspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,CreateVie
     def get_success_url(self):
         especialidade_id = self.object.especialidade.id
         return reverse_lazy('especialidades:detail-especialidade', kwargs={'pk': especialidade_id})
-    
-class PacienteEspecialidadeUpdateView(SuccessMessageMixin,HasRoleMixin,UpdateView):
+
+@method_decorator(has_role_decorator(['recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
+class PacienteEspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
     model = PacienteEspecialidade
     form_class = PacienteEspecialidadeUpdateForm
     template_name = 'paciente_especialidade/form_paciente_especialidade.html'
     pk_url_kwarg = 'id' 
     success_message='Dados atualizados com sucesso'
-    allowed_roles=['recepcao','regulacao']
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -102,13 +102,13 @@ class PacienteEspecialidadeUpdateView(SuccessMessageMixin,HasRoleMixin,UpdateVie
         especialidade_id = self.object.especialidade.id
         return reverse_lazy('especialidades:detail-especialidade', kwargs={'pk': especialidade_id})
 
-class PacienteEspecialidadeListView(HasRoleMixin,ListView):
+@method_decorator(has_role_decorator(['recepcao','regulacao','secretario','coordenador','acs'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
+class PacienteEspecialidadeListView(ListView):
    
     model = PacienteEspecialidade
     template_name = 'especialidade/detail_especialidade.html'
     paginate_by = 10
     pk_url_kwarg = 'id'
-    allowed_roles=['recepcao','regulacao','secretario','coordenador','acs']
 
     def get_queryset(self):
         especialidade_id = self.kwargs.get(self.pk_url_kwarg)
@@ -143,11 +143,11 @@ class PacienteEspecialidadeListView(HasRoleMixin,ListView):
         context['especialidade'] = get_object_or_404(Especialidade, id=especialidade_id)
         return context
 
-class PacienteEspecialidadeDetailView(HasRoleMixin,DetailView):
+@method_decorator(has_role_decorator(['recepcao','regulacao','secretario','coordenador','acs'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
+class PacienteEspecialidadeDetailView(DetailView):
 
     model=PacienteEspecialidade
     template_name='paciente_especialidade/detail_paciente_especialidade.html'
-    allowed_roles=['recepcao','secretario','regulacao','coordenador','acs']
     
     def get_context_data(self, *args, **kwargs):
         context= super().get_context_data(*args, **kwargs)
@@ -157,7 +157,7 @@ class PacienteEspecialidadeDetailView(HasRoleMixin,DetailView):
        
         return context
         
-@has_role_decorator(['secretario','coordenador'])
+@has_role_decorator(['secretario','coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def pacienteEspecialidade_delete(request,id):
 
     paciente_especialidade=get_object_or_404(PacienteEspecialidade,id=id)

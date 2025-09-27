@@ -1,14 +1,11 @@
 
 from especialidades.models import AtendimentoEspecialidade, PacienteSia,PacienteEspecialidade
 from especialidades.forms.form_atendimento_especialidade import AtendimentoEspecialidadeForm
-from django.contrib import messages
-from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.messages import constants
+from django.shortcuts import get_object_or_404
 from django.contrib.messages.views import SuccessMessageMixin
 from especialidades.forms.form_paciente_set import AtendPacienteSet
 from rolepermissions.mixins import HasRoleMixin
 from django.views.generic import DetailView, ListView,DeleteView,CreateView,UpdateView
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404 
 from django.urls import reverse_lazy
 from rolepermissions.decorators import has_role_decorator
@@ -18,13 +15,14 @@ from weasyprint import HTML
 from django.db.models import Q
 from dal import autocomplete
 from io import BytesIO
+from django.utils.decorators import method_decorator
 
-class AtendimentoEspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
+@method_decorator(has_role_decorator(['regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class AtendimentoEspecialidadeCreateView(SuccessMessageMixin,CreateView):
     model = AtendimentoEspecialidade
     form_class = AtendimentoEspecialidadeForm
     template_name = 'atendimento_especialidade/form_atend_especialidade.html'
     success_url = reverse_lazy('especialidades:list-atend_especialidade')
-    allowed_roles=['regulacao']
     success_message= 'Atendimento cadastrado com sucesso!'
     
     def get_form_kwargs(self):
@@ -57,8 +55,9 @@ class AtendimentoEspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,Create
         context = self.get_context_data()
         formset = context['formset']
         return self.render_to_response(self.get_context_data(form=form, formset=formset))    
-          
-class AtendimentoEspecialidadeUpdateView(SuccessMessageMixin,HasRoleMixin,UpdateView):
+
+@method_decorator(has_role_decorator(['regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')       
+class AtendimentoEspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
     model = AtendimentoEspecialidade
     form_class = AtendimentoEspecialidadeForm
     template_name = 'atendimento_especialidade/form_atend_especialidade.html'
@@ -97,14 +96,13 @@ class AtendimentoEspecialidadeUpdateView(SuccessMessageMixin,HasRoleMixin,Update
         formset = context['formset']
         return self.render_to_response(self.get_context_data(form=form, formset=formset))    
 
-class AtendEspecialidadeListView(HasRoleMixin,ListView):
-
-
+@method_decorator(has_role_decorator(['regulacao','secretario','coordenador','recepcao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class AtendEspecialidadeListView(ListView):
+    
     model=AtendimentoEspecialidade
     template_name='atendimento_especialidade/list_atend_especialidade.html'
     context_object_name='atend_especialidades'
     paginate_by=10
-    allowed_roles=['regulacao','secretario','coordenador','recepcao']
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs).select_related('especialidade')
@@ -126,12 +124,11 @@ class AtendEspecialidadeListView(HasRoleMixin,ListView):
                 qs=qs.filter(status='1')
         return qs.order_by('-data')
     
-class AtendEspecialidadeDetailView(HasRoleMixin,DetailView):
-
+@method_decorator(has_role_decorator(['regulacao','secretario','coordenador','recepcao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class AtendEspecialidadeDetailView(DetailView):
 
     model=AtendimentoEspecialidade
     template_name='atendimento_especialidade/detail_atend_especialidade.html'
-    allowed_roles=['regulacao','recepcao','secretario','coordenador']
     
     def get_context_data(self,*args, **kwargs):
         context=super().get_context_data(*args, **kwargs)
@@ -140,20 +137,20 @@ class AtendEspecialidadeDetailView(HasRoleMixin,DetailView):
         context['atendimento_especialidade']=atendimento_especialidade
         context['pacientes_set']=PacienteSia.objects.select_related('paciente').filter(atendimento_paciente__id=atendimento_especialidade.id)
         return context
-    
+
+@method_decorator(has_role_decorator(['coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class AtendEspecialidadeDeleteView(HasRoleMixin,SuccessMessageMixin, DeleteView):
 
 
     model=AtendimentoEspecialidade
     success_url=reverse_lazy('especialidades:list-atend_especialidade')
     success_message='Registro excluido com sucesso '
-    allowed_roles=['coordenador']
 
 
     def get(self, request, *args, **kwargs):
         return self.post().get(request, *args, **kwargs)
     
-@has_role_decorator(['regulacao','coordenador','recepcao','secretario'])  
+@has_role_decorator(['regulacao','coordenador','recepcao','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))  
 def atend_especialidade_pdf(request, id):
     atendimento_especialidade = get_object_or_404(
         AtendimentoEspecialidade.objects.select_related('especialidade'),
