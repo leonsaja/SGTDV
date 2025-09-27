@@ -58,7 +58,8 @@
       <thead>
         <tr>
           <th>Itens</th>
-          <th>Especialidade</th>
+          <th>Nome</th>
+            <th>Tipo</th>
           <th>Quantidade</th>
           <th>Eletivo</th>
           <th>Urgência</th>
@@ -73,6 +74,12 @@
 
           <td>{{ forloop.counter }}</td>
           <td>{{e.nome|upper}}</td>
+          {%if e.tipo %}
+          <td>{{e.get_tipo_display}}</td>
+          {%else%}
+          <td>-</td>
+          {%endif%}
+       
           <td>{{e.qta_pessoas_especialidade}}
          </td>
           <td>{{e.qta_pessoas_eletivo_especialidade}}

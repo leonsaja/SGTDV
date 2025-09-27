@@ -18,13 +18,12 @@ import re
 from django.utils.decorators import method_decorator
 
 @method_decorator(has_role_decorator(['acs','recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
-class CidadaoCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
+class CidadaoCreateView(SuccessMessageMixin,CreateView):
     model = Cidadao
     form_class = CidadaoForm
     template_name = 'cidadao/form_cidadao.html'
     success_url = reverse_lazy('cidadao:list-cidadao')
     success_message='Cadastro realizado com sucesso'
-    allowed_roles=['acs','recepcao','regulacao']
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -146,7 +145,7 @@ class CidadaoSearchListView(ListView):
 
         return qs.select_related('microarea')
 
-@has_role_decorator(['coordenador'],redirect_url='usuarios:acesso_negado')
+@has_role_decorator(['coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def cidadao_delete(request,id):
     cidadao=get_object_or_404(Cidadao,id=id)
 
@@ -163,7 +162,6 @@ class CidadaoAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         
         if not self.request.user.is_authenticated:
-            print('teste 1000')
             return Cidadao.objects.none()
 
         qs = Cidadao.objects.select_related('microarea').all()

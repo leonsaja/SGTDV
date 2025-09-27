@@ -39,6 +39,12 @@ class Especialidade(models.Model):
         pacientes=self.paciente_especialidades.filter(classificacao='3').exclude(status='2').count()
         return pacientes
     
+    
+    def form_tipo(self):
+        if not self.tipo:
+            return '-'
+        return self.tipo
+    
     class Meta:
         ordering = ["nome"]
 

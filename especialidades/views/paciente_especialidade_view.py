@@ -19,8 +19,7 @@ class PacienteEspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,CreateVie
     template_name = 'paciente_especialidade/form_paciente_especialidade.html'
     success_message='Cadastro realizado com sucesso'
     allowed_roles=['recepcao','regulacao']
-    
-    
+     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['especialidade'] = get_object_or_404(Especialidade, id=self.kwargs.get('id'))
@@ -37,20 +36,26 @@ class PacienteEspecialidadeCreateView(SuccessMessageMixin,HasRoleMixin,CreateVie
         
         if procedimento.nome_procedimento =='CONSULTA' or procedimento.nome_procedimento =='RETORNO' or procedimento.nome_procedimento =='RETORNO EXAMES PRONTOS':
 
-            qs = PacienteEspecialidade.objects.filter(
-                paciente=paciente,
-                especialidade=especialidade_obj,
-            ).filter(Q(status='1')|Q(status='5')).filter(Q(procedimento__nome_procedimento='CONSULTA')|Q(procedimento__nome_procedimento='RETORNO')| Q(procedimento__nome_procedimento='RETORNO EXAMES PRONTOS')).first()
+            if especialidade_obj.tipo=='1':
+                qs = PacienteEspecialidade.objects.filter(
+                    paciente=paciente,
+                    especialidade=especialidade_obj,
+                ).filter(Q(status='1')|Q(status='5')).filter(Q(procedimento__nome_procedimento='CONSULTA')|Q(procedimento__nome_procedimento='RETORNO')| Q(procedimento__nome_procedimento='RETORNO EXAMES PRONTOS')).first()
 
-            if qs:
+                if qs:
 
+                    form.add_error(
+                        'paciente', 
+                        'Este paciente já possui um cadastro  nessa especialidade, EM ABERTO.'
+                    )
+                    return self.form_invalid(form)
+                
+            else:
                 form.add_error(
-                    'paciente', 
-                    'Este paciente já possui um cadastro  nessa especialidade, EM ABERTO.'
-                )
+                        'procedimento', 
+                        'Este procedimento não pode ser inserido nesse tipo especialidade '
+                    )
                 return self.form_invalid(form)
-        
-                    
         else:
                 qs = PacienteEspecialidade.objects.filter(
                     paciente=paciente,
