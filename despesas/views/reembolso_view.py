@@ -61,7 +61,7 @@ def reembolso_update(request, id):
    return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset,'form':form})
 
 @method_decorator(has_role_decorator(['digitador','coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
-class ReembolsoListView(HasRoleMixin,ListView):
+class ReembolsoListView(ListView):
    
    model=Diaria
    template_name='reembolso/list_reembolso.html'
@@ -71,7 +71,7 @@ class ReembolsoListView(HasRoleMixin,ListView):
    paginate_by=10
 
 @method_decorator(has_role_decorator(['digitador','coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
-class ReembolsoSearchListView(HasRoleMixin,ListView):
+class ReembolsoSearchListView(ListView):
    model=Diaria
    template_name='reembolso/list_reembolso.html'
    context_object_name='diarias'
@@ -93,7 +93,7 @@ class ReembolsoSearchListView(HasRoleMixin,ListView):
         return qs 
 
 @method_decorator(has_role_decorator(['digitador','coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
-class ReembolsoDetailView(HasRoleMixin,DetailView):
+class ReembolsoDetailView(DetailView):
     model=Diaria
     template_name='reembolso/detail_reembolso.html'
 

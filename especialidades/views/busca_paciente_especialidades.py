@@ -8,7 +8,7 @@ import re
 from django.utils.decorators import method_decorator
 
 @method_decorator(has_role_decorator(['recepcao','regulacao','secretario','coordenador','acs'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
-class PacienteEspecialidadeSearchView(HasRoleMixin,ListView):
+class PacienteEspecialidadeSearchView(ListView):
    
     model = PacienteEspecialidade
     template_name = 'buscar_paciente_especialidade.html'

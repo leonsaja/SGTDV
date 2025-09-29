@@ -263,10 +263,10 @@
     {%if recibo_tfd.status == '2'%}
     <p class="text-center p-1"><b>STATUS:</b>
         {{recibo_tfd.get_status_display}}
-        {%elif recibo_tfd.status == '3' %}
-    <p class><b>STATUS:</b> {{recibo_tfd.get_status_display}}
-        {%endif%}
-        {%if recibo_tfd.aprovado_por %}
+    {%elif recibo_tfd.status == '3' %}
+        <p class="text-center p-1" style="color: red;"><b>STATUS:</b> {{recibo_tfd.get_status_display}}
+    {%endif%}
+    {%if recibo_tfd.aprovado_por %}
     <p class="text-center"><b>{{recibo_tfd.aprovado_por|upper}}
             <br>
             SECRETÁRIO MUNICIPAL DE SAÚDE

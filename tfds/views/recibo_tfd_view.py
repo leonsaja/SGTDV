@@ -13,7 +13,6 @@ import datetime
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
-from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
 from io import BytesIO
 from django.utils.decorators import method_decorator
@@ -101,7 +100,7 @@ class ReciboTFDUpdateView(SuccessMessageMixin,UpdateView):
         formset = context['formset']
         return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
-@has_role_decorator(['regulacao'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
+@has_role_decorator(['secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def reciboStatusUpdate(request,id):
     recibo_tfd=get_object_or_404(ReciboTFD, pk=id)
 

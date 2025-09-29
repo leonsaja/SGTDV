@@ -144,9 +144,10 @@
       <p class="text-center m-0">______________________________________</p>
       {%if diaria.status == '2'%}
       <p class="text-center"><b>STATUS:</b> {{diaria.get_status_display}}
-        {%elif diaria.status == '3' %}
-        <p class="text-center"><b>STATUS:</b> {{diaria.get_status_display}}
-          {%endif%}
+      
+      {%elif diaria.status == '3' %}
+        <p class="text-center" style="color: red;"><b>STATUS:</b> {{diaria.get_status_display}}
+      {%endif%}
           {%if diaria.aprovado_por %}
           <p class="text-center"><b>{{diaria.aprovado_por|upper}}
               <br>

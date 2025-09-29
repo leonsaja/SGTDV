@@ -10,7 +10,6 @@ from django.contrib.messages import constants
 from django.views.generic import DetailView, CreateView,UpdateView,ListView
 from django.contrib.messages.views import SuccessMessageMixin
 from rolepermissions.decorators import has_role_decorator
-from rolepermissions.mixins import HasRoleMixin
 from django.utils.decorators import method_decorator
 
 @method_decorator(has_role_decorator(['recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')

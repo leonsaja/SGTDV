@@ -112,10 +112,16 @@
                   <td>
                     <a href="{% url 'tfds:detail-recibo_tfd' recibo.id%}" class="pr-2"><i
                         class="fas fa-solid fa-eye"></i></a>
-                    {% if user|has_role:'regulacao' %}
-                    <a href="{% url 'tfds:edit-recibo_tfd' recibo.id%}" class="pr-1 text-warning"><i
-                        class="fas fa-edit"></i></a>
-                    {%endif%}
+                    {% if user|has_role:'regulacao,secretario' %}
+                        {%if recibo.status != '3' and recibo.status != '2' user|has_role:'regulacao'%}
+                          <a href="{% url 'tfds:edit-recibo_tfd' recibo.id%}" class="pr-1 text-warning"><i
+                              class="fas fa-edit"></i></a>
+                        {%endif%}
+                        {%elif recibo.status == 3 or recibo.status == 2 and user|has_role:'secretario' %}
+                          <a href="{% url 'tfds:edit-recibo_tfd' recibo.id%}" class="pr-1 text-warning"><i
+                              class="fas fa-edit"></i></a>
+                        {%endif%}
+                    {%endif %}
                     
                     {% if user|has_role:'coordenador' %}
                     <a type="button" data-bs-toggle="modal" data-bs-target="#modal--{{recibo.id}}"

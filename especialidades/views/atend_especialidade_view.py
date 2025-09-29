@@ -4,7 +4,6 @@ from especialidades.forms.form_atendimento_especialidade import AtendimentoEspec
 from django.shortcuts import get_object_or_404
 from django.contrib.messages.views import SuccessMessageMixin
 from especialidades.forms.form_paciente_set import AtendPacienteSet
-from rolepermissions.mixins import HasRoleMixin
 from django.views.generic import DetailView, ListView,DeleteView,CreateView,UpdateView
 from django.shortcuts import get_object_or_404 
 from django.urls import reverse_lazy
@@ -139,7 +138,7 @@ class AtendEspecialidadeDetailView(DetailView):
         return context
 
 @method_decorator(has_role_decorator(['coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
-class AtendEspecialidadeDeleteView(HasRoleMixin,SuccessMessageMixin, DeleteView):
+class AtendEspecialidadeDeleteView(SuccessMessageMixin, DeleteView):
 
 
     model=AtendimentoEspecialidade

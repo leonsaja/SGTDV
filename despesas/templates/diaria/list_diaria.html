@@ -117,11 +117,17 @@
 
                     <a href="{% url 'despesas:detail-diaria' diaria.id%}" class="pr-1"><i
                         class="fas fa-solid fa-eye"></i></a>
-                    {% if user|has_role:'digitador' %}
 
-                    <a href="{% url 'despesas:edit-diaria' diaria.id%}" class="pr-1 text-warning"><i
+                    {% if user|has_role:'digitador,secretario' %}
+                        {%if diaria.status != '3' and recibo.status != '2' user|has_role:'digitador'%}
+                           <a href="{% url 'despesas:edit-diaria' diaria.id%}" class="pr-1 text-warning"><i
                         class="fas fa-edit"></i></a>
-                    {%endif%}
+                        {%endif%}
+                        {%elif diaria.status == 3 or diaria.status == 2 and user|has_role:'secretario' %}
+                          <a href="{% url 'despesas:edit-diaria' diaria.id%}" class="pr-1 text-warning"><i
+                        class="fas fa-edit"></i></a>
+                        {%endif%}
+                    {%endif %}
 
                     {% if user|has_role:'coordenador' %}
                     <a href="#modal--{{diaria.id}}" data-bs-toggle="modal" data-bs-target="#modal--{{diaria.id}}"
@@ -129,6 +135,7 @@
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>
                     {%endif%}
+                    
                     {%if diaria.status == '2'%}
                     <a href="{% url 'despesas:pdf-diaria' diaria.id %}"  target="_blank">
                       <i class='fas fa-print text-success'></i>

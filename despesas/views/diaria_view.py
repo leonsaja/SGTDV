@@ -32,14 +32,13 @@ class DiariaCreateView(SuccessMessageMixin,CreateView):
         return  super().form_valid(form)
  
 @method_decorator(has_role_decorator(['digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
-class DiariaUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
+class DiariaUpdateView(SuccessMessageMixin,UpdateView):
 
     model=Diaria             
     form_class=DiariaForm
     template_name='diaria/form_diaria.html'
     success_url=reverse_lazy('despesas:list-diaria')
     success_message='Dados atualizado com sucesso'
-    allowed_roles=['digitador']
 
 
     def form_valid(self, form):
@@ -96,7 +95,7 @@ class DiariaStatusUpdateView(SuccessMessageMixin, UpdateView):
         return  super().form_valid(form)
 
 @method_decorator(has_role_decorator(['digitador','coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
-class DiariaDetailView(HasRoleMixin,DetailView):
+class DiariaDetailView(DetailView):
     model=Diaria
     template_name='diaria/detail_diaria.html'
 
