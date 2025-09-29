@@ -23,10 +23,14 @@ class Recepcao(AbstractUserRole):
                                 ,'detail_viagem':True,'buscar_viagem':True,'search-paciente-especialidade':True,}
     
 class Regulacao(AbstractUserRole):
-     available_permissions={'cadastrar_recibo_tfd':True,'editar_recibo_tfd':True, 'buscar_recibo_tfd':True,\
-                           'buscar_cidadao':True,'cadastrar_recibo_passagem':True,'editar_recibo_passagem':True,'buscar_recibo_tfd':True,\
-                            'cadastrar_especialidade':True,'editar_especialidade':True,'listar_especialidade':True,\
+    available_permissions={'cadastrar_especialidade':True,'editar_especialidade':True,'listar_especialidade':True,\
                             'detail_especialidade':True,'buscar_especialidade':True,'emissao_relatorios':True,'search-paciente-especialidade':True,}
      
 class Secretario(AbstractUserRole):
-     available_permissions={'emissão de relatórios':True}
+    available_permissions={'emissão de relatórios':True,'avaliar_despesas':True}
+     
+class TFD(AbstractUserRole):
+    available_permissions={'cadastrar_recibo_tfd':True,'editar_recibo_tfd':True, 'buscar_recibo_tfd':True,'detail_recibo_tfd':True,\
+                          'cadastrar_recibo_passagem':True,'editar_recibo_passagem':True,'buscar_recibo_tfd':True,'detail_recibo_passagem':True}
+
+    

@@ -66,13 +66,13 @@ banco.json
 # Flask stuff:
 instance/
 .webassets-cache
-
+.logs
 # Scrapy stuff:
 .scrapy
 .json
 # Sphinx documentation
 docs/_build/
-
+logs
 # PyBuilder
 .pybuilder/
 target/

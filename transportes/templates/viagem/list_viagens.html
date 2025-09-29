@@ -138,8 +138,8 @@
                                         
                                         {% if user|has_role:'regulacao,recepcao' %}
 
-                                                {% if viagem.status != '2'%}
-                                                <a href="{% url 'transportes:edit-viagem' viagem.id%}"
+                                                {% if viagem.status != '2' and viagem.status != '3'%}
+                                                <a href="{% url 'transportes:edit-viagem' viagem.id%}"+
                                                     class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
 
                                                 {% elif viagem.status == '2' and user|has_role:'coordenador' %}

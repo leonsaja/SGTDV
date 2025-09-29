@@ -11,18 +11,18 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from io import BytesIO
-
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
+from django.utils.decorators import method_decorator
 
-class ReciboPassagemCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
+@method_decorator(has_role_decorator(['tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch') 
+class ReciboPassagemCreateView(SuccessMessageMixin,CreateView):
     
     model=ReciboPassagemTFD
     form_class=ReciboPassagemTFDForm
     template_name='recibo_passagem_tfd/form_recibo_passagem.html'
     success_url=reverse_lazy('tfds:list-recibo_passagem')
     success_message='Cadastro realizado com sucesso'
-    allowed_roles=['regulacao']
 
     def form_valid(self, form):
         
@@ -31,7 +31,9 @@ class ReciboPassagemCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
         self.object.save()
         return  super().form_valid(form)
 
-class ReciboPassagemUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
+
+@method_decorator(has_role_decorator(['tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch') 
+class ReciboPassagemUpdateView(SuccessMessageMixin,UpdateView):
     
     model=ReciboPassagemTFD
     form_class=ReciboPassagemTFDForm
@@ -49,24 +51,23 @@ class ReciboPassagemUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
         self.object.save()
         return  super().form_valid(form)
  
-class ReciboPassagemListView(HasRoleMixin,ListView):
+@method_decorator(has_role_decorator(['coordenador','tfd','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch') 
+class ReciboPassagemListView(ListView):
 
     model=ReciboPassagemTFD
     template_name='recibo_passagem_tfd/list_recibos_passagens.html'
     context_object_name='recibos'
     ordering='-created_at'
     paginate_by=10
-    allowed_roles=['coordenador','regulacao','secretario']
-   
+
+@method_decorator(has_role_decorator(['coordenador','tfd','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch') 
 class ReciboPassagemSearchListView(HasRoleMixin,ListView):
     
     model=ReciboPassagemTFD
     template_name='recibo_passagem_tfd/list_recibos_passagens.html'
     context_object_name='recibos'
     paginate_by=10
-    allowed_roles=['regulacao','coordenador','secretario']
 
-    
     def get_queryset(self, *args, **kwargs):
         qs = super(ReciboPassagemSearchListView,self).get_queryset(*args, **kwargs)
         
@@ -82,11 +83,11 @@ class ReciboPassagemSearchListView(HasRoleMixin,ListView):
              qs=qs.filter(data_recibo__iexact=search_data_recibo)
         
         return qs
-        
-class ReciboPassagemDetailView(HasRoleMixin,DetailView):
+
+@method_decorator(has_role_decorator(['coordenador','tfd','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch') 
+class ReciboPassagemDetailView(DetailView):
     model=ReciboPassagemTFD
     template_name='recibo_passagem_tfd/detail_recibo_passagem.html'
-    allowed_roles=['regulacao','coordenador','secretario']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -94,16 +95,16 @@ class ReciboPassagemDetailView(HasRoleMixin,DetailView):
        
         return context
 
-class ReciboPassagemDeleteView(HasRoleMixin,SuccessMessageMixin,DeleteView):
+@method_decorator(has_role_decorator(['coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch') 
+class ReciboPassagemDeleteView(SuccessMessageMixin,DeleteView):
     model=ReciboPassagemTFD
     success_url=reverse_lazy('tfds:list-recibo_passagem')
     success_message='Registro excluido com sucesso'
-    allowed_roles=['coordenador']   
 
     def get(self, request, *args, **kwargs):
         return self.post().get(request, *args, **kwargs)
 
-@has_role_decorator(['coordenador','regulacao','secretario'])                                                                                                                                                                                                                                                
+@has_role_decorator(['coordenador','tfd','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))                                                                                                                                                                                                                                                
 def reciboPassagemPdf(request,id):
 
     recibo_passagem=get_object_or_404(ReciboPassagemTFD,id=id)

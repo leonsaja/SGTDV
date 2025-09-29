@@ -9,6 +9,9 @@ env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+LOGS_DIR_NAME = env('LOGS_DIR_NAME', default='logs')
+
+LOG_DIR = BASE_DIR.parent / LOGS_DIR_NAME
 SECRET_KEY=env('SECRET_KEY')
 
 DEBUG = env.bool('DEBUG')
@@ -258,8 +261,57 @@ if not DEBUG:
 	SESSION_COOKIE_SECURE = True
 	CSRF_COOKIE_SECURE = True
 
-#configiracao de bloqueio de login após varias tentivas
 
+"""
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    
+    'formatters': {
+        # Formatador unificado
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+    },
+    
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose', 
+        },
+        'file_rotate': {  # NOVO HANDLER PARA ARQUIVO
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter': 'verbose',
+            'filename': os.path.join(LOG_DIR, 'log_tentativas_login.log'),
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 5,  # Manter 5 arquivos de backup
+        },
+    },
+    
+    'loggers': {
+        'django': {
+            'handlers': ['console','file_rotate'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django.request': { 
+            'handlers': ['console','file_rotate'],
+            'level': 'INFO', 
+            'propagate': False, 
+        },
+        'tentativas_login': {
+             'handlers': ['console','file_rotate'],
+             'level': 'INFO',
+             'propagate': False, 
+        },
+    }
+}
+"""
+
+#configiracao de bloqueio de login após varias tentivas
 """AXES_FAILURE_LIMIT = 3
 AXES_LOCKOUT_URL = 'usuarios:login_bloqueado'
 #bloqueia usuario e IP QUANDO TIVE True

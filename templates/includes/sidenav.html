@@ -222,7 +222,7 @@
               </ul>
             </li>
             {%endif%}
-            {% if user|has_role:'coordenador,regulacao,secretario' %}
+            {% if user|has_role:'coordenador,tfd,secretario' %}
             <li class="nav-item">
               <a href="#" class="nav-link">
 
@@ -283,7 +283,7 @@
         {%endif%}
 
         <!-- TFDs -->
-        {% if user|has_role:'coordenador,regulacao,secretario' %}
+        {% if user|has_role:'coordenador,tfd,secretario' %}
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class=" text-primary nav-icon fas fa-copy"></i>

@@ -8,6 +8,7 @@ class Usuario(AbstractUser):
      
 
      TIPO_PERFIL=(
+        
         ('','-----------'),
         ('1','1-ACS'),
         ('2','2-Coordenador'),
@@ -15,7 +16,7 @@ class Usuario(AbstractUser):
         ('4','4-Recepção'),
         ('5','5-Secretario'),
         ('6','6-Regulação'),
-       
+        ('7','7-TFD'),
       )
      
      username = None

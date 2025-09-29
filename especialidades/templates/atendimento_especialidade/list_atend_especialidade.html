@@ -134,7 +134,7 @@
 
                     {% if user|has_role:'regulacao' %}
 
-                        {% if atend.status != '2'%}
+                        {% if atend.status != '2' and atend.status != '3'%}
                            <a href="{% url 'especialidades:edit-atend_especialidade' atend.id%}" class="pr-1 text-warning"><i
                             class="fas fa-edit"></i></a>
                         {% elif atend.status == '2' and user|has_role:'coordenador' %}

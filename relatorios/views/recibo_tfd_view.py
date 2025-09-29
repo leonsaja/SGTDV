@@ -47,7 +47,7 @@ def relatorio_recibo_tfd_pdf(request,context):
     response['Content-Disposition'] = f'inline; filename="Relatorio_Recibo_TFDs_{date.today().strftime("%d/%m/%Y")}.pdf"'
     return response
 
-@has_role_decorator(['coordenador','secretario','regulacao'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
+@has_role_decorator(['coordenador','secretario','tfd'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def relatorio_recibo_tfd(request):
     context={}
     

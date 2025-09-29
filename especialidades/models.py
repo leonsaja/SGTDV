@@ -30,7 +30,7 @@ class Especialidade(models.Model):
         return pacientes
     
     def qta_pessoas_concluido_especialidade(self):
-        pacientes=self.paciente_especialidades.filter(status='2').count()
+        pacientes=self.paciente_especialidades.filter(Q(status='2')|Q(status='6')).count()
         return pacientes
     
     def qta_pessoas_prioridade_especialidade(self):

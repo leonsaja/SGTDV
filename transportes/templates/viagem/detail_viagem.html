@@ -15,7 +15,7 @@
         <div class="col-md-12">
             <div class="text-right">
 
-                 {% if viagem.status != '2' or viagem.status != '3'%}
+                 {% if viagem.status != '2' and viagem.status != '3'%}
                       <a href="{% url 'transportes:edit-viagem' viagem.id %}" class="btn btn-primary"><b>Editar Viagem
                 </a>
 

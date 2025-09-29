@@ -37,7 +37,9 @@ class UsuarioCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
         elif user.perfil=='5':
             assign_role(user,'secretario')
         elif user.perfil =='6':
-                assign_role(user,'regulacao')
+            assign_role(user,'regulacao')
+        elif user.perfil =='7':
+            assign_role(user,'tfd')
         return super().form_valid(form)
     
 class UsuarioUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
@@ -65,7 +67,9 @@ class UsuarioUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
         elif user.perfil=='5':
             assign_role(user,'secretario')
         elif user.perfil =='6':
-                assign_role(user,'regulacao')
+            assign_role(user,'regulacao')
+        elif user.perfil =='7':
+            assign_role(user,'tfd')
         return super().form_valid(form)
     
 class UsuarioListView(HasRoleMixin,ListView):
