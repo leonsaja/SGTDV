@@ -120,9 +120,9 @@
     </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
   <p class=" text-center m-0 ">______________________________________</p>
   {%if diaria.status == '2'%}
-  <p class="text-center"><b>STATUS:</b> {{diaria.get_status_display}}
-    {%elif diaria.status == '3' %}
-    <p class><b>STATUS:</b> {{diaria.get_status_display}}
+  <p class="text-center"><b>STATUS:</b> {{diaria.get_status_display}}</p>
+  {%elif diaria.status == '3' %}
+    <p class="text-center" style="color: red;"><b>STATUS:</b> {{diaria.get_status_display}}</p>
       {%endif%}
       {%if diaria.aprovado_por %}
       <p class="text-center"><b>{{diaria.aprovado_por|upper}}
@@ -148,17 +148,17 @@
       {%elif diaria.status == '3' %}
         <p class="text-center" style="color: red;"><b>STATUS:</b> {{diaria.get_status_display}}
       {%endif%}
-          {%if diaria.aprovado_por %}
+      {%if diaria.aprovado_por %}
           <p class="text-center"><b>{{diaria.aprovado_por|upper}}
               <br>
               SECRETÁRIO MUNICIPAL DE SAÚDE
-            </b> </p>
-          {%else%}
-          <p class="text-center"> {{profissional.nome_completo|upper}}
-            <br><b>
-              SECRETÁRIO MUNICIPAL DE SAÚDE
-            </b> </p>
-          {%endif%}
+           </p>
+     {%else%}
+            <p class="text-center"> {{profissional.nome_completo|upper}}
+              <br>
+                SECRETÁRIO MUNICIPAL DE SAÚDE
+              </p>
+     {%endif%}
 
         </div>
         <div class="bordas pt">
