@@ -31,7 +31,7 @@ class DiariaCreateView(SuccessMessageMixin,CreateView):
         self.object.save()
         return  super().form_valid(form)
  
-@method_decorator(has_role_decorator(['digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
+@method_decorator(has_role_decorator(['digitador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
 class DiariaUpdateView(SuccessMessageMixin,UpdateView):
 
     model=Diaria             

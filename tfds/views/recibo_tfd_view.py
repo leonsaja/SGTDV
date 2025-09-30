@@ -59,7 +59,7 @@ class ReciboTFDCreateView(SuccessMessageMixin,CreateView):
         formset = context['formset']
         return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
-@method_decorator(has_role_decorator(['tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')   
+@method_decorator(has_role_decorator(['tfd','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')   
 class ReciboTFDUpdateView(SuccessMessageMixin,UpdateView):
     model=ReciboTFD
     form_class=ReciboTFDForm

@@ -23,10 +23,11 @@
 
             <div class="col-md-12">
                 <div class="text-right">
-                    <a href="{% url 'despesas:edit-diaria' diaria.id %}"
-                        class="btn btn-primary"><strong>Editar
-                            Diária</strong>
-                    </a>
+                    {%if diaria.status == '1' %}
+                            <a href="{% url 'despesas:edit-diaria' diaria.id %}" class="btn btn-primary"><strong>Editar Diária</strong>   </a>
+                    {%elif diaria.status == 3 or diaria.status == 2 and user|has_role:'secretario' %}
+                          <a href="{% url 'despesas:edit-diaria' diaria.id %}" class="btn btn-primary"><strong>Editar Diária</strong>   </a>
+                    {%endif%}
                 </div>
             </div>
         </div>

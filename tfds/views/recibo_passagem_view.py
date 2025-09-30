@@ -32,7 +32,7 @@ class ReciboPassagemCreateView(SuccessMessageMixin,CreateView):
         return  super().form_valid(form)
 
 
-@method_decorator(has_role_decorator(['tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch') 
+@method_decorator(has_role_decorator(['tfd','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch') 
 class ReciboPassagemUpdateView(SuccessMessageMixin,UpdateView):
     
     model=ReciboPassagemTFD

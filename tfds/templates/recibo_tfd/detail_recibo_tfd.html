@@ -9,14 +9,17 @@
 <div class="descricaoiner-fluid">
     {% include 'recibo_tfd/abas_recibo_tfd.html' %}
 
-    {% if user|has_role:'regulacao' %}
+    {% if user|has_role:'regulacao,secretario' %}
     <div class="row m-2">
 
         <div class="col-md-12">
             <div class="text-right">
-                <a href="{% url 'tfds:edit-recibo_tfd' recibo_tfd.id %}" class="btn btn-primary"><b>Editar Recibo do
-                        TFD</b>
-                </a>
+                 {%if recibo.status == '1'%}
+                       <a href="{% url 'tfds:edit-recibo_tfd' recibo_tfd.id %}" class="btn btn-primary"><b>Editar Recibo do TFD</b></a>
+                     {%elif recibo.status == 3 or recibo.status == 2 and user|has_role:'secretario' %}
+                      <a href="{% url 'tfds:edit-recibo_tfd' recibo_tfd.id %}" class="btn btn-primary"><b>Editar Recibo do TFD</b></a>
+                  {%endif%}
+               
             </div>
         </div>
 

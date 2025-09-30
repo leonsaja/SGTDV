@@ -1,0 +1,51 @@
+<div
+  class="modal fade"
+  id="modal--{{diaria.id}}"
+  aria-labelledby="exampleModalLabel" 
+  aria-hidden="true"
+  tabindex="-1"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="staticBackdropLabel">
+             Ordenar  por ?           
+        </h6>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <p class="logo m-3">{{atend.especialidade.nome}}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+       <form class="col-md-8   needs-validation" action="{% url 'especialidades:list-atend_especialidade'%}" method="GET"
+          id="validar-form">
+          
+          <div class="row">
+
+                    <div class="col-md-6 mt-2">
+                        <label for="id_data">Data do Atendimento</label>
+                        <input type="date" name="data" class="form-control" id="id_data"
+                            value="{{request.GET.data}}">
+                    </div>
+                    <div class="col-md-6 mt-2">
+                        <label for="id_status">Status:</label>
+                        <select class="form-select" id="id_status" name="status">
+                            <option value="" {% if request.GET.status == '0' %}selected{% endif %}>Selecione uma opção</option>
+                            <option value="1" {% if request.GET.status == '1' %}selected{% endif %}>Aguardando</option>
+                            <option value="2" {% if request.GET.status == '2' %}selected{% endif %}>Concluido</option>
+                            <option value="3" {% if request.GET.status == '3' %}selected{% endif %}>Cancelado</option>
+                        </select>
+                    </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -22,12 +22,19 @@ def relatorio_paciente_especialidade_pdf(request,context):
     profissional=context['profissional']
     procedimento=context['procedimento']
     classificacao=context['classificacao']
+    estabelicimento=context['estabelecimento']
+    print('estatabelecimento',estabelicimento)
+    
     status=context['status']
 
     if especialidade:
         paciente_especialidade=paciente_especialidade.filter(especialidade=especialidade)   
     if profissional:
-        paciente_especialidade=paciente_especialidade.filter(profissional=profissional) 
+        paciente_especialidade=paciente_especialidade.filter(paciente__microarea__profissional=profissional)
+        
+    if estabelicimento:
+        paciente_especialidade=paciente_especialidade.filter(paciente__microarea__estabelecimento=estabelicimento)
+
     if procedimento:
         paciente_especialidade=paciente_especialidade.filter(procedimento=procedimento)
     if classificacao:
@@ -66,6 +73,7 @@ def relatorio_pacientes_especialidade(request):
             context['profissional']=form.cleaned_data.get('profissionais')
             context['procedimento']=form.cleaned_data.get('procedimento')
             context['classificacao']=form.cleaned_data.get('classificacao')
+            context['estabelecimento']=form.cleaned_data.get('estabelecimento')
             context['status']=form.cleaned_data.get('status')
 
 

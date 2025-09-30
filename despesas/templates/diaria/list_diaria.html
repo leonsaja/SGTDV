@@ -119,10 +119,10 @@
                         class="fas fa-solid fa-eye"></i></a>
 
                     {% if user|has_role:'digitador,secretario' %}
-                        {%if diaria.status != '3' and recibo.status != '2' and user|has_role:'digitador' %}
+                        {%if diaria.status == '1'  %}
                            <a href="{% url 'despesas:edit-diaria' diaria.id%}" class="pr-1 text-warning"><i
                         class="fas fa-edit"></i></a>
-                        {%elif diaria.status == 3 or diaria.status == 2 and user|has_role:'secretario' %}
+                        {%elif diaria.status == '3' or diaria.status == '2' and user|has_role:'secretario' %}
                           <a href="{% url 'despesas:edit-diaria' diaria.id%}" class="pr-1 text-warning"><i
                         class="fas fa-edit"></i></a>
                         {%endif%}
