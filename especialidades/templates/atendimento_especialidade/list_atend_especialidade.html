@@ -151,15 +151,16 @@
                     </a>
                     {%endif%}
                     {%if user|has_role:'coordenador,recepcao,regulacao,secretario' %}
-                    <a href="{% url 'especialidades:pdf-atend_especialidade' atend.id%}"  target="_blank" class="pr-2">
-                            <i class='fas fa-print'></i>
-
-                          </a>
+                   <a href="{#modal--pdf{{atend.id}}_}" data-bs-toggle="modal"
+                      data-bs-target="#modal--pdf{{atend.id}}" class="pr-2 text-danger">
+                      <i class='fas fa-print'></i>
+                    </a>
                     {%endif%}
                    
 
                   </td>
                 </tr>
+                {% include 'atendimento_especialidade/modal_ordenacao_atend_especialidade.html'%}
                 {% include 'atendimento_especialidade/modal_delete_atend_especialidade.html'%}
                 {%endfor%}
 
