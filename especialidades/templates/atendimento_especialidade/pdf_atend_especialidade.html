@@ -32,7 +32,7 @@
       }
       body{
 
-        font-size: 14px;
+        font-size: 12px;
         font-family: Arial, Helvetica, sans-serif;
       }
       td{
@@ -72,6 +72,10 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
           <b> HORÁRIO:</b> {{atendimento_especialidade.hora|time:"H:i"|default:'---'}}
         
            
@@ -88,8 +92,8 @@
       </div>
      
       <div class="col-md-12 ">
-        <p class="mt-1">
-          <b>OBSERVAÇÃO: </b>
+        <p class="mt-1" >
+          <b style="color: red;">OBSERVAÇÃO: </b>
            {%if atendimento_especialidade.observacao%}
                  {{atendimento_especialidade.observacao|upper}}
            {%endif%}

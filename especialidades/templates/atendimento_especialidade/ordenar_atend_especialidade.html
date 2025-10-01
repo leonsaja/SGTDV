@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %}
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      {% include 'includes/mensagens.html' %}
+    </div>
+  </div>
+
+  <br /><br />
+  <div class="row justify-content-center">
+    <div class="col-md-3">
+      <h4 class="text-primary"><strong>Ordenar a lista de Atendimento</strong></h4>
+    </div>
+  </div>
+  
+  <form method="POST" class="needs-validation"  novalidate>
+ {% csrf_token %}
+
+ <div class="row justify-content-center">
+  
+       <div class="col-md-6 ">
+        {{form.ordenar|as_crispy_field }}
+       
+      </div>
+  
+    </div>
+
+    
+
+    <div class="row justify-content-center">
+      <div class="col-md-6 mt-2">
+        <div class="text-right">
+            <a href="{% url 'especialidades:list-atend_especialidade' %}" class="btn btn-outline-primary mr-2">Voltar</a>
+          
+          <button type="submit" class="btn btn-primary" >Gerar PDF</button>
+        </div>
+      </div>
+    </div>
+  </form>
+ 
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+
+{% endblock %}

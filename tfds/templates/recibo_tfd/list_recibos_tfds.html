@@ -124,7 +124,7 @@
                     {%endif %}
                     
                     {% if user|has_role:'coordenador' %}
-                    <a type="button" data-bs-toggle="modal" data-bs-target="#modal--{{recibo.id}}"
+                    <a href="#modal--{{recibo.id}}" data-bs-toggle="modal" data-bs-target="#modal--{{recibo.id}}"
                       class="pr-2 text-danger">
                       <i class="fas fa-solid fa-trash-can"></i>
                     </a>

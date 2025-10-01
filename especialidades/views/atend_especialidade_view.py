@@ -1,7 +1,7 @@
 
 from especialidades.models import AtendimentoEspecialidade, PacienteSia,PacienteEspecialidade
-from especialidades.forms.form_atendimento_especialidade import AtendimentoEspecialidadeForm
-from django.shortcuts import get_object_or_404
+from especialidades.forms.form_atendimento_especialidade import AtendimentoEspecialidadeForm,GerarPDFAtendimentoForm
+from django.shortcuts import get_object_or_404, render
 from django.contrib.messages.views import SuccessMessageMixin
 from especialidades.forms.form_paciente_set import AtendPacienteSet
 from django.views.generic import DetailView, ListView,DeleteView,CreateView,UpdateView
@@ -148,42 +148,7 @@ class AtendEspecialidadeDeleteView(SuccessMessageMixin, DeleteView):
 
     def get(self, request, *args, **kwargs):
         return self.post().get(request, *args, **kwargs)
-    
-@has_role_decorator(['regulacao','coordenador','recepcao','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))  
-def atend_especialidade_pdf(request, id):
-    atendimento_especialidade = get_object_or_404(
-        AtendimentoEspecialidade.objects.select_related('especialidade'),
-        id=id
-    )
-
-    # 2. Busca a lista de pacientes relacionada, também otimizando.
-    lista_pacientes = PacienteSia.objects.select_related('paciente').filter(
-        atendimento_paciente=atendimento_especialidade
-    ).order_by('paciente__paciente__nome_completo')
-
-    context = {
-        'atendimento_especialidade': atendimento_especialidade,
-        'pacientes_set': lista_pacientes,
-    }
-
-    # 3. Renderiza o template HTML.
-    html_string = render_to_string(
-        'atendimento_especialidade/pdf_atend_especialidade.html',
-        context
-    )
-
-    # 4. Cria um buffer na memória para o PDF.
-    buffer = BytesIO()
-
-    # 5. Gera o PDF usando WeasyPrint e salva no buffer.
-    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(buffer)
-    
-    # 6. Prepara a resposta HTTP para download.
-    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
-    response['Content-Disposition'] = f'inline; filename="Atendimento_{atendimento_especialidade.especialidade.nome}_{atendimento_especialidade.data.strftime("%d/%m/%Y")}.pdf"'
-    
-    return response
-
+  
 class PacienteAutocomplete(autocomplete.Select2QuerySetView):
     
     def get_queryset(self):
@@ -206,3 +171,83 @@ class PacienteAutocomplete(autocomplete.Select2QuerySetView):
             ).filter(Q(status='1')|Q(status='5'))
 
         return qs
+
+
+  
+
+
+def gerar_pdf_atend(request,context):
+
+   atendimento_id=context['atendimento_especialidade']
+
+   lista_pacientes = PacienteSia.objects.select_related('paciente').filter(atendimento_paciente=atendimento_id).all()
+   
+   ordenar=context['ordenar']
+
+
+   if ordenar == '1':
+       print('teste')
+       lista_pacientes=lista_pacientes.order_by('paciente__paciente__nome_completo')
+
+   elif ordenar == '2':
+       lista_pacientes=lista_pacientes.order_by('-paciente__paciente__nome_completo')
+       
+   elif ordenar == '3':
+       lista_pacientes=lista_pacientes.order_by('hora')
+    
+   elif ordenar == '4':
+       lista_pacientes=lista_pacientes.order_by('-hora')
+       
+   elif ordenar == '5':
+       lista_pacientes=lista_pacientes.order_by('paciente__procedimento__nome_procedimento')
+       
+   elif ordenar == '6':
+       lista_pacientes=lista_pacientes.order_by('-paciente__procedimento__nome_procedimento')
+       
+   context = {
+        'atendimento_especialidade': atendimento_id,
+        'pacientes_set': lista_pacientes,
+    }
+
+    # 3. Renderiza o template HTML.
+   html_string = render_to_string(
+        'atendimento_especialidade/pdf_atend_especialidade.html',
+        context
+    )
+
+    # 4. Cria um buffer na memória para o PDF.
+   buffer = BytesIO()
+
+    # 5. Gera o PDF usando WeasyPrint e salva no buffer.
+   HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(buffer)
+   
+   # 6. Prepara a resposta HTTP para download.
+   response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+   response['Content-Disposition'] = f'inline; filename="Atendimento_{atendimento_id.especialidade.nome}_{atendimento_id.data.strftime("%d/%m/%Y")}.pdf"'
+
+   return response
+
+
+@has_role_decorator(['regulacao','coordenador','recepcao','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))  
+def atend_especialidade_pdf(request, id):
+    context={}
+    context['atendimento_especialidade'] = get_object_or_404(
+        AtendimentoEspecialidade.objects.select_related('especialidade'),
+        id=id
+    )
+
+    if request.method == 'POST':
+            form=GerarPDFAtendimentoForm(request.POST or None)
+            
+            if form.is_valid():
+                context['ordenar']=form.cleaned_data.get('ordenar')
+                
+                print('tipo',context['ordenar'])
+            
+            return gerar_pdf_atend(request,context)
+            
+
+    else:
+        form=GerarPDFAtendimentoForm(request.POST or None)    
+        
+    return render(request,'atendimento_especialidade/ordenar_atend_especialidade.html',{'form':form})           

@@ -57,7 +57,20 @@ class AtendimentoEspecialidadeForm(forms.ModelForm):
         self.fields['hora'].widget.attrs.update({'class':'mask-hora'})
       
   
-  
+class GerarPDFAtendimentoForm(forms.Form):
+    
+    ORDEM=(
+        
+        ('1','Nome (A-Z)'),
+        ('2','Nome (Z-A)'),
+        ('3','Horario (00:00-23:59)'),
+        ('4','Horario (23:59-00:00)'),
+        ('5','Procedimento (A-Z)'),
+        ('5','Procedimento (Z-A)'),
+
+    )
+    ordenar=forms.ChoiceField(label='Ordenar por ',required=True, widget=forms.Select,choices=ORDEM)
+
 
  
 
