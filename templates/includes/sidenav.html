@@ -125,7 +125,7 @@
         {%endif%}
 
         <!-- CIDADAO -->
-        {% if user|has_role:'secretario,coordenador,recepcao,regulacao,acs,digitador' %}
+        {% if user|has_role:'secretario,coordenador,tfd,recepcao,regulacao,acs,digitador' %}
         <li class="nav-item">
            <a href="{% url 'cidadao:list-cidadao'%}" class="nav-link link-houver">
 

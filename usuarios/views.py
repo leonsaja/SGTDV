@@ -122,7 +122,7 @@ class PasswordChange(SuccessMessageMixin,LoginRequiredMixin,PasswordChangeView):
      success_url=reverse_lazy('core:home')
      success_message='Senha alterado com sucesso'
      
-class AcessoNegadoView(LoginRequiredMixin, TemplateView):
+class AcessoNegadoView(TemplateView):
   
     template_name = 'usuario/acesso_negado.html'
         

@@ -74,14 +74,31 @@
                                 <option value="" {% if request.GET.status == '0' %}selected{% endif %}>Selecione uma opção</option>
                                 <option value="1" {% if request.GET.status == '1' %}selected{% endif %}>Aguardando</option>
                                 <option value="7" {% if request.GET.status == '7' %}selected{% endif %}>Acompanhante</option>
+                                <option value="5" {% if request.GET.status == '5' %}selected{% endif %}>Em tratamento</option>
+                                <option value="6" {% if request.GET.status == '6' %}selected{% endif %}>Alta</option>
                                 <option value="2" {% if request.GET.status == '2' %}selected{% endif %}>Concluido</option>
                                 <option value="4" {% if request.GET.status == '4' %}selected{% endif %}>Ausente</option>
                                 <option value="3" {% if request.GET.status == '3' %}selected{% endif %}>Cancelado</option>
+
                                
                             </select>
                         </div>
+                        
                     </div>
-                   
+                   <div class="row justify-content-center">
+                    <div class="col-md-8 mt-2">
+                            <label for="id_estabelecimento">Estabelecimento:</label>
+                            <select class="form-select" id="id_estabelecimento" name="estabelecimento">
+                                <option value="" {% if request.GET.estabelecimento == '0' %}selected{% endif %}>Selecione um estabelecimento</option>
+                                <option value="2" {% if request.GET.estabelecimento == '2' %}selected{% endif %}>UNIDADE BASICA JOVENTINO BATISTA</option>
+                                <option value="4" {% if request.GET.estabelecimento == '4' %}selected{% endif %}>UNIDADE BASICA DE SAUDE DE CATAJAS</option>
+                                <option value="5" {% if request.GET.estabelecimento == '5' %}selected{% endif %}>UNIDADE BASICA DE SAUDE DONA CARMITA FREITAS DOS SANTOS</option>
+                                <option value="6" {% if request.GET.estabelecimento == '6' %}selected{% endif %}>UNIDADE BASICA DE SAUDE ESF SAUDE PARA TODOS</option>
+                                <option value="7" {% if request.GET.estabelecimento == '7' %}selected{% endif %}>UNIDADE DE SAUDE DONA MARIA ROSA BANDEIRA</option>
+                               
+                            </select>
+                        </div>
+                   </div>
                    
                     <div class="row justify-content-center ">
                         <div class="col-md-8 mt-3">
@@ -198,23 +215,4 @@
 </div>
 {% include 'includes/modal_delete.html'%}
 <!-- Button trigger modal -->
-{% endblock content %} {% block scripts %}
-<script>
-    $('#validar-form').submit(function () {
-        let buscar = $('#buscar')
-        let data = $('#id_data')
-        let status= $('#id_status')
-
-        let erro = $('.alert')
-
-       
-        if (buscar.val() == '' && data.val() == '' && status.val()=='') {
-            erro.removeClass('d-none')
-            return false
-        }
-
-        return true
-    })
-</script>
-
-{% endblock scripts %}
+{% endblock content %} 

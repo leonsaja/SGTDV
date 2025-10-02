@@ -136,18 +136,16 @@ class ReciboTFDSearchListView(ListView):
     paginate_by=10
 
     def get_queryset(self, *args, **kwargs):
-        qs = super(ReciboTFDSearchListView,self).get_queryset(*args, **kwargs)
+        qs = super(ReciboTFDSearchListView,self).get_queryset(*args, **kwargs).select_related('paciente','especialidade','acompanhante').order_by('-created_at')
         
         search_nome_cpf=self.request.GET.get('search_nome_cpf',None).rstrip()
         data=self.request.GET.get('data',None)
-        
-        qs=qs.select_related('paciente','especialidade','acompanhante').order_by('-paciente__nome_completo')
-        
+    
         if search_nome_cpf:
-            qs=qs.filter(Q(paciente__nome_completo__unaccent__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf))
+            qs=qs.filter(Q(paciente__nome_completo__unaccent__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf)).order_by('-created_at')
            
         if data:
-             qs=qs.filter(data__iexact=data)
+             qs=qs.filter(data__iexact=data).order_by('-created_at')
         
         return qs
 

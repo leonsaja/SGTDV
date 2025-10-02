@@ -9,7 +9,7 @@
 <div class="descricaoiner-fluid">
     {% include 'recibo_tfd/abas_recibo_tfd.html' %}
 
-    {% if user|has_role:'regulacao,secretario' %}
+    {% if user|has_role:'tfd,secretario' %}
     <div class="row m-2">
 
         <div class="col-md-12">

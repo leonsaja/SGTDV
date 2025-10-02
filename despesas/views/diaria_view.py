@@ -65,17 +65,17 @@ class DiariaSearchListView(ListView):
     paginate_by=10
 
     def get_queryset(self, *args, **kwargs):
-        qs = super(DiariaSearchListView,self).get_queryset(*args, **kwargs)
+        qs = super(DiariaSearchListView,self).get_queryset(*args, **kwargs).select_related('profissional')
         
         buscar=self.request.GET.get('buscar',None).rstrip()
         data=self.request.GET.get('data',None)
         
         if buscar:
-            qs=qs.select_related('profissional').filter(Q(profissional__nome_completo__icontains=buscar)|\
+            qs=qs.filter(Q(profissional__nome_completo__icontains=buscar)|\
                 Q(profissional__cpf__icontains=buscar)).\
                 order_by('-created_at')
         if data:
-            qs=qs.select_related('profissional').filter(data_diaria__iexact=data).order_by('-created_at')
+            qs=qs.filter(data_diaria__iexact=data).order_by('-created_at')
     
         return qs
     

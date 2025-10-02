@@ -39,7 +39,7 @@ def home(request):
    context['qta_registro_transporte']=RegistroTransporte.objects.select_related('paciente','carro').count()
    context['qta_atendimento']=AtendimentoEspecialidade.objects.count()
    context['qta_cadastro_incompleto']=Cidadao.objects.select_related('endereco','microarea').filter(Q(cns=None)).count() 
-   especialidades=Especialidade.objects.all()
+   especialidades=Especialidade.objects.filter(paciente_especialidades__isnull=False).distinct()
    
    paginator = Paginator(especialidades,10)  
    page_number = request.GET.get("page")

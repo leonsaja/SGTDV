@@ -1,4 +1,11 @@
 {% extends 'base.html' %}
+{% block title%}
+  {% if request.resolver_match.url_name == 'add-estabelecimento' %} 
+      Cadastrar Estabelecimento
+  {%else%} 
+      Editar Estabelecimento
+  {%endif%} 
+{%endblock title%}
 {% load crispy_forms_tags %}
 {% block content %}
 

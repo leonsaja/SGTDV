@@ -17,7 +17,7 @@ from django.contrib.auth.decorators import login_required
 import re
 from django.utils.decorators import method_decorator
 
-@method_decorator(has_role_decorator(['acs','recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+@method_decorator(has_role_decorator(['acs','recepcao','regulacao','tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class CidadaoCreateView(SuccessMessageMixin,CreateView):
     model = Cidadao
     form_class = CidadaoForm
@@ -49,7 +49,7 @@ class CidadaoCreateView(SuccessMessageMixin,CreateView):
         context = self.get_context_data()
         return self.render_to_response(context)
 
-@method_decorator(has_role_decorator(['acs','recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+@method_decorator(has_role_decorator(['acs','recepcao','regulacao','tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class CidadaoUpdateView(SuccessMessageMixin,UpdateView):
     model = Cidadao
     form_class = CidadaoForm
@@ -90,7 +90,7 @@ class CidadaoUpdateView(SuccessMessageMixin,UpdateView):
         context = self.get_context_data()
         return self.render_to_response(context)
 
-@method_decorator(has_role_decorator(['acs','coordenador','regulacao','recepcao','digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+@method_decorator(has_role_decorator(['acs','coordenador','regulacao','recepcao','digitador','tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class CidadaoDetailView(DetailView):
     model=Cidadao
     template_name='cidadao/detail_cidadao.html'
@@ -104,14 +104,14 @@ class CidadaoDetailView(DetailView):
             context['endereco']=Endereco(cidadao=context['paciente'])
         return context
 
-@method_decorator(has_role_decorator(['acs','coordenador','regulacao','recepcao','digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+@method_decorator(has_role_decorator(['acs','coordenador','regulacao','recepcao','digitador','tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class CidadaoListView(ListView):
     model=Cidadao
     template_name='cidadao/list_cidadao.html'
     context_object_name='pacientes'
     paginate_by=15
 
-@method_decorator(has_role_decorator(['acs','coordenador','regulacao','recepcao','digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+@method_decorator(has_role_decorator(['acs','coordenador','regulacao','recepcao','digitador','tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class CidadaoSearchListView(ListView):
     
     model=Cidadao

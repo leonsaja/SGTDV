@@ -115,6 +115,7 @@ class PacienteEspecialidadeListView(ListView):
         buscar = self.request.GET.get('buscar', None)
         data = self.request.GET.get('data', None)
         status=self.request.GET.get('status',None)
+        estabelecimento=self.request.GET.get('estabelecimento',None)
 
 
         queryset = PacienteEspecialidade.objects.select_related(
@@ -132,7 +133,9 @@ class PacienteEspecialidadeListView(ListView):
 
         if status:
             queryset = queryset.filter(status=status)
-         
+        
+        if estabelecimento:
+            queryset=queryset.filter(paciente__microarea__estabelecimento=estabelecimento)
             
         return queryset
 

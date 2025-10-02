@@ -16,7 +16,7 @@ from datetime import date
 
 def relatorio_especialidade(request):
     context={}
-    especialidades=Especialidade.objects.all().order_by('nome')
+    especialidades=Especialidade.objects.filter(paciente_especialidades__isnull=False).distinct()
 
     context['qta_especialidade']= especialidades.count()
     context['especialidades']=especialidades

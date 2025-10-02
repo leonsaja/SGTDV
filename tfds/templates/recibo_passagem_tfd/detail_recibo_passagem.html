@@ -7,7 +7,7 @@
 <div class="descricaoiner-fluid">
     {% include 'recibo_passagem_tfd/abas_recibo_passagem.html' %}
 
-    {% if user|has_role:'regulacao' %}
+    {% if user|has_role:'tfd' %}
     <div class="row m-2">
 
         <div class="col-md-12">
@@ -149,6 +149,32 @@
                     <h6 class="text-muted">-</h6>
                     {%endif%}
 
+            </div>
+             <hr>
+            <div class="row">
+                 <div class="col-md-6">
+                             <label for="id_carro" class="form-label">Criado Por:</label>
+                             {%if recibo.criado_por%}
+                                 <h6 class="text-muted">{{recibo.criado_por|upper}} - 
+                                    {{recibo.created_at|date:"d/m/Y"|default:'---'}} às
+                                            {{recibo_tfd.created_at|time:"H:i"|default:'---'}}
+
+                                 </h6>
+                              {%else%}
+                                 <h6 class="text-muted">-</h6>
+                             {%endif%}
+                        </div>
+                        <div class="col-md-6">
+                                <label for="id_carro" class="form-label">Alterado Por:</label>
+                                {%if recibo.alterado_por%}
+                                        <h6 class="text-muted">{{recibo_tfd.alterado_por|upper}} - 
+                                            {{recibo.updated_at|date:"d/m/Y"|default:'---'}} às
+                                            {{recibo.updated_at|time:"H:i"|default:'---'}}
+                                        </h6>
+                                {%else%}
+                                    <h6 class="text-muted">-</h6>
+                                {%endif%}
+                         </div>
             </div>
 
 

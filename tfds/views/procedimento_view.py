@@ -17,7 +17,7 @@ class ProcedimentoCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
     context_object_name='form'
     success_url=reverse_lazy('tfds:list-procedimento')
     success_message='Cadastrado com sucesso'
-    allowed_roles=['coordenador','regulacao']  
+    allowed_roles=['coordenador']  
 
 class ProcedimentoUpdateView(HasRoleMixin, SuccessMessageMixin,UpdateView):
     model=CodigoSIA
@@ -26,21 +26,21 @@ class ProcedimentoUpdateView(HasRoleMixin, SuccessMessageMixin,UpdateView):
     context_object_name='form'
     success_url=reverse_lazy('tfds:list-procedimento')
     success_message='Dados atualizado com sucesso'
-    allowed_roles=['coordenador','regulacao'] 
+    allowed_roles=['coordenador'] 
 
 class ProcedimentosListView(HasRoleMixin,ListView):
     model=CodigoSIA
     template_name='procedimento/list_procedimento.html'
     context_object_name='procedimentos'
     ordering='-created_at'
-    allowed_roles=['coordenador','regulacao','secretario']  
+    allowed_roles=['coordenador','tfd','secretario']  
 
 class ProcedimentoSearchListView(HasRoleMixin,ListView):
     model=CodigoSIA
     template_name='procedimento/list_procedimento.html'
     context_object_name='procedimentos'
     paginate_by=1
-    allowed_roles=['coordenador','regulacao','secretario'] 
+    allowed_roles=['coordenador','tfd','secretario'] 
     
     def get_queryset(self,*args, **kwargs):
         qs= super(ProcedimentoSearchListView,self).get_queryset(*args, **kwargs)
@@ -55,7 +55,7 @@ class ProcedimentosDetailView(HasRoleMixin,DetailView):
     model=CodigoSIA
     template_name='procedimento/detail_procedimento.html'
     context_object_name='procedimento'
-    allowed_roles=['coordenador','regulacao','secretario'] 
+    allowed_roles=['coordenador','tfd','secretario'] 
 
 @has_role_decorator(['coordenador'])
 def procedimentosDelete(request,id):

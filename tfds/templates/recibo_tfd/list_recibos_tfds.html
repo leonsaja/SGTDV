@@ -13,7 +13,7 @@
         {% include 'includes/mensagens.html'%}
     </div>
 </div>
-{% if user|has_role:'regulacao' %}
+{% if user|has_role:'tfd' %}
 
   <div class="row">
     <div class="col-md-12">
@@ -113,7 +113,7 @@
                     <a href="{% url 'tfds:detail-recibo_tfd' recibo.id%}" class="pr-2"><i
                         class="fas fa-solid fa-eye"></i></a>
 
-                    {% if user|has_role:'regulacao,secretario' %}
+                    {% if user|has_role:'tfd,secretario' %}
                         {%if recibo.status == '1'%}
                           <a href="{% url 'tfds:edit-recibo_tfd' recibo.id%}" class="pr-1 text-warning"><i
                               class="fas fa-edit"></i></a>
@@ -130,7 +130,7 @@
                     </a>
                     {%endif%}
 
-                    {% if user|has_role:'regulacao,secretario,coordenador' %}
+                    {% if user|has_role:'tfd,secretario,coordenador' %}
 
                         {%if recibo.status == '2'%}
                           <a href="{% url 'tfds:pdf-recibo_tfd' recibo.id%}"  target="_blank" class="pr-2">
