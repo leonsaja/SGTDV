@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ValidationError
 
 from cidadao.models import Cidadao
 from profissionais.models import Profissional
@@ -13,7 +14,10 @@ class Especialidade(models.Model):
     )
     nome=models.CharField(max_length=255, verbose_name='Nome', unique=True)
     tipo=models.CharField(max_length=1, verbose_name='Tipo',choices=TIPO,null=True,blank=False)
-
+    limite_pacientes=models.IntegerField(verbose_name='Limite de Pacientes',null=True,blank=False,
+        default=0, 
+        help_text='Limite de pacientes'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -157,6 +161,9 @@ class PacienteSia(models.Model):
         
     def __str__(self):
         return f'{self.paciente}'
+    
+
+
     
 
     
