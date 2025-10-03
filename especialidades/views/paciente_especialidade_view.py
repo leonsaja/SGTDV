@@ -118,10 +118,8 @@ class PacienteEspecialidadeListView(ListView):
         estabelecimento=self.request.GET.get('estabelecimento',None)
 
 
-        queryset = PacienteEspecialidade.objects.select_related(
-            'paciente', 'especialidade', 'procedimento'
-        ).filter(especialidade__id=especialidade_id).order_by('classificacao','data_pedido')
-
+        queryset = PacienteEspecialidade.objects.select_related('paciente', 'especialidade', 'procedimento').filter(especialidade__id=especialidade_id).order_by('classificacao','data_pedido')
+        
         if buscar:
             buscar=buscar.rstrip()
             queryset = queryset.filter(
@@ -135,9 +133,12 @@ class PacienteEspecialidadeListView(ListView):
             queryset = queryset.filter(status=status)
         
         if estabelecimento:
-            queryset=queryset.filter(paciente__microarea__estabelecimento=estabelecimento)
+            if status:
+                queryset=queryset.filter(paciente__microarea__estabelecimento=estabelecimento)
+            else:
+                queryset=queryset.filter(paciente__microarea__estabelecimento=estabelecimento).filter(Q(status='1') | Q(status='5'))
             
-        return queryset
+        return queryset.order_by('-classificacao', 'data_pedido')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

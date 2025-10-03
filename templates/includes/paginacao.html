@@ -63,8 +63,11 @@
           <span aria-hidden="true">&raquo;</span>
         </a>
       </li>
+     
       {% endif %}
-
   </ul>
+   <div class="float-end p-0">
+       <h6 class="mr-3"><b>Total de Registros:</b> {{ page_obj.paginator.count }}</h6>
+   </div>
 </nav>
 {% endif %}

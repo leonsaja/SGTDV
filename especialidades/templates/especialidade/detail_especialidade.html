@@ -61,6 +61,20 @@
 
                         </div>
                     </div>
+                     <div class="row justify-content-center">
+                    <div class="col-md-8 mt-2">
+                            <label for="id_estabelecimento">Estabelecimento:</label>
+                            <select class="form-select" id="id_estabelecimento" name="estabelecimento">
+                                <option value="" {% if request.GET.estabelecimento == '0' %}selected{% endif %}>Selecione um estabelecimento</option>
+                                <option value="2" {% if request.GET.estabelecimento == '2' %}selected{% endif %}>UNIDADE BASICA DE SAUDE DE JOVENTINO BATISTA</option>
+                                <option value="4" {% if request.GET.estabelecimento == '4' %}selected{% endif %}>UNIDADE BASICA DE SAUDE DE CATAJAS</option>
+                                <option value="5" {% if request.GET.estabelecimento == '5' %}selected{% endif %}>UNIDADE BASICA DE SAUDE DE DONA CARMITA FREITAS DOS SANTOS</option>
+                                <option value="6" {% if request.GET.estabelecimento == '6' %}selected{% endif %}>UNIDADE BASICA DE SAUDE DE SAUDE PARA TODOS</option>
+                                <option value="7" {% if request.GET.estabelecimento == '7' %}selected{% endif %}>UNIDADE BASICA DE SAUDE DE DONA MARIA ROSA BANDEIRA</option>
+                               
+                            </select>
+                        </div>
+                   </div>
                     <div class="row  justify-content-center ">
 
                         <div class="col-md-4 mt-2">
@@ -85,20 +99,7 @@
                         </div>
                         
                     </div>
-                   <div class="row justify-content-center">
-                    <div class="col-md-8 mt-2">
-                            <label for="id_estabelecimento">Estabelecimento:</label>
-                            <select class="form-select" id="id_estabelecimento" name="estabelecimento">
-                                <option value="" {% if request.GET.estabelecimento == '0' %}selected{% endif %}>Selecione um estabelecimento</option>
-                                <option value="2" {% if request.GET.estabelecimento == '2' %}selected{% endif %}>UNIDADE BASICA JOVENTINO BATISTA</option>
-                                <option value="4" {% if request.GET.estabelecimento == '4' %}selected{% endif %}>UNIDADE BASICA DE SAUDE DE CATAJAS</option>
-                                <option value="5" {% if request.GET.estabelecimento == '5' %}selected{% endif %}>UNIDADE BASICA DE SAUDE DONA CARMITA FREITAS DOS SANTOS</option>
-                                <option value="6" {% if request.GET.estabelecimento == '6' %}selected{% endif %}>UNIDADE BASICA DE SAUDE ESF SAUDE PARA TODOS</option>
-                                <option value="7" {% if request.GET.estabelecimento == '7' %}selected{% endif %}>UNIDADE DE SAUDE DONA MARIA ROSA BANDEIRA</option>
-                               
-                            </select>
-                        </div>
-                   </div>
+                  
                    
                     <div class="row justify-content-center ">
                         <div class="col-md-8 mt-3">
