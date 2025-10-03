@@ -66,7 +66,9 @@ class GerarPDFAtendimentoForm(forms.Form):
         ('3','Horário (00:00 - 23:59)'),
         ('4','Horário (23:59 - 00:00)'),
         ('5','Procedimento (A - Z)'),
-        ('5','Procedimento (Z - A)'),
+        ('6','Procedimento (Z - A)'),
+        ('7','Estabelecimento (A - Z)'),
+        ('8','Estabelecimento (Z - A)'),
 
     )
     ordenar=forms.ChoiceField(label='Ordenar por ',required=True, widget=forms.Select,choices=ORDEM)

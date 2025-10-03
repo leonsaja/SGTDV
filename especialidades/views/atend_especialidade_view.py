@@ -203,6 +203,13 @@ def gerar_pdf_atend(request,context):
        
    elif ordenar == '6':
        lista_pacientes=lista_pacientes.order_by('-paciente__procedimento__nome_procedimento')
+   
+   elif ordenar == '7':
+   
+      lista_pacientes=lista_pacientes.order_by('paciente__paciente__microarea__estabelecimento')
+       
+   elif ordenar == '8':
+       lista_pacientes=lista_pacientes.order_by('-paciente__paciente__microarea__estabelecimento')
        
    context = {
         'atendimento_especialidade': atendimento_id,
