@@ -15,6 +15,7 @@ from django.db.models import Q
 from dal import autocomplete
 from io import BytesIO
 from django.utils.decorators import method_decorator
+from django.db import transaction
 
 @method_decorator(has_role_decorator(['regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class AtendimentoEspecialidadeCreateView(SuccessMessageMixin,CreateView):
@@ -41,13 +42,39 @@ class AtendimentoEspecialidadeCreateView(SuccessMessageMixin,CreateView):
   
         formset = self.get_context_data()['formset']      
         if formset.is_valid():
+            
+            especialidade = form.cleaned_data.get('especialidade')
+            total_pacientes = 0
+           
+            for f in formset.cleaned_data:  # formset.cleaned_data contém apenas os formulários que não foram marcados para exclusão
+                if f and not f.get('DELETE'):
+                     total_pacientes += 1
+            
+            saldo_atual = especialidade.limite_pacientes
+            novo_saldo = saldo_atual - total_pacientes
+
+            if novo_saldo < 0:
+                form.add_error(
+                    'especialidade', 
+                    f"Saldo insuficiente! A especialidade '{especialidade.nome}' tem apenas {saldo_atual} vagas disponíveis, mas você está tentando cadastrar {total_pacientes} pacientes."
+                )
+                return self.form_invalid(form)
+
             self.object = form.save(commit=False)
             self.object.criado_por = self.request.user.nome_completo
             self.object.save()
+            
+            # 4. Atualiza o Saldo (diminui o limite de pacientes da Especialidade)
+            especialidade.limite_pacientes = novo_saldo
+            especialidade.save() # Salva a especialidade com o novo limite/saldo
+            
+            # 5. Salva os pacientes (Formset)
             formset.instance = self.object  
             formset.save()
+            
             return super().form_valid(form)
         else:
+            
             return self.form_invalid(form)
         
     def form_invalid(self, form):
@@ -80,16 +107,69 @@ class AtendimentoEspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
     def form_valid(self, form):
         
         formset = self.get_context_data()['formset']      
+     
         if formset.is_valid():
-            self.object = form.save(commit=False)
-            self.object.alterado_por = self.request.user.nome_completo
-            self.object.save()
-            formset.instance = self.object  # Garante que o formset esteja ligado ao novo objeto
-            formset.save()
+                        
+            # Número de pacientes ANTES de salvar (já ligados a este Atendimento)
+            pacientes_antes = self.object.atend_paciente_especialidade.count()
+            
+            # Número de pacientes DEPOIS de salvar (pacientes do formset, exceto os deletados)
+            pacientes_depois = 0
+            for f in formset.cleaned_data:
+                # Conta apenas os formulários que são válidos e NÃO estão marcados para exclusão
+                if f and not f.get('DELETE'):
+                    pacientes_depois += 1
+            
+            # Diferença líquida: Se for positivo, estamos adicionando pacientes (DÉBITO).
+            # Se for negativo, estamos removendo pacientes (CRÉDITO/RESTITUIÇÃO).
+            diferenca_liquida = pacientes_depois - pacientes_antes
+            
+            especialidade = form.cleaned_data.get('especialidade')
+            
+            # --- 2. Validação de Saldo (apenas se estiver adicionando pacientes) ---
+            
+            if diferenca_liquida > 0:
+
+                saldo_atual = especialidade.limite_pacientes
+                novo_saldo_projetado = saldo_atual - diferenca_liquida
+                
+                if novo_saldo_projetado < 0:
+                    # Saldo insuficiente para cobrir a diferença
+                    form.add_error(
+                        'especialidade', 
+                        f"Saldo insuficiente! Você está tentando adicionar {diferenca_liquida} pacientes, mas a especialidade '{especialidade.nome}' tem apenas {saldo_atual} vagas disponíveis."
+                    )
+                    # Retorna form_invalid para reexibir o formulário com o erro
+                    return self.form_invalid(form)
+
+            # --- 3. Executar o Salvamento e Atualização (Transação) ---
+            
+            # Usar uma transação garante que o atendimento E o saldo sejam atualizados juntos.
+            with transaction.atomic():
+                # Salva o Atendimento (principal)
+                self.object = form.save(commit=False)
+                self.object.alterado_por = self.request.user.nome_completo # Atualiza o campo de alteração
+                self.object.save()
+                
+                # Salva os pacientes (Formset)
+                formset.instance = self.object  
+                formset.save()
+                
+                # Atualiza o Saldo da Especialidade
+                # O ajuste é sempre a 'diferenca_liquida':
+                # - Se positivo, subtrai (débito).
+                # - Se negativo, soma (crédito/restituição).
+                
+                # Exemplo: Saldo 10. Antes: 5 pacientes. Depois: 7 pacientes. Diferença: +2. Novo Saldo: 10 - 2 = 8.
+                # Exemplo: Saldo 10. Antes: 5 pacientes. Depois: 3 pacientes. Diferença: -2. Novo Saldo: 10 - (-2) = 12.
+                
+                especialidade.limite_pacientes -= diferenca_liquida 
+                especialidade.save()
+            
+            # Retorna o sucesso
             return super().form_valid(form)
         else:
             return self.form_invalid(form)
-            
     def form_invalid(self, form):
         context = self.get_context_data()
         formset = context['formset']
@@ -162,7 +242,6 @@ class PacienteAutocomplete(autocomplete.Select2QuerySetView):
             qs = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(Q(status='1')|Q(status='4')|Q(status='5'),especialidade__id=especialidade_id).order_by('paciente__nome_completo')
         else:
             return PacienteEspecialidade.objects.none()
-        print('teste')
         if self.q:
             self.q=self.q.rstrip()
             qs = qs.filter(

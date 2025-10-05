@@ -34,7 +34,7 @@ class PacienteSiaForm(forms.ModelForm):
         self.fields['status'].widget.attrs.update({'class':'form-control'})
         self.parent_instance = kwargs.pop('parent_instance', None) 
 
-
+"""
 
      def clean(self):
         cleaned_data = super().clean()
@@ -89,6 +89,6 @@ class PacienteSiaForm(forms.ModelForm):
                 # raise forms.ValidationError(mensagem_erro)
                 
         return cleaned_data
-
+"""
 
 AtendPacienteSet=inlineformset_factory(AtendimentoEspecialidade,PacienteSia,form=PacienteSiaForm,extra=20, min_num=1,validate_min=True)
