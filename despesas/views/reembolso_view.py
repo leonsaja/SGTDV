@@ -7,8 +7,8 @@ from weasyprint import HTML
 from django.template.loader import render_to_string
 from django.db.models import Q
 from io import BytesIO
-from despesas.forms.reembolso_form import ReembolFormSet,DescricaoReembolsoForm
-from despesas.models import Diaria, Reembolso
+from despesas.forms.reembolso_form import ReembolFormSet,ReembolsoPrincipalForm
+from despesas.models import Diaria, Reembolso,ReembolsoPrincipal
 from django.contrib.messages import constants
 from django.contrib import messages
 from django.utils.decorators import method_decorator
@@ -21,10 +21,14 @@ def reembolso_create(request,id):
     
     if not diaria:
         return Http404()
-    
+    try:
+        reembolso = ReembolsoPrincipal.objects.get(diaria=diaria)
+    except ReembolsoPrincipal.DoesNotExist:
+        reembolso = ReembolsoPrincipal(diaria=diaria)
+        
     if request.method == 'POST':
-        formset=ReembolFormSet(request.POST,instance=diaria,prefix='reembolso')
-        form=DescricaoReembolsoForm(request.POST or None,instance=diaria,prefix='reembolso_diaria')
+        formset=ReembolFormSet(request.POST,instance=reembolso,prefix='reembolso')
+        form=ReembolsoPrincipalForm(request.POST or None,instance=reembolso,prefix='reembolso_diaria')
 
         if formset.is_valid() and form.is_valid():
             form.save()
@@ -32,8 +36,8 @@ def reembolso_create(request,id):
             messages.add_message(request,constants.SUCCESS,'cadastro realizado com sucesso')
             return redirect('despesas:list-reembolso')
 
-    formset=ReembolFormSet(request.POST or None,instance=diaria,prefix='reembolso')
-    form=DescricaoReembolsoForm(request.POST or None,instance=diaria,prefix='reembolso_diaria')
+    formset=ReembolFormSet(request.POST or None,instance=reembolso,prefix='reembolso')
+    form=ReembolsoPrincipalForm(request.POST or None,instance=reembolso,prefix='reembolso_diaria')
     
     return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset,'form':form})
 
@@ -43,20 +47,23 @@ def reembolso_update(request, id):
     
    if not diaria:
         return Http404()
-    
+   try:
+        reembolso = ReembolsoPrincipal.objects.get(diaria=diaria)
+   except ReembolsoPrincipal.DoesNotExist:
+        reembolso = ReembolsoPrincipal(diaria=diaria)
+        
    if request.method == 'POST':
-        formset=ReembolFormSet(request.POST,instance=diaria,prefix='reembolso')
-        form=DescricaoReembolsoForm(request.POST or None,instance=diaria,prefix='reembolso_diaria')
+        formset=ReembolFormSet(request.POST,instance=reembolso,prefix='reembolso')
+        form=ReembolsoPrincipalForm(request.POST or None,instance=reembolso,prefix='reembolso_diaria')
 
         if formset.is_valid() and form.is_valid():
-            form.save()
             formset.save()
             messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
             return redirect('despesas:list-reembolso')
         
 
-   formset=ReembolFormSet(request.POST or None,instance=diaria,prefix='reembolso')
-   form=DescricaoReembolsoForm(request.POST or None,instance=diaria,prefix='reembolso_diaria')
+   formset=ReembolFormSet(request.POST or None,instance=reembolso,prefix='reembolso')
+   form=ReembolsoPrincipalForm(request.POST or None,instance=reembolso,prefix='reembolso_diaria')
 
    return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset,'form':form})
 

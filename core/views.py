@@ -58,7 +58,7 @@ def home(request):
     
    context['labels_tfd'] = labels_tfd
    context['valores_tfd'] =  valores_tfd 
-   
+   """
    #Gasto com Diárias
    gastos_diarias_por_mes = Diaria.objects.annotate(
        mes=TruncMonth('data_diaria')
@@ -69,7 +69,7 @@ def home(request):
    # A data do reembolso está indiretamente ligada à Diaria,
    # então usamos a data da Diaria
    gastos_reembolsos_por_mes = Reembolso.objects.annotate(
-       mes=TruncMonth('diaria__data_diaria')
+       mes=TruncMonth('reembolso_principal__diaria__data_diaria')
    ).values('mes').annotate(
        total_reembolsos=Sum('valor_desp')
    ).order_by('mes')   
@@ -94,7 +94,7 @@ def home(request):
   
    context['labels']= labels
    context['valores_diarias']= valores_diarias
-   context['valores_reembolsos']=valores_reembolsos
+   context['valores_reembolsos']=valores_reembolsos"""
     
    return render(request,'home.html',context)
 
