@@ -61,12 +61,12 @@ def relatorio_diaria_pdf(request,context):
     for d in diarias:
         total+=d.total
 
-        for r in d.reembolsos.all():
-            if r.valor_desp:
-                total_reembolsos+=r.valor_desp
+        for reem in d.reembolso_principal.all():
+            for r in reem.reembolsos.all():
+                if r.valor_desp:
+                    total_reembolsos+=r.valor_desp
     
 
-    
     context['total_diarias']=total
     context['total_reembolsos']=total_reembolsos
     

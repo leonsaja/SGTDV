@@ -57,6 +57,7 @@ def reembolso_update(request, id):
         form=ReembolsoPrincipalForm(request.POST or None,instance=reembolso,prefix='reembolso_diaria')
 
         if formset.is_valid() and form.is_valid():
+            form.save()
             formset.save()
             messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
             return redirect('despesas:list-reembolso')
@@ -108,7 +109,8 @@ class ReembolsoDetailView(DetailView):
         context = super().get_context_data(*args, **kwargs)
         diaria=Diaria.objects.select_related('profissional').get(id=self.kwargs['pk'])
         context['diaria']=diaria
-        context['reembolsos'] =Reembolso.objects.select_related('diaria').filter(diaria__id=diaria.id)
+        context['reem_principal']=ReembolsoPrincipal.objects.select_related('diaria').get(diaria=diaria)
+        context['reembolsos'] =Reembolso.objects.select_related('reembolso_principal').filter(reembolso_principal__diaria__id=diaria.id)
         
         return context
 
@@ -119,7 +121,8 @@ def reembolso_pdf(request,id):
     User=get_user_model()
    
     context['diaria']=diaria
-    context['reembolsos'] =diaria.reembolsos.all().select_related('diaria')
+    context['reem_principal']=ReembolsoPrincipal.objects.select_related('diaria').get(diaria=diaria)
+    context['reembolsos'] =Reembolso.objects.select_related('reembolso_principal').filter(reembolso_principal__diaria__id=diaria.id)
     context['profissional']=User.objects.filter(is_active=True).filter(perfil='5').first()
     
     buffer = BytesIO()

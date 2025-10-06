@@ -58,7 +58,7 @@ def home(request):
     
    context['labels_tfd'] = labels_tfd
    context['valores_tfd'] =  valores_tfd 
-   """
+   
    #Gasto com Diárias
    gastos_diarias_por_mes = Diaria.objects.annotate(
        mes=TruncMonth('data_diaria')
@@ -94,7 +94,7 @@ def home(request):
   
    context['labels']= labels
    context['valores_diarias']= valores_diarias
-   context['valores_reembolsos']=valores_reembolsos"""
+   context['valores_reembolsos']=valores_reembolsos
     
    return render(request,'home.html',context)
 

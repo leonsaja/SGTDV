@@ -119,9 +119,9 @@
             <br>
             <div class="row">
             <div class="col-md-6">
-                {%if diaria.descricao_reembolso%}
+                {%if reem_principal.descricao_reembolso%}
                     <label for="id_descricao_reembolso" class="form-label">Descrição do Reembolso:</label>
-                    <h6 class="text-muted"> {{diaria.descricao_reembolso|upper}}</h6>
+                    <h6 class="text-muted"> {{reem_principal.descricao_reembolso|upper}}</h6>
                        
                 {%else%}
                  <h6 class="text-muted">-</h6>
@@ -129,9 +129,9 @@
             </div>
                     <div class="col-md-6">
                         <label for="id_descricao_reembolso" class="form-label">Data da última nota:</label>
-                        {%if diaria.data_ult_nota_reembolso%}
+                        {%if reem_principal.data_ult_nota_reembolso%}
                          
-                            <h6 class="text-muted">  {{diaria.data_ult_nota_reembolso|date:"d/m/Y"|default:'---'}}</h6>
+                            <h6 class="text-muted">  {{reem_principal.data_ult_nota_reembolso|date:"d/m/Y"|default:'---'}}</h6>
                             
                         {%else%}
                         <h6 class="text-muted">-</h6>

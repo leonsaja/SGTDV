@@ -41,8 +41,6 @@ class Diaria(models.Model):
     status=models.CharField(verbose_name='Avaliar',max_length=1,choices=STATUS,default='1')
     criado_por=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
     aprovado_por=models.CharField(verbose_name='Aprovado por ',max_length=200,null=True,blank=True)
-    descricao_reembolso=models.TextField(verbose_name='Descrição Reembolso',null=True,blank=True)
-    data_ult_nota_reembolso=models.DateField(verbose_name='Data última nota',null=True,blank=False,help_text='Colocar data última nota')
     alterado_por=models.CharField(verbose_name='Alterado por ', max_length=200,null=True,blank=True)
 
     def valor_total(self):
@@ -64,7 +62,7 @@ class Diaria(models.Model):
         return f'{self.profissional}'
     
     def total_desp(self):
-      items=Reembolso.objects.filter(diaria=self)
+      items=Reembolso.objects.filter(reembolso_principal__diaria=self)
       total=0
 
       if items:
@@ -104,7 +102,7 @@ class Diaria(models.Model):
       return super().save(*args, **kwargs)
 
     def total_movimento(self):
-      items=Reembolso.objects.filter(diaria=self)
+      items=Reembolso.objects.filter(reembolso_principal=self)
       total=0
 
       if items:
@@ -166,7 +164,6 @@ class Reembolso(models.Model):
     descricao=models.ForeignKey(DescricaoReembolso,verbose_name='Descrição',on_delete=models.PROTECT,null=True,blank=False)
     valor_desp=models.DecimalField(max_digits=8,decimal_places=2,verbose_name= 'Valor',null=True,blank=False)
     reembolso_principal=models.ForeignKey(ReembolsoPrincipal,on_delete=models.PROTECT,related_name='reembolsos',null=True,blank=False)
-    diaria=models.ForeignKey(Diaria,on_delete=models.PROTECT,related_name='reembolsos',null=False,blank=False)
     obs=models.CharField(verbose_name='OBSERVAÇÃO', null=True,blank=True, max_length=200)
    
     created_at = models.DateTimeField(auto_now_add=True)

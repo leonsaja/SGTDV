@@ -74,7 +74,7 @@
   <div class="row">
     <div class="col-md-12 m-2">
       <p class="m-2">
-        <b>DESCRIÇÃO: </b>{{diaria.descricao|upper}} {{diaria.descricao_reembolso|upper}}
+        <b>DESCRIÇÃO: </b>{{diaria.descricao|upper}} {{reem_principal.descricao_reembolso|upper}}
       </p>
     </div>
   </div>
@@ -145,8 +145,8 @@
 <p class="text-center pt-2"><b> AUTORIZAÇÃO DA DESPESA</b></p>
 <p class="m-0 p-2"><b>DATA: </b>
   
-  {%if diaria.data_ult_nota_reembolso %}
-    {{diaria.data_ult_nota_reembolso|date:"d/m/Y"|default:'---'}}
+  {%if reem_principal.data_ult_nota_reembolso %}
+    {{reem_principal.data_ult_nota_reembolso|date:"d/m/Y"|default:'---'}}
   
   {%else%}
        {{diaria.data_diaria|date:"d/m/Y"|default:'---'}}

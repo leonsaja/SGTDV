@@ -43,7 +43,7 @@ class AtendimentoEspecialidadeCreateView(SuccessMessageMixin,CreateView):
         formset = self.get_context_data()['formset']      
         if formset.is_valid():
             
-            especialidade = form.cleaned_data.get('especialidade')
+            """especialidade = form.cleaned_data.get('especialidade')
             total_pacientes = 0
            
             for f in formset.cleaned_data:  # formset.cleaned_data contém apenas os formulários que não foram marcados para exclusão
@@ -58,15 +58,15 @@ class AtendimentoEspecialidadeCreateView(SuccessMessageMixin,CreateView):
                     'especialidade', 
                     f"Saldo insuficiente! A especialidade '{especialidade.nome}' tem apenas {saldo_atual} vagas disponíveis, mas você está tentando cadastrar {total_pacientes} pacientes."
                 )
-                return self.form_invalid(form)
+                return self.form_invalid(form)"""
 
             self.object = form.save(commit=False)
             self.object.criado_por = self.request.user.nome_completo
             self.object.save()
             
             # 4. Atualiza o Saldo (diminui o limite de pacientes da Especialidade)
-            especialidade.limite_pacientes = novo_saldo
-            especialidade.save() # Salva a especialidade com o novo limite/saldo
+            #especialidade.limite_pacientes = novo_saldo
+            #especialidade.save() # Salva a especialidade com o novo limite/saldo
             
             # 5. Salva os pacientes (Formset)
             formset.instance = self.object  
@@ -110,7 +110,7 @@ class AtendimentoEspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
      
         if formset.is_valid():
                         
-            # Número de pacientes ANTES de salvar (já ligados a este Atendimento)
+           """ # Número de pacientes ANTES de salvar (já ligados a este Atendimento)
             pacientes_antes = self.object.atend_paciente_especialidade.count()
             
             # Número de pacientes DEPOIS de salvar (pacientes do formset, exceto os deletados)
@@ -140,12 +140,12 @@ class AtendimentoEspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
                         f"Saldo insuficiente! Você está tentando adicionar {diferenca_liquida} pacientes, mas a especialidade '{especialidade.nome}' tem apenas {saldo_atual} vagas disponíveis."
                     )
                     # Retorna form_invalid para reexibir o formulário com o erro
-                    return self.form_invalid(form)
+                    return self.form_invalid(form)"""
 
             # --- 3. Executar o Salvamento e Atualização (Transação) ---
             
             # Usar uma transação garante que o atendimento E o saldo sejam atualizados juntos.
-            with transaction.atomic():
+           with transaction.atomic():
                 # Salva o Atendimento (principal)
                 self.object = form.save(commit=False)
                 self.object.alterado_por = self.request.user.nome_completo # Atualiza o campo de alteração
@@ -163,11 +163,11 @@ class AtendimentoEspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
                 # Exemplo: Saldo 10. Antes: 5 pacientes. Depois: 7 pacientes. Diferença: +2. Novo Saldo: 10 - 2 = 8.
                 # Exemplo: Saldo 10. Antes: 5 pacientes. Depois: 3 pacientes. Diferença: -2. Novo Saldo: 10 - (-2) = 12.
                 
-                especialidade.limite_pacientes -= diferenca_liquida 
-                especialidade.save()
+                #especialidade.limite_pacientes -= diferenca_liquida 
+                #especialidade.save()
             
             # Retorna o sucesso
-            return super().form_valid(form)
+                return super().form_valid(form)
         else:
             return self.form_invalid(form)
     def form_invalid(self, form):
