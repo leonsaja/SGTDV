@@ -77,7 +77,7 @@ class ReembolsoListView(ListView):
    queryset=Diaria.objects.select_related('profissional').filter(reembolso=1)
    ordering='-created_at'
    paginate_by=10
-
+   
 @method_decorator(has_role_decorator(['digitador','coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
 class ReembolsoSearchListView(ListView):
    model=Diaria
@@ -109,7 +109,11 @@ class ReembolsoDetailView(DetailView):
         context = super().get_context_data(*args, **kwargs)
         diaria=Diaria.objects.select_related('profissional').get(id=self.kwargs['pk'])
         context['diaria']=diaria
-        context['reem_principal']=ReembolsoPrincipal.objects.select_related('diaria').get(diaria=diaria)
+        try:
+            reembolso = ReembolsoPrincipal.objects.select_related('diaria').get(diaria=diaria)
+        except ReembolsoPrincipal.DoesNotExist:
+            reembolso = ReembolsoPrincipal(diaria=diaria)
+        context['reem_principal']=reembolso
         context['reembolsos'] =Reembolso.objects.select_related('reembolso_principal').filter(reembolso_principal__diaria__id=diaria.id)
         
         return context
@@ -121,7 +125,12 @@ def reembolso_pdf(request,id):
     User=get_user_model()
    
     context['diaria']=diaria
-    context['reem_principal']=ReembolsoPrincipal.objects.select_related('diaria').get(diaria=diaria)
+    try:
+        reembolso = ReembolsoPrincipal.objects.select_related('diaria').get(diaria=diaria)
+    except ReembolsoPrincipal.DoesNotExist:
+        reembolso = ReembolsoPrincipal(diaria=diaria)
+        
+    context['reem_principal']=reembolso
     context['reembolsos'] =Reembolso.objects.select_related('reembolso_principal').filter(reembolso_principal__diaria__id=diaria.id)
     context['profissional']=User.objects.filter(is_active=True).filter(perfil='5').first()
     

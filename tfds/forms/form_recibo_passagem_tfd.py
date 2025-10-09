@@ -80,11 +80,12 @@ class ReciboPassagemTFDForm(forms.ModelForm):
         if qs.exists():
             self.add_error('paciente','Este paciente já possui um recibo passagem com essa data.')
 
-        if  data_recibo < limite_minimo:
-            if not self.instance.pk:
-                self.add_error(
-                    f"data_recibo","A data do recibo não pode ser anterior a 1 dias atrás."
-                )
+        if data_recibo:
+            if  data_recibo < limite_minimo:
+                if not self.instance.pk:
+                    self.add_error(
+                        f"data_recibo","A data do recibo não pode ser anterior a 1 dias atrás."
+                    )
 
 
         if tem_acompanhante == '1':
