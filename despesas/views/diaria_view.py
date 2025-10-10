@@ -5,11 +5,10 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from weasyprint import HTML
-from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
 from despesas.forms.diaria_form import DiariaForm,DiariaStatusForm
 from django.contrib.messages.views import SuccessMessageMixin
-from ..models import Diaria, Reembolso
+from ..models import Diaria, Reembolso,ReembolsoPrincipal
 from django.contrib.messages import constants
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -103,7 +102,14 @@ class DiariaDetailView(DetailView):
         context = super().get_context_data(*args, **kwargs)
         diaria=Diaria.objects.select_related('profissional').get(id=self.kwargs['pk'])
         context['diaria']=diaria
-        context['reembolsos'] =Reembolso.objects.select_related('diaria').filter(diaria__id=diaria.id)
+
+        try:
+            reembolso = ReembolsoPrincipal.objects.select_related('diaria').get(diaria=diaria)
+        except ReembolsoPrincipal.DoesNotExist:
+            reembolso = ReembolsoPrincipal(diaria=diaria)
+
+        context['reem_principal'] =reembolso
+        context['reembolsos'] =Reembolso.objects.select_related('reembolso_principal').filter(reembolso_principal__diaria__id=diaria.id)
         context['form']=DiariaStatusForm(self.request.POST or None,instance=diaria)
         return context
 

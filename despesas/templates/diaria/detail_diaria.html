@@ -138,15 +138,28 @@
         </fieldset>
 
         <div class="row">
+            <br>
             <hr>
             <div class="col-md-7">
                 <label for="id_descricao_reembolso"
                     class="form-label"><h6><b>Descrição do
                             Reembolso:</b></h6></label>
-                {%if diaria.descricao_reembolso%}
+                {%if reem_principal.descricao_reembolso%}
 
                 <h6 class="text-muted">
-                    {{diaria.descricao_reembolso|upper}}</h6>
+                    {{reem_principal.descricao_reembolso|upper}}</h6>
+
+                {%else%}
+                <h6 class="text-muted">-</h6>
+                {%endif%}
+            </div>
+             <div class="col-md-5">
+                <label for="id_data_ult_nota_reembolso"
+                    class="form-label"><h6><b>Data da ultima nota:</b></h6></label>
+                {%if reem_principal.data_ult_nota_reembolso%}
+
+                <h6 class="text-muted">
+                    {{reem_principal.data_ult_nota_reembolso|upper}}</h6>
 
                 {%else%}
                 <h6 class="text-muted">-</h6>

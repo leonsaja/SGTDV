@@ -251,10 +251,6 @@ class PacienteAutocomplete(autocomplete.Select2QuerySetView):
 
         return qs
 
-
-  
-
-
 def gerar_pdf_atend(request,context):
 
    atendimento_id=context['atendimento_especialidade']
@@ -265,7 +261,6 @@ def gerar_pdf_atend(request,context):
 
 
    if ordenar == '1':
-       print('teste')
        lista_pacientes=lista_pacientes.order_by('paciente__paciente__nome_completo')
 
    elif ordenar == '2':
@@ -313,7 +308,6 @@ def gerar_pdf_atend(request,context):
 
    return response
 
-
 @has_role_decorator(['regulacao','coordenador','recepcao','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))  
 def atend_especialidade_pdf(request, id):
     context={}
@@ -328,7 +322,6 @@ def atend_especialidade_pdf(request, id):
             if form.is_valid():
                 context['ordenar']=form.cleaned_data.get('ordenar')
                 
-                print('tipo',context['ordenar'])
             
             return gerar_pdf_atend(request,context)
             
