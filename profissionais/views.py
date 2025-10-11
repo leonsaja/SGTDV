@@ -11,8 +11,9 @@ from despesas.models import Diaria
 from profissionais.forms.form_profissional import ProfissionalForm
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
+import re
 
-
+from dal import autocomplete
 class ProfissionalCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
     
     model=Profissional
@@ -72,6 +73,27 @@ class ProfissionalSearchListView(HasRoleMixin,ListView):
         
         return qs
 
+class ProfissionalAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        
+        if not self.request.user.is_authenticated:
+            return Profissional.objects.none()
+
+        qs = Profissional.objects.select_related('estabelecimento').all()
+        
+        if self.q:
+            cpf_cns_limpo = re.sub(r'\D', '', self.q)
+
+            if len(cpf_cns_limpo) == 11:
+                qs = qs.filter(cpf=cpf_cns_limpo)
+            elif len(cpf_cns_limpo) == 15:
+                qs = qs.filter(cns=cpf_cns_limpo)
+            else:
+                self.q=self.q.rstrip()
+                qs = qs.filter(nome_completo__unaccent__icontains=self.q)
+                
+        return qs
+      
 @has_role_decorator(['coordenador'])
 def profissional_delete(request, id):
     profissional=get_object_or_404(Profissional,id=id)

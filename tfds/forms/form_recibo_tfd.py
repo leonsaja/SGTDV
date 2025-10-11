@@ -43,6 +43,7 @@ class ReciboTFDForm(forms.ModelForm):
         widgets = {
             'paciente': autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
             'acompanhante':autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
+            'especialidade':autocomplete.ModelSelect2(url='especialidades:especialidade-autocomplete'),
         }
 
     def clean_cns(self):

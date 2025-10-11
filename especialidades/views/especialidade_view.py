@@ -14,6 +14,7 @@ from especialidades.forms.form_especialidade import EspecialidadeForm
 from especialidades.models import Especialidade, PacienteEspecialidade
 from django.db.models import ProtectedError, Q
 from django.utils.decorators import method_decorator
+from dal import autocomplete
 
 @method_decorator(has_role_decorator(['regulacao','recepcao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class EspecialidadeCreateView(SuccessMessageMixin,CreateView):
@@ -75,6 +76,22 @@ class EspecialidadeDetailView(DetailView):
 
         return context
      
+     
+     
+class EspecialidadeAutocomplete(autocomplete.Select2QuerySetView):
+    
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return Especialidade.objects.none()
+        
+        qs = Especialidade.objects.all()
+        
+        if self.q:
+            self.q=self.q.rstrip()
+            qs = qs.filter(nome__unaccent__icontains=self.q)
+
+        return qs
+
 @has_role_decorator(['coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def especialidadeDelete(request, id):
     especialidade=Especialidade.objects.get(id=id)

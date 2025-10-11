@@ -10,7 +10,6 @@ from transportes.models import PassageiroViagem,RegistroTransporte
 from django.contrib.messages import constants
 from django.contrib import messages
 from rolepermissions.decorators import has_role_decorator
-from rolepermissions.mixins import HasRoleMixin
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required

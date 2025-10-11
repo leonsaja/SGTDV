@@ -5,6 +5,7 @@ from especialidades.models import AtendimentoEspecialidade, PacienteEspecialidad
 from django.utils import timezone
 from datetime import date,timedelta
 from datetime import date, timedelta
+from dal import autocomplete
 
 class AtendimentoEspecialidadeForm(forms.ModelForm):
 
@@ -25,6 +26,10 @@ class AtendimentoEspecialidadeForm(forms.ModelForm):
         
         model=AtendimentoEspecialidade
         exclude=('criado_por','alterado_por',)
+        widgets = {
+            
+            'especialidade':autocomplete.ModelSelect2(url='especialidades:especialidade-autocomplete'),
+        }
 
     def clean(self):
         

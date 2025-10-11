@@ -17,7 +17,7 @@ urlpatterns = [
     path('list/especialidades/',  view_especialidade.EspecialidadeListView.as_view(), name='list-especialidade' ),  
     path('detail/<int:pk>/especialidade/',  view_especialidade.EspecialidadeDetailView.as_view(), name='detail-especialidade' ),  
     path('delete/<int:id>/especialidade/',  view_especialidade.especialidadeDelete, name='del-especialidade' ),  
-
+    path('especialidade-autocomplete/',view_especialidade.EspecialidadeAutocomplete.as_view(),name='especialidade-autocomplete'),
 
     #Paciente Especialidade
     path('<int:id>/create/paciente_especialidade', view_paciente_especialidade.PacienteEspecialidadeCreateView.as_view(), name='add-paciente-especialidade'),  
@@ -27,10 +27,7 @@ urlpatterns = [
     path('delete/<int:id>/paciente_especialidade', view_paciente_especialidade.pacienteEspecialidade_delete, name='del-paciente-especialidade' ),  
     path('buscar/paciente_especialidade', busca_paciente_especialidades.PacienteEspecialidadeSearchView.as_view(), name='buscar-paciente-especialidade' ),  
 
-
-
     #Atendimento Paciente especialidade
-
     path('create/atendimento', atend_especialidade_view.AtendimentoEspecialidadeCreateView.as_view(), name='add-atend_especialidade' ),
     path('update/<int:pk>/atendimento', atend_especialidade_view.AtendimentoEspecialidadeUpdateView.as_view(), name='edit-atend_especialidade' ),
     path('list/atendimentos', atend_especialidade_view.AtendEspecialidadeListView.as_view(), name='list-atend_especialidade' ),
@@ -40,12 +37,13 @@ urlpatterns = [
     path('paciente-autocomplete/',atend_especialidade_view.PacienteAutocomplete.as_view(),name='paciente-autocomplete'),
 
     #Procedimento de Especialidades
-
     path('create/procedimento', view_procedimento.ProcedEspecialidadeCreateView.as_view(), name='add-proced_especialidade' ),
     path('update/<int:pk>/procedimento',view_procedimento.ProcedEspecialidadeUpdateView.as_view(), name='edit-proced_especialidade' ),
     path('list/procedimentos/',view_procedimento.ProcedEspecialidadeListView .as_view(), name='list-proced_especialidade' ),
     path('detail/<int:pk>/procedimento',view_procedimento.ProcedEspecialidadeDetail .as_view(), name='detail-proced_especialidade' ),
     path('delete/<int:id>/procedimento/',  view_procedimento.especialidadeDelete, name='del-proced_especialidade' ),  
+    path('procedimento-autocomplete/',view_procedimento.ProcedimentoAutocomplete.as_view(),name='procedimento-autocomplete'),
+
     
 
 ]   

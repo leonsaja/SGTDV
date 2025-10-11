@@ -12,7 +12,7 @@ from rolepermissions.decorators import has_role_decorator
 from django.contrib.messages.views import SuccessMessageMixin
 from especialidades.forms.form_proced_especialidade import ProcedEspecialidadeForm
 from especialidades.models import ProcedimentosEspecialidade
-
+from dal import autocomplete
 
 class ProcedEspecialidadeCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
     model=ProcedimentosEspecialidade
@@ -58,6 +58,21 @@ class ProcedEspecialidadeDetail(HasRoleMixin,DetailView):
     template_name='procedimento_especialidade/detail_proced_especialidade.html'
     context_object_name='procedimento'
     allowed_roles=['regulacao','recepcao','coordenador','secretario']
+    
+    
+class ProcedimentoAutocomplete(autocomplete.Select2QuerySetView):
+    
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return ProcedimentosEspecialidade.objects.none()
+        
+        qs = ProcedimentosEspecialidade.objects.all()
+        
+        if self.q:
+            self.q=self.q.rstrip()
+            qs = qs.filter(nome_procedimento__unaccent__icontains=self.q)
+
+        return qs
     
 @has_role_decorator(['coordenador'])
 def especialidadeDelete(request, id):

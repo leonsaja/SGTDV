@@ -3,7 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django_select2 import forms as s2forms
 from despesas.models import Diaria
-
+from dal import autocomplete
 class DiariaForm(forms.ModelForm):
 
     descricao=forms.CharField(label='Descrição', widget=forms.Textarea( attrs={'placeholder':'Digite a descrição da viagem...','rows':3,'cols':10}))
@@ -15,7 +15,7 @@ class DiariaForm(forms.ModelForm):
         model=Diaria
         exclude=('status','criado_por','alterado_por','aprovado_por','total','descricao_rembolso','data_ult_nota_reembolso',)
         widgets = {
-            'profissional':s2forms.Select2Widget(),
+            'profissional':autocomplete.ModelSelect2(url='profissionais:profissional-autocomplete'),
         }
 
     def clean_qta_diaria(self):

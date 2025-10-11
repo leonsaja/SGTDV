@@ -23,7 +23,7 @@ class PacienteEspecialidadeForm(forms.ModelForm):
         exclude=('especialidade',)
         widgets = {
             'paciente': autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
-            'procedimento':s2forms.Select2Widget(),
+            'procedimento':autocomplete.ModelSelect2(url='especialidades:procedimento-autocomplete'),
            
         }
     def clean_data_pedido(self):
