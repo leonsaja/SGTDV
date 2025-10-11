@@ -159,13 +159,14 @@
                 {%if reem_principal.data_ult_nota_reembolso%}
 
                 <h6 class="text-muted">
-                    {{reem_principal.data_ult_nota_reembolso|upper}}</h6>
+                    {{reem_principal.data_ult_nota_reembolso|date:"d/m/Y"|default:'---'}}</h6>
 
                 {%else%}
                 <h6 class="text-muted">-</h6>
                 {%endif%}
             </div>
             <div class="col-md-5">
+                <br>
                 {% if user|has_role:'secretario' %}
 
                 <form action="{% url 'despesas:status-diaria'  diaria.id %}"

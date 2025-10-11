@@ -6,13 +6,13 @@
 <style>
     body {
 
-        font-size: 12px;
+        font-size: 11px;
         font-family: Arial, Helvetica, sans-serif;
     }
 
     td {
 
-        padding: 2px;
+        padding: 1px;
         text-align: center
     }
 
@@ -23,7 +23,7 @@
 
     table {
 
-        font-size: 12px;
+        font-size: 11px;
     }
 
     p {
@@ -39,13 +39,13 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6" style="text-align: end;">
-            <p class="m-0">
+            <p class="mt-2">
                 <b>Nº: </b> {{n_tfd}}
             </p>
         </div>
 
     </div>
-    <div class="bordas">
+    <div class="bordas pb-2">
         <div class="row">
             <div class="col-md-6 p-2 ">
                 <p class="p-1"><b>NOME DO PACIENTE: </b>
@@ -211,7 +211,7 @@
     </div>
     <div class="linha"></div>
 </div>
-<h3 class="text-center pt-3"><b>TABELA DE PROCEDIMENTOS</b></h3>
+<h3 class="text-center pt-2"><b>TABELA DE PROCEDIMENTOS</b></h3>
 <table class="table mt-3">
 
     <thead>
@@ -286,7 +286,7 @@
 </div>
 
 <div class="bordas">
-    <p class="text-center pt-2"><b> COMPROVANTE DE
+    <p class="text-center pt-1"><b> COMPROVANTE DE
             RECEBIMENTO</b></p>
     <p class="paragrafo">
 
@@ -296,7 +296,7 @@
     <p class="m-0 p-2"><b>DATA:</b>
         ____/___/____</p>
     <p class="text-center">______________________________________</p>
-    <p class=" text-center pb-2"><b>{{recibo_tfd.paciente.nome_completo|upper}}</b></p>
+    <p class=" text-center pb-1"><b>{{recibo_tfd.paciente.nome_completo|upper}}</b></p>
 </div>
 
 <div class="pt-2">
