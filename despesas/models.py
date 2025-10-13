@@ -133,7 +133,7 @@ class DescricaoReembolso(models.Model):
    def __str__(self):
         return f'{self.descricao}'
    class Meta:
-        ordering = ["-descricao"]
+        ordering = ["descricao"]
 
 class ReembolsoPrincipal(models.Model):
 

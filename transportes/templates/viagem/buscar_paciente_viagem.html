@@ -85,6 +85,7 @@
                                     <td>N:</td>
                                     <th>Paciente</th>
                                     <th>CNS</th>
+                                    <th>Placa</th>
                                     <th>Destino</th>
                                     <th>Data da Viagem</th>
                                     <th>Status da Viagem</th>
@@ -98,6 +99,7 @@
                                     <td class="text-center">{{ p.id }} </td>
                                     <td>{{p.paciente.nome_completo}}</td>
                                     <td>{{p.paciente.form_cns}}</td>
+                                    <td>{{p.viagem.carro}}</td>
                                     <td>{{p.viagem.destino_viagem}}</td>
                                     <td>{{p.viagem.data_viagem|date:"d/m/Y"|default:'---' }}</td>
                                      <td>{{p.viagem.get_status_display}}</td>

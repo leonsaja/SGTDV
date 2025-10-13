@@ -1,24 +1,17 @@
-from django.http import JsonResponse
 from django.shortcuts import render
 import locale
 from django.db.models import Q
-from django.http import JsonResponse
-import json
 from cidadao.models import Cidadao
 from despesas.models import Diaria,Reembolso
-from especialidades.models import Especialidade, PacienteEspecialidade
+from especialidades.models import Especialidade
 from tfds.models import ReciboTFD
 from transportes.models import Viagem,RegistroTransporte
-from rolepermissions.decorators import has_role_decorator
 from django.contrib.auth.decorators import login_required
 from especialidades.models import AtendimentoEspecialidade
-from datetime import datetime
-from core.models import Agenda
 from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
-from core.form import AgendamentoForm
-from django.shortcuts import render,redirect
+from django.shortcuts import render
 
 @login_required
 def home(request):
@@ -34,12 +27,13 @@ def home(request):
    context={}
    context['qta_cidadao']=Cidadao.objects.select_related('endereco','microarea').count()
    context['qta_diaria']=Diaria.objects.select_related('profissionals').count()
-   context['qta_viagens']=Viagem.objects.select_related('carro','motorista').count()
+   context['qta_viagens']=Viagem.objects.select_related('carro','motorista').filter(status='2').count()
    context['qta_recibo_tfd']=ReciboTFD.objects.select_related('paciente').count()
    context['qta_registro_transporte']=RegistroTransporte.objects.select_related('paciente','carro').count()
-   context['qta_atendimento']=AtendimentoEspecialidade.objects.count()
+   context['qta_atendimento']=AtendimentoEspecialidade.objects.select_related('especialidade').filter(status='2').count()
    context['qta_cadastro_incompleto']=Cidadao.objects.select_related('endereco','microarea').filter(Q(cns=None)).count() 
    especialidades=Especialidade.objects.filter(paciente_especialidades__isnull=False).distinct()
+   
    
    paginator = Paginator(especialidades,10)  
    page_number = request.GET.get("page")
