@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -125,7 +126,13 @@ class PasswordChange(SuccessMessageMixin,LoginRequiredMixin,PasswordChangeView):
 class AcessoNegadoView(TemplateView):
   
     template_name = 'usuario/acesso_negado.html'
-        
+    
+    def get(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect('usuarios:login_usuario')
+            
+        return super().get(request, *args, **kwargs)
+    
 """def custom_lockout(request, credentials=None, *args, **kwargs):
     username = credentials.get('username') if credentials else ''
     # monta a URL com o parâmetro
