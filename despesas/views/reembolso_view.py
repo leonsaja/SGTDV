@@ -14,7 +14,9 @@ from django.contrib import messages
 from django.utils.decorators import method_decorator
 from rolepermissions.decorators import has_role_decorator
 from rolepermissions.mixins import HasRoleMixin
+from django.contrib.auth.decorators import login_required
 
+@login_required
 @has_role_decorator(['digitador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def reembolso_create(request,id):
     diaria=get_object_or_404(Diaria,id=id)
@@ -41,6 +43,7 @@ def reembolso_create(request,id):
     
     return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset,'form':form})
 
+@login_required
 @has_role_decorator(['digitador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def reembolso_update(request, id):
    diaria=get_object_or_404(Diaria,id=id)
@@ -68,6 +71,7 @@ def reembolso_update(request, id):
 
    return render(request, 'reembolso/form_reembolso.html', {'diaria': diaria,'formset':formset,'form':form})
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['digitador','coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
 class ReembolsoListView(ListView):
    
@@ -78,6 +82,7 @@ class ReembolsoListView(ListView):
    ordering='-created_at'
    paginate_by=10
    
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['digitador','coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
 class ReembolsoSearchListView(ListView):
    model=Diaria
@@ -118,6 +123,7 @@ class ReembolsoDetailView(DetailView):
         
         return context
 
+@login_required
 @has_role_decorator(['digitador','coordenador','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def reembolso_pdf(request,id):
     context={}

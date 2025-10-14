@@ -14,15 +14,17 @@ from transportes.models import PassageiroViagem
 from django.urls import reverse_lazy
 from io import BytesIO
 from django.db.models import  Q
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
-
-class ViagemCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ViagemCreateView(SuccessMessageMixin,CreateView):
     model=Viagem
     form_class=ViagemForm
     template_name='viagem/form_viagem.html'
     success_url=reverse_lazy('transportes:list-viagem')
     success_message='Viagem cadastrada com sucesso'
-    allowed_roles=['recepcao','regulacao']
     
     def get_context_data(self, **kwargs):
         context= super().get_context_data(**kwargs)
@@ -51,12 +53,13 @@ class ViagemCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
         formset = context['formset']
         return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
-class ViagemUpdateView(SuccessMessageMixin,HasRoleMixin, UpdateView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ViagemUpdateView(SuccessMessageMixin, UpdateView):
     model = Viagem
     form_class = ViagemForm
     template_name = 'viagem/form_viagem.html'
     success_url = reverse_lazy('transportes:list-viagem')
-    allowed_roles=['recepcao','regulacao']
     success_message='Viagem atualizada com sucesso'
     
 
@@ -88,25 +91,27 @@ class ViagemUpdateView(SuccessMessageMixin,HasRoleMixin, UpdateView):
         
         return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
-class ViagemListView(HasRoleMixin,ListView): 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['acs','digitador','recepcao','regulacao','secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ViagemListView(ListView): 
     model=Viagem
     template_name='viagem/list_viagens.html'
     context_object_name='viagens'
     paginate_by=10
-    allowed_roles=['acs','digitador','recepcao','regulacao','secretario','coordenador']
 
     def get_queryset(self, *args, **kwargs):
         qs =super(ViagemListView,self).get_queryset(*args, **kwargs)
         qs=qs.select_related('carro','motorista').filter(status='1').order_by('-data_viagem')
         return qs
     
-class ViagemSearchListView(HasRoleMixin,ListView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['acs','digitador','recepcao','regulacao','secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ViagemSearchListView(ListView):
 
     model=Viagem
     template_name='viagem/list_viagens.html'
     context_object_name='viagens'
     paginate_by=10
-    allowed_roles=['acs','digitador','recepcao','secretario','regulacao','coordenador']
 
 
     def get_queryset(self, *args, **kwargs):
@@ -128,29 +133,31 @@ class ViagemSearchListView(HasRoleMixin,ListView):
         if status:
             qs=qs.filter(status=status).order_by('-data_viagem')
         return qs
-    
-class DetailViagemView(HasRoleMixin,SuccessMessageMixin,DetailView):
+
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['acs','digitador','recepcao','regulacao','secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class DetailViagemView(SuccessMessageMixin,DetailView):
     model=Viagem
     template_name='viagem/detail_viagem.html'
-    allowed_roles=['acs','digitador','secretario','recepcao','regulacao','coordenador']
-
-
+ 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         viagem = Viagem.objects.select_related('motorista','carro').get(id=self.kwargs['pk']) 
         context['viagem']=viagem
         return context
 
-class ViagemDeleteView(HasRoleMixin,SuccessMessageMixin,DeleteView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ViagemDeleteView(SuccessMessageMixin,DeleteView):
 
     model=Viagem
     success_url=reverse_lazy('transportes:list-viagem')
     success_message='Registro excluido com sucesso'
-    allowed_roles=['coordenador']
         
     def get(self, request,*args, **kwargs):
          return self.post(request, *args, **kwargs)
 
+@login_required
 @has_role_decorator(['recepcao','digitador','regulacao'])
 def viagemPdf(request,id):
     context={}
@@ -196,6 +203,7 @@ def viagemPdf(request,id):
 
     return response
 
+@login_required
 class PacienteViagemSearchView(HasRoleMixin,ListView):
    
     model = PassageiroViagem

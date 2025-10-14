@@ -13,32 +13,37 @@ from django.contrib.messages.views import SuccessMessageMixin
 from especialidades.forms.form_proced_especialidade import ProcedEspecialidadeForm
 from especialidades.models import ProcedimentosEspecialidade
 from dal import autocomplete
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
-class ProcedEspecialidadeCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['regulacao','recepcao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ProcedEspecialidadeCreateView(SuccessMessageMixin,CreateView):
     model=ProcedimentosEspecialidade
     form_class=ProcedEspecialidadeForm
     success_url=reverse_lazy('especialidades:list-proced_especialidade')
     template_name='procedimento_especialidade/form_proced_especialidade.html' 
     context_object_name='form'
     success_message='Cadastro realizado com sucesso'
-    allowed_roles=['regulacao','recepcao']
-
-class ProcedEspecialidadeUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
+    
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['regulacao','recepcao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ProcedEspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
     model=ProcedimentosEspecialidade
     form_class=ProcedEspecialidadeForm
     template_name='procedimento_especialidade/form_proced_especialidade.html'
     success_url=reverse_lazy('especialidades:list-proced_especialidade')
     context_object_name='form'
     success_message='Dados atualizado com sucesso'
-    allowed_roles=['regulacao','recepcao']
 
-class ProcedEspecialidadeListView(HasRoleMixin,ListView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['regulacao','recepcao','secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ProcedEspecialidadeListView(ListView):
 
     model=ProcedimentosEspecialidade
     template_name='procedimento_especialidade/list_proced_especialidade.html'
     context_object_name='procedimentos'
     paginate_by=10
-    allowed_roles=['regulacao','recepcao','secretario','coordenador']
 
     def get_queryset(self):
         qs=super(ProcedEspecialidadeListView,self).get_queryset()
@@ -52,14 +57,14 @@ class ProcedEspecialidadeListView(HasRoleMixin,ListView):
         
         return qs
 
-
-class ProcedEspecialidadeDetail(HasRoleMixin,DetailView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['regulacao','recepcao','secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ProcedEspecialidadeDetail(DetailView):
     model=ProcedimentosEspecialidade
     template_name='procedimento_especialidade/detail_proced_especialidade.html'
     context_object_name='procedimento'
-    allowed_roles=['regulacao','recepcao','coordenador','secretario']
     
-    
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 class ProcedimentoAutocomplete(autocomplete.Select2QuerySetView):
     
     def get_queryset(self):
@@ -74,7 +79,8 @@ class ProcedimentoAutocomplete(autocomplete.Select2QuerySetView):
 
         return qs
     
-@has_role_decorator(['coordenador'])
+@login_required
+@has_role_decorator(['coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def especialidadeDelete(request, id):
     procedimento=ProcedimentosEspecialidade.objects.get(id=id)
     

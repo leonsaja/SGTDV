@@ -127,12 +127,6 @@ class AcessoNegadoView(TemplateView):
   
     template_name = 'usuario/acesso_negado.html'
     
-    def get(self, request, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            return redirect('usuarios:login_usuario')
-            
-        return super().get(request, *args, **kwargs)
-    
 """def custom_lockout(request, credentials=None, *args, **kwargs):
     username = credentials.get('username') if credentials else ''
     # monta a URL com o parâmetro

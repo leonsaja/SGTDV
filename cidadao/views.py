@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.db.models import ProtectedError, Q
 from dal import autocomplete
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView,CreateView, UpdateView
 from cidadao.forms.cidadao_form import CidadaoForm, EnderecoForm
@@ -16,6 +17,7 @@ from django.contrib.auth.decorators import login_required
 import re
 from django.utils.decorators import method_decorator
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['acs','recepcao','regulacao','tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class CidadaoCreateView(SuccessMessageMixin,CreateView):
     model = Cidadao
@@ -48,6 +50,7 @@ class CidadaoCreateView(SuccessMessageMixin,CreateView):
         context = self.get_context_data()
         return self.render_to_response(context)
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['acs','recepcao','regulacao','tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class CidadaoUpdateView(SuccessMessageMixin,UpdateView):
     model = Cidadao
@@ -89,8 +92,7 @@ class CidadaoUpdateView(SuccessMessageMixin,UpdateView):
         context = self.get_context_data()
         return self.render_to_response(context)
 
-@method_decorator(has_role_decorator(['acs','coordenador','regulacao','recepcao','digitador','tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
-class CidadaoDetailView(DetailView):
+class CidadaoDetailView(LoginRequiredMixin,DetailView):
     model=Cidadao
     template_name='cidadao/detail_cidadao.html'
 
@@ -103,15 +105,13 @@ class CidadaoDetailView(DetailView):
             context['endereco']=Endereco(cidadao=context['paciente'])
         return context
 
-@method_decorator(has_role_decorator(['acs','coordenador','regulacao','recepcao','digitador','tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
-class CidadaoListView(ListView):
+class CidadaoListView(LoginRequiredMixin,ListView):
     model=Cidadao
     template_name='cidadao/list_cidadao.html'
     context_object_name='pacientes'
     paginate_by=15
 
-@method_decorator(has_role_decorator(['acs','coordenador','regulacao','recepcao','digitador','tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
-class CidadaoSearchListView(ListView):
+class CidadaoSearchListView(LoginRequiredMixin,ListView):
     
     model=Cidadao
     template_name='cidadao/list_cidadao.html'
@@ -144,6 +144,7 @@ class CidadaoSearchListView(ListView):
 
         return qs.select_related('microarea')
 
+@login_required
 @has_role_decorator(['coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def cidadao_delete(request,id):
     cidadao=get_object_or_404(Cidadao,id=id)
@@ -157,6 +158,7 @@ def cidadao_delete(request,id):
     finally:
         return redirect('cidadao:list-cidadao')
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 class CidadaoAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         

@@ -16,7 +16,9 @@ from dal import autocomplete
 from io import BytesIO
 from django.utils.decorators import method_decorator
 from django.db import transaction
+from django.contrib.auth.decorators import login_required
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class AtendimentoEspecialidadeCreateView(SuccessMessageMixin,CreateView):
     model = AtendimentoEspecialidade
@@ -63,12 +65,6 @@ class AtendimentoEspecialidadeCreateView(SuccessMessageMixin,CreateView):
             self.object = form.save(commit=False)
             self.object.criado_por = self.request.user.nome_completo
             self.object.save()
-            
-            # 4. Atualiza o Saldo (diminui o limite de pacientes da Especialidade)
-            #especialidade.limite_pacientes = novo_saldo
-            #especialidade.save() # Salva a especialidade com o novo limite/saldo
-            
-            # 5. Salva os pacientes (Formset)
             formset.instance = self.object  
             formset.save()
             
@@ -82,6 +78,7 @@ class AtendimentoEspecialidadeCreateView(SuccessMessageMixin,CreateView):
         formset = context['formset']
         return self.render_to_response(self.get_context_data(form=form, formset=formset))    
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')       
 class AtendimentoEspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
     model = AtendimentoEspecialidade
@@ -154,19 +151,7 @@ class AtendimentoEspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
                 # Salva os pacientes (Formset)
                 formset.instance = self.object  
                 formset.save()
-                
-                # Atualiza o Saldo da Especialidade
-                # O ajuste é sempre a 'diferenca_liquida':
-                # - Se positivo, subtrai (débito).
-                # - Se negativo, soma (crédito/restituição).
-                
-                # Exemplo: Saldo 10. Antes: 5 pacientes. Depois: 7 pacientes. Diferença: +2. Novo Saldo: 10 - 2 = 8.
-                # Exemplo: Saldo 10. Antes: 5 pacientes. Depois: 3 pacientes. Diferença: -2. Novo Saldo: 10 - (-2) = 12.
-                
-                #especialidade.limite_pacientes -= diferenca_liquida 
-                #especialidade.save()
-            
-            # Retorna o sucesso
+              
                 return super().form_valid(form)
         else:
             return self.form_invalid(form)
@@ -175,6 +160,7 @@ class AtendimentoEspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
         formset = context['formset']
         return self.render_to_response(self.get_context_data(form=form, formset=formset))    
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['regulacao','secretario','coordenador','recepcao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class AtendEspecialidadeListView(ListView):
     
@@ -202,7 +188,8 @@ class AtendEspecialidadeListView(ListView):
         if not buscar and not status and not data:
                 qs=qs.filter(status='1')
         return qs.order_by('-data')
-    
+
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['regulacao','secretario','coordenador','recepcao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class AtendEspecialidadeDetailView(DetailView):
 
@@ -217,6 +204,7 @@ class AtendEspecialidadeDetailView(DetailView):
         context['pacientes_set']=PacienteSia.objects.select_related('paciente').filter(atendimento_paciente__id=atendimento_especialidade.id)
         return context
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class AtendEspecialidadeDeleteView(SuccessMessageMixin, DeleteView):
 
@@ -228,7 +216,8 @@ class AtendEspecialidadeDeleteView(SuccessMessageMixin, DeleteView):
 
     def get(self, request, *args, **kwargs):
         return self.post().get(request, *args, **kwargs)
-  
+
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 class PacienteAutocomplete(autocomplete.Select2QuerySetView):
     
     def get_queryset(self):
@@ -251,6 +240,7 @@ class PacienteAutocomplete(autocomplete.Select2QuerySetView):
 
         return qs
 
+@login_required
 def gerar_pdf_atend(request,context):
 
    atendimento_id=context['atendimento_especialidade']
@@ -308,6 +298,7 @@ def gerar_pdf_atend(request,context):
 
    return response
 
+@login_required
 @has_role_decorator(['regulacao','coordenador','recepcao','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))  
 def atend_especialidade_pdf(request, id):
     context={}

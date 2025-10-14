@@ -1,12 +1,12 @@
-from rolepermissions.mixins import HasRoleMixin
 from django.views.generic import ListView
 from django.urls import reverse_lazy
-
 from especialidades.models import PacienteEspecialidade
 from rolepermissions.decorators import has_role_decorator
 import re
 from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['recepcao','regulacao','secretario','coordenador','acs'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class PacienteEspecialidadeSearchView(ListView):
    

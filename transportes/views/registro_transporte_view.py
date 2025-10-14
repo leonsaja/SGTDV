@@ -1,64 +1,68 @@
-from django.shortcuts import redirect, render
+
 from django.urls import reverse_lazy
-from django.views import View
 from django.views.generic import CreateView,UpdateView,ListView,DeleteView,DetailView
-import pandas as pd
-from transportes.forms.dados import ImportarDadosForm
-from cidadao.models import Cidadao
 from transportes.models import RegistroTransporte,Carro
 from transportes.forms.registro_transporte_form import RegistroTransporteForm
 from django.contrib.messages.views import SuccessMessageMixin
 from rolepermissions.mixins import HasRoleMixin
-from django.db.models import ProtectedError, Q
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from rolepermissions.decorators import has_role_decorator
 
-
-class RegistroTransporteCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class RegistroTransporteCreateView(SuccessMessageMixin,CreateView):
     model =RegistroTransporte
     form_class=RegistroTransporteForm
     template_name='registro_transporte/form_registro_transporte.html'
     context_object_name='form'
     success_url=reverse_lazy('transportes:list-regis-transporte')
     success_message='Cadastro realizado com sucesso'
-    allowed_roles=['recepcao','regulacao']
 
-class RegistroTransporteUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class RegistroTransporteUpdateView(SuccessMessageMixin,UpdateView):
     model =RegistroTransporte
     form_class=RegistroTransporteForm
     template_name='registro_transporte/form_registro_transporte.html'
     context_object_name='form'
     success_url=reverse_lazy('transportes:list-regis-transporte')
     success_message='Cadastro alterado  com sucesso'
-    allowed_roles=['recepcao','regulacao']
 
-class RegistroTransporteListView(HasRoleMixin,ListView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['coordenador','secretario','recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class RegistroTransporteListView(ListView):
     model=RegistroTransporte
     template_name='registro_transporte/list_registro_transporte.html'
     context_object_name='transportes'
     ordering='-created_at'
     paginate_by=10
-    allowed_roles=['coordenador','secretario','recepcao','regulacao']
        
-class RegistroTransporteDetailView(HasRoleMixin,DetailView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['coordenador','secretario','recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')      
+class RegistroTransporteDetailView(DetailView):
     model=RegistroTransporte
     context_object_name='transporte'
     template_name='registro_transporte/detail_registro_transporte.html'
-    allowed_roles=['coordenador','secretario','recepcao','regulacao']
 
-class RegistroTransporteDeleteView(HasRoleMixin,SuccessMessageMixin, DeleteView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')      
+class RegistroTransporteDeleteView(SuccessMessageMixin, DeleteView):
     model=RegistroTransporte
     success_url=reverse_lazy('transportes:list-regis-transporte')
     success_message='Registro excluido com sucesso'
-    allowed_roles=['coordenador']
 
     def get(self, request,*args, **kwargs):
          return self.post(request, *args, **kwargs)
 
-class RegistroTransporteSearchListView(HasRoleMixin,ListView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['coordenador','secretario','recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')     
+class RegistroTransporteSearchListView(ListView):
     model=RegistroTransporte
     template_name='registro_transporte/list_registro_transporte.html'
     context_object_name='transportes'
     paginate_by=10
-    allowed_roles=['coordenador','secretario','recepcao','regulacao']
 
 
     def get_queryset(self):

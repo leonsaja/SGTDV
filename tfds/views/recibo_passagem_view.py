@@ -14,7 +14,10 @@ from io import BytesIO
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
 from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
+
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch') 
 class ReciboPassagemCreateView(SuccessMessageMixin,CreateView):
     
@@ -31,7 +34,7 @@ class ReciboPassagemCreateView(SuccessMessageMixin,CreateView):
         self.object.save()
         return  super().form_valid(form)
 
-
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['tfd','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch') 
 class ReciboPassagemUpdateView(SuccessMessageMixin,UpdateView):
     
@@ -51,6 +54,7 @@ class ReciboPassagemUpdateView(SuccessMessageMixin,UpdateView):
         self.object.save()
         return  super().form_valid(form)
  
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['coordenador','tfd','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch') 
 class ReciboPassagemListView(ListView):
 
@@ -60,6 +64,7 @@ class ReciboPassagemListView(ListView):
     ordering='-created_at'
     paginate_by=10
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['coordenador','tfd','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch') 
 class ReciboPassagemSearchListView(HasRoleMixin,ListView):
     
@@ -84,6 +89,7 @@ class ReciboPassagemSearchListView(HasRoleMixin,ListView):
         
         return qs
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['coordenador','tfd','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch') 
 class ReciboPassagemDetailView(DetailView):
     model=ReciboPassagemTFD
@@ -95,6 +101,7 @@ class ReciboPassagemDetailView(DetailView):
        
         return context
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch') 
 class ReciboPassagemDeleteView(SuccessMessageMixin,DeleteView):
     model=ReciboPassagemTFD
@@ -104,6 +111,7 @@ class ReciboPassagemDeleteView(SuccessMessageMixin,DeleteView):
     def get(self, request, *args, **kwargs):
         return self.post().get(request, *args, **kwargs)
 
+@login_required
 @has_role_decorator(['coordenador','tfd','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))                                                                                                                                                                                                                                                
 def reciboPassagemPdf(request,id):
 

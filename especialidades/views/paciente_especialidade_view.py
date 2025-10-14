@@ -11,7 +11,9 @@ from django.views.generic import DetailView, CreateView,UpdateView,ListView
 from django.contrib.messages.views import SuccessMessageMixin
 from rolepermissions.decorators import has_role_decorator
 from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class PacienteEspecialidadeCreateView(SuccessMessageMixin,CreateView):
     model = PacienteEspecialidade
@@ -79,6 +81,7 @@ class PacienteEspecialidadeCreateView(SuccessMessageMixin,CreateView):
         especialidade_id = self.object.especialidade.id
         return reverse_lazy('especialidades:detail-especialidade', kwargs={'pk': especialidade_id})
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
 class PacienteEspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
     model = PacienteEspecialidade
@@ -101,6 +104,7 @@ class PacienteEspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
         especialidade_id = self.object.especialidade.id
         return reverse_lazy('especialidades:detail-especialidade', kwargs={'pk': especialidade_id})
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['recepcao','regulacao','secretario','coordenador','acs'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
 class PacienteEspecialidadeListView(ListView):
    
@@ -146,6 +150,7 @@ class PacienteEspecialidadeListView(ListView):
         context['especialidade'] = get_object_or_404(Especialidade, id=especialidade_id)
         return context
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['recepcao','regulacao','secretario','coordenador','acs'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
 class PacienteEspecialidadeDetailView(DetailView):
 
@@ -159,7 +164,8 @@ class PacienteEspecialidadeDetailView(DetailView):
         context['paciente_especialidade']=paciente_especialidade
        
         return context
-        
+
+@login_required
 @has_role_decorator(['secretario','coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def pacienteEspecialidade_delete(request,id):
 

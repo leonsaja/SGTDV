@@ -6,7 +6,9 @@ from django.db.models import Q
 import re
 from rolepermissions.decorators import has_role_decorator
 from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['recepcao','regulacao','secretario','digitador','coordenador','acs'], redirect_url='usuarios:acesso_negado'), name='dispatch')
 class PacienteViagemSearchView(ListView):
    

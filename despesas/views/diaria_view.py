@@ -13,8 +13,10 @@ from django.contrib.messages import constants
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from io import BytesIO
+from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class DiariaCreateView(SuccessMessageMixin,CreateView):
    model=Diaria
@@ -29,7 +31,8 @@ class DiariaCreateView(SuccessMessageMixin,CreateView):
         self.object.criado_por = self.request.user.nome_completo
         self.object.save()
         return  super().form_valid(form)
- 
+
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['digitador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
 class DiariaUpdateView(SuccessMessageMixin,UpdateView):
 
@@ -46,6 +49,7 @@ class DiariaUpdateView(SuccessMessageMixin,UpdateView):
         self.object.save()
         return  super().form_valid(form)
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['digitador','coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class DiariaListView(ListView):
 
@@ -55,6 +59,7 @@ class DiariaListView(ListView):
     paginate_by=10
     queryset=Diaria.objects.select_related('profissional').order_by('-created_at')
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['digitador','coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class DiariaSearchListView(ListView):
 
@@ -77,7 +82,8 @@ class DiariaSearchListView(ListView):
             qs=qs.filter(data_diaria__iexact=data).order_by('-created_at')
     
         return qs
-    
+
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class DiariaStatusUpdateView(SuccessMessageMixin, UpdateView):
     
@@ -93,6 +99,7 @@ class DiariaStatusUpdateView(SuccessMessageMixin, UpdateView):
         self.object.save()
         return  super().form_valid(form)
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['digitador','coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class DiariaDetailView(DetailView):
     model=Diaria
@@ -113,6 +120,7 @@ class DiariaDetailView(DetailView):
         context['form']=DiariaStatusForm(self.request.POST or None,instance=diaria)
         return context
 
+@login_required
 @has_role_decorator(['coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def diaria_delete(request, id):
     diaria=get_object_or_404(Diaria,id=id)

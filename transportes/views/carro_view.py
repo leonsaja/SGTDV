@@ -10,7 +10,10 @@ from django.contrib.messages.views import SuccessMessageMixin
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
 from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['recepcao','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class CarroCreateView(SuccessMessageMixin,CreateView):
     model=Carro
@@ -19,7 +22,8 @@ class CarroCreateView(SuccessMessageMixin,CreateView):
     context_object_name='form'
     success_url=reverse_lazy('transportes:list-carro')
     success_message='Cadastro realizado com sucesso'
-
+    
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['recepcao','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class CarroUpdateView(SuccessMessageMixin,UpdateView):  
 
@@ -29,7 +33,8 @@ class CarroUpdateView(SuccessMessageMixin,UpdateView):
     context_object_name='form'
     success_url=reverse_lazy('transportes:list-carro')
     success_message='Dados atualizado com sucesso'
-
+    
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['coordenador','secretario','regulacao','recepcao','digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class ListCarroView(ListView):
     model=Carro
@@ -48,13 +53,15 @@ class ListCarroView(ListView):
         qs=qs.filter(status='1').order_by('nome')                                          
         
         return qs
-
+    
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['coordenador','secretario','regulacao','recepcao','digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class DetailCarraView(DetailView):
     model=Carro
     template_name='carro/detail_carro.html'
     context_object_name='carro'
 
+@login_required
 @has_role_decorator(['coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def carroDelete(request, id):
 

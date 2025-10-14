@@ -15,7 +15,9 @@ from especialidades.models import Especialidade, PacienteEspecialidade
 from django.db.models import ProtectedError, Q
 from django.utils.decorators import method_decorator
 from dal import autocomplete
+from django.contrib.auth.decorators import login_required
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['regulacao','recepcao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class EspecialidadeCreateView(SuccessMessageMixin,CreateView):
     model=Especialidade
@@ -25,6 +27,7 @@ class EspecialidadeCreateView(SuccessMessageMixin,CreateView):
     context_object_name='form'
     success_message='Cadastro realizado com sucesso'
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['regulacao','recepcao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class EspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
     model=Especialidade
@@ -34,6 +37,7 @@ class EspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
     context_object_name='form'
     success_message='Dados atualizado com sucesso'
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['regulacao','secretario','recepcao','coordenador','acs'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class EspecialidadeListView(ListView):
 
@@ -54,6 +58,7 @@ class EspecialidadeListView(ListView):
         
         return qs
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['regulacao','secretario','recepcao','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class EspecialidadeDetailView(DetailView):
     model = Especialidade
@@ -76,8 +81,7 @@ class EspecialidadeDetailView(DetailView):
 
         return context
      
-     
-     
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 class EspecialidadeAutocomplete(autocomplete.Select2QuerySetView):
     
     def get_queryset(self):
@@ -92,6 +96,7 @@ class EspecialidadeAutocomplete(autocomplete.Select2QuerySetView):
 
         return qs
 
+@login_required
 @has_role_decorator(['coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def especialidadeDelete(request, id):
     especialidade=Especialidade.objects.get(id=id)

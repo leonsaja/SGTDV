@@ -16,7 +16,10 @@ from weasyprint import HTML
 from rolepermissions.decorators import has_role_decorator
 from io import BytesIO
 from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
+
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['tfd'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')   
 class ReciboTFDCreateView(SuccessMessageMixin,CreateView):
     
@@ -59,6 +62,7 @@ class ReciboTFDCreateView(SuccessMessageMixin,CreateView):
         formset = context['formset']
         return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['tfd','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')   
 class ReciboTFDUpdateView(SuccessMessageMixin,UpdateView):
     model=ReciboTFD
@@ -100,6 +104,7 @@ class ReciboTFDUpdateView(SuccessMessageMixin,UpdateView):
         formset = context['formset']
         return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
+@login_required
 @has_role_decorator(['secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def reciboStatusUpdate(request,id):
     recibo_tfd=get_object_or_404(ReciboTFD, pk=id)
@@ -118,6 +123,7 @@ def reciboStatusUpdate(request,id):
     
     return render(request, 'recibo_tfd/detail_recibo_tfd.html', {'form': form,'recibo_tfd':recibo_tfd})
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['tfd','secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')   
 class ReciboTFDListView(ListView):
 
@@ -127,6 +133,7 @@ class ReciboTFDListView(ListView):
     ordering='-created_at'
     paginate_by=10
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['tfd','secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')   
 class ReciboTFDSearchListView(ListView):
    
@@ -149,6 +156,7 @@ class ReciboTFDSearchListView(ListView):
         
         return qs
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['tfd','secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')   
 class ReciboTFDDetailView(DetailView):
 
@@ -163,6 +171,7 @@ class ReciboTFDDetailView(DetailView):
         context['form']=ReciboTFDStatusForm(self.request.POST or None, instance=recibo_tfd,prefix='recibo')
         return context
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')   
 class ReciboTFDDeleteView(SuccessMessageMixin, DeleteView):
 
@@ -173,6 +182,7 @@ class ReciboTFDDeleteView(SuccessMessageMixin, DeleteView):
     def get(self, request, *args, **kwargs):
         return self.post().get(request, *args, **kwargs)
 
+@login_required
 @has_role_decorator(['tfd','coordenador','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def reciboTFD_pdf(request,id):
     recibo_pdf=get_object_or_404(ReciboTFD,id=id)
