@@ -1,4 +1,12 @@
 {% extends 'base.html' %}
+{% block title%}
+  {% if request.resolver_match.url_name == 'add-descricao-reembolso' %} 
+      Criar Descrição Reembolso
+  {%else%} 
+      Editar Descrição Reembolso
+  {%endif%} 
+{%endblock title%}
+
 {% load crispy_forms_tags %}
 {% block content %}
 

@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from weasyprint import HTML
 from rolepermissions.decorators import has_role_decorator
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from despesas.forms.diaria_form import DiariaForm,DiariaStatusForm
 from django.contrib.messages.views import SuccessMessageMixin
 from ..models import Diaria, Reembolso,ReembolsoPrincipal
@@ -13,8 +15,7 @@ from django.contrib.messages import constants
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from io import BytesIO
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
+
 
 @method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')

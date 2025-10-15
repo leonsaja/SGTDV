@@ -11,9 +11,13 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import PasswordChangeForm
 from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from rolepermissions.decorators import has_role_decorator
 
-
-class UsuarioCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class UsuarioCreateView(SuccessMessageMixin,CreateView):
             
     User=get_user_model()
     model=User
@@ -22,9 +26,7 @@ class UsuarioCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
     context_object_name='form'
     success_url=reverse_lazy('usuarios:list-usuario')
     success_message='Cadastro realizado com sucesso'
-    allowed_roles = ['secretario','coordenador']
-    
-
+  
     def form_valid(self, form):
         user=form.save()
         if user.perfil =='1':
@@ -42,8 +44,10 @@ class UsuarioCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
         elif user.perfil =='7':
             assign_role(user,'tfd')
         return super().form_valid(form)
-    
-class UsuarioUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
+ 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class UsuarioUpdateView(SuccessMessageMixin,UpdateView):
     
     User=get_user_model()
     model=User
@@ -52,7 +56,7 @@ class UsuarioUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
     context_object_name='form'
     success_url=reverse_lazy('usuarios:list-usuario')
     success_message='Dados atualizado com sucesso'
-    allowed_roles = ['acs','secretario','regulcao',]
+    #allowed_roles = ['acs','secretario','regulacao',]
 
     def form_valid(self, form):
         user=form.save()
@@ -72,8 +76,10 @@ class UsuarioUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
         elif user.perfil =='7':
             assign_role(user,'tfd')
         return super().form_valid(form)
-    
-class UsuarioListView(HasRoleMixin,ListView):
+
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class UsuarioListView(ListView):
    
     User=get_user_model()
     model=User
@@ -82,15 +88,15 @@ class UsuarioListView(HasRoleMixin,ListView):
     paginate_by=10
     queryset=User.objects.filter(is_staff=False).filter(is_active=True)
     ordering='-created_at'
-    allowed_roles = ['secretario','coordenador']
 
-class UsuarioSearchListView(HasRoleMixin,ListView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class UsuarioSearchListView(ListView):
     User=get_user_model()
     model=User
     template_name='usuario/list_usuarios.html'
     context_object_name='usuarios'
     paginate_by=10
-    allowed_roles = ['secretario','coordenador']
     
     def get_queryset(self, *args, **kwargs):
         qs = super(UsuarioSearchListView,self).get_queryset(*args, **kwargs)
@@ -110,20 +116,21 @@ class UsuarioSearchListView(HasRoleMixin,ListView):
    
         return qs
 
-class UsuarioDetailView(HasRoleMixin,DetailView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class UsuarioDetailView(DetailView):
     User=get_user_model()
     model=User
     template_name='usuario/detail_usuario.html'
     context_object_name='usuario'
-    allowed_roles = ['secretario','coordenador']
 
-class PasswordChange(SuccessMessageMixin,LoginRequiredMixin,PasswordChangeView):
+class PasswordChange(LoginRequiredMixin,SuccessMessageMixin,PasswordChangeView):
      form_class = PasswordChangeForm
      template_name='registration/alterar_senha.html'
      success_url=reverse_lazy('core:home')
      success_message='Senha alterado com sucesso'
      
-class AcessoNegadoView(TemplateView):
+class AcessoNegadoView(LoginRequiredMixin,TemplateView):
   
     template_name = 'usuario/acesso_negado.html'
     

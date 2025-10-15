@@ -7,20 +7,23 @@ from django.db.models import ProtectedError
 from ..forms.form_estabelecimento import EstabelecimentoForm
 from ..models import Estabelecimento
 from django.contrib.messages.views import SuccessMessageMixin
-from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
-
-class EstabelecimentoCreateView(SuccessMessageMixin,HasRoleMixin,CreateView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class EstabelecimentoCreateView(SuccessMessageMixin,CreateView):
     model=Estabelecimento
     form_class=EstabelecimentoForm
     context_object_name='form'
     template_name='estabelecimento/form_estabelecimento.html'
     success_url=reverse_lazy('estabelecimentos:list-estabelecimento')
     success_message='Cadastro realizado com sucesso'
-    allowed_roles=['coordenador']
     
-class EstabelecimentoUpdateView(SuccessMessageMixin,HasRoleMixin,UpdateView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class EstabelecimentoUpdateView(SuccessMessageMixin,UpdateView):
    
     model=Estabelecimento
     form_class=EstabelecimentoForm
@@ -28,22 +31,24 @@ class EstabelecimentoUpdateView(SuccessMessageMixin,HasRoleMixin,UpdateView):
     context_object_name='form'
     success_url=reverse_lazy('estabelecimentos:list-estabelecimento')
     success_message='Dados atualizado com  sucesso'
-    allowed_roles=['coordenador']
-            
-class EstabelecimentoDetailView(HasRoleMixin,DetailView):
+
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')      
+class EstabelecimentoDetailView(DetailView):
     model=Estabelecimento
     template_name='estabelecimento/detail_estabelecimento.html'
     context_object_name='estabelecimento'
-    allowed_roles=['coordenador','secretario']
-    
-class EstabelecimentoListView(HasRoleMixin,ListView):
+
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')     
+class EstabelecimentoListView(ListView):
     model=Estabelecimento
     template_name='estabelecimento/list_estabelecimento.html'
     context_object_name='estabelecimentos'
     paginate_by=10
     ordering='nome'
-    allowed_roles=['coordenador','secretario']
 
+@login_required
 @has_role_decorator(['coordenador'])                                                                                                                                                                                                            
 def estabelecimento_delete(request,id):
    

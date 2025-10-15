@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title%}Buscar paciente na viagem {%endblock title%}
 
 {% load permission_tags %}
 
@@ -9,10 +10,7 @@
     {% include 'especialidade/abas_especialidade.html' %}
     {% include 'includes/mensagens.html'%}
     {% if user|has_role:'recepcao,regulacao' %}
-
-
     {%endif%}
-
 
     <div class="row row">
         <div class=" col-md-12">

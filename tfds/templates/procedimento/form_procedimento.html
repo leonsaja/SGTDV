@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
-
+{% block title%}
+  {% if request.resolver_match.url_name == 'add-procedimento' %} 
+      Criar Procedimento
+  {%else%} 
+      Editar Procedimento
+  {%endif%} 
+{%endblock title%}
 {% load crispy_forms_tags %}
-
 
 {% block content %}
 

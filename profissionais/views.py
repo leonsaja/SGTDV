@@ -12,9 +12,14 @@ from profissionais.forms.form_profissional import ProfissionalForm
 from rolepermissions.mixins import HasRoleMixin
 from rolepermissions.decorators import has_role_decorator
 import re
-
 from dal import autocomplete
-class ProfissionalCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
+from rolepermissions.decorators import has_role_decorator
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['coordenador','digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ProfissionalCreateView(SuccessMessageMixin,CreateView):
     
     model=Profissional
     form_class=ProfissionalForm
@@ -22,40 +27,42 @@ class ProfissionalCreateView(HasRoleMixin,SuccessMessageMixin,CreateView):
     template_name='profissional/form_profissional.html'
     success_url=reverse_lazy('profissionais:list-profissional')
     success_message='Cadastro realizado com sucesso'
-    allowed_roles=['coordenador','digitador']
 
-class ProfissionalUpdateView(HasRoleMixin,SuccessMessageMixin,UpdateView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['coordenador','digitador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ProfissionalUpdateView(SuccessMessageMixin,UpdateView):
     model=Profissional
     form_class=ProfissionalForm
     context_object_name='form'
     template_name='profissional/form_profissional.html'
     success_url=reverse_lazy('profissionais:list-profissional')
     success_message='Dados atualizados com sucesso'
-    allowed_roles=['coordenador','digitador']
-
-class ProfissionalDetailView(HasRoleMixin,DetailView):
+   
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['coordenador','digitador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ProfissionalDetailView(DetailView):
 
     model=Profissional
     template_name='profissional/detail_profissional.html'
     context_object_name='profissional'
-    allowed_roles=['coordenador','digitador','secretario']
-
-class ProfissionalListView(HasRoleMixin,ListView):
+ 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['coordenador','digitador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ProfissionalListView(ListView):
     model=Profissional
     template_name='profissional/list_profissionais.html'
     context_object_name='profissionais'
     paginate_by=10
     ordering='nome_completo'
-    allowed_roles=['coordenador','digitador','secretario']
     
-class ProfissionalSearchListView(HasRoleMixin,ListView):
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['coordenador','digitador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ProfissionalSearchListView(ListView):
 
     model=Profissional
     template_name='profissional/list_profissionais.html'
     context_object_name='profissionais'
     paginate_by=10
-    allowed_roles=['coordenador','digitador','secretario']
-
 
     def get_queryset(self, *args, **kwargs):
         qs = super(ProfissionalSearchListView,self).get_queryset(*args, **kwargs)
@@ -73,6 +80,7 @@ class ProfissionalSearchListView(HasRoleMixin,ListView):
         
         return qs
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 class ProfissionalAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         
@@ -93,7 +101,8 @@ class ProfissionalAutocomplete(autocomplete.Select2QuerySetView):
                 qs = qs.filter(nome_completo__unaccent__icontains=self.q)
                 
         return qs
-      
+
+@login_required
 @has_role_decorator(['coordenador'])
 def profissional_delete(request, id):
     profissional=get_object_or_404(Profissional,id=id)
