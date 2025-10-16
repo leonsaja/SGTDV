@@ -16,7 +16,7 @@ def relatorio_viagem_pdf(request,context):
     viagens=Viagem.objects.select_related('motorista','carro').filter(data_viagem__gte=context['inicial']).filter(data_viagem__lte=context['final'])
    
     if context['profissional']:
-        viagens=viagens.filter(motorista=context['profissional'])
+        viagens=viagens.filter(motorista__id=context['profissional'].id)
         
     if context['status']:
         viagens=viagens.filter(status=context['status'])
