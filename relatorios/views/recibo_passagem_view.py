@@ -8,6 +8,7 @@ from weasyprint import HTML
 from datetime import datetime
 from rolepermissions.decorators import has_role_decorator
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 
 def relatorio_recibo_passagem_pdf(request,context):
@@ -44,6 +45,7 @@ def relatorio_recibo_passagem_pdf(request,context):
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
     return response
 
+@login_required
 @has_role_decorator(['coordenador','tfd','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def relatorio_recibo_passagem(request):
     context={}

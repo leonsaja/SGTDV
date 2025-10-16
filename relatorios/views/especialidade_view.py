@@ -10,10 +10,10 @@ from datetime import datetime
 from rolepermissions.decorators import has_role_decorator
 from io import BytesIO
 from datetime import date
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 @has_role_decorator(['regulacao','coordenador','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
-
 def relatorio_especialidade(request):
     context={}
     especialidades=Especialidade.objects.filter(paciente_especialidades__isnull=False).distinct()

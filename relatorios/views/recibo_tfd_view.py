@@ -10,6 +10,7 @@ from django.core.paginator import Paginator
 from io import BytesIO
 from datetime import date
 from rolepermissions.decorators import has_role_decorator
+from django.contrib.auth.decorators import login_required
 
 def relatorio_recibo_tfd_pdf(request,context):
     recibo_tfds=ReciboTFD.objects.select_related('paciente','especialidade','acompanhante').filter(data__gte=context['inicial']).filter(data__lte=context['final']).order_by('paciente__nome_completo').exclude(status='3')
@@ -47,6 +48,7 @@ def relatorio_recibo_tfd_pdf(request,context):
     response['Content-Disposition'] = f'inline; filename="Relatorio_Recibo_TFDs_{date.today().strftime("%d/%m/%Y")}.pdf"'
     return response
 
+@login_required
 @has_role_decorator(['coordenador','secretario','tfd'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def relatorio_recibo_tfd(request):
     context={}

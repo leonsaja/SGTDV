@@ -55,6 +55,7 @@ def relatorio_atendimento_pdf(request,context):
 
     return response
 
+@login_required
 @has_role_decorator(['regulacao','coordenador','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def relatorio_atendimento_especialidade(request):
     context={}

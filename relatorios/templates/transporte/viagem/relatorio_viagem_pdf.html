@@ -41,7 +41,7 @@
  
     <div class="row">
       <div class="col-md-5">
-        <p class="m-2 "><b>Período: </b>{{inicial}}   a {{final}}
+        <p class="p-1 "><b>Período: </b>{{inicial}}   a {{final}}
 
         
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
@@ -55,26 +55,31 @@
             </p>
       </div>
     </div>
-    <div class="linha"></div>
     <div class="row">
       <div class="col-md-3">
-          <p class="m-2 ">
+          <p class="p-1">
             <b>Registros identificados: </b>{{qta_registro_viagens}}
            
         </p>
       </div>
     </div>
    
-    <div class="linha"></div>
     <div class="row">
       <div class="col-md-3">
-          <p class="m-2 ">
+          <p class="p-1 ">
             <b>Quantidade passageiros transportados:</b> {{qta_pessoas_transportados}}            
         </p>
       </div>
     </div>
-    <div class="linha"></div>
-  
+    {% if carro %}
+    <div class="row">
+      <div class="col-md-3">
+          <p class="p-1">
+            <b>Carro: </b> {{carro}}            
+        </p>
+      </div>
+    </div>
+    {% endif %}
       
   <div class="pt">
     <br>
@@ -83,7 +88,11 @@
         <tr>
           <th>Destino</th>
           <th>Motorista</th>
-          <th>Carro</th>
+          {%if not carro %}
+            <th>Carro</th>
+            
+          {% endif %}
+          <th>Quant. passageiros</th>
           <th>Data da Viagem</th>
           <th>Status</th>
         </tr>
@@ -93,7 +102,11 @@
         <tr>
          <td>{{v.destino_viagem|upper}}</td>
          <td>{{v.motorista.nome_completo}}</td>
-         <td>{{v.carro}}</td>
+         {%if not carro %}
+         <td >{{v.carro}}</td>
+
+         {% endif %}
+         <td class="text-center">{{v.qta_pessoas}}</td>
          <td>{{v.data_viagem|date:"d/m/Y"|default:'---'}}</td>
          <td>{{v.get_status_display}}</td>
         </tr>

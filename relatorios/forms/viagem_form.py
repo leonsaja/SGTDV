@@ -1,9 +1,7 @@
 from django import forms
 from datetime import datetime, timedelta,date
-from cidadao.models import Cidadao
-from django_select2 import forms as s2forms
 from django.core.exceptions import ValidationError
-
+from transportes.models import Carro
 from profissionais.models import Profissional
 
 
@@ -24,13 +22,15 @@ class RelatorioViagemForm(forms.Form):
     profissionais=forms.ModelChoiceField(label='Motorista', queryset=Profissional.objects.select_related('estabelecimento').all(),
                                          required=False,widget=forms.Select(attrs={'class': 'form-control'}))
     
+    carros=forms.ModelChoiceField(label='Carro', queryset=Carro.objects.filter(status='1').all(),
+                                         required=False,widget=forms.Select(attrs={'class': 'form-control'}))
     
     STATUS=(
         ('1','AGUARDANDO'),
         ('2','CONCLUÍDO'),
     )
 
-    status=forms.ChoiceField(label='Status',required=False, widget=forms.RadioSelect,choices=STATUS) 
+    status=forms.ChoiceField(label='Status',required=True, widget=forms.RadioSelect,choices=STATUS) 
 
 
 

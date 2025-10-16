@@ -5,10 +5,10 @@ from weasyprint import HTML
 from especialidades.models import ProcedimentosEspecialidade
 from datetime import datetime
 from rolepermissions.decorators import has_role_decorator
+from django.contrib.auth.decorators import login_required
 
-
-has_role_decorator(['coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
-
+@login_required
+@has_role_decorator(['coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def relatorio_procedimentos(request):
     context={}
     response = HttpResponse(content_type='application/pdf')   

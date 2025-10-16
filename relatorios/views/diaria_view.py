@@ -14,6 +14,7 @@ from django.db.models import Count, Sum
 from profissionais.models import Profissional
 from io import BytesIO
 from datetime import date
+from django.contrib.auth.decorators import login_required
 
 
 def relatorio_diaria_pdf(request,context):
@@ -78,6 +79,7 @@ def relatorio_diaria_pdf(request,context):
 
     return response
 
+@login_required
 @has_role_decorator(['secretario','digitador','coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def relatorio_diaria(request):
     context={}

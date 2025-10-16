@@ -9,10 +9,9 @@ from reportlab.lib.pagesizes import A4
 from cidadao.models import Cidadao
 from datetime import datetime
 from rolepermissions.decorators import has_role_decorator
-
-
+from django.contrib.auth.decorators import login_required
+@login_required
 @has_role_decorator(['coordenador'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
-
 def relatorio_cadastro_cidadao(request):
     context={}
     response = HttpResponse(content_type='application/pdf')   

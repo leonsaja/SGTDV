@@ -9,6 +9,7 @@ from django.contrib.messages import constants
 from django.contrib import messages
 from rolepermissions.decorators import has_role_decorator
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 def relatorio_registro_transporte_pdf(request,context):
     transportes=RegistroTransporte.objects.select_related('paciente','carro').all()
@@ -70,7 +71,8 @@ def relatorio_registro_transporte_pdf(request,context):
     else:
         messages.add_message(request,constants.ERROR,'Data inicial e Data final são Campos o obrigatório')
         return render(request,'transporte/registro_transporte/relatorio_registro_transporte.html',context)
-        
+  
+@login_required      
 @has_role_decorator(['coordenador','secretario','regulacao'],redirect_url='usuarios:acesso_negado')
 def relatorio_registro_transporte(request):
     context={}
