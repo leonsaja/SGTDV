@@ -249,7 +249,7 @@
               </ul>
             </li>
             {%endif%}
-            {% if user|has_role:'coordenador,regulacao,secretario,recepcao' %}
+            {% if user|has_role:'coordenador,regulacao,secretario' %}
             <li class="nav-item">
               <a href="#" class="nav-link">
 
@@ -261,7 +261,7 @@
               <ul class="nav nav-treeview ">
                 <li class="nav-item">
 
-                  <a href="{% url 'relatorios:relatorio-registro-transporte'%}" target="_blank"
+                  <a href="{% url 'relatorios:relatorio-registro-transporte'%}"
                     class="nav-link link-houver">
                     <p class=" text-sm text-muted">Registro Transporte</p>
                   </a>
@@ -353,7 +353,7 @@
           </a>
 
           <ul class="nav nav-treeview ">
-            {% if user|has_role:'coordenador,regulacao,recepcao,secretario' %}
+            {% if user|has_role:'coordenador,regulacao,secretario' %}
             <li class="nav-item">
               <a href="{% url 'transportes:list-regis-transporte'%}" class="nav-link">
 
@@ -374,7 +374,7 @@
                     <p class=" text-sm text-muted">Buscar paciente na Viagem </p>
                   </a>
                 </li>
-            {% if user|has_role:'coordenador,regulacao,secretario,digitador,recepcao' %}
+            {% if user|has_role:'coordenador,regulacao,secretario,digitador' %}
             <li class="nav-item">
               <a href="{% url 'transportes:list-carro'%}" class="nav-link link-houver">
 

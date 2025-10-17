@@ -48,13 +48,13 @@
     <div class="bordas pb-2">
         <div class="row">
             <div class="col-md-6 p-2 ">
-                <p class="p-1"><b>NOME DO PACIENTE: </b>
+                <p class=""><b>NOME DO PACIENTE: </b>
                     &nbsp;
                     {{recibo_tfd.paciente.nome_completo|upper}}
                     &nbsp; &nbsp;
                 </p>
 
-                <p class="p-1"><b>CPF:</b>
+                <p class=""><b>CPF:</b>
                     {%if recibo_tfd.paciente.cpf %}
                     &nbsp;{{recibo_tfd.paciente.formt_cpf|upper}}
                     &nbsp; &nbsp;&nbsp;
@@ -81,12 +81,12 @@
         <div class="row">
             <div class="col-md-6 m-2 ">
                 {%if recibo_tfd.acompanhante%}
-                <p class="p-1"> <b>ACOMPANHANTE:</b>
+                <p class=""> <b>ACOMPANHANTE:</b>
                     &nbsp;{{recibo_tfd.acompanhante.nome_completo|upper}}
                     &nbsp; &nbsp;&nbsp;&nbsp;
                 </p>
                 {% else %}
-                <p class="p-1"><b>NOME DO ACOMPANHANTE: </b>
+                <p class=""><b>NOME DO ACOMPANHANTE: </b>
 
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
 
@@ -94,11 +94,11 @@
                 {% endif %}
 
                 {% if recibo_tfd.acompanhante.cpf %}
-                <p class="p-1"><b>CPF:
+                <p class=""><b>CPF:
                     </b>{{recibo_tfd.acompanhante.formt_cpf}}
 
                     {% else %}
-                <p class="p-1">
+                <p class="">
                     <b>CPF: </b>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
                     &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
@@ -209,7 +209,6 @@
         </div>
 
     </div>
-    <div class="linha"></div>
 </div>
 <h3 class="text-center pt-2"><b>TABELA DE PROCEDIMENTOS</b></h3>
 <table class="table mt-3">
@@ -277,7 +276,7 @@
     <p class=" text-center">{{profissional.nome_completo|upper}}
         <b>
             <br>
-            SECRETÁRIO MUNICIPAL DE SAÚDE 2
+            SECRETÁRIO MUNICIPAL DE SAÚDE 
         </b>
 
     </p>
@@ -296,7 +295,7 @@
     <p class="m-0 p-2"><b>DATA:</b>
         ____/___/____</p>
     <p class="text-center">______________________________________</p>
-    <p class=" text-center pb-1"><b>{{recibo_tfd.paciente.nome_completo|upper}}</b></p>
+    <p class=" text-center"><b>{{recibo_tfd.paciente.nome_completo|upper}}</b></p>
 </div>
 
 <div class="pt-2">

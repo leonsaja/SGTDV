@@ -63,7 +63,7 @@ def relatorio_paciente_especialidade_pdf(request,context):
     return response
 
 @login_required
-@has_role_decorator(['regulacao','coordenador','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
+@has_role_decorator(['regulacao','recepcao','coordenador','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def relatorio_pacientes_especialidade(request):
     context={}
     if request.method == 'POST':

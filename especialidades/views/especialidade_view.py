@@ -18,7 +18,7 @@ from dal import autocomplete
 from django.contrib.auth.decorators import login_required
 
 @method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
-@method_decorator(has_role_decorator(['regulacao','recepcao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+@method_decorator(has_role_decorator(['regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class EspecialidadeCreateView(SuccessMessageMixin,CreateView):
     model=Especialidade
     form_class=EspecialidadeForm
@@ -28,7 +28,7 @@ class EspecialidadeCreateView(SuccessMessageMixin,CreateView):
     success_message='Cadastro realizado com sucesso'
 
 @method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
-@method_decorator(has_role_decorator(['regulacao','recepcao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+@method_decorator(has_role_decorator(['regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class EspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
     model=Especialidade
     form_class=EspecialidadeForm

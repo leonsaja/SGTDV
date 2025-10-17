@@ -161,7 +161,7 @@ class AtendimentoEspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
         return self.render_to_response(self.get_context_data(form=form, formset=formset))    
 
 @method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
-@method_decorator(has_role_decorator(['regulacao','secretario','coordenador','recepcao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+@method_decorator(has_role_decorator(['regulacao','secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class AtendEspecialidadeListView(ListView):
     
     model=AtendimentoEspecialidade
@@ -190,7 +190,7 @@ class AtendEspecialidadeListView(ListView):
         return qs.order_by('-data')
 
 @method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
-@method_decorator(has_role_decorator(['regulacao','secretario','coordenador','recepcao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+@method_decorator(has_role_decorator(['regulacao','secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class AtendEspecialidadeDetailView(DetailView):
 
     model=AtendimentoEspecialidade
@@ -299,7 +299,7 @@ def gerar_pdf_atend(request,context):
    return response
 
 @login_required
-@has_role_decorator(['regulacao','coordenador','recepcao','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))  
+@has_role_decorator(['regulacao','coordenador','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))  
 def atend_especialidade_pdf(request, id):
     context={}
     context['atendimento_especialidade'] = get_object_or_404(

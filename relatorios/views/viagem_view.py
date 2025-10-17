@@ -45,7 +45,7 @@ def relatorio_viagem_pdf(request,context):
     response['Content-Disposition'] = f'inline; filename="Relatorio_Viagens_{date.today().strftime("%d/%m/%Y")}.pdf"'
     return response
             
-@has_role_decorator(['regulacao','recepcao','coordenador','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
+@has_role_decorator(['regulacao','coordenador','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def relatorio_viagem(request):
     context={}
     viagens=Viagem.objects.select_related('carro','motorista').all().order_by('-data_viagem')

@@ -17,7 +17,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 @method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
-@method_decorator(has_role_decorator(['regulacao','recepcao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+@method_decorator(has_role_decorator(['regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class ProcedEspecialidadeCreateView(SuccessMessageMixin,CreateView):
     model=ProcedimentosEspecialidade
     form_class=ProcedEspecialidadeForm
@@ -27,7 +27,7 @@ class ProcedEspecialidadeCreateView(SuccessMessageMixin,CreateView):
     success_message='Cadastro realizado com sucesso'
     
 @method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
-@method_decorator(has_role_decorator(['regulacao','recepcao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+@method_decorator(has_role_decorator(['regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class ProcedEspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
     model=ProcedimentosEspecialidade
     form_class=ProcedEspecialidadeForm
@@ -37,7 +37,7 @@ class ProcedEspecialidadeUpdateView(SuccessMessageMixin,UpdateView):
     success_message='Dados atualizado com sucesso'
 
 @method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
-@method_decorator(has_role_decorator(['regulacao','recepcao','secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+@method_decorator(has_role_decorator(['regulacao','secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class ProcedEspecialidadeListView(ListView):
 
     model=ProcedimentosEspecialidade
@@ -58,7 +58,7 @@ class ProcedEspecialidadeListView(ListView):
         return qs
 
 @method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
-@method_decorator(has_role_decorator(['regulacao','recepcao','secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+@method_decorator(has_role_decorator(['regulacao','secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class ProcedEspecialidadeDetail(DetailView):
     model=ProcedimentosEspecialidade
     template_name='procedimento_especialidade/detail_proced_especialidade.html'

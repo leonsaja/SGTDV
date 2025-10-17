@@ -109,7 +109,7 @@ class CidadaoListView(LoginRequiredMixin,ListView):
     model=Cidadao
     template_name='cidadao/list_cidadao.html'
     context_object_name='pacientes'
-    paginate_by=15
+    queryset=Cidadao.objects.none()
 
 class CidadaoSearchListView(LoginRequiredMixin,ListView):
     
