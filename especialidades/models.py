@@ -101,9 +101,7 @@ class AtendimentoEspecialidade(models.Model):
         ('2','CONCLUÍDO'),
         ('3','CANCELADO'),
         
-
     )
-
     especialidade=models.ForeignKey(Especialidade,verbose_name='Especialidade',on_delete=models.PROTECT)
     data=models.DateField(verbose_name='Data do Atendimento',null=True,blank=False)
     atendimento_via=models.CharField(max_length=1, choices=ATEND_VIA,  verbose_name=' Atendimento Via',null=False, blank=False)

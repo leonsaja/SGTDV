@@ -57,6 +57,10 @@ class PacienteEspecialidadeCreateView(SuccessMessageMixin,CreateView):
                         'Este procedimento não pode ser inserido nesse tipo especialidade '
                     )
                 return self.form_invalid(form)
+            
+        #elif especialidade_obj.nome == 'ULTRASSOM' or  especialidade_obj.nome == 'ULTRASSOM' or :
+            
+            
         else:
                 qs = PacienteEspecialidade.objects.filter(
                     paciente=paciente,

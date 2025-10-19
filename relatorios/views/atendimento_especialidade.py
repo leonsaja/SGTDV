@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-from especialidades.models import AtendimentoEspecialidade
+from especialidades.models import AtendimentoEspecialidade, PacienteSia
 from relatorios.forms.atendimento_especialidade_form import RelatorioAtendimentoEspecialidadeForm
 from weasyprint import HTML
 from django.contrib.auth.decorators import login_required
@@ -15,32 +15,68 @@ from datetime import date
 @login_required
 def relatorio_atendimento_pdf(request,context):
 
-    atendimentos=AtendimentoEspecialidade.objects.select_related('especialidade').all()
     especialidade= context['especialidade']
     data_inicial=context['inicial']
     data_final=context['final']
     atendimento_via=context['atendimento_via']
     status=context['status']
+    tipo=context['tipo']
+    qta_pacientes=0
+    atendimentos=AtendimentoEspecialidade.objects.select_related('especialidade').filter(data__gte=data_inicial).filter(data__lte=data_final)
     
-    if especialidade:                                                                                                                                                                                                                                                   
-        atendimentos=atendimentos.filter(especialidade=especialidade) 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-    if data_inicial and data_final:
-        atendimentos=atendimentos.filter(data__gte=data_inicial).filter(data__lte=data_final)
+        
+    if tipo == '2': 
+        atendimentos=AtendimentoEspecialidade.objects.select_related('especialidade').filter(data__gte=data_inicial).filter(data__lte=data_final).filter(especialidade=especialidade)
+        
+        queryset = PacienteSia.objects.select_related(
+            'atendimento_paciente', 
+            'paciente__paciente',
+            'atendimento_paciente__especialidade'
+        ).all()
 
-    if atendimento_via:
-        atendimentos=atendimentos.filter(atendimento_via=atendimento_via)
+        
+        if especialidade:
+            queryset = queryset.filter(atendimento_paciente__especialidade=especialidade)
+            
+        if data_inicial and data_final:
+            # Usando __range, o campo 'data' está no modelo AtendimentoEspecialidade
+            queryset = queryset.filter(atendimento_paciente__data__range=[data_inicial, data_final])
+          
+        # Filtro de Via de Atendimento (acessado via 'atendimento_paciente')
+        if atendimento_via:
+            queryset = queryset.filter(atendimento_paciente__atendimento_via=atendimento_via)
 
-    if status:
-        atendimentos=atendimentos.filter(status=status)
+        # Filtro de Status do Atendimento (acessado via 'atendimento_paciente')
+        if status:
+            queryset = queryset.filter(atendimento_paciente__status=status)
+        
+        qta_pacientes=queryset.count()
+        dados_relatorio = queryset
+    
+    else:
+        if especialidade:                                                                                                                                                                                                                                                   
+            atendimentos=atendimentos.filter(especialidade=especialidade) 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+        if atendimento_via:
+            atendimentos=atendimentos.filter(atendimento_via=atendimento_via)
+
+        if status:
+            atendimentos=atendimentos.filter(status=status)
+            
+        dados_relatorio=atendimentos
+        
+    
+    
         
     context['qta_atendimeento']= atendimentos.count()
+    context['qta_pacientes']=qta_pacientes
+    
     total=0
 
     context['inicial']=datetime.strptime(context['inicial'],'%Y-%m-%d').strftime('%d/%m/%Y')
     context['final']=datetime.strptime(context['final'],'%Y-%m-%d').strftime('%d/%m/%Y')
     context['data']=datetime.today().strftime('%d/%m/%Y') 
-    context['atendimentos']=atendimentos
+    context['atendimentos']=dados_relatorio
 
     
     for a in atendimentos:
@@ -70,6 +106,7 @@ def relatorio_atendimento_especialidade(request):
           context['especialidade']=form.cleaned_data.get('especialidade')
           context['atendimento_via']=form.cleaned_data.get('atendimento_via')
           context['status']=form.cleaned_data.get('status')
+          context['tipo']=form.cleaned_data.get('tipo')
           return relatorio_atendimento_pdf(request,context)
          
 

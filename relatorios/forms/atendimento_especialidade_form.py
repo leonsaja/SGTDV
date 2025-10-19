@@ -33,11 +33,15 @@ class RelatorioAtendimentoEspecialidadeForm(forms.Form):
         
 
     )
+    TIPO=(
+        ('1','RESUMO'),
+        ('2','COMPLETO (NOMES PACIENTES)'),
+    )
 
     especialidade=forms.ModelChoiceField(label='Especialidade', queryset=Especialidade.objects.all(),required=False,widget=forms.Select(attrs={'class': 'form-control'}))
     atendimento_via=forms.ChoiceField(label='Classficação',required=True,widget=forms.RadioSelect,choices=ATEND_VIA)
     status=forms.ChoiceField(label='Status',required=True, widget=forms.RadioSelect,choices=STATUS)
-
+    tipo=forms.ChoiceField(label='Tipo de relatório',required=True, widget=forms.RadioSelect,choices=TIPO)
 
     def clean_data_inicial(self):
         data = self.cleaned_data["data_inicial"]
@@ -55,3 +59,14 @@ class RelatorioAtendimentoEspecialidadeForm(forms.Form):
             raise ValidationError('Data final é maior que data atual')
 
         return data
+    
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        especialidade = cleaned_data["especialidade"]
+        tipo = cleaned_data["tipo"]
+        
+        if tipo == '2' and not especialidade:
+           self.add_error('especialidade','Campo especialidade  é obrigatório ')
+           
+        return cleaned_data

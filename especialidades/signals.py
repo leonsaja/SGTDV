@@ -23,7 +23,7 @@ def update_pacientes_status(sender, instance, created, **kwargs):
 
                         # Atualiza o status do PacienteEspecialidade para '2' (Concluído).
                         # Adicionamos uma verificação para evitar salvar se o status já estiver correto.
-                        if paciente_especialidade.status != '2' and paciente_especialidade.status != '4':
+                        if paciente_especialidade.status != '2' and paciente_especialidade.status != '4' and paciente_especialidade.status !='5':
                             paciente_especialidade.status = '2'
                             paciente_especialidade.save()
         else:
