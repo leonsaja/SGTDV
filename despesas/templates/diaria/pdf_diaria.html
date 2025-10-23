@@ -1,7 +1,7 @@
 {% extends 'relatorio.html' %}
 {% load static %}
 {% block title %}PDF Diária{% endblock %}
-   {% load humanize %}
+{% load humanize %}
 
 {% block head%}
 
@@ -24,141 +24,174 @@
 
         font-size: 13px;
       }
+      .info-motorista {
+          /* Diminuímos o padding geral da caixa */
+        
+          
+          /* Reduzimos a margem inferior para a caixa ficar mais próxima do que a segue */
+          margin-bottom: 5px; 
+      }
+
+.info-motorista .bloco{
+    display: flex;
+    justify-content: space-between;
+    /* Diminuímos o padding vertical para as linhas */
+    padding: 2px 0; 
+}
+
+.info-motorista .linha:last-child {
+    border-bottom: none;
+}
+
+.info-motorista .item {
+    flex: 1; 
+    /* Diminuímos o padding horizontal para os itens */
+    padding: 0 5px; 
+}
+
+.placa-container {
+    text-align: right;
+}
 </style>
 
 {% endblock%}
 {% block content %}
 {% include 'includes/cabecalho.html' %}
 <h3 class="text-center "> <b>DIÁRIA</b></h3>
-<div class="bordas">
+<div class="container">
   <div class="row">
-
-    <div class="col-md-5 m-2">
-
-      <p class=" "><b>IDENTIFICAÇÃO:
-        </b>{{diaria.profissional.nome_completo|upper}}
-
-        &nbsp; &nbsp;&nbsp;&nbsp;
-        &nbsp; &nbsp;&nbsp;&nbsp;
-        &nbsp; &nbsp;&nbsp;&nbsp;
-        &nbsp; &nbsp;&nbsp;&nbsp;
-        &nbsp; &nbsp;&nbsp;&nbsp;
-        &nbsp; &nbsp;&nbsp;&nbsp;
-        &nbsp; &nbsp;&nbsp;&nbsp;
-        &nbsp; &nbsp;&nbsp;&nbsp;
-        <b>DATA: </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}
-      </p>
-      <p class>
-        <b>CPF: </b>{{diaria.profissional.formt_cpf}}
-        &nbsp; &nbsp;&nbsp;&nbsp;
-        <b>FONTE: </b>{{diaria.form_fonte}}
-        &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
-        <b>CONTA: </b>{{diaria.form_conta}}
-        &nbsp; &nbsp;&nbsp;&nbsp;
-      </p>
-    </div>
-
-  </div>
-
-  <div class="linha"></div>
-  <p class="text-center m-2"><b>RELATÓRIO DESCREVENDO O OBJETO DA VIAGEM
-      INCLUINDO
-      PERÍODO</b></p>
-  <div class="linha"></div>
-  <div class="row">
-    <div class="col-md-12 m-2">
-      <p class="m-1">
-        <b>DESCRIÇÃO: </b>{{diaria.descricao}}
+    <div class="col-md-12" style="text-align: right;">
+      <p class="m-0">
+        <b>Nº: </b> {{n_diaria}}
       </p>
     </div>
   </div>
-  {% if diaria.obs%}
-  <div class="linha"></div>
-  <div class="row">
-    <div class="col-md-12">
-      <p class="m-1">
-        <b>OBSERVAÇÃO: </b>{{diaria.obs}}
-      </p>
-
+  <div class="bordas">
+    <div class="info-motorista">
+      <div class="bloco pt-2">
+        <div class="item ">
+          <p style="margin: 0px;"><b>IDENTIFICAÇÃO:
+            </b>{{diaria.profissional.nome_completo|upper}}</p>
+        </div>
+        <div class="item placa-container">
+          <p style="margin: 0px;"><b>DATA:
+            </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
+        </div>
+      </div>
+      <div class="bloco">
+        <div class="item">
+          <p style="margin: 0px;"><b>CPF:
+            </b>{{diaria.profissional.formt_cpf}}</p>
+        </div>
+        <div class="item">
+          <p style="margin: 0px;"> <b>FONTE: </b>{{diaria.form_fonte}}</p>
+        </div>
+        <div class="item">
+          <p style="margin: 0px;"> <b>CONTA: </b>{{diaria.form_conta}}</p>
+        </div>
+      </div>
     </div>
-  </div>
-  {%endif%}
-</div>
-
-<table class="table-bordered mt-3">
-  <thead>
-    <tr>
-      <th>ITENS</th>
-      <th>DESCRICAO - DESPESAS</th>
-      <th>TIPO</th>
-      <th>QTA</th>
-      <th>VALOR</th>
-      <th>TOTAL</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>01</td>
-      <td>
-        <p class="m-1 text-start">
-          <b> Origem:</b> {{diaria.viagem_orig|upper}}
-
+    <div class="linha"></div>
+    <p class="text-center m-2"><b>RELATÓRIO DESCREVENDO O OBJETO DA VIAGEM
+        INCLUINDO
+        PERÍODO</b></p>
+    <div class="linha"></div>
+    <div class="row">
+      <div class="col-md-12 m-2">
+        <p class="m-1">
+          <b>DESCRIÇÃO: </b>{{diaria.descricao}}
         </p>
-        <p class="m-1 text-start"><b> Destino:</b>
-          {{diaria.viagem_dest|upper}}</p>
-      </td>
-      <td>{{diaria.get_tipo_diaria_display}}</td>
-      <td>{{diaria.form_qta_diaria}}</td>
-      <td>{{diaria.valor}}</td>
-      <td>{{diaria.total|intcomma}}</td>
-    </tr>
-  </tbody>
-</table>
-<div class="bordas">
-  <p class="text-center pt-2 "><b> APROVAÇÃO DA DESPESA</b></p>
-  <p class="m-0 p-2"><b>DATA:
-    </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
-  <p class=" text-center m-0 ">______________________________________</p>
-  {%if diaria.status == '2'%}
-  <p class="text-center"><b>STATUS:</b> {{diaria.get_status_display}}</p>
-  {%elif diaria.status == '3' %}
-    <p class="text-center" style="color: red;"><b>STATUS:</b> {{diaria.get_status_display}}</p>
-      {%endif%}
-      {%if diaria.aprovado_por %}
-      <p class="text-center"><b>{{diaria.aprovado_por|upper}}
-          <br>
-          SECRETÁRIO MUNICIPAL DE SAÚDE
-        </b> </p>
-      {%else%}
-      <p class="text-center"> {{profissional.nome_completo|upper}}
-        <b><br>
-          SECRETÁRIO MUNICIPAL DE SAÚDE
-        </b> </p>
-      {%endif%}
+      </div>
     </div>
+    {% if diaria.obs%}
+    <div class="linha"></div>
+    <div class="row">
+      <div class="col-md-12">
+        <p class="m-1">
+          <b>OBSERVAÇÃO: </b>{{diaria.obs}}
+        </p>
 
-    <div class="bordas ">
-      <p class="text-center pt-2"><b> AUTORIZAÇÃO DA DESPESA</b></p>
-      <p class="m-0 p-2"><b>DATA:
-        </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
-      <p class="text-center m-0">______________________________________</p>
-      {%if diaria.status == '2'%}
-      <p class="text-center"><b>STATUS:</b> {{diaria.get_status_display}}
-      
+      </div>
+    </div>
+    {%endif%}
+  </div>
+
+  <table class="table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>ITENS</th>
+        <th>DESCRICAO - DESPESAS</th>
+        <th>TIPO</th>
+        <th>QTA</th>
+        <th>VALOR</th>
+        <th>TOTAL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>01</td>
+        <td>
+          <p class="m-1 text-start">
+            <b> Origem:</b> {{diaria.viagem_orig|upper}}
+
+          </p>
+          <p class="m-1 text-start"><b> Destino:</b>
+            {{diaria.viagem_dest|upper}}</p>
+        </td>
+        <td>{{diaria.get_tipo_diaria_display}}</td>
+        <td>{{diaria.form_qta_diaria}}</td>
+        <td>{{diaria.valor}}</td>
+        <td>{{diaria.total|intcomma}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="bordas">
+    <p class="text-center pt-2 "><b> APROVAÇÃO DA DESPESA</b></p>
+    <p class="m-0 p-2"><b>DATA:
+      </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
+    <p class=" text-center m-0 ">______________________________________</p>
+    {%if diaria.status == '2'%}
+    <p class="text-center"><b>STATUS:</b> {{diaria.get_status_display}}</p>
+    {%elif diaria.status == '3' %}
+    <p class="text-center" style="color: red;"><b>STATUS:</b>
+      {{diaria.get_status_display}}</p>
+    {%endif%}
+    {%if diaria.aprovado_por %}
+    <p class="text-center"><b>{{diaria.aprovado_por|upper}}
+        <br>
+        SECRETÁRIO MUNICIPAL DE SAÚDE
+      </b> </p>
+    {%else%}
+    <p class="text-center"> {{profissional.nome_completo|upper}}
+      <b><br>
+        SECRETÁRIO MUNICIPAL DE SAÚDE
+      </b> </p>
+    {%endif%}
+  </div>
+
+  <div class="bordas ">
+    <p class="text-center pt-2"><b> AUTORIZAÇÃO DA DESPESA</b></p>
+    <p class="m-0 p-2"><b>DATA:
+      </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
+    <p class="text-center m-0">______________________________________</p>
+    {%if diaria.status == '2'%}
+    <p class="text-center"><b>STATUS:</b> {{diaria.get_status_display}}
+
       {%elif diaria.status == '3' %}
-        <p class="text-center" style="color: red;"><b>STATUS:</b> {{diaria.get_status_display}}
-      {%endif%}
-      {%if diaria.aprovado_por %}
-          <p class="text-center"><b>{{diaria.aprovado_por|upper}}
-              <br>
-              <b>SECRETÁRIO MUNICIPAL DE SAÚDE</b>
-           </p>
-     {%else%}
-            <p class="text-center"> {{profissional.nome_completo|upper}}
-              <br>
-               <b> SECRETÁRIO MUNICIPAL DE SAÚDE</b>
-              </p>
-     {%endif%}
+      <p class="text-center" style="color: red;"><b>STATUS:</b>
+        {{diaria.get_status_display}}
+        {%endif%}
+        {%if diaria.aprovado_por %}
+        <p class="text-center"><b>{{diaria.aprovado_por|upper}}
+            <br>
+            <b>SECRETÁRIO MUNICIPAL DE SAÚDE</b>
+          </p>
+          {%else%}
+          <p class="text-center"> {{profissional.nome_completo|upper}}
+            <br>
+            <b> SECRETÁRIO MUNICIPAL DE SAÚDE</b>
+          </p>
+          {%endif%}
 
         </div>
         <div class="bordas pt">
@@ -186,5 +219,5 @@
             {{diaria.created_at|date:"d/m/Y"|default:'---'}} às
             {{diaria.created_at|time:"H:i"|default:'---'}} </p>
         </div>
-    
+
         {% endblock %}

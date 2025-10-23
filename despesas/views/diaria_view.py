@@ -1,3 +1,4 @@
+import datetime
 from django.db.models import ProtectedError, Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
@@ -142,9 +143,9 @@ def diaria_pdf(request,id):
     User=get_user_model()
 
     profissional=User.objects.filter(is_active=True).filter(perfil='5').first()
-    
+    n_diaria=f'{diaria.id}/{datetime.date.today().year}'
     buffer = BytesIO()
-    html_string = render_to_string('diaria/pdf_diaria.html',{'diaria':diaria,'profissional':profissional})
+    html_string = render_to_string('diaria/pdf_diaria.html',{'diaria':diaria,'profissional':profissional,'n_diaria':n_diaria})
     HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(buffer)
     response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
     response['Content-Disposition'] = f'inline; filename="Diaria_{diaria.profissional.profis()}_{diaria.data_diaria.strftime("%d/%m/%Y")}.pdf"'
