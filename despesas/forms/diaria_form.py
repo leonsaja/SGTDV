@@ -6,7 +6,7 @@ from despesas.models import Diaria
 from dal import autocomplete
 class DiariaForm(forms.ModelForm):
 
-    descricao=forms.CharField(label='Descrição', widget=forms.Textarea( attrs={'placeholder':'Digite a descrição da viagem...','rows':3,'cols':10}))
+    descricao=forms.CharField(label='Descrição da Viagem', widget=forms.Textarea( attrs={'placeholder':'Digite a descrição da viagem...','rows':3,'cols':10}))
     obs=forms.CharField(label='Observação', required=False, widget=forms.Textarea( attrs={'rows':3,'cols':10}))
     data_diaria = forms.DateField(label='Data',widget=forms.DateInput( \
         format='%Y-%m-%d',attrs={ 'type': 'date',}),input_formats=('%Y-%m-%d',), )
@@ -25,7 +25,6 @@ class DiariaForm(forms.ModelForm):
         
         return data
     
-    
     def clean_conta(self):
         data_conta=str(self.cleaned_data.get('conta'))
         
@@ -34,12 +33,20 @@ class DiariaForm(forms.ModelForm):
                 return data_conta   
             raise ValidationError('Digite a conta corretamente com até 8 digitos.')
         return data_conta
-    
-    
+     
     def clean(self):
         cleaned_data = super().clean()
         profissional=cleaned_data.get('profissional')
         data=cleaned_data.get('data_diaria')
+        descricao=cleaned_data.get('descricao')
+        destino_viagem=cleaned_data.get('viagem_dest')
+        
+        
+        
+        if destino_viagem.upper() not in descricao.upper():
+            self.add_error('viagem_dest', 'Destino da viagem se encontra diferente da "DESCRIÇÃO DA VIAGEM"')
+            
+
         insert = self.instance.pk == None
 
         data_diaria=self.instance.data_diaria

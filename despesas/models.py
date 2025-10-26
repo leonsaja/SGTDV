@@ -26,7 +26,7 @@ class Diaria(models.Model):
     data_diaria=models.DateField(verbose_name='Data',null=False,blank=False)
     reembolso=models.CharField('Reembolso', max_length=1, choices=STATUS_REEMBOLSO)
     viagem_orig=models.CharField(verbose_name='Origem da Viagem',max_length=180,default='SANTO ANTÔNIO DO JACINTO-MG')
-    viagem_dest=models.CharField(verbose_name='Destino da Viagem',max_length=200)
+    viagem_dest = models.ForeignKey('transportes.destinoviagem', verbose_name='Destino da Viagem',on_delete=models.PROTECT, null=True,blank=True) # PRECISA ser True para permitir migrar dados
     conta=models.PositiveBigIntegerField(verbose_name='Conta',null=False,blank=False,default=115223)
     fonte=models.PositiveIntegerField(verbose_name='Fonte',null=False,blank=False,default=15001002)
     obs=models.TextField(verbose_name='Observação',null=True,blank=True)

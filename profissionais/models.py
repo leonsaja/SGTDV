@@ -2,7 +2,6 @@
 from django.db import models
 from localflavor.br.models import BRCPFField
 
-from estabelecimentos.models import Estabelecimento, MicroArea
 
 
 class Profissional(models.Model):

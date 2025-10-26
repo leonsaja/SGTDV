@@ -58,8 +58,6 @@ class PassageiroViagem(models.Model):
    class Meta:
         ordering = ["paciente__nome_completo"]
 
-
-
 def get_upload_path(instance, filename):
     # Obtém a extensão do arquivo
     ext = filename.split('.')[-1]
@@ -69,7 +67,6 @@ def get_upload_path(instance, filename):
     
     # Define o caminho de upload
     return os.path.join('media/carros', new_filename)
-
 
 class Carro(models.Model):
    
@@ -152,3 +149,12 @@ class RegistroTransporte(models.Model):
    
    def __str__(self):
       return f'{self.paciente}'
+   
+class DestinoViagem(models.Model):
+   nome=models.CharField(verbose_name='Nome do Destino da Viagem', max_length=150,null=True,blank=False)
+   
+   def __str__(self):
+      return f'{self.nome}'
+   
+   class Meta:
+        ordering = ["nome"]
