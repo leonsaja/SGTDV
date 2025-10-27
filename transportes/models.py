@@ -15,7 +15,7 @@ class Viagem(models.Model):
     
 
    data_viagem=models.DateField(verbose_name='Data da Viagem', null=False,blank=False)
-   destino_viagem=models.CharField(verbose_name='Destino', max_length=180,null=False, blank=False)
+   destino_viagem = models.ForeignKey('transportes.destinoviagem',on_delete=models.PROTECT,verbose_name='Destino da Viagem',null=True,blank=False)
    horario_saida=models.TimeField(verbose_name='Horário de Viagem')
    motorista=models.ForeignKey( Profissional, verbose_name='Motorista', on_delete=models.PROTECT,null=True,blank=True)
    status=models.CharField(verbose_name='Status da Viagem',max_length=1, choices=STATUS_VIAGEM, null=False, blank=False, default=1)
@@ -134,8 +134,7 @@ class RegistroTransporte(models.Model):
    acompanhante=models.CharField(verbose_name='Tem acompanhante',null=False,blank=False,max_length=1,choices=ACOMPANHANTE)
    atend_zona_rural=models.CharField(verbose_name='Atend. Zona rural',max_length=1,choices=ATEND_ZONA_RURAL)
    origem=models.CharField(verbose_name='Origem',null=False, blank=False, max_length=200, default='SANTO ANTÔNIO DO JACINTO-MG')
-   destino=models.CharField(verbose_name='Destino',null=False, blank=False, max_length=200,default='')
-
+   destino = models.ForeignKey('transportes.destinoviagem',on_delete=models.PROTECT,verbose_name='Destino da Viagem',null=True,blank=False)
    dist_percorrida=models.PositiveBigIntegerField(verbose_name='Distância percorrida (KM)', null=False, blank=False,help_text='ida e volta')
    quant_proced_paciente=models.PositiveBigIntegerField(verbose_name='Quant. procedimento 08.03.01.012-5',null=False,blank=False,help_text='Paciente')
    quant_proced_acompanhante=models.PositiveBigIntegerField(verbose_name='Quant. procedimento 08.03.01.010-9',null=True,blank=True,help_text='Acompanhante')
