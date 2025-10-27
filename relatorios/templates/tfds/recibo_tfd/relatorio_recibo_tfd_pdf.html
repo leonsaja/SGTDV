@@ -81,9 +81,10 @@
       <thead>
         <tr>
           <th>ITENS</th>
-          <th>Nome do Paciente</th>
+          <th>Paciente</th>
           <th>Data</th>
           <th>CPF</th>
+          <th>Destino</th>
           <th>Acompanhante</th>
           <th>Subtotal</th>
           
@@ -100,6 +101,7 @@
           <td>{{r.data|date:"d/m/Y"|default:'---'}}</td>
           
           <td>{{r.paciente.formt_cpf}}</td>
+          <td>{{r.municipio_destino}}</td>
           {%if r.acompanhante%}
             <td>{{r.acompanhante.acompanhante|upper}}</td>
           {%else%}

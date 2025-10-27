@@ -155,10 +155,9 @@
       <thead>
         <tr>
           <th>ITENS</th>
-          <th>Nome do Profissional</th>
+          <th>Profissional</th>
           <th>CPF</th>
           <th>Data da Diária</th>
-          <th>Destino</th>
           <th>Quantidade</th>
           <th>Valor</th>
 
@@ -174,7 +173,6 @@
           <td>{{d.profissional.formt_cpf}}</td>
 
           <td>{{d.data_diaria|date:"d/m/Y"|default:'---'}}</td>
-          <td>{{d.viagem_dest}}</td>
           <td>{{d.form_qta_diaria}}</td>
           <td>R$ {{d.total|intcomma}}</td>
 
