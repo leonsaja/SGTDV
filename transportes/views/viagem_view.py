@@ -125,7 +125,7 @@ class ViagemSearchListView(ListView):
         
 
         if destino_viagem:
-            qs=qs.filter(destino_viagem__icontains=destino_viagem).order_by('-data_viagem')
+            qs=qs.filter(destino_viagem__nome__icontains=destino_viagem).order_by('-data_viagem')
         if placa_carro:
             qs=qs.filter(carro__placa__icontains=placa_carro).order_by('-data_viagem')       
         if data :

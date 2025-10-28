@@ -167,7 +167,7 @@ class ProcedimentoSia(models.Model):
          else:
             total=self.codigosia.subtotal*self.qtd_procedimento
       return total
-  
+ 
  
    def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

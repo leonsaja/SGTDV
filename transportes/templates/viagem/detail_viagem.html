@@ -84,8 +84,11 @@
         <div class="row">
               <div class="col-md-12">
                 <label for="id_carro" class="form-label">Observação:</label>
+                {%if viagem.observacao %}
                 <h6 class="text-muted">{{viagem.observacao|upper}}</h6>
-
+                {%else%}
+                    <h6 class="text-muted">-</h6>
+                {%endif%}
             </div>
         </div>
 
