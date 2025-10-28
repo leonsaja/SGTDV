@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title%}
+  {% if request.resolver_match.url_name == 'add-destino' %} 
+      Criar Destino
+  {%else%} 
+      Editar Destino
+  {%endif%} 
+{%endblock title%}
+
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container-fluid  ">
+    <div class="row">
+        <div class="col-md-12">
+            {% include 'includes/mensagens.html'%}
+        </div>
+    </div>
+    <div class="row  justify-content-center ">
+        <div class="col-md-8">
+            <br>
+            <h4 class="text-primary"><strong>Cadastro de Cidade </strong> </h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="row  justify-content-center mt-4">
+                <form method="POST" enctype="multipart/form-data" autocomplete="off" class="col-8 needs-validation"
+                    novalidate>
+                    {% csrf_token %}
+                    <div class="row justify-content-center ">
+                        <div class="col-md-12">
+                            {{ form|crispy }}
+                        </div>
+
+                    </div>
+                    
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-12 mb-2">
+                            <div class="text-right">
+                                <a href="{% url 'transportes:list-destino'%}"
+                                    class="btn btn-outline-danger mr-2">Cancelar</a>
+                                <button class="btn btn-primary ">Salvar</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

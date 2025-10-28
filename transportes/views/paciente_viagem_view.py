@@ -19,12 +19,12 @@ class PacienteViagemSearchView(ListView):
 
     def get_queryset(self):
         buscar = self.request.GET.get('buscar', None)
+        
         qs = PassageiroViagem.objects.select_related('paciente','viagem').all().order_by('-viagem')
 
         if buscar:
-            
+            buscar=buscar.rstrip()
             cpf_cns_limpo = re.sub(r'\D', '', buscar)
-         
             if len(cpf_cns_limpo) == 11:
                 qs = qs.filter(paciente__cpf=cpf_cns_limpo)
             elif len(cpf_cns_limpo) == 15:

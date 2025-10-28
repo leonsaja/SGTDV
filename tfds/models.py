@@ -36,7 +36,7 @@ class ReciboTFD(models.Model):
    )
    paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='recibo_tfd_paciente')
    municipio_origem=models.CharField(verbose_name='Município Origem', max_length=120,null=False,blank=False,default='Santo Antônio do Jacinto-MG')
-   municipio_destino = models.ForeignKey('transportes.destinoviagem',on_delete=models.PROTECT,verbose_name='Destino da Viagem',null=True,blank=False)
+   municipio_destino = models.ForeignKey('transportes.destinoviagem',verbose_name='Município Destino',on_delete=models.PROTECT,null=True,blank=False)
    data=models.DateField(verbose_name='Data')
    grs=models.CharField(verbose_name='GRS',max_length=50,null=False,blank=False,default='Pedra Azul-MG')
    especialidade=models.ForeignKey(Especialidade,on_delete=models.PROTECT, verbose_name='Especialidade', null=False, blank=False)

@@ -1,7 +1,6 @@
 from decimal import Decimal
 from django import forms
 from django.core.exceptions import ValidationError
-from django_select2 import forms as s2forms
 from despesas.models import Diaria
 from dal import autocomplete
 class DiariaForm(forms.ModelForm):
@@ -16,6 +15,7 @@ class DiariaForm(forms.ModelForm):
         exclude=('status','criado_por','alterado_por','aprovado_por','total','descricao_rembolso','data_ult_nota_reembolso',)
         widgets = {
             'profissional':autocomplete.ModelSelect2(url='profissionais:profissional-autocomplete'),
+            'viagem_dest':autocomplete.ModelSelect2(url='transportes:destino-autocompleto'),
         }
 
     def clean_qta_diaria(self):
@@ -40,12 +40,11 @@ class DiariaForm(forms.ModelForm):
         data=cleaned_data.get('data_diaria')
         descricao=cleaned_data.get('descricao')
         destino_viagem=cleaned_data.get('viagem_dest')
-        
-        
-        
-        if destino_viagem.upper() not in descricao.upper():
-            self.add_error('viagem_dest', 'Destino da viagem se encontra diferente da "DESCRIÇÃO DA VIAGEM"')
-            
+         
+        if destino_viagem and descricao:
+            if destino_viagem.nome.upper() not in descricao.upper():
+                self.add_error('viagem_dest', 'Destino da viagem se encontra diferente da "DESCRIÇÃO DA VIAGEM"')
+                
 
         insert = self.instance.pk == None
 

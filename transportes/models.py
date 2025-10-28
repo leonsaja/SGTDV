@@ -150,7 +150,7 @@ class RegistroTransporte(models.Model):
       return f'{self.paciente}'
    
 class DestinoViagem(models.Model):
-   nome=models.CharField(verbose_name='Nome do Destino da Viagem', max_length=150,null=True,blank=False)
+   nome=models.CharField(verbose_name='Nome', max_length=150,null=True,blank=False,unique=True)
    
    def __str__(self):
       return f'{self.nome}'

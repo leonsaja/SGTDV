@@ -183,19 +183,5 @@
 
 <!-- Button trigger modal -->
 {% endblock content %} {% block scripts %}
-<script>
-  $('#validar-form').submit(function () {
-    let nome_cpf = $('#search_nome_cpf')
-    let nome_mae = $('#search_nome_mae')
-    let data_nascimento = $('#search_dt_nascimento')
-    let erro = $('.alert')
 
-    if (nome_cpf.val() == '' && data_nascimento.val() == '' && nome_mae.val() == '') {
-      erro.removeClass('d-none')
-      return false
-    }
-
-    return true
-  })
-</script>
 {% endblock scripts %}

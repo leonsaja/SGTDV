@@ -44,6 +44,8 @@ class ReciboTFDForm(forms.ModelForm):
             'paciente': autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
             'acompanhante':autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
             'especialidade':autocomplete.ModelSelect2(url='especialidades:especialidade-autocomplete'),
+            'municipio_destino':autocomplete.ModelSelect2(url='transportes:destino-autocompleto'),
+
         }
 
     def clean_cns(self):

@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
-{% block title%}Lista Especialidades {%endblock title%}
+{% block title%}Lista Cidades {%endblock title%}
 
 {% load permission_tags %}
 
 {% block content %}
 <div class="container-fluid">
-  {% include 'especialidade/abas_especialidade.html' %}
 
   <div class="row">
     <div class="col-md-12">
@@ -17,7 +16,8 @@
   <div class="row ">
     <div class="col-md-12">
       <div class="text-right">
-        <a href="{% url 'especialidades:add-especialidade' %}" class="btn btn-primary"><b>Cadastrar Especialidade</b>
+        <br>
+        <a href="{% url 'transportes:add-destino' %}" class="btn btn-primary"><b>Cadastrar Cidade</b>
         </a>
       </div>
     </div>
@@ -25,14 +25,14 @@
   {%endif%}
   <div class="row justify-content-center ">
     <div class="col-md-8  ">
-      <h4 class=" text-primary"><strong>Especialidades</strong> </h4>
+      <h4 class=" text-primary"><strong>Cidades</strong> </h4>
     </div>
   </div>
   <br>
   <div class="row ">
     <div class="container">
       <div class="row justify-content-center">
-        <form class="col-md-8   needs-validation" action="{% url 'especialidades:list-especialidade'%}" method="GET"
+        <form class="col-md-8   needs-validation" action="{% url 'transportes:list-destino'%}" method="GET"
           id="validar-form">
 
           <div class="row">
@@ -55,7 +55,7 @@
           <div class="row">
             <div class="col-md-12 mt-3">
               <div class="float-right">
-                <a class="btn mr-2" href="{% url 'especialidades:list-especialidade'%}"
+                <a class="btn mr-2" href="{% url 'transportes:list-destino'%}"
                   style="background-color:#DADADA;">
                   Limpar
                   Filtro</a>
@@ -78,7 +78,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h3 class="logo pt-2">Especialidades</h3>
+          <h3 class="logo pt-2">Cidades</h3>
 
         </div>
         <!-- /.card-header -->
@@ -93,31 +93,24 @@
                 </tr>
               </thead>
               <tbody>
-                {%for especialidade in especialidades %}
+                {%for destino in destino_viagens %}
                 <tr>
                  <td> {{ forloop.counter }}</td>
-                  <td><a style="text-decoration:none" href="{% url 'especialidades:detail-especialidade' especialidade.id%}"><b>{{especialidade.nome}}</b></a></td>
+                  <td>{{destino.nome}}</td>
 
                   <td>
 
-                    <a href="{% url 'especialidades:detail-especialidade' especialidade.id%}" class="pr-1"><i
-                        class="fas fa-solid fa-eye"></i></a>
-
+                   
                      {% if user|has_role:'secretario,coordenador' %}
 
-                    <a href="{% url 'especialidades:edit-especialidade' especialidade.id%}" class="pr-1 text-warning"><i
+                    <a href="{% url 'transportes:edit-destino' destino.id%}" class="pr-1 text-warning"><i
                         class="fas fa-edit"></i></a>
-                    <a href="#modal--{{especialidade.id}}" data-bs-toggle="modal"
-                      data-bs-target="#modal--{{especialidade.id}}" class="pr-2 text-danger">
-
-                      <i class="fas fa-solid fa-trash-can"></i>
-                    </a>
+                    
                     {%endif%}
                    
 
                   </td>
                 </tr>
-                {% include 'especialidade/modal_delete_especialidade.html'%}
                 {%endfor%}
 
               </tbody>

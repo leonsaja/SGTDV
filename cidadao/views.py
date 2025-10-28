@@ -121,10 +121,10 @@ class CidadaoSearchListView(LoginRequiredMixin,ListView):
     def get_queryset(self, *args, **kwargs):
         qs = super(CidadaoSearchListView,self).get_queryset(*args, **kwargs)
 
-        search_nome_cpf_cns = self.request.GET.get('search_nome_cpf', '').strip()
-        search_nome_mae = self.request.GET.get('search_nome_mae', '').strip()
+        search_nome_cpf_cns = self.request.GET.get('search_nome_cpf', '').rstrip()
+        search_nome_mae = self.request.GET.get('search_nome_mae', '').rstrip()
         search_dt_nascimento = self.request.GET.get('search_dt_nascimento', None)
-   
+        
         if search_nome_cpf_cns:
 
             cpf_cns_limpo = re.sub(r'\D', '', search_nome_cpf_cns)

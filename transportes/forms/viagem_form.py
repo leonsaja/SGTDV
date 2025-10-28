@@ -25,9 +25,10 @@ class ViagemForm(forms.ModelForm):
         model=Viagem
         exclude=('criado_por','alterado_por',)
         widgets = {
-            'motorista':s2forms.Select2Widget(),
+            'motorista':autocomplete.ModelSelect2(url='profissionais:profissional-autocomplete'),
             'carro':s2forms.Select2Widget(),
-                
+            'destino_viagem':autocomplete.ModelSelect2(url='transportes:destino-autocompleto'),
+
         }
 
     def clean(self):

@@ -42,6 +42,7 @@ class RegistroTransporteForm(forms.ModelForm):
         widgets = {
             'paciente': autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
             'carro':s2forms.Select2Widget(),
+            'destino':autocomplete.ModelSelect2(url='transportes:destino-autocompleto'),
            
         }
         

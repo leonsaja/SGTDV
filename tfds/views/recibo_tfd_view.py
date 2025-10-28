@@ -145,10 +145,11 @@ class ReciboTFDSearchListView(ListView):
     def get_queryset(self, *args, **kwargs):
         qs = super(ReciboTFDSearchListView,self).get_queryset(*args, **kwargs).select_related('paciente','especialidade','acompanhante').order_by('-created_at')
         
-        search_nome_cpf=self.request.GET.get('search_nome_cpf',None).rstrip()
+        search_nome_cpf=self.request.GET.get('search_nome_cpf',None)
         data=self.request.GET.get('data',None)
     
         if search_nome_cpf:
+            search_nome_cpf=search_nome_cpf.rstrip()
             qs=qs.filter(Q(paciente__nome_completo__unaccent__icontains=search_nome_cpf)| Q(paciente__cpf__icontains=search_nome_cpf)).order_by('-created_at')
            
         if data:

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from transportes.views import carro_view, registro_transporte_view, viagem_view,paciente_viagem_view
+from transportes.views import carro_view, registro_transporte_view, viagem_view,paciente_viagem_view,destino_viagem_view
 
 app_name='transportes'
 
@@ -35,5 +35,11 @@ urlpatterns = [
     path('delete/<int:pk>/registro-transporte',registro_transporte_view.RegistroTransporteDeleteView.as_view(),name='del-regis-transporte'),
     path('search/registro-transporte',registro_transporte_view.RegistroTransporteSearchListView.as_view(),name='search-regis-transporte'),
     #path('importacao dados/transporte', registro_transporte_view.ImportDadosTransporteView.as_view() , name='importar-dados-transporte' ),
+
+    path('create/destino',destino_viagem_view.DestinoViagemCreateView.as_view(),name='add-destino'),
+    path('update/<int:pk>/destino',destino_viagem_view.DestinoViagemteUpdateView.as_view(),name='edit-destino'),
+    path('list/destinos',destino_viagem_view.DestinoViagemListView.as_view(),name='list-destino'),
+    path('destino-autocompleto',destino_viagem_view.DestinoViagemAutocomplete.as_view(),name='destino-autocompleto'),
+
 
 ]
