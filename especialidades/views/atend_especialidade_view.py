@@ -228,7 +228,7 @@ class PacienteAutocomplete(autocomplete.Select2QuerySetView):
         especialidade_id = self.forwarded.get('atendimento-especialidade', None)        
     
         if especialidade_id:
-            qs = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(Q(status='1')|Q(status='4')|Q(status='5'),especialidade__id=especialidade_id).order_by('paciente__nome_completo')
+            qs = PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').filter(Q(status='1')|Q(status='4')|Q(status='5')|Q(status='7'),especialidade__id=especialidade_id).order_by('paciente__nome_completo')
         else:
             return PacienteEspecialidade.objects.none()
         if self.q:
@@ -236,7 +236,7 @@ class PacienteAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(
                 Q(paciente__nome_completo__unaccent__icontains=self.q) |
                 Q(paciente__cns__icontains=self.q)
-            ).filter(Q(status='1')|Q(status='5'))
+            ).filter(Q(status='1')|Q(status='5')|Q(status='7'))
 
         return qs
 

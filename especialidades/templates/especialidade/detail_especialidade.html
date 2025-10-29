@@ -86,13 +86,13 @@
                             <label for="id_status">Status:</label>
                             <select class="form-select" id="id_status" name="status">
                                 <option value="" {% if request.GET.status == '0' %}selected{% endif %}>Selecione uma opção</option>
-                                <option value="1" {% if request.GET.status == '1' %}selected{% endif %}>Aguardando</option>
-                                <option value="7" {% if request.GET.status == '7' %}selected{% endif %}>Acompanhante</option>
-                                <option value="5" {% if request.GET.status == '5' %}selected{% endif %}>Em tratamento</option>
-                                <option value="6" {% if request.GET.status == '6' %}selected{% endif %}>Alta</option>
-                                <option value="2" {% if request.GET.status == '2' %}selected{% endif %}>Concluido</option>
-                                <option value="4" {% if request.GET.status == '4' %}selected{% endif %}>Ausente</option>
-                                <option value="3" {% if request.GET.status == '3' %}selected{% endif %}>Cancelado</option>
+                                <option value="1" {% if request.GET.status == '1' %}selected{% endif %}>AGUARDANDO</option>
+                                <option value="7" {% if request.GET.status == '7' %}selected{% endif %}>ACOMPANHAMENTO</option>
+                                <option value="5" {% if request.GET.status == '5' %}selected{% endif %}>EM TRATAMENTO</option>
+                                <option value="6" {% if request.GET.status == '6' %}selected{% endif %}>ALTA</option>
+                                <option value="2" {% if request.GET.status == '2' %}selected{% endif %}>CONCLUIDO</option>
+                                <option value="4" {% if request.GET.status == '4' %}selected{% endif %}>AUSENTE</option>
+                                <option value="3" {% if request.GET.status == '3' %}selected{% endif %}>CANCELADO</option>
 
                                
                             </select>
