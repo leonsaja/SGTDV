@@ -66,7 +66,7 @@ def relatorio_atendimento_pdf(request,context):
         dados_relatorio=atendimentos
         
     
-    
+    print('atendimento',atendimentos.count())
     context['qta_atendimento']= atendimentos.count()
     context['qta_pacientes']=qta_pacientes
     
@@ -79,8 +79,9 @@ def relatorio_atendimento_pdf(request,context):
 
     
     for a in atendimentos:
-       total=a.atend_paciente_especialidade.count()    
+       total+=a.qta_paciente_especialidade_concluido() 
     context['total']=total
+
     data=date
     buffer = BytesIO()
     html_string = render_to_string('especialidade/relatorio_atendimento_especialidade_pdf.html',context)

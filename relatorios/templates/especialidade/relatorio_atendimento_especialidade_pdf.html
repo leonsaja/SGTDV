@@ -37,7 +37,11 @@
 {% include 'includes/cabecalho.html' %}
 <div class="conteudo">
   {%if tipo == '1' %}
-    <h2 class="text-center"> <b>Relatório de Atendimentos </b></h2>
+    <h2 class="text-center"> <b>Relatório de Atendimentos 
+    {%if especialidade %}
+    ({{especialidade}})
+    {%endif%}
+    </b></h2>
 
     <div class="row">
       <div class="col-md-12">
@@ -54,7 +58,12 @@
 
         </p>
       </div>
+       <div class="col-md-12">
+        <p class="p-1">
+          <b>Quant. pacientes atendidos : </b>{{total}}
+        </p>
 
+      </div>
       <div class="col-md-12 pt-1">
         <p class="p-1">
           <b>Registros identificados: </b>{{qta_atendimento}}
@@ -131,7 +140,7 @@
         <div class="row">
          <div class="col-md-12 ">
         <p class="p-1">
-          <b>Quant. de atendimentos: </b>{{qta_atendimeento}}
+          <b>Quant. de atendimentos: </b>{{qta_atendimento}}
         </p>
       </div>
       
