@@ -26,7 +26,7 @@ def relatorio_atendimento_pdf(request,context):
     
         
     if tipo == '2': 
-        atendimentos=AtendimentoEspecialidade.objects.select_related('especialidade').filter(data__gte=data_inicial).filter(data__lte=data_final).filter(especialidade=especialidade)
+        atendimentos=AtendimentoEspecialidade.objects.select_related('especialidade').filter(data__gte=data_inicial).filter(data__lte=data_final).filter(especialidade=especialidade).filter(status=status)
         
         queryset = PacienteSia.objects.select_related(
             'atendimento_paciente', 
@@ -67,8 +67,7 @@ def relatorio_atendimento_pdf(request,context):
         
     
     
-        
-    context['qta_atendimeento']= atendimentos.count()
+    context['qta_atendimento']= atendimentos.count()
     context['qta_pacientes']=qta_pacientes
     
     total=0
