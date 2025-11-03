@@ -25,6 +25,8 @@ urlpatterns = [
     path('reembolso/detail/<int:pk>',reem_view.ReembolsoDetailView.as_view(),name='detail-reembolso'),
     path('reembolso/list',reem_view.ReembolsoListView.as_view(),name='list-reembolso'),
     path('reembolso/search',reem_view.ReembolsoSearchListView.as_view(),name='search-reembolso'),
+    path('reembolso/update/<int:pk>/status',reem_view.ReembolsoStatusUpdateView.as_view(),name='status-reembolso'),
+
     path('reembolso/<int:id>/pdf',reem_view.reembolso_pdf,name='pdf-reembolso'),
 
     #Descrição de Reembolsos

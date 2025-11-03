@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block title%}Detalhe Reembolso {%endblock title%}
+{% load crispy_forms_tags %}
 
 {% load permission_tags %}
    {% load humanize %}
@@ -117,16 +118,21 @@
                 </div>
             </div>
             <br>
+            <legend>
+                <h4 class=" text-primary"><strong>Detalhes do Reembolso</strong> </h4>
+            </legend>
+            <hr>
+             
             <div class="row">
-            <div class="col-md-6">
-                {%if reem_principal.descricao_reembolso%}
-                    <label for="id_descricao_reembolso" class="form-label">Descrição do Reembolso:</label>
-                    <h6 class="text-muted"> {{reem_principal.descricao_reembolso|upper}}</h6>
-                       
-                {%else%}
-                 <h6 class="text-muted">-</h6>
-                {%endif%}
-            </div>
+                    <div class="col-md-6">
+                        {%if reem_principal.descricao_reembolso%}
+                            <label for="id_descricao_reembolso" class="form-label">Descrição do Reembolso:</label>
+                            <h6 class="text-muted"> {{reem_principal.descricao_reembolso|upper}}</h6>
+                            
+                        {%else%}
+                        <h6 class="text-muted">-</h6>
+                        {%endif%}
+                    </div>
                     <div class="col-md-6">
                         <label for="id_descricao_reembolso" class="form-label">Data da última nota:</label>
                         {%if reem_principal.data_ult_nota_reembolso%}
@@ -137,7 +143,56 @@
                         <h6 class="text-muted">-</h6>
                         {%endif%}
                     </div>
-      </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                <br>
+                {% if user|has_role:'secretario' %}
+
+                <form action="{% url 'despesas:status-reembolso'  reem_principal.id %}"
+                    method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-4">{{form.status |as_crispy_field }}
+                        </div>
+
+                        <div class="col-md-4 mt-4"> <button type="submit"
+                                class="btn btn-primary">Salvar</button>
+                        </div>
+                    </div>
+
+                </form>
+                {%endif%}
+            </div>
+            </div>
+      <div class="row">
+                        <div class="col-md-6 pt-4">
+                             <label for="id_carro" class="form-label">Criado Por:</label>
+                             {%if reem_principal.criado_por%}
+                                 <h6 class="text-muted">{{reem_principal.criado_por|upper}} - 
+                                    {{reem_principal.created_at|date:"d/m/Y"|default:'---'}} às
+                                            {{reem_principal.created_at|time:"H:i"|default:'---'}}
+
+                                 </h6>
+                              {%else%}
+                                 <h6 class="text-muted">-</h6>
+                             {%endif%}
+                        </div>
+                        <div class="col-md-6 pt-4">
+                                <label for="id_carro" class="form-label">Alterado Por:</label>
+                                {%if reem_principal.alterado_por%}
+                                        <h6 class="text-muted">{{reem_principal.alterado_por|upper}} - 
+                                            {{reem_principal.updated_at|date:"d/m/Y"|default:'---'}} às
+                                            {{reem_principal.updated_at|time:"H:i"|default:'---'}}
+
+
+                                        </h6>
+                                {%else%}
+                                    <h6 class="text-muted">-</h6>
+                                {%endif%}
+                         </div>
+                    </div>
+
         </fieldset>
         <br>
         {% if user|has_role:'digitador' %}

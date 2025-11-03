@@ -2,12 +2,13 @@ from django.contrib.auth import get_user_model
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, UpdateView
 from weasyprint import HTML
 from django.template.loader import render_to_string
 from django.db.models import Q
 from io import BytesIO
-from despesas.forms.reembolso_form import ReembolFormSet,ReembolsoPrincipalForm
+from django.contrib.messages.views import SuccessMessageMixin
+from despesas.forms.reembolso_form import ReembolFormSet,ReembolsoPrincipalForm,ReembolsoStatusForm
 from despesas.models import Diaria, Reembolso,ReembolsoPrincipal
 from django.contrib.messages import constants
 from django.contrib import messages
@@ -33,7 +34,10 @@ def reembolso_create(request,id):
         form=ReembolsoPrincipalForm(request.POST or None,instance=reembolso,prefix='reembolso_diaria')
 
         if formset.is_valid() and form.is_valid():
+            form=form.save(commit=False)
+            form.criado_por=request.user.nome_completo
             form.save()
+            formset.diaria=form
             formset.save()
             messages.add_message(request,constants.SUCCESS,'cadastro realizado com sucesso')
             return redirect('despesas:list-reembolso')
@@ -60,7 +64,10 @@ def reembolso_update(request, id):
         form=ReembolsoPrincipalForm(request.POST or None,instance=reembolso,prefix='reembolso_diaria')
 
         if formset.is_valid() and form.is_valid():
+            form=form.save(commit=False)
+            form.alterado_por=request.user.nome_completo
             form.save()
+            formset.diaria=form
             formset.save()
             messages.add_message(request,constants.SUCCESS,'Dados atualizado com sucesso')
             return redirect('despesas:list-reembolso')
@@ -105,6 +112,23 @@ class ReembolsoSearchListView(ListView):
             
         return qs 
 
+@method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
+@method_decorator(has_role_decorator(['secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+class ReembolsoStatusUpdateView(SuccessMessageMixin, UpdateView):
+    
+   model=ReembolsoPrincipal
+   form_class=ReembolsoStatusForm 
+   template_name='reembolso/detail_reembolso.html'
+   success_url=reverse_lazy('despesas:list-reembolso')
+   success_message='Operação realizado com sucesso'
+
+   def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.aprovado_por = self.request.user.nome_completo
+        self.object.save()
+        return  super().form_valid(form)
+    
+
 @method_decorator(has_role_decorator(['digitador','coordenador','secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')  
 class ReembolsoDetailView(DetailView):
     model=Diaria
@@ -120,7 +144,8 @@ class ReembolsoDetailView(DetailView):
             reembolso = ReembolsoPrincipal(diaria=diaria)
         context['reem_principal']=reembolso
         context['reembolsos'] =Reembolso.objects.select_related('reembolso_principal').filter(reembolso_principal__diaria__id=diaria.id)
-        
+        context['form']=ReembolsoStatusForm(self.request.POST or None,instance=reembolso)
+
         return context
 
 @login_required

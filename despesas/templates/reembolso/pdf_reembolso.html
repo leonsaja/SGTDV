@@ -25,6 +25,34 @@
 
         font-size: 12px;
       }
+       .info-motorista {
+          /* Diminuímos o padding geral da caixa */
+        
+          
+          /* Reduzimos a margem inferior para a caixa ficar mais próxima do que a segue */
+          margin-bottom: 5px; 
+      }
+
+.info-motorista .bloco{
+    display: flex;
+    justify-content: space-between;
+    /* Diminuímos o padding vertical para as linhas */
+    padding: 2px 0; 
+}
+
+.info-motorista .linha:last-child {
+    border-bottom: none;
+}
+
+.info-motorista .item {
+    flex: 1; 
+    /* Diminuímos o padding horizontal para os itens */
+    padding: 0 5px; 
+}
+
+.placa-container {
+    text-align: right;
+}
 </style>
 
 
@@ -38,43 +66,46 @@
   <div class="bordas">
   <div class="row">
    
-    <div class="col-md-5 m-2">
-       <br>
-      <p class=" "><b>IDENTIFICAÇÃO: </b>{{diaria.profissional.nome_completo|upper}}
-
-        &nbsp; &nbsp;&nbsp;&nbsp;
-         &nbsp; &nbsp;&nbsp;&nbsp;
-          &nbsp; &nbsp;&nbsp;&nbsp;
-            &nbsp; &nbsp;&nbsp;&nbsp;
-          &nbsp; &nbsp;&nbsp;&nbsp;
-           &nbsp; &nbsp;&nbsp;&nbsp;
-            &nbsp; &nbsp;&nbsp;&nbsp;
-             &nbsp; &nbsp;&nbsp;&nbsp;
-        <b>DATA: </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}
-      </p>
-      <p class="mt-2">
-        <b>CPF: </b>{{diaria.profissional.formt_cpf}}
-        &nbsp; &nbsp;&nbsp;&nbsp;
-        <b>FONTE: </b>{{diaria.form_fonte}}
-          &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
-          <b>CONTA: </b>{{diaria.form_conta}}
-           &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
-          <b>REEMBOLSO: </b>{{diaria.get_reembolso_display}}
-      </p>
+     <div class="info-motorista">
+      <div class="bloco pt-2">
+        <div class="item ">
+          <p style="margin: 0px;"><b>IDENTIFICAÇÃO:
+            </b>{{diaria.profissional.nome_completo|upper}}</p>
+        </div>
+        <div class="item placa-container">
+          <p style="margin: 0px;"><b>DATA:
+            </b>{{diaria.data_diaria|date:"d/m/Y"|default:'---'}}</p>
+        </div>
+      </div>
+      <div class="bloco">
+        <div class="item">
+          <p style="margin: 0px;"><b>CPF:
+            </b>{{diaria.profissional.formt_cpf}}</p>
+        </div>
+        <div class="item">
+          <p style="margin: 0px;"> <b>FONTE: </b>{{diaria.form_fonte}}</p>
+        </div>
+        <div class="item">
+          <p style="margin: 0px;"> <b>CONTA: </b>{{diaria.form_conta}}</p>
+        </div>
+      </div>
     </div>
   
   </div>
  
 
   <div class="linha"></div>
-  <p class="text-center mt-3"><b>RELATÓRIO DESCREVENDO O OBJETO DA VIAGEM
+  <p class="text-center pt-2 m-1"><b>RELATÓRIO DESCREVENDO O OBJETO DA VIAGEM
       INCLUINDO
       PERÍODO</b></p>
   <div class="linha"></div>
   <div class="row">
     <div class="col-md-12 m-2">
       <p class="m-2">
-        <b>DESCRIÇÃO: </b>{{diaria.descricao|upper}} {{reem_principal.descricao_reembolso|upper}}
+        <b>DESCRIÇÃO: </b>{{diaria.descricao|upper}}. &nbsp;
+        {% if reem_principal.descricao_reembolso %}
+        {{reem_principal.descricao_reembolso|upper}}
+        {% endif %}
       </p>
     </div>
   </div>
@@ -128,7 +159,7 @@
             <tfoot>
               <tr>
                 <td colspan="2" style="text-align: end;"><b>
-                    <p>Total:</p>
+                    <p>TOTAL</p>
                   </b> </td>
 
                 <td style="text-align: end;"><b>
@@ -153,13 +184,13 @@
   {%endif%}
   </p>
 <p class="text-center m-0">______________________________________</p>
-{%if diaria.status == '2'%}
-<p class="text-center"><b>STATUS:</b> {{diaria.get_status_display}}
-{%elif diaria.status == '3' %}
-<p class="text-center"><b>STATUS:</b> {{diaria.get_status_display}}
+{%if reem_principal.status == '2'%}
+<p class="text-center"><b>STATUS:</b> {{reem_principal.get_status_display}}
+{%elif reem_principal.status == '3' %}
+<p class="text-center"><b>STATUS:</b> {{reem_principal.get_status_display}}
 {%endif%}
-{%if diaria.aprovado_por %}
-<p class="text-center"><b>{{diaria.aprovado_por|upper}}
+{%if reem_principal.aprovado_por %}
+<p class="text-center"><b>{{reem_principal.aprovado_por|upper}}
 <br>
 SECRETÁRIO MUNICIPAL DE SAÚDE
 </b> </p>
@@ -189,7 +220,13 @@ SECRETÁRIO MUNICIPAL DE SAÚDE
 
 <div>
   <br/>
-  <p> Realizado por {{diaria.criado_por}} no dia {{diaria.created_at|date:"d/m/Y"|default:'---'}} às {{diaria.created_at|time:"H:i"|default:'---'}}  </p>
-</div>
+  <p> Realizado por 
+    {% if reem_principal.criado_por%}
+          {{reem_principal.criado_por}} no dia {{reem_principal.created_at|date:"d/m/Y"|default:'---'}} às {{reem_principal.created_at|time:"H:i"|default:'---'}} 
+    {%else%}
+          {{diaria.criado_por}} no dia {{diaria.created_at|date:"d/m/Y"|default:'---'}} às {{diaria.created_at|time:"H:i"|default:'---'}}  
+    {%endif%}
+  </p>
+  </div>
 
 {% endblock %}

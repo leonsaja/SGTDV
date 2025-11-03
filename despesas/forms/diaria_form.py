@@ -1,8 +1,8 @@
-from decimal import Decimal
 from django import forms
 from django.core.exceptions import ValidationError
 from despesas.models import Diaria
 from dal import autocomplete
+
 class DiariaForm(forms.ModelForm):
 
     descricao=forms.CharField(label='Descrição da Viagem', widget=forms.Textarea( attrs={'placeholder':'Digite a descrição da viagem...','rows':3,'cols':10}))
@@ -42,8 +42,9 @@ class DiariaForm(forms.ModelForm):
         destino_viagem=cleaned_data.get('viagem_dest')
          
         if destino_viagem and descricao:
-            if destino_viagem.nome.upper() not in descricao.upper():
-                self.add_error('viagem_dest', 'Destino da viagem se encontra diferente da "DESCRIÇÃO DA VIAGEM"')
+            destino=destino_viagem.nome 
+            if destino.upper() not in descricao.upper():
+                self.add_error('viagem_dest', 'Destino da viagem se encontra diferente da "DESCRIÇÃO DA VIAGEM" ou espaçamento entre as palavras ')
                 
 
         insert = self.instance.pk == None

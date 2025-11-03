@@ -27,5 +27,11 @@ class ReembolsoForm(forms.ModelForm):
         self.fields['valor_desp'].widget.attrs.update({'class':'form-control'})
         
 
+class ReembolsoStatusForm(forms.ModelForm):
+    
+    class Meta:
+        model=ReembolsoPrincipal
+        fields=['status']
+        
 
 ReembolFormSet=inlineformset_factory(ReembolsoPrincipal,Reembolso,form=ReembolsoForm, extra=1, min_num=1,validate_min=True)
