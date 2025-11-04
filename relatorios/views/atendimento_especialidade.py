@@ -66,7 +66,6 @@ def relatorio_atendimento_pdf(request,context):
         dados_relatorio=atendimentos
         
     
-    print('atendimento',atendimentos.count())
     context['qta_atendimento']= atendimentos.count()
     context['qta_pacientes']=qta_pacientes
     

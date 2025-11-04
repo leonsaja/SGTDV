@@ -121,8 +121,11 @@ class AtendimentoEspecialidade(models.Model):
     
     def qta_paciente_especialidade_concluido(self):
         total_concluido=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).filter(paciente__status='2').count()
-        total_ausente=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).filter(status='1').count()
-        total=total_concluido-total_ausente
+        if total_concluido == 0:
+              total=total_concluido
+        else:
+            total_ausente=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).filter(status='1').count()
+            total=total_concluido-total_ausente
         return total
     def qta_paciente_especialidade_ausente(self):
         total=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).filter(status='1').count()

@@ -63,10 +63,11 @@ class RelatorioAtendimentoEspecialidadeForm(forms.Form):
     
     def clean(self):
         cleaned_data = super().clean()
-        especialidade = cleaned_data["especialidade"]
-        tipo = cleaned_data["tipo"]
-        
-        if tipo == '2' and not especialidade:
-           self.add_error('especialidade','Campo especialidade  é obrigatório ')
-           
+        especialidade = cleaned_data.get("especialidade")
+        tipo = cleaned_data.get("tipo")
+
+        if tipo:
+            if tipo == '2' and not especialidade:
+                self.add_error('especialidade','Campo especialidade  é obrigatório ')
+            
         return cleaned_data
