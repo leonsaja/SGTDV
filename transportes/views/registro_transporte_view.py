@@ -19,6 +19,12 @@ class RegistroTransporteCreateView(SuccessMessageMixin,CreateView):
     context_object_name='form'
     success_url=reverse_lazy('transportes:list-regis-transporte')
     success_message='Cadastro realizado com sucesso'
+    
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.criado_por = self.request.user.nome_completo
+        self.object.save()
+        return  super().form_valid(form)
 
 @method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
@@ -29,6 +35,12 @@ class RegistroTransporteUpdateView(SuccessMessageMixin,UpdateView):
     context_object_name='form'
     success_url=reverse_lazy('transportes:list-regis-transporte')
     success_message='Cadastro alterado  com sucesso'
+    
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.alterado_por = self.request.user.nome_completo
+        self.object.save()
+        return  super().form_valid(form)
 
 @method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['coordenador','secretario','recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')

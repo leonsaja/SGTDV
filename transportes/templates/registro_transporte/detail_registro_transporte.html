@@ -99,6 +99,33 @@
                 </div>
             </div>
         </fieldset>
+        <div class="row">
+                        <div class="col-md-6 pt-4">
+                             <label for="id_carro" class="form-label">Criado Por:</label>
+                             {%if transporte.criado_por%}
+                                 <h6 class="text-muted">{{transporte.criado_por|upper}} - 
+                                    {{transporte.created_at|date:"d/m/Y"|default:'---'}} às
+                                            {{transporte.created_at|time:"H:i"|default:'---'}}
+
+                                 </h6>
+                              {%else%}
+                                 <h6 class="text-muted">-</h6>
+                             {%endif%}
+                        </div>
+                        <div class="col-md-6 pt-4">
+                                <label for="id_carro" class="form-label">Alterado Por:</label>
+                                {%if transporte.alterado_por%}
+                                        <h6 class="text-muted">{{transporte.alterado_por|upper}} - 
+                                            {{transporte.updated_at|date:"d/m/Y"|default:'---'}} às
+                                            {{transporte.updated_at|time:"H:i"|default:'---'}}
+
+
+                                        </h6>
+                                {%else%}
+                                    <h6 class="text-muted">-</h6>
+                                {%endif%}
+                         </div>
+                    </div>
         <br/>
         <div class="row">
             <div class="col-md-12 mb-5">

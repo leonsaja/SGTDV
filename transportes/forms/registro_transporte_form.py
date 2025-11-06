@@ -38,7 +38,7 @@ class RegistroTransporteForm(forms.ModelForm):
   
     class Meta:
         model=RegistroTransporte
-        fields='__all__'
+        exclude=('criado_por','alterado_por')
         widgets = {
             'paciente': autocomplete.ModelSelect2(url='cidadao:cidadao-autocomplete'),
             'carro':s2forms.Select2Widget(),
