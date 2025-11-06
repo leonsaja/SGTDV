@@ -152,9 +152,11 @@ class ProcedimentosEspecialidade(models.Model):
         ordering = ["nome_procedimento"]
   
 class PacienteSia(models.Model):
+
     STATUS=(
         ('1','AUSENTE'),
-        ('2','CONCLUIDO'),
+        ('2','PRESENTE'),
+        ('3','ALTA'),
 
 
     )

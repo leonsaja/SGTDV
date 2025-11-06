@@ -16,13 +16,14 @@ def update_pacientes_status(sender, instance, created, **kwargs):
                 
                 if instance.especialidade ==paciente_sia.paciente.especialidade:
                     
+                    paciente_especialidade = paciente_sia.paciente
 
-                    if not paciente_sia.status=='1' or not paciente_sia.status=='2':
-                        # Pega o objeto PacienteEspecialidade associado.
-                        paciente_especialidade = paciente_sia.paciente
+                    if paciente_especialidade.status == '5' and paciente_sia.status =='3':
+                        paciente_especialidade.status = '6'
+                        paciente_especialidade.save()
 
-                        # Atualiza o status do PacienteEspecialidade para '2' (Concluído).
-                        # Adicionamos uma verificação para evitar salvar se o status já estiver correto.
+                    elif not paciente_sia.status=='1' or not paciente_sia.status=='2':
+                      
                         if paciente_especialidade.status != '2' and paciente_especialidade.status != '4' and paciente_especialidade.status !='5':
                             paciente_especialidade.status = '2'
                             paciente_especialidade.save()
