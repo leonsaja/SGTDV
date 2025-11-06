@@ -353,7 +353,7 @@
           </a>
 
           <ul class="nav nav-treeview ">
-            {% if user|has_role:'coordenador,regulacao,secretario' %}
+            {% if user|has_role:'recepcao,coordenador,regulacao,secretario' %}
             <li class="nav-item">
               <a href="{% url 'transportes:list-destino'%}" class="nav-link">
 

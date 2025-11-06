@@ -22,7 +22,7 @@ def relatorio_atendimento_pdf(request,context):
     status=context['status']
     tipo=context['tipo']
     qta_pacientes=0
-    atendimentos=AtendimentoEspecialidade.objects.select_related('especialidade').filter(data__gte=data_inicial).filter(data__lte=data_final)
+    atendimentos=AtendimentoEspecialidade.objects.select_related('especialidade').filter(data__gte=data_inicial).filter(data__lte=data_final).order_by('especialidade','data')
     
         
     if tipo == '2': 
