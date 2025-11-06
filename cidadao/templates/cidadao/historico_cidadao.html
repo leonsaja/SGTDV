@@ -81,18 +81,18 @@
                                         </td>
                                     {%else%}
                                   
-                                         {% if p.paciente.status == '1'%}
+                                         {% if p.atendimento_paciente.status == '1'%}
                                         <td style="background-color:#FFFF00; color: black;">
-                                            {{p.paciente.get_status_display}}
+                                            {{p.atendimento_paciente.get_status_display}}
 
                                         </td>
-                                        {% elif p.paciente.status == '3' %}
+                                        {% elif p.atendimento_paciente.status == '3' %}
                                         <td style="background-color: red; color: white;">
-                                            {{p.paciente.get_status_display}}
+                                            {{p.atendimento_paciente.get_status_display}}
                                         </td>
-                                        {% elif p.paciente.status == '2' %}
+                                        {% elif p.atendimento_paciente.status == '2' %}
                                         <td style="background-color: greenyellow; color: black;">
-                                            {{p.paciente.get_status_display}}
+                                            {{p.atendimento_paciente.get_status_display}}
                                         </td>
                                         {%else%}
                                             <td>{{p.paciente.get_status_display}}</td>
@@ -101,9 +101,6 @@
 
                                                                         
                                     <td>{{p.atendimento_paciente.data|date:"d/m/Y"|default:'---'}}</td>
-                                    
-                                    
-
                                     
                                 </tr>
                                 {%endfor%}
