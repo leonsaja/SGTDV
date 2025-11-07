@@ -133,11 +133,14 @@ class AtendimentoEspecialidade(models.Model):
         return total
     def qta_paciente_especialidade_ausente(self):
         total=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).filter(status='1').count()
+        print('total',total)
         if total:
+            print('total if',total)
+
             return total
-        else:
-            total=PacienteSia.objects.select_related('atendimento_paciente','procedimento').filter(atendimento_paciente=self).filter(paciente__status='4').count()
-            return total
+        return total
+
+  
         
     class Meta:
         ordering = ["data"]

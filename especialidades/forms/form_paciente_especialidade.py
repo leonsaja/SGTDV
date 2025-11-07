@@ -68,12 +68,13 @@ class PacienteEspecialidadeUpdateForm(forms.ModelForm):
     def clean(self):
         paciente = self.cleaned_data.get('paciente')
         procedimento = self.cleaned_data.get('procedimento')
+        especialidade=self.cleaned_data.get('especialidade')
         status = self.cleaned_data.get('status')
         data=self.cleaned_data.get('data_pedido')
+     
 
-
-        if paciente and procedimento and status and data:
-            qs = PacienteEspecialidade.objects.select_related('paciente','procedimento','especialidade').filter(paciente=paciente,procedimento=procedimento,status=status,data_pedido=data)
+        if paciente and procedimento and status and data and self.instance.especialidade:
+            qs = PacienteEspecialidade.objects.select_related('paciente','procedimento','especialidade').filter(paciente=paciente,procedimento=procedimento,status=status,data_pedido=data,especialidade=self.instance.especialidade)
 
             if self.instance.pk:
                 qs = qs.exclude(pk=self.instance.pk)

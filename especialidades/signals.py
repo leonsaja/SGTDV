@@ -17,14 +17,15 @@ def update_pacientes_status(sender, instance, created, **kwargs):
                 if instance.especialidade ==paciente_sia.paciente.especialidade:
                     
                     paciente_especialidade = paciente_sia.paciente
+                    
 
                     if paciente_especialidade.status == '5' and paciente_sia.status =='3':
                         paciente_especialidade.status = '6'
                         paciente_especialidade.save()
-
-                    elif not paciente_sia.status=='1' or not paciente_sia.status=='2':
-                      
-                        if paciente_especialidade.status != '2' and paciente_especialidade.status != '4' and paciente_especialidade.status !='5':
+                        
+                    elif not paciente_sia.status=='1':
+                        
+                       if paciente_especialidade.status != '2' and paciente_especialidade.status != '4' and paciente_especialidade.status !='5':
                             paciente_especialidade.status = '2'
                             paciente_especialidade.save()
         else:
