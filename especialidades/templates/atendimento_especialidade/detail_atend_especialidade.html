@@ -81,8 +81,8 @@
                 <div class="col-md-6">
                     <label for="id_conta" class="form-label">Status:</label>
                     <h6 class="text-muted">{{atendimento_especialidade.get_status_display}} - 
-                        {{atendimento_especialidade.created_at|date:"d/m/Y"|default:'---'}} às
-                        {{atendimento_especialidade.created_at|time:"H:i"|default:'---'}}
+                        {{atendimento_especialidade.updated_at|date:"d/m/Y"|default:'---'}} às
+                        {{atendimento_especialidade.updated_at|time:"H:i"|default:'---'}}
                     </h6>
                 </div>
             </div>
