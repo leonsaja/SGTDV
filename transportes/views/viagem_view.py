@@ -116,7 +116,7 @@ class ViagemSearchListView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(ViagemSearchListView,self).get_queryset(*args, **kwargs)
-        qs=qs.select_related('motorista','carro').all()
+        qs=qs.select_related('motorista','carro','destino_viagem').all()
 
         destino_viagem=self.request.GET.get('destino_viagem',None)
         placa_carro=self.request.GET.get('placa_carro',None)
@@ -125,14 +125,15 @@ class ViagemSearchListView(ListView):
         
 
         if destino_viagem:
-            qs=qs.filter(destino_viagem__nome__icontains=destino_viagem).order_by('-data_viagem')
+            qs=qs.filter(destino_viagem__nome__unaccent__icontains=destino_viagem)
         if placa_carro:
-            qs=qs.filter(carro__placa__icontains=placa_carro).order_by('-data_viagem')       
+            qs=qs.filter(carro__placa__icontains=placa_carro)
         if data :
-             qs=qs.filter(data_viagem__iexact=data).order_by('-data_viagem')
+             qs=qs.filter(data_viagem__iexact=data)
         if status:
-            qs=qs.filter(status=status).order_by('-data_viagem')
-        return qs
+            qs=qs.filter(status=status)
+            
+        return qs.order_by('-data_viagem')   
 
 @method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['acs','digitador','recepcao','regulacao','secretario','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
@@ -142,7 +143,7 @@ class DetailViagemView(SuccessMessageMixin,DetailView):
  
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        viagem = Viagem.objects.select_related('motorista','carro').get(id=self.kwargs['pk']) 
+        viagem = Viagem.objects.select_related('motorista','carro','destino_viagem').get(id=self.kwargs['pk']) 
         context['viagem']=viagem
         return context
 

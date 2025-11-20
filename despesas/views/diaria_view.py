@@ -71,19 +71,21 @@ class DiariaSearchListView(ListView):
     paginate_by=10
 
     def get_queryset(self, *args, **kwargs):
-        qs = super(DiariaSearchListView,self).get_queryset(*args, **kwargs).select_related('profissional')
+        qs = super(DiariaSearchListView,self).get_queryset(*args, **kwargs).select_related('profissional','viagem_dest')
         
-        buscar=self.request.GET.get('buscar',None).rstrip()
+        buscar=self.request.GET.get('buscar',None)
         data=self.request.GET.get('data',None)
+        cidade=self.request.GET.get('destino_viagem',None)
         
         if buscar:
-            qs=qs.filter(Q(profissional__nome_completo__icontains=buscar)|\
-                Q(profissional__cpf__icontains=buscar)).\
-                order_by('-created_at')
+            buscar=buscar.rstrip()
+            qs=qs.filter(Q(profissional__nome_completo__unaccent__icontains=buscar)|\
+                Q(profissional__cpf__icontains=buscar))
         if data:
-            qs=qs.filter(data_diaria__iexact=data).order_by('-created_at')
-    
-        return qs
+            qs=qs.filter(data_diaria__iexact=data)
+        if cidade:
+            qs=qs.filter(viagem_dest__nome__unaccent__icontains=cidade)
+        return qs.order_by('-created_at')
 
 @method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['secretario'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
@@ -109,7 +111,7 @@ class DiariaDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        diaria=Diaria.objects.select_related('profissional').get(id=self.kwargs['pk'])
+        diaria=Diaria.objects.select_related('profissional','viagem_dest').get(id=self.kwargs['pk'])
         context['diaria']=diaria
 
         try:

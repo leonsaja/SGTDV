@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from despesas.models import Diaria
 from dal import autocomplete
+from datetime import date,timedelta
 
 class DiariaForm(forms.ModelForm):
 
@@ -40,6 +41,10 @@ class DiariaForm(forms.ModelForm):
         data=cleaned_data.get('data_diaria')
         descricao=cleaned_data.get('descricao')
         destino_viagem=cleaned_data.get('viagem_dest')
+        hoje=date.today()
+        limite_minimo=hoje-timedelta(days=30)
+        limite_maximo=hoje+timedelta(days=7)
+
          
         if destino_viagem and descricao:
             destino=destino_viagem.nome 
@@ -59,11 +64,16 @@ class DiariaForm(forms.ModelForm):
                  if diaria.exists():
                      self.add_error('data_diaria', 'Profissional já tem uma diaria com essa data.')
 
-        elif insert:
+        elif insert:  #criação de diaria, verificar se já existe uma diaria com mesmo profissional e data.
              if diaria.exists():
                 self.add_error('data_diaria', 'Profissional já tem uma diaria com essa data.')
 
-        
+        if data:
+                if  data < limite_minimo or data > limite_maximo:
+                    if not self.instance.pk:
+                        self.add_error(
+                            f"data_diaria","A data da diária deve estar entre 30 dias antes ou 7 dias depois da data atual."
+                        )
 # Form para aprovar ou reprovar diaria
 class DiariaStatusForm(forms.ModelForm):
     

@@ -21,6 +21,7 @@ class ReciboPassagemTFDForm(forms.ModelForm):
     valor_paciente_sia=forms.CharField(label='Valor',widget=forms.TextInput(attrs={'placeholder':"R$ 0,00",'class':'money'}))
     valor_acompanhante_sia=forms.CharField(label='Valor',required=False, widget=forms.TextInput(attrs={'placeholder':"R$ 0,00",'class':'money'}))
     tem_acompanhante=forms.ChoiceField(label='Tem Acompanhante', widget=forms.RadioSelect,choices=ACOMPANHANTE)
+    obs=forms.CharField(label='Observação', required=False, widget=forms.Textarea( attrs={'rows':3,'cols':10}))
 
     class Meta:
         model=ReciboPassagemTFD
@@ -71,6 +72,11 @@ class ReciboPassagemTFDForm(forms.ModelForm):
         paciente=cleaned_data.get('paciente')
         hoje=date.today()
         limite_minimo=hoje-timedelta(days=1)
+        status=cleaned_data.get('status')
+        obs=cleaned_data.get('obs')
+        
+        if status=='3' and not obs:
+            self.add_error('obs','Este campo é obrigatório. Por favor, informar motivo do cancelamento do Recibo de passagens')
 
         qs=ReciboPassagemTFD.objects.select_related('paciente','acompanhante').filter(paciente=paciente, data_recibo=data_recibo)
 

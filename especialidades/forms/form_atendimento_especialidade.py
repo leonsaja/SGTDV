@@ -4,7 +4,6 @@ from django.forms import ValidationError, inlineformset_factory
 from especialidades.models import AtendimentoEspecialidade, PacienteEspecialidade
 from django.utils import timezone
 from datetime import date,timedelta
-from datetime import date, timedelta
 from dal import autocomplete
 
 class AtendimentoEspecialidadeForm(forms.ModelForm):

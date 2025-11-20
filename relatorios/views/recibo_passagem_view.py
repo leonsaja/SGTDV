@@ -12,10 +12,8 @@ from django.contrib.auth.decorators import login_required
 
 
 def relatorio_recibo_passagem_pdf(request,context):
-    recibo_passagem=ReciboPassagemTFD.objects.select_related('paciente').all()
+    recibo_passagem=ReciboPassagemTFD.objects.select_related('paciente','acompanhante').filter(data_recibo__gte=context['inicial']).filter(data_recibo__lte=context['final']).filter(status='1')
 
-    if context['inicial'] and context['final']:
-        recibo_passagem=recibo_passagem.filter(data_recibo__gte=context['inicial']).filter(data_recibo__lte=context['final'])
 
     if context['paciente']:
         recibo_passagem=recibo_passagem.filter(paciente=context['paciente'])
@@ -49,7 +47,7 @@ def relatorio_recibo_passagem_pdf(request,context):
 @has_role_decorator(['coordenador','tfd','secretario'],redirect_url=reverse_lazy('usuarios:acesso_negado'))
 def relatorio_recibo_passagem(request):
     context={}
-    recibos=ReciboPassagemTFD.objects.select_related('paciente').all()
+    recibos=ReciboPassagemTFD.objects.select_related('paciente','acompanhante').all()
     paginator = Paginator(recibos,10)  
     page_number = request.GET.get("page")
     recibos= paginator.get_page(page_number)

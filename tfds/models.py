@@ -218,7 +218,11 @@ class ReciboPassagemTFD(models.Model):
       ('1','SIM'),
       ('2','NÃO'),
    )
-
+   STATUS=(
+        ('1','AGUARDANDO'),
+        ('2','CONCLUÍDO'),
+        ('3','CANCELADO'),
+    )
    paciente=models.ForeignKey(Cidadao,on_delete=models.PROTECT,related_name='recibo_passagem_paciente')
    #Dados para Acompanhante
    tem_acompanhante=models.CharField(verbose_name='Tem Acompanhante',null=False,blank=False,max_length=1,choices=ACOMPANHANTE)
@@ -232,7 +236,8 @@ class ReciboPassagemTFD(models.Model):
    valor_paciente_sia=models.DecimalField(verbose_name='Valor', max_digits=8,decimal_places=2,null=False,blank=False)
    valor_acompanhante_sia=models.DecimalField(verbose_name='Valor', max_digits=8,decimal_places=2, null=True,blank=True)
    data_recibo=models.DateField(verbose_name='Data',null=True,blank=False)
-
+   status=models.CharField(verbose_name='Status', choices=STATUS, max_length=1,default=1)
+   obs=models.TextField(verbose_name='Observação',null=True,blank=True)
    criado_por=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
 
    created_at = models.DateTimeField(auto_now_add=True)

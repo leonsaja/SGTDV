@@ -44,7 +44,7 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <b> Data:</b> {{data}}
        
             </p>
@@ -88,7 +88,7 @@
         <tr>
           <th>ITENS</th>
           <th>Nome do Paciente</th>
-          <th>CPF</th>
+          <th>CNS</th>
           <th>Acompanhante</th>
           <th>Subtotal</th>
           
@@ -102,7 +102,7 @@
 
           <td>{{ forloop.counter }}</td>
           <td>{{r.paciente.nome_completo|upper}}</td>
-          <td>{{r.paciente.formt_cpf}}</td>
+          <td>{{r.paciente.form_cns}}</td>
           {%if r.acompanhante%}
             <td>{{r.acompanhante.acompanhante|upper}}</td>
           {%else%}

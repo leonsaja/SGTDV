@@ -78,7 +78,7 @@ class RegistroTransporteSearchListView(ListView):
 
 
     def get_queryset(self):
-        qs=super().get_queryset().select_related('paciente','carro').order_by('-created_at')
+        qs=super().get_queryset().select_related('paciente','carro','destino').all()
         
         nome_paciente=self.request.GET.get('nome_paciente',None)
         dt_atendimento=self.request.GET.get('data',None)
@@ -90,12 +90,12 @@ class RegistroTransporteSearchListView(ListView):
             qs=qs.filter(Q(paciente__nome_completo__unaccent__icontains=nome_paciente) |Q(paciente__cpf__icontains=nome_paciente)|Q(paciente__cns__icontains=nome_paciente))
         
         if dt_atendimento:
-            qs=qs.select_related('paciente','carro').filter(dt_atendimento__iexact=dt_atendimento).order_by('-created_at')
+            qs=qs.filter(dt_atendimento__iexact=dt_atendimento)
 
         if placa_carro:
-            qs=qs.select_related('paciente','carro').filter(carro__placa__icontains=placa_carro).order_by('-created_at')
+            qs=qs.filter(carro__placa__icontains=placa_carro)
             
-        return qs
+        return qs.order_by('-created_at')
 """    
 class ImportDadosTransporteView(View):
     template_name='registro_transporte/importar_dados.html'

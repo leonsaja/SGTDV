@@ -58,7 +58,17 @@
               <label for="id_data">Data da Diária</label>
               <input type="date" name="data" class="form-control" id="id_data" value="{{request.GET.data}}">
             </div>
-            <div class="col-md-8  mt-3 ">
+          
+                        <div class="col-md-8 pt-2">
+                            <label for="destino_viagem"><strong>Destino da Viagem</strong></label>
+                            <input type="search" name="destino_viagem" class="form-control"
+                                value="{{request.GET.destino_viagem}}" id="destino_viagem">
+
+                        </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-12 mt-3 ">
               <br>
               <div class="float-right">
                 <a class="btn mr-2" href="{% url 'despesas:list-diaria'%}" style="background-color:#DADADA;"> Limpar
