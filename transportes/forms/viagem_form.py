@@ -60,7 +60,7 @@ class ViagemForm(forms.ModelForm):
             
         
         if status=='1':
-             qs=Viagem.objects.select_related('carro','motorista').filter(carro=carro,status=status)
+             qs=Viagem.objects.select_related('carro','motorista','destino_viagem').filter(carro=carro,status=status)
              
              if self.instance.pk:
                 qs = qs.exclude(pk=self.instance.pk)
@@ -72,6 +72,16 @@ class ViagemForm(forms.ModelForm):
         
         if status == '2' and not motorista:
             self.add_error('motorista', "O campo 'motorista' é obrigatório para viagens concluídas.")
+        
+        if status =='2' and motorista:
+            qs=Viagem.objects.select_related('carro','motorista','destino_viagem').filter(data_viagem=data,status=status,motorista=motorista)
+
+            if self.instance.pk:
+                qs = qs.exclude(pk=self.instance.pk)
+            if qs.exists():
+                self.add_error('motorista','Foi registrada uma viagem com este motorista, com status "concluído" e na data informada. Por favor, confirme se o nome do motorista está correto.')
+
+
          
         formset_prefix = 'passageiro' # Use o prefixo que você definiu
         total_passageiros = 0
