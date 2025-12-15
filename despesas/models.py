@@ -97,7 +97,7 @@ class Diaria(models.Model):
 
          else:
             diaria_meia=self.valor/2
-            self.total=self.valor+diaria_meia
+            self.total=(int(self.qta_diaria)*self.valor)+diaria_meia
          
       return super().save(*args, **kwargs)
 
