@@ -29,7 +29,7 @@ class RelatorioPacienteEspecialidadeForm(forms.Form):
     )
     
     classificacao=forms.ChoiceField(label='Classficação',required=False, widget=forms.RadioSelect,choices=TIPO_CLASSIFICACAO)
-    status=forms.ChoiceField(label='Status',required=True, widget=forms.Select,choices=STATUS) 
+    status=forms.ChoiceField(label='Status',required=False, widget=forms.Select,choices=STATUS) 
     profissionais=forms.ModelChoiceField(label='ACS', queryset=Profissional.objects.select_related('estabelecimento').filter(cargo='1'),
                                          required=False,widget=forms.Select(attrs={'class': 'form-control'}))
     estabelecimento=forms.ModelChoiceField(label='Estabelecimento', queryset=Estabelecimento.objects.all(),
