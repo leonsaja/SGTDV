@@ -35,13 +35,13 @@ class PacienteEspecialidadeCreateView(SuccessMessageMixin,CreateView):
         status = form.cleaned_data.get('status')
 
         
-        if procedimento.nome_procedimento =='CONSULTA' or procedimento.nome_procedimento =='RETORNO' or procedimento.nome_procedimento =='RETORNO EXAMES PRONTOS':
+        if procedimento.nome_procedimento =='CONSULTA' or procedimento.nome_procedimento =='RETORNO' or procedimento.nome_procedimento =='RETORNO EXAMES PRONTOS' or procedimento.nome_procedimento=='RETORNO 3 MESES':
 
             if especialidade_obj.tipo=='1':
                 qs = PacienteEspecialidade.objects.filter(
                     paciente=paciente,
                     especialidade=especialidade_obj,
-                ).filter(Q(status='1')|Q(status='5')).filter(Q(procedimento__nome_procedimento='CONSULTA')|Q(procedimento__nome_procedimento='RETORNO')| Q(procedimento__nome_procedimento='RETORNO EXAMES PRONTOS')).first()
+                ).filter(Q(status='1')|Q(status='5')).filter(Q(procedimento__nome_procedimento='CONSULTA')|Q(procedimento__nome_procedimento='RETORNO')| Q(procedimento__nome_procedimento='RETORNO EXAMES PRONTOS')|Q(procedimento__nome_procedimento='RETORNO 3 MESES')).first()
 
                 if qs:
 

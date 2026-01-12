@@ -209,6 +209,7 @@ table {
             <td>{{ forloop.counter }}</td>
             <td>{{ p.paciente.nome_completo|upper }}</td>
             <td>{% if p.acompanhante %}{{ p.acompanhante }}{% else %}-{% endif %}</td>
+            <td>{{p.paciente.microarea.estabelecimento}}</td>
             <td>{% if p.local_exame %}{{ p.local_exame }}{% else %}-{% endif %}</td>
             <td>{% if p.local_espera %}{{ p.local_espera }}{% else %}-{% endif %}</td>
             <td></td>
