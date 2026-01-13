@@ -43,19 +43,19 @@ class ViagemForm(forms.ModelForm):
         obs=self.cleaned_data.get('observacao')
         
         hoje=date.today()
-        limite_minimo=hoje-timedelta(days=7)
-        limite_maximo=hoje+timedelta(days=7)
+        limite_minimo=hoje-timedelta(days=30)
+        limite_maximo=hoje+timedelta(days=15)
        
 
         if status=='3':
             if not obs:
                 self.add_error('observacao', 'Este campo é obrigatório. Por favor, informar motivo do cancelamento da viagem ')
-    
+        
         if data:
             if  data < limite_minimo or data > limite_maximo:
                 if not self.instance.pk:
                     self.add_error(
-                        f"data_viagem","A data deve estar entre 7 dias antes e 7 dias depois da data atual."
+                        f"data_viagem","A data deve estar entre 30 dias antes e 30 dias depois da data atual."
                     )
             
         
