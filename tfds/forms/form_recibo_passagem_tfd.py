@@ -114,11 +114,7 @@ class ReciboPassagemTFDForm(forms.ModelForm):
             if not quant_passagem_acompanhante:
                   self.add_error('quant_passagem_acompanhante', 'Este campo é obrigatório.')
             
-            if quant_passagem_paciente != quant_passagem_acompanhante:
-                self.add_error('quant_passagem_acompanhante', 'Qta devem ser igual entre paciente e acompanhante.')
-            if valor_acompanhante_sia != valor_paciente_sia:
-                self.add_error('valor_acompanhante_sia', 'Valor devem ser igual entre paciente e acompanhante.')
-
+            
 
 
     def __init__(self, *args, **kwargs):
