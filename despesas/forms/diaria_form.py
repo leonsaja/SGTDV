@@ -5,12 +5,22 @@ from dal import autocomplete
 from datetime import date,timedelta
 
 class DiariaForm(forms.ModelForm):
+    VALOR_FIXO_CHOICE=(
+       ('1','SIM'),
+       ('2','NÃO'),
+    )
+    STATUS_REEMBOLSO_CHOICE=(
+       ('1','SIM'),
+       ('2','NÃO'),
+    )
+
 
     descricao=forms.CharField(label='Descrição da Viagem', widget=forms.Textarea( attrs={'placeholder':'Digite a descrição da viagem...','rows':3,'cols':10}))
     obs=forms.CharField(label='Observação', required=False, widget=forms.Textarea( attrs={'rows':3,'cols':10}))
+    valor_fixo=forms.ChoiceField(label='Valor é Fixo',required=True,widget=forms.RadioSelect,choices=VALOR_FIXO_CHOICE,initial='1',help_text='Valor da diária é fixa')
     data_diaria = forms.DateField(label='Data',widget=forms.DateInput( \
         format='%Y-%m-%d',attrs={ 'type': 'date',}),input_formats=('%Y-%m-%d',), )
-    
+    reembolso=forms.ChoiceField(label='Tem reembolso',required=True,widget=forms.RadioSelect,choices=STATUS_REEMBOLSO_CHOICE,initial='2',help_text='Existe reembolso na diária')
     class Meta:
         model=Diaria
         exclude=('status','criado_por','alterado_por','aprovado_por','total','descricao_rembolso','data_ult_nota_reembolso',)
@@ -41,10 +51,18 @@ class DiariaForm(forms.ModelForm):
         data=cleaned_data.get('data_diaria')
         descricao=cleaned_data.get('descricao')
         destino_viagem=cleaned_data.get('viagem_dest')
+        valor_fixo=cleaned_data.get('valor_fixo')
+        valor=cleaned_data.get('valor')
+        
         hoje=date.today()
         limite_minimo=hoje-timedelta(days=30)
         limite_maximo=hoje+timedelta(days=7)
 
+        
+        valor_formatado = f"{destino_viagem.valor_localidade:.2f}".replace('.', ',')
+        if valor_fixo=='1':
+            if valor != destino_viagem.valor_localidade:
+                self.add_error('valor', f'O valor informado não coincide com o valor padrão do destino da viagem que é (R$ {valor_formatado}).')
          
         if destino_viagem and descricao:
             destino=destino_viagem.nome 

@@ -152,6 +152,8 @@ class RegistroTransporte(models.Model):
    
 class DestinoViagem(models.Model):
    nome=models.CharField(verbose_name='Nome', max_length=150,null=True,blank=False,unique=True)
+   valor_localidade=models.DecimalField(verbose_name='Valor do Destino', decimal_places=2, max_digits=10, null=True,blank=False,help_text='Campo relacionado para Diária')
+
    
    def __str__(self):
       return f'{self.nome}'

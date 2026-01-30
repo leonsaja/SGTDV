@@ -21,6 +21,11 @@ class Diaria(models.Model):
         ('2','APROVADO'),
         ('3','REPROVADO'),
     )
+    
+    VALOR_FIXO=(
+       ('1','SIM'),
+       ('2','NÃO'),
+    )
     profissional=models.ForeignKey(Profissional,on_delete=models.PROTECT,null=False, blank=False, related_name='profissionais')
     descricao=models.TextField(verbose_name='Descrição ',null=False,blank=False)
     data_diaria=models.DateField(verbose_name='Data',null=False,blank=False)
@@ -32,8 +37,9 @@ class Diaria(models.Model):
     obs=models.TextField(verbose_name='Observação',null=True,blank=True)
     tipo_diaria=models.CharField(max_length=1, verbose_name='Tipo de Diária',choices=TIPO_DIARIA,null=False,blank=False,default='')
     qta_diaria=models.DecimalField(verbose_name='Quantidade',null=False,blank=False,max_digits=2,decimal_places=1)
-    valor=models.DecimalField(verbose_name='Valor', decimal_places=2, max_digits=10, null=False,blank=False)
+    valor=models.DecimalField(verbose_name='Valor da diária', decimal_places=2, max_digits=10, null=False,blank=False)
     total=models.DecimalField(null=True, blank=True, decimal_places=2, max_digits=10)
+    valor_fixo=models.CharField(verbose_name='Valor é Fixo',max_length=1,choices=VALOR_FIXO,default=1)
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

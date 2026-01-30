@@ -89,6 +89,7 @@
                 <tr>
                   <th style="width: 10px">N°</th>
                   <th>Nome</th>
+                  <th>Valor da Localidade</th>
                   <th>Ação</th>
                 </tr>
               </thead>
@@ -97,7 +98,12 @@
                 <tr>
                  <td> {{ forloop.counter }}</td>
                   <td>{{destino.nome}}</td>
+                  {%if destino.valor_localidade%}
+                    <td>R$ {{destino.valor_localidade}}</td>
+                  {%else%}
+                    <td>-</td>
 
+                  {%endif%}
                   <td>
 
                    
