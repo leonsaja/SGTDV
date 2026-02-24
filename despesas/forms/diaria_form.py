@@ -58,8 +58,9 @@ class DiariaForm(forms.ModelForm):
         limite_minimo=hoje-timedelta(days=30)
         limite_maximo=hoje+timedelta(days=7)
 
+        if destino_viagem.valor_localidade:
+            valor_formatado = f"{destino_viagem.valor_localidade:.2f}".replace('.', ',')
         
-        valor_formatado = f"{destino_viagem.valor_localidade:.2f}".replace('.', ',')
         if valor_fixo=='1':
             if valor != destino_viagem.valor_localidade:
                 self.add_error('valor', f'O valor informado não coincide com o valor padrão do destino da viagem que é (R$ {valor_formatado}).')
