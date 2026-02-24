@@ -59,15 +59,17 @@ class ViagemForm(forms.ModelForm):
                     )
             
         
-        if status=='1':
-             qs=Viagem.objects.select_related('carro','motorista','destino_viagem').filter(carro=carro,status=status)
+        if data and status in ['1','2']:
+            
+             qs=Viagem.objects.select_related('carro','motorista','destino_viagem').filter(data_viagem=data,status__in=['1','2'])
              
              if self.instance.pk:
                 qs = qs.exclude(pk=self.instance.pk)
              
-             if qs.exists():
-                self.add_error('carro','Existe uma viagem com esse carro com status aguardando, por favor, concluir viagem anterior.')
-        
+             if carro and qs.filter(carro=carro).exists():
+                 self.add_error('carro',f'Este carro já possui uma viagem (aguardando ou concluída) registrada para o dia {data.strftime("%d/%m/%Y")}.')
+             if motorista and qs.filter(motorista=motorista).exists():
+                 self.add_error('motorista', f'Este motorista já possui uma viagem registrada para o dia {data.strftime("%d/%m/%Y")}.')
             
         
         if status == '2' and not motorista:
