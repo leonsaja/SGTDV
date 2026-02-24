@@ -12,7 +12,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from rolepermissions.decorators import has_role_decorator
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-
+import re
 @method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
 @method_decorator(has_role_decorator(['recepcao','regulacao'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class PacienteEspecialidadeCreateView(SuccessMessageMixin,CreateView):
@@ -129,11 +129,14 @@ class PacienteEspecialidadeListView(ListView):
         queryset = PacienteEspecialidade.objects.select_related('paciente', 'especialidade', 'procedimento').filter(especialidade__id=especialidade_id).order_by('classificacao','data_pedido')
         
         if buscar:
-            buscar=buscar.rstrip()
-            queryset = queryset.filter(
-                Q(paciente__nome_completo__unaccent__icontains=buscar) | Q(paciente__cpf__icontains=buscar)
-            ).exclude(status='3')
+            cpf_nome_limpo = re.sub(r'\D', '', buscar)
 
+            if len(cpf_nome_limpo) == 11:
+                queryset = queryset.filter(paciente__cpf__icontains=cpf_nome_limpo)    
+            else:
+                self.q=buscar.rstrip()
+                queryset = queryset.filter(paciente__nome_completo__unaccent__icontains=buscar)
+            
         if data:
             queryset = queryset.filter(data_pedido__iexact=data)
 
