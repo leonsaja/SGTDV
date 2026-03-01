@@ -59,7 +59,7 @@ class EspecialidadeListView(ListView):
         return qs
 
 @method_decorator(login_required(login_url='usuarios:login_usuario'), name='dispatch')
-@method_decorator(has_role_decorator(['regulacao','secretario','recepcao','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
+@method_decorator(has_role_decorator(['acs','regulacao','secretario','recepcao','coordenador'], redirect_url=reverse_lazy('usuarios:acesso_negado')), name='dispatch')
 class EspecialidadeDetailView(DetailView):
     model = Especialidade
     template_name = 'especialidade/detail_especialidade.html'

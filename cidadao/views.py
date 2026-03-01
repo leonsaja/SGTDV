@@ -39,7 +39,9 @@ class CidadaoCreateView(SuccessMessageMixin,CreateView):
         form_endereco = context['endereco']
 
         if form_endereco.is_valid():
-            self.object = form.save()  
+            self.object = form.save(commit=False)
+            self.object.criado_por = self.request.user.nome_completo
+            self.object.save()
             form_endereco.instance.cidadao = self.object 
             form_endereco.save()
             return super().form_valid(form)
@@ -81,7 +83,9 @@ class CidadaoUpdateView(SuccessMessageMixin,UpdateView):
         form_endereco = context['endereco']
 
         if form_endereco.is_valid():
-            self.object = form.save()
+            self.object = form.save(commit=False)
+            self.object.alterado_por = self.request.user.nome_completo
+            self.object.save()
             form_endereco.instance.cidadao = self.object
             form_endereco.save()
             return super().form_valid(form)

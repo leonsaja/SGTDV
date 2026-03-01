@@ -35,7 +35,9 @@ class Cidadao(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
+    criado_por=models.CharField(verbose_name='Criado por ', max_length=200,null=True,blank=True)
+    alterado_por=models.CharField(verbose_name='Alterado por ', max_length=200,null=True,blank=True)
     def __str__(self):
         data=self.dt_nascimento.strftime('%d/%m/%Y')
         if self.cpf:
