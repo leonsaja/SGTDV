@@ -39,6 +39,7 @@
                   <th>Microárea</th>
                   <th>CNES</th>
                   <th>Estabelecimento</th>
+                  <th>Profissional</th>
                   <th>Ação</th>
                 </tr>
               </thead>
@@ -48,6 +49,7 @@
                   <td>{{microarea.microarea}}</td> 
                 <td>{{microarea.estabelecimento.cnes}}</td>
                   <td>{{microarea.estabelecimento}}</td>
+                  <td>{{microarea.profissional.nome_completo}}</td>
                   <td>
                     <a href="{% url 'estabelecimentos:detail-microarea' microarea.id%}" class="pr-2"><i
                         class="fas fa-solid fa-eye"></i></a>
