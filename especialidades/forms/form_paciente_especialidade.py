@@ -72,6 +72,7 @@ class PacienteEspecialidadeUpdateForm(forms.ModelForm):
         status = self.cleaned_data.get('status')
         data=self.cleaned_data.get('data_pedido')
      
+        print('especialidade',especialidade)
 
         if paciente and procedimento and status and data and self.instance.especialidade:
             qs = PacienteEspecialidade.objects.select_related('paciente','procedimento','especialidade').filter(paciente=paciente,procedimento=procedimento,status=status,data_pedido=data,especialidade=self.instance.especialidade)

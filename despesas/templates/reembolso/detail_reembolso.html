@@ -36,7 +36,7 @@
             </legend>
             <hr>
             <div class="row">
-                <div class="col-md-4 ">
+                <div class="col-md-8 ">
                     <label for="id_profissional" class="form-label">Nome do Profissional:</label>
                     <h6 class="text-muted">{{diaria.profissional.nome_completo|upper}}</h6>
                 </div>
@@ -45,10 +45,7 @@
                     <label for="id_cpf" class="form-label">CPF:</label>
                     <h6 class="text-muted">{{diaria.profissional.formt_cpf}}</h6>
                 </div>
-                <div class="col-md-4">
-                    <label for="id_sus" class="form-label">Cartão do SUS:</label>
-                    <h6 class="text-muted">{{diaria.profissional.cns}}</h6>
-                </div>
+                
             </div>
             <div class="row mt-2">
 
@@ -90,17 +87,17 @@
                     <h6 class="text-muted">R$ {{diaria.valor}}</h6>
                 </div>
                 <div class="col-md-2">
-                    <label for="id_total" class="form-label">Subtotal:</label>
+                    <label for="id_total" class="form-label">Total:</label>
                     <h6 class="text-muted">R$ {{diaria.total}}</h6>
                 </div>
             </div>
 
             <div class="row mt-2">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <label for="id_descricao" class="form-label">Descrição da Diária:</label>
                     <h6 class="text-muted">{{diaria.descricao|upper}}</h6>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label for="id_obs" class="form-label">Observação:</label>
                     <h6 class="text-muted"> {{diaria.obs|upper}}</h6>
                 </div>
@@ -125,10 +122,10 @@
              
             <div class="row">
                     <div class="col-md-6">
+                        <label for="id_descricao_reembolso" class="form-label">Descrição do Reembolso:</label>
                         {%if reem_principal.descricao_reembolso%}
-                            <label for="id_descricao_reembolso" class="form-label">Descrição do Reembolso:</label>
-                            <h6 class="text-muted"> {{reem_principal.descricao_reembolso|upper}}</h6>
-                            
+                           
+                            <h6 class="text-muted"> {{reem_principal.descricao_reembolso|upper}}</h6>    
                         {%else%}
                         <h6 class="text-muted">-</h6>
                         {%endif%}
@@ -147,7 +144,7 @@
             <div class="row">
                 <div class="col-md-5">
                 <br>
-                {% if user|has_role:'secretario' %}
+                {% if user|has_role:'secretario' and reem_principal.id %}
 
                 <form action="{% url 'despesas:status-reembolso'  reem_principal.id %}"
                     method="POST">

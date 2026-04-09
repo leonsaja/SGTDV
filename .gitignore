@@ -124,7 +124,7 @@ user.json
 
 # mkdocs documentation
 /site
-
+banco_teste.json
 # mypy
 .mypy_cache/
 .dmypy.json
