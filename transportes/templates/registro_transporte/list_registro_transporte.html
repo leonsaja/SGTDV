@@ -59,11 +59,18 @@
                             <input type="date" name="data" class="form-control" id="data" value="{{request.GET.data}}">
 
                         </div>
-                        <div class="col-md-4 pt-2">
+                        <div class="col-md-2 pt-2">
 
                             <label for="placa_carro">Placa do Carro </label>
                             <input type="search" name="placa_carro" class="form-control" id="placa_carro"
                                 value="{{request.GET.placa_carro}}">
+
+                        </div>
+                         <div class="col-md-6 pt-2">
+
+                            <label for="destino_viagem">Destino da Viagem </label>
+                            <input type="search" name="destino_viagem" class="form-control" id="destino_viagem"
+                                value="{{request.GET.destino_viagem}}">
 
                         </div>
 
@@ -170,10 +177,12 @@
     $('#validar-form').submit(function () {
         let nome_paciente = $('#nome_paciente')
         let data = $('#data')
-        let placa_carro = $('#placa_carro')
+        let placa_carro = $('#placa_cplaca_carroarro')
+        let destino_viagem = $('#destino_viagem')
+
         let erro = $('.alert')
 
-        if (nome_paciente.val() == '' && data.val() == '' && placa_carro.val() == '') {
+        if (nome_paciente.val() == '' && data.val() == '' && placa_carro.val() == '' && destino_viagem.val() == '') {
             erro.removeClass('d-none')
             return false
         }

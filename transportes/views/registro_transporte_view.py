@@ -83,7 +83,8 @@ class RegistroTransporteSearchListView(ListView):
         nome_paciente=self.request.GET.get('nome_paciente',None)
         dt_atendimento=self.request.GET.get('data',None)
         placa_carro=self.request.GET.get('placa_carro',None)
-        
+        destino_viagem=self.request.GET.get('destino_viagem',None)
+
         
         if nome_paciente:
             nome_paciente=nome_paciente.rstrip()
@@ -94,7 +95,10 @@ class RegistroTransporteSearchListView(ListView):
 
         if placa_carro:
             qs=qs.filter(carro__placa__icontains=placa_carro)
-            
+        
+        if destino_viagem:
+            qs=qs.filter(destino__nome__unaccent__icontains=destino_viagem)
+
         return qs.order_by('-created_at')
 """    
 class ImportDadosTransporteView(View):

@@ -3,11 +3,11 @@
 <nav aria-label="Page navigation">
     <ul class="pagination">
         {% if page_obj.has_previous %}
-        {% if request.GET.nome_paciente or request.GET.data or request.GET.placa_carro%}
+        {% if request.GET.nome_paciente or request.GET.data or request.GET.placa_carro or request.GET.destino_viagem %}
 
         <li class="page-item">
             <a class="page-link"
-                href="?page={{ page_obj.previous_page_number }}&nome_paciente={{request.GET.nome_paciente}}&placa_carro={{request.GET.placa_carro}}&data={{request.GET.data}} "
+                href="?page={{ page_obj.previous_page_number }}&nome_paciente={{request.GET.nome_paciente}}&placa_carro={{request.GET.placa_carro}}&data={{request.GET.data}}&destino_viagem={{request.GET.destino_viagem}} "
                 tabindex="-1" aria-disabled="true">&laquo;</a>
         </li>
         {%else%}
@@ -29,9 +29,9 @@
         {% if page_obj.number == i %}
         <li class="page-item active"><a class="page-link">{{i}}</a></li>
         {% elif i > page_obj.number|add:'-2' and i < page_obj.number|add:'2' %} 
-        {% if request.GET.nome_paciente or request.GET.placa_carro or request.GET.data%} 
+        {% if request.GET.nome_paciente or request.GET.placa_carro or request.GET.data or request.GET.destino_viagem%} 
             <li class="page-item"><a class="page-link"
-                href="?page={{ i }}&nome_paciente={{request.GET.nome_paciente}}&placa_carro={{request.GET.placa_carro}}&data={{request.GET.data}}">{{ i }}</a>
+                href="?page={{ i }}&nome_paciente={{request.GET.nome_paciente}}&placa_carro={{request.GET.placa_carro}}&data={{request.GET.data}}&destino_viagem={{request.GET.destino_viagem}} ">{{ i }}</a>
             </li>
         {%else%}
             <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a>
@@ -42,15 +42,15 @@
             {% endfor %}
 
             {% if page_obj.has_next %}
-            {% if request.GET.nome_paciente or request.GET.placa_carro or request.GET.data %}
+            {% if request.GET.nome_paciente or request.GET.placa_carro or request.GET.data or request.GET.destino_viagem  %}
             <li class="page-item " aria-current="page">
-                <a href="?page={{page_obj.next_page_number}}&nome_paciente={{request.GET.nome_paciente}}&placa_carro={{request.GET.placa_carro}}&data={{request.GET.data}}"
+                <a href="?page={{page_obj.next_page_number}}&nome_paciente={{request.GET.nome_paciente}}&placa_carro={{request.GET.placa_carro}}&data={{request.GET.data}}&destino_viagem={{request.GET.destino_viagem}} "
                     class="page-link" tabindex="-2" aria-disabled="true">&raquo;</a>
             </li>
 
             {% else %}
             <li class="page-item " aria-current="page">
-                <a href="?page={{page_obj.next_page_number}}&nome_paciente={{request.GET.nome_paciente}}&placa_carro={{request.GET.placa_carro}}&data={{request.GET.data}}"
+                <a href="?page={{page_obj.next_page_number}}&nome_paciente={{request.GET.nome_paciente}}&placa_carro={{request.GET.placa_carro}}&data={{request.GET.data}}&destino_viagem={{request.GET.destino_viagem}} "
                     class="page-link" tabindex="-2" aria-disabled="true">&raquo;</a>
             </li>
             {% endif %}
