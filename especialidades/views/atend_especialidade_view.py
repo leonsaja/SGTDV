@@ -244,11 +244,9 @@ class PacienteAutocomplete(autocomplete.Select2QuerySetView):
 def gerar_pdf_atend(request,context):
 
    atendimento_id=context['atendimento_especialidade']
-
    lista_pacientes = PacienteSia.objects.select_related('paciente').filter(atendimento_paciente=atendimento_id).all()
-   
    ordenar=context['ordenar']
-
+   mostrar_dados=False
 
    if ordenar == '1':
        lista_pacientes=lista_pacientes.order_by('paciente__paciente__nome_completo')
@@ -274,10 +272,15 @@ def gerar_pdf_atend(request,context):
        
    elif ordenar == '8':
        lista_pacientes=lista_pacientes.order_by('-paciente__paciente__microarea__estabelecimento')
+   elif ordenar =='9':
+        mostrar_dados=True
+        lista_pacientes=lista_pacientes.order_by('paciente__paciente__nome_completo')
+
        
    context = {
         'atendimento_especialidade': atendimento_id,
         'pacientes_set': lista_pacientes,
+        'mostrar_dados':mostrar_dados
     }
 
     # 3. Renderiza o template HTML.

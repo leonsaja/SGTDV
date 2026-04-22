@@ -135,7 +135,11 @@
           {%else%}
             <td>-</td>
           {%endif%}
-          <td>{{p.paciente.paciente.nome_completo|upper}}</td>
+          {%if mostrar_dados%}
+          <td>{{p.paciente.paciente|upper}}</td>
+          {%else%}
+            <td>{{p.paciente.paciente.nome_completo|upper}}</td>
+          {%endif%}
            <td>{{p.paciente.paciente.form_cns}}</td>
           <td>{{p.paciente.paciente.microarea.estabelecimento|upper}}</td>
 

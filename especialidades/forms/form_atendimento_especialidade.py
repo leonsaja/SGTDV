@@ -120,6 +120,7 @@ class GerarPDFAtendimentoForm(forms.Form):
         ('6','Procedimento (Z - A)'),
         ('7','Estabelecimento (A - Z)'),
         ('8','Estabelecimento (Z - A)'),
+        ('9','Mostrar dados paciente'),
 
     )
     ordenar=forms.ChoiceField(label='Ordenar por ',required=True, widget=forms.Select,choices=ORDEM)
