@@ -16,16 +16,24 @@ from datetime import date
 
 @login_required
 def relatorio_paciente_especialidade_pdf(request,context):
-    paciente_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').order_by('paciente__nome_completo')
+    paciente_especialidade=PacienteEspecialidade.objects.select_related('paciente','especialidade','procedimento').all()
 
     especialidade=context['especialidade']
     profissional=context['profissional']
     procedimento=context['procedimento']
     classificacao=context['classificacao']
     estabelicimento=context['estabelecimento']
-    
     status=context['status']
+    start_date = context['inicial']
+    end_date = context['final']
+    ordenar = context['ordenar']
 
+    
+    if start_date and end_date:
+        context['inicial']=datetime.strptime(context['inicial'],'%Y-%m-%d').strftime('%d/%m/%Y')
+        context['final']=datetime.strptime(context['final'],'%Y-%m-%d').strftime('%d/%m/%Y')
+        paciente_especialidade=paciente_especialidade.filter(data_pedido__gte=start_date).filter(data_pedido__lte=end_date)
+        
     if especialidade:
         paciente_especialidade=paciente_especialidade.filter(especialidade=especialidade) 
 
@@ -41,11 +49,23 @@ def relatorio_paciente_especialidade_pdf(request,context):
     if classificacao:
         paciente_especialidade=paciente_especialidade.filter(classificacao=classificacao)
          
-    if not status:
-            paciente_especialidade=paciente_especialidade.exclude(status='3')
+    """ if not status:
+            paciente_especialidade=paciente_especialidade.exclude(status='3')"""
     if status:
         paciente_especialidade=paciente_especialidade.filter(status=status)
-     
+        
+    
+    if ordenar == '1':
+        paciente_especialidade=paciente_especialidade.order_by('paciente__nome_completo')
+    elif ordenar == '2':
+        paciente_especialidade=paciente_especialidade.order_by('-paciente__nome_completo')
+    elif ordenar == '3':
+        paciente_especialidade=paciente_especialidade.order_by('-data_pedido')
+    elif ordenar == '4':
+        paciente_especialidade=paciente_especialidade.order_by('data_pedido')
+            
+    
+   
     context['qta_pacienteespecialidade']= paciente_especialidade.count()
     context['data']=datetime.today().strftime('%d/%m/%Y') 
     context['pacientes_especialidade']=paciente_especialidade
@@ -71,12 +91,16 @@ def relatorio_pacientes_especialidade(request):
         form=RelatorioPacienteEspecialidadeForm(request.POST or None)
 
         if form.is_valid():
+            context['inicial']=form.cleaned_data.get('data_inicial')
+            context['final']=form.cleaned_data.get('data_final')
             context['especialidade']=form.cleaned_data.get('especialidades')
             context['profissional']=form.cleaned_data.get('profissionais')
             context['procedimento']=form.cleaned_data.get('procedimento')
             context['classificacao']=form.cleaned_data.get('classificacao')
             context['estabelecimento']=form.cleaned_data.get('estabelecimento')
             context['status']=form.cleaned_data.get('status')
+            context['ordenar']=form.cleaned_data.get('ordenar')
+
 
             return relatorio_paciente_especialidade_pdf(request,context)
 

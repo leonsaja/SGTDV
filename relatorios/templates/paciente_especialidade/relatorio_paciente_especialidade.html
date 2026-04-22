@@ -13,19 +13,41 @@
 
   <form method="POST" class="needs-validation" novalidate>
     {% csrf_token %} 
+     <div class="row justify-content-center">
+      <div class="col-md-6 mt-3">
+        <h6 class="m-0"><b>Período:</b></h6>
+      </div>
+    </div>
+    <div class="row justify-content-center mt-3">
+      <div class="col-md-3">
+        {{form.data_inicial|as_crispy_field }}
+
+      </div>
+
+      <div class="col-md-3">
+        {{form.data_final|as_crispy_field }}
+      </div>
+    </div>
     
     <div class="row justify-content-center mt-3">
       <div class="col-md-6">{{form.especialidades|as_crispy_field }}</div>
     </div>
+    <div class="row justify-content-center">
+            <div class="col-md-6">{{form.procedimento|as_crispy_field }}</div>
+
+    </div>
     <div class="row justify-content-center ">
-      <div class="col-md-4">{{form.profissionais|as_crispy_field }}</div>
-      <div class="col-md-2">{{form.procedimento|as_crispy_field }}</div>
+      <div class="col-md-6">{{form.profissionais|as_crispy_field }}</div>
 
     </div>
     <div class="row justify-content-center">
       <div class="col-md-4">{{form.estabelecimento|as_crispy_field }}</div>
       <div class="col-md-2">{{form.status|as_crispy_field }}</div>
     </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">{{form.ordenar|as_crispy_field }} </div>
+    </div>
+    <br>
     <div class="row justify-content-center">
       <div class="col-md-3">{{form.classificacao|as_crispy_field }}</div>
       <div class="col-md-3 mt-4">
