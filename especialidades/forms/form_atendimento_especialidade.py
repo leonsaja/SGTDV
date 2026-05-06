@@ -36,15 +36,16 @@ class AtendimentoEspecialidadeForm(forms.ModelForm):
         data=cleaned_data.get('data')
         especialidade=cleaned_data.get('especialidade')
         hoje=date.today()
-        """ limite_minimo=hoje-timedelta(days=30)
+        limite_minimo=hoje-timedelta(days=10)
         limite_maximo=hoje+timedelta(days=30)
         
         if data:
-                if  data < limite_minimo:
+                if  data < limite_minimo or data >limite_maximo:
                     if not self.instance.pk:
                         self.add_error(
-                            f"data","A data do atendimento deve estar entre 30 dias antes e 30 dias depois da data atual."
-                        )"""
+                            f"data","A data do atendimento deve estar entre 10 dias antes e 30 dias depois da data atual."
+                        )
+                
         
         qs=AtendimentoEspecialidade.objects.filter(especialidade=especialidade,data=data).exists()
 

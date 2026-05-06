@@ -89,11 +89,11 @@ class RelatorioPacienteEspecialidadeForm(forms.Form):
 
         
         if inicial and not final:
-            self.add_error('data_final', 'Campo obrigatório ')
+            self.add_error('data_final', 'Campo obrigatório')
 
             
         if final and not inicial:
-            self.add_error('data_inicial', 'Campo obrigatório ')
+            self.add_error('data_inicial', 'Campo obrigatório')
 
         
         if inicial and final:

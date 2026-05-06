@@ -49,7 +49,9 @@ class RegistroTransporteForm(forms.ModelForm):
     def clean(self):
         paciente = self.cleaned_data.get('paciente')
         data = self.cleaned_data.get('dt_atendimento')
-
+        status=self.cleaned_data.get('status')
+        dist_percorrida=self.cleaned_data.get('dist_percorrida')
+        
         if paciente and data:
             qs = RegistroTransporte.objects.select_related('paciente','carro').filter(paciente=paciente, dt_atendimento=data)
 
@@ -58,7 +60,14 @@ class RegistroTransporteForm(forms.ModelForm):
           
             if qs.exists():
                 self.add_error('paciente','Existe registro transporte com paciente com mesma data de atendimento.')
-                        
+        
+        
+        
+        if status =='1':
+            
+            if not dist_percorrida:
+                self.add_error('dist_percorrida','Este campo é obrigatório.')
+                 
         return self.cleaned_data
     
     
