@@ -58,6 +58,16 @@ class ViagemForm(forms.ModelForm):
                         f"data_viagem","A data deve estar entre 30 dias antes e 30 dias depois da data atual."
                     )
             
+            
+        if status == '1':
+             qs=Viagem.objects.select_related('carro','motorista').filter(carro=carro,status=status)
+             
+             if self.instance.pk:
+                qs = qs.exclude(pk=self.instance.pk)
+             
+             if qs.exists():
+                self.add_error('carro','Existe uma viagem com esse carro com status aguardando, por favor, concluir viagem anterior.')
+        
         
         if data and status in ['1','2']:
             
@@ -70,7 +80,7 @@ class ViagemForm(forms.ModelForm):
                  self.add_error('carro',f'Este carro já possui uma viagem (aguardando ou concluída) registrada para o dia {data.strftime("%d/%m/%Y")}.')
              if motorista and qs.filter(motorista=motorista).exists():
                  self.add_error('motorista', f'Este motorista já possui uma viagem registrada para o dia {data.strftime("%d/%m/%Y")}.')
-            
+        
         
         if status == '2' and not motorista:
             self.add_error('motorista', "O campo 'motorista' é obrigatório para viagens concluídas.")
