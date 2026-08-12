@@ -12,12 +12,10 @@
         </div>
     </div>
 
-    <br /><br />
+    <br />
     <div class="row">
         <div class="container-fluid">
-            <br />
             
-            <br>
             {% if user|has_role:'recepcao' %}
             <div class="row">
                 <div class="col-md-12">
@@ -30,9 +28,75 @@
             </div>
             
             {%endif%}
-            <br>
-            <br>
-        
+            
+             <div class="row justify-content-center ">
+        <div class="col-md-8">
+            <h4 class=" text-primary"><strong>Carros</strong> </h4>
+        </div>
+    </div>
+    <br>
+         <div class="row ">
+        <div class="container">
+            <div class="row  justify-content-center">
+
+                <form class="col-md-8  needs-validation" action="{% url 'transportes:search-carro' %}" method="GET"
+                    id="validar-form">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger d-none" role="alert">
+                                Insira algum filtro para realizar a busca.
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="nome_carro"><strong>Carro</strong></label>
+                            <input type="search" name="nome_carro" class="form-control"
+                                value="{{request.GET.nome_carro}}" id="nome_carro">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        
+                        <div class="col-md-4 pt-2">
+
+                            <label for="placa_carro">Placa do Carro </label>
+                            <input type="search" name="placa_carro" class="form-control" id="placa_carro"
+                                value="{{request.GET.placa_carro}}">
+
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <label for="id_status">Status:</label>
+                            <select class="form-select" id="id_status" name="status">
+                                <option value="" {% if request.GET.status == '0' %}selected{% endif %}>Selecione uma opção</option>
+                                <option value="1" {% if request.GET.status == '1' %}selected{% endif %}>ATIVO</option>
+                                <option value="2" {% if request.GET.status == '2' %}selected{% endif %}>DESATIVADO</option>
+                            </select>
+                    </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 pt-2">
+                            <br>
+                            <div class="float-right">
+                                <a class="btn mr-2" href="{% url 'transportes:list-carro'%}"
+                                    style="background-color:#DADADA;"> Limpar
+                                    Filtros</a>
+                                <button type="submit" class=" btn btn-primary ">Buscar</button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -69,7 +133,7 @@
                                                 <a href="{% url 'transportes:detail-carro' carro.id%}"
                                                     class="pr-1"><i class="fas fa-solid fa-eye"></i></a>
                                                 
-                                                    {% if user|has_role:'recepcao' %}
+                                                    {% if user|has_role:'coordenador,secretario' %}
                                                 <a href="{% url 'transportes:edit-carro' carro.id%}"
                                                     class="pr-1 text-warning"><i class="fas fa-edit"></i></a>
                                                 {%endif%}

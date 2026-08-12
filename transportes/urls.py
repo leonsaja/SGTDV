@@ -22,6 +22,7 @@ urlpatterns = [
     path('create/carro',carro_view.CarroCreateView.as_view(),name='add-carro'),
     path('update/<int:pk>/carro',carro_view.CarroUpdateView.as_view(),name='edit-carro'),
     path('list/carros',carro_view.ListCarroView.as_view(),name='list-carro'),
+    path('search/carro',carro_view.CarroSearchListView.as_view(),name='search-carro'),
     path('detail/<int:pk>/carros',carro_view.DetailCarraView.as_view(),name='detail-carro'),
     path('delete/<int:id>/carro',carro_view.carroDelete,name='del-carro'),
     

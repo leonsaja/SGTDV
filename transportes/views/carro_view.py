@@ -75,3 +75,30 @@ def carroDelete(request, id):
     finally:
         return redirect('transportes:list-carro')
 
+class CarroSearchListView(ListView):
+    
+    model=Carro
+    template_name='carro/list_carros.html'
+    context_object_name='carros'
+    paginate_by=10
+
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(CarroSearchListView,self).get_queryset(*args, **kwargs)
+        qs=qs.all()
+
+        carro=self.request.GET.get('nome_carro',None)
+        placa_carro=self.request.GET.get('placa_carro',None)
+        status=self.request.GET.get('status',None)
+        
+        print('NOME DO CARRO',carro)
+        
+
+        if carro:
+            qs=qs.filter(nome__unaccent__icontains=carro)
+        if placa_carro:
+            qs=qs.filter(placa__icontains=placa_carro)
+        if status:
+            qs=qs.filter(status=status)
+            
+        return qs.order_by('nome')   
