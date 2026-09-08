@@ -37,12 +37,18 @@ class RelatorioAtendimentoEspecialidadeForm(forms.Form):
         ('1','RESUMO'),
         ('2','COMPLETO (NOMES PACIENTES)'),
     )
+    
+    CLASSIFICACAO_ESPECIALIDADE=(
+        ('1','ESPECIALIDADE'),
+        ('2','PROCEDIMENTO'),
+    )
 
     especialidade=forms.ModelChoiceField(label='Especialidade', queryset=Especialidade.objects.all(),required=False,widget=forms.Select(attrs={'class': 'form-control'}))
     atendimento_via=forms.ChoiceField(label='Classficação',required=True,widget=forms.RadioSelect,choices=ATEND_VIA)
     status=forms.ChoiceField(label='Status',required=True, widget=forms.RadioSelect,choices=STATUS)
     tipo=forms.ChoiceField(label='Tipo de relatório',required=True, widget=forms.RadioSelect,choices=TIPO)
-
+    classificacao_especialidade=forms.ChoiceField(label='Classificação da Especialidade',required=False, widget=forms.RadioSelect,choices=CLASSIFICACAO_ESPECIALIDADE,help_text='Separar procedimento da especialidade')
+    
     def clean_data_inicial(self):
         data = self.cleaned_data["data_inicial"]
         data_atual=date.today().strftime('%Y-%m-%d')

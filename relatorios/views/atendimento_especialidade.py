@@ -21,6 +21,8 @@ def relatorio_atendimento_pdf(request,context):
     atendimento_via=context['atendimento_via']
     status=context['status']
     tipo=context['tipo']
+    classificacao_especialidade=context['classificacao_especialidade']
+    
     qta_pacientes=0
     atendimentos=AtendimentoEspecialidade.objects.select_related('especialidade').filter(data__gte=data_inicial).filter(data__lte=data_final).order_by('especialidade','data')
     
@@ -62,6 +64,9 @@ def relatorio_atendimento_pdf(request,context):
 
         if status:
             atendimentos=atendimentos.filter(status=status)
+            
+        if classificacao_especialidade:
+            atendimentos=atendimentos.filter(especialidade__tipo=classificacao_especialidade)
             
         dados_relatorio=atendimentos
         
@@ -106,6 +111,7 @@ def relatorio_atendimento_especialidade(request):
           context['atendimento_via']=form.cleaned_data.get('atendimento_via')
           context['status']=form.cleaned_data.get('status')
           context['tipo']=form.cleaned_data.get('tipo')
+          context['classificacao_especialidade']=form.cleaned_data.get('classificacao_especialidade')
           return relatorio_atendimento_pdf(request,context)
          
 
